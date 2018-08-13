@@ -18,9 +18,6 @@ build
 gradle
 .gradle
 
-# avoid PR to overwrite version data
-version.properties
-
 # other
 eclipse
 run
