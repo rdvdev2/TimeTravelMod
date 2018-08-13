@@ -5,7 +5,7 @@
   "description": "Ever wanted to travel through time in Minecraft? Build your own time travel machine and discover a bunch of new worlds, objects and mobs!",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
+  "url": "https://minecraft.curseforge.com/projects/time-travel-mod",
   "updateUrl": "",
   "authorList": ["rdvdev2", "marfega"],
   "credits": "Thanks to marfega for the idea of the mod.",
