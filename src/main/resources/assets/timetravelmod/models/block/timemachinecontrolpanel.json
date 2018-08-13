@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "side": "timetravelmod:blocks/timemachinecontrolpanel",
+    "end": "timetravelmod:blocks/timemachine",
+    "particle": "timetravelmod:blocks/timemachinecontrolpanel"
+  }
+}

@@ -1,0 +1,10 @@
+item.controllercircuit.name=Controller circuit
+item.timecrystal.name=Time crystal
+item.timecrystalore.name=Time crystal ore
+item.timemachinebasicblock.name=Time machine basic block
+item.timemachinecontrolpanel.name=Time machine control panel
+item.timemachinecore.name=Time machine core
+tile.timecrystalore.name=Time crystal ore
+tile.timemachinebasicblock.name=Time machine basic block
+tile.timemachinecontrolpanel.name=Time machine control panel
+tile.timemachinecore.name=Time machine core

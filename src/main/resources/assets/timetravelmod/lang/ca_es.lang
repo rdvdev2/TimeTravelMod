@@ -1,0 +1,10 @@
+item.controllercircuit.name=Circuit de control
+item.timecrystal.name=Cristall del temps
+item.timecrystalore.name=Mena de cristall del temps
+item.timemachinebasicblock.name=Bloc bàsic de màquina del temps
+item.timemachinecontrolpanel.name=Tauler de control de màquina del temps
+item.timemachinecore.name=Nucli de màquina del temps
+tile.timecrystalore.name=Mena de cristall del temps
+tile.timemachinebasicblock.name=Bloc bàsic de màquina del temps
+tile.timemachinecontrolpanel.name=Tauler de control de màquina del temps
+tile.timemachinecore.name=Nucli de màquina del temps

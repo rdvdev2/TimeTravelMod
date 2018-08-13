@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GRG",
+    "RRR",
+    "GRG" ],
+  "key": {
+    "G": [
+      {
+        "item": "minecraft:gold_block",
+        "data": 0
+      }
+    ],
+    "R": [
+      {
+        "item": "minecraft:redstone",
+        "data": 0
+      }
+    ]
+  },
+  "result": {
+    "item": "timetravelmod:timemachinebasicblock",
+    "data": 0,
+    "count": 4
+  }
+}
