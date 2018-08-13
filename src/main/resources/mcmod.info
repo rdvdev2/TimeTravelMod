@@ -6,7 +6,7 @@
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "https://minecraft.curseforge.com/projects/time-travel-mod",
-  "updateUrl": "",
+  "updateUrl": "https://raw.githubusercontent.com/rdvdev2/TimeTravelMod/master/updates.json",
   "authorList": ["rdvdev2", "marfega"],
   "credits": "Thanks to marfega for the idea of the mod.",
   "logoFile": "",
