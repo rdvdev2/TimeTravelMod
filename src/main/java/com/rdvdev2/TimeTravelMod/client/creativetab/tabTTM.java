@@ -1,4 +1,4 @@
-package com.rdvdev2.TimeTravelMod.client.creativetabs;
+package com.rdvdev2.TimeTravelMod.client.creativetab;
 
 import com.rdvdev2.TimeTravelMod.ModItems;
 import net.minecraft.creativetab.CreativeTabs;
