@@ -23,6 +23,8 @@ public class TimeTravelMod {
         logger.info("Time Travel Mod is in preinit state.");
         ModBlocks.init();
         ModItems.init();
+        ModRegistries.init();
+        ModTimeMachines.init();
     }
 
     @EventHandler
@@ -31,5 +33,6 @@ public class TimeTravelMod {
         GameRegistry.registerWorldGenerator(new OreGen(), 3);
         ModDimensions.init();
         ModRecipes.init();
+        ModRegistries.start();
     }
 }

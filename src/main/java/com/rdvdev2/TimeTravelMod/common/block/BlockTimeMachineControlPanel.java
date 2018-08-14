@@ -1,6 +1,6 @@
 package com.rdvdev2.TimeTravelMod.common.block;
 
-import com.rdvdev2.TimeTravelMod.util.TimeMachineTier1;
+import com.rdvdev2.TimeTravelMod.ModRegistries;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,7 +32,7 @@ public class BlockTimeMachineControlPanel extends BlockTimeMachineBasicBlock{
                                     float hitX,
                                     float hitY,
                                     float hitZ) {
-        new TimeMachineTier1().run(worldIn, playerIn, pos, side);
+        ModRegistries.timeMachines.getCompatibleTimeMachine(this.getDefaultState()).run(worldIn, playerIn, pos, side);
         return true;
     }
 }
