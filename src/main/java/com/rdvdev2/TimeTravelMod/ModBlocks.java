@@ -24,7 +24,7 @@ public class ModBlocks {
 
     public static void init() {
         timeCrystalOre = new BlockTimeCrystalOre();
-        if (Configs.unimplementedBlocks) {
+        if (ModConfigs.unimplementedBlocks) {
             timeMachineBasicBlock = new BlockTimeMachineBasicBlock().setNames();
             timeMachineCore = new BlockTimeMachineCore().setNames();
             timeMachineControlPanel = new BlockTimeMachineControlPanel().setNames();
@@ -36,7 +36,7 @@ public class ModBlocks {
         event.getRegistry().registerAll(
                 timeCrystalOre
         );
-        if (Configs.unimplementedBlocks) {
+        if (ModConfigs.unimplementedBlocks) {
             event.getRegistry().registerAll(
                     timeMachineBasicBlock,
                     timeMachineCore,
@@ -50,7 +50,7 @@ public class ModBlocks {
         registerItemBlock(event,
                 timeCrystalOre
         );
-        if (Configs.unimplementedBlocks) {
+        if (ModConfigs.unimplementedBlocks) {
             registerItemBlock(event,
                     timeMachineBasicBlock,
                     timeMachineCore,
@@ -70,7 +70,7 @@ public class ModBlocks {
         registerRender(
                 timeCrystalOre
         );
-        if (Configs.unimplementedBlocks) {
+        if (ModConfigs.unimplementedBlocks) {
             registerRender(
                     timeMachineBasicBlock,
                     timeMachineCore,

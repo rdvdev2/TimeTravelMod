@@ -18,7 +18,7 @@ public class ModItems {
 
     public static void init() {
         timeCrystal = new ItemTimeCrystal();
-        if (Configs.unimplementedBlocks) {
+        if (ModConfigs.unimplementedBlocks) {
             controllerCircuit = new ItemControllerCircuit();
         }
     }
@@ -28,7 +28,7 @@ public class ModItems {
         event.getRegistry().registerAll(
                 timeCrystal
         );
-        if (Configs.unimplementedBlocks) {
+        if (ModConfigs.unimplementedBlocks) {
             event.getRegistry().registerAll(
                     controllerCircuit
             );
@@ -40,7 +40,7 @@ public class ModItems {
         registerRender(
                 timeCrystal
         );
-        if (Configs.unimplementedBlocks) {
+        if (ModConfigs.unimplementedBlocks) {
             registerRender(
                     controllerCircuit
             );
