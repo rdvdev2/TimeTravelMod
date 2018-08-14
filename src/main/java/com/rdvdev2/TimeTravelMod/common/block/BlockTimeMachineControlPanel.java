@@ -3,15 +3,19 @@ package com.rdvdev2.TimeTravelMod.common.block;
 import com.rdvdev2.TimeTravelMod.ModBlocks;
 import com.rdvdev2.TimeTravelMod.ModDimensions;
 import com.rdvdev2.TimeTravelMod.TimeTravelMod;
+import com.rdvdev2.TimeTravelMod.client.gui.GuiTimeMachine;
 import com.rdvdev2.TimeTravelMod.common.dimension.ITeleporterTimeMachine;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.internal.OpenGuiHandler;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockTimeMachineControlPanel extends BlockTimeMachineBasicBlock{
     public BlockTimeMachineControlPanel() {
@@ -109,7 +113,7 @@ public class BlockTimeMachineControlPanel extends BlockTimeMachineBasicBlock{
                 }
                 if (!error) {
                     TimeTravelMod.logger.info("The TM case is OK");
-                    int travelTo;
+                    /*int travelTo;
 
                     switch (playerIn.dimension) {
                         case 0:
@@ -124,8 +128,9 @@ public class BlockTimeMachineControlPanel extends BlockTimeMachineBasicBlock{
                     if (playerIn instanceof EntityPlayerMP && travelTo != -1) {
                         EntityPlayerMP mp = (EntityPlayerMP)playerIn;
                         mp.getServer().getPlayerList().transferPlayerToDimension(mp, travelTo, new ITeleporterTimeMachine(mp.getServer().getWorld(travelTo), mp.getServer().getWorld(mp.dimension), pos, side));
-                    }
+                    }*/
                     // TODO: Implement a dimension selector GUI
+                    Minecraft.getMinecraft().displayGuiScreen(new GuiTimeMachine(playerIn, pos, side));
                 }
             }
 
