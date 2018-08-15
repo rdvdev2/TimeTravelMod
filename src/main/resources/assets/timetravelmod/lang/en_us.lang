@@ -1,3 +1,4 @@
+#X-Generator: crowdin.com
 item.controllercircuit.name=Controller circuit
 item.heavyblock.name=Heavy block
 item.reinforcedheavyblock.name=Reinforced heavy block
@@ -12,3 +13,4 @@ tile.timecrystalore.name=Time crystal ore
 tile.timemachinebasicblock.name=Time machine basic block
 tile.timemachinecontrolpanel.name=Time machine control panel
 tile.timemachinecore.name=Time machine core
+
