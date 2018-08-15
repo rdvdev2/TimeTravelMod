@@ -1,6 +1,7 @@
 #X-Generator: crowdin.com
 item.controllercircuit.name=Controller circuit
 item.heavyblock.name=Heavy block
+item.heavyingot.name=Heavy ingot
 item.reinforcedheavyblock.name=Reinforced heavy block
 item.timecrystal.name=Time crystal
 item.timecrystalore.name=Time crystal ore
