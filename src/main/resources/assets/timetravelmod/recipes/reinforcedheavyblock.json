@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "IBI",
+    "III" ],
+  "key": {
+    "I": [
+      {
+        "item": "timetravelmod:heavyingot",
+        "data": 0
+      }
+    ],
+    "B": [
+      {
+        "item": "timetravelmod:heavyblock",
+        "data": 0
+      }
+    ]
+  },
+  "result": {
+    "item": "timetravelmod:reinforcedheavyblock",
+    "data": 0,
+    "count": 1
+  }
+}

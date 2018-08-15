@@ -1,6 +1,7 @@
 package com.rdvdev2.TimeTravelMod;
 
 import com.rdvdev2.TimeTravelMod.common.item.ItemControllerCircuit;
+import com.rdvdev2.TimeTravelMod.common.item.ItemHeavyIngot;
 import com.rdvdev2.TimeTravelMod.common.item.ItemTimeCrystal;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -15,11 +16,13 @@ public class ModItems {
 
     public static Item timeCrystal;
     public static Item controllerCircuit;
+    public static Item heavyIngot;
 
     public static void init() {
         timeCrystal = new ItemTimeCrystal();
         if (ModConfigs.unimplementedBlocks) {
             controllerCircuit = new ItemControllerCircuit();
+            heavyIngot = new ItemHeavyIngot();
         }
     }
 
@@ -30,7 +33,8 @@ public class ModItems {
         );
         if (ModConfigs.unimplementedBlocks) {
             event.getRegistry().registerAll(
-                    controllerCircuit
+                    controllerCircuit,
+                    heavyIngot
             );
         }
     }
@@ -42,7 +46,8 @@ public class ModItems {
         );
         if (ModConfigs.unimplementedBlocks) {
             registerRender(
-                    controllerCircuit
+                    controllerCircuit,
+                    heavyIngot
             );
         }
     }
