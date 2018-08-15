@@ -1,0 +1,8 @@
+files:
+  - source: /src/main/resources/assets/timetravelmod/lang/en_us.lang
+    translation: >-
+      /src/main/resources/assets/timetravelmod/lang/%locale_with_underscore%.lang
+    languages_mapping:
+      locale_with_underscore:
+        es-ES: es_es
+        ca: ca_es
