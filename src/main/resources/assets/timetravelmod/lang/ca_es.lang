@@ -1,10 +1,12 @@
 item.controllercircuit.name=Circuit de control
+item.heavyblock.name=Bloc pesat
 item.reinforcedheavyblock.name=Bloc pesat reforçat
 item.timecrystal.name=Cristall del temps
 item.timecrystalore.name=Mena de cristall del temps
 item.timemachinebasicblock.name=Bloc bàsic de màquina del temps
 item.timemachinecontrolpanel.name=Tauler de control de màquina del temps
 item.timemachinecore.name=Nucli de màquina del temps
+tile.heavyblock.name=Bloc pesat
 tile.reinforcedheavyblock.name=Bloc pesat reforçat
 tile.timecrystalore.name=Mena de cristall del temps
 tile.timemachinebasicblock.name=Bloc bàsic de màquina del temps

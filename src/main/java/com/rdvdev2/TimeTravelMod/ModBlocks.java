@@ -18,6 +18,7 @@ public class ModBlocks {
     public static Block timeMachineBasicBlock;
     public static Block timeMachineCore;
     public static Block timeMachineControlPanel;
+    public static Block heavyBlock;
     public static Block reinforcedHeavyBlock;
 
     public static void init() {
@@ -26,6 +27,7 @@ public class ModBlocks {
             timeMachineBasicBlock = new BlockTimeMachineBasicBlock().setNames();
             timeMachineCore = new BlockTimeMachineCore().setNames();
             timeMachineControlPanel = new BlockTimeMachineControlPanel().setNames();
+            heavyBlock = new BlockHeavyBlock();
             reinforcedHeavyBlock = new BlockReinforcedHeavyBlock();
         }
     }
@@ -40,6 +42,7 @@ public class ModBlocks {
                     timeMachineBasicBlock,
                     timeMachineCore,
                     timeMachineControlPanel,
+                    heavyBlock,
                     reinforcedHeavyBlock
             );
         }
@@ -55,6 +58,7 @@ public class ModBlocks {
                     timeMachineBasicBlock,
                     timeMachineCore,
                     timeMachineControlPanel,
+                    heavyBlock,
                     reinforcedHeavyBlock
             );
         }
@@ -76,6 +80,7 @@ public class ModBlocks {
                     timeMachineBasicBlock,
                     timeMachineCore,
                     timeMachineControlPanel,
+                    heavyBlock,
                     reinforcedHeavyBlock
             );
         }
