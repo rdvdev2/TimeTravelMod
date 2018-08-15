@@ -1,9 +1,6 @@
 package com.rdvdev2.TimeTravelMod;
 
-import com.rdvdev2.TimeTravelMod.common.block.BlockTimeCrystalOre;
-import com.rdvdev2.TimeTravelMod.common.block.BlockTimeMachineBasicBlock;
-import com.rdvdev2.TimeTravelMod.common.block.BlockTimeMachineControlPanel;
-import com.rdvdev2.TimeTravelMod.common.block.BlockTimeMachineCore;
+import com.rdvdev2.TimeTravelMod.common.block.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -21,6 +18,7 @@ public class ModBlocks {
     public static Block timeMachineBasicBlock;
     public static Block timeMachineCore;
     public static Block timeMachineControlPanel;
+    public static Block reinforcedHeavyBlock;
 
     public static void init() {
         timeCrystalOre = new BlockTimeCrystalOre();
@@ -28,6 +26,7 @@ public class ModBlocks {
             timeMachineBasicBlock = new BlockTimeMachineBasicBlock().setNames();
             timeMachineCore = new BlockTimeMachineCore().setNames();
             timeMachineControlPanel = new BlockTimeMachineControlPanel().setNames();
+            reinforcedHeavyBlock = new BlockReinforcedHeavyBlock();
         }
     }
 
@@ -40,7 +39,8 @@ public class ModBlocks {
             event.getRegistry().registerAll(
                     timeMachineBasicBlock,
                     timeMachineCore,
-                    timeMachineControlPanel
+                    timeMachineControlPanel,
+                    reinforcedHeavyBlock
             );
         }
     }
@@ -54,7 +54,8 @@ public class ModBlocks {
             registerItemBlock(event,
                     timeMachineBasicBlock,
                     timeMachineCore,
-                    timeMachineControlPanel
+                    timeMachineControlPanel,
+                    reinforcedHeavyBlock
             );
         }
     }
@@ -74,7 +75,8 @@ public class ModBlocks {
             registerRender(
                     timeMachineBasicBlock,
                     timeMachineCore,
-                    timeMachineControlPanel
+                    timeMachineControlPanel,
+                    reinforcedHeavyBlock
             );
         }
     }

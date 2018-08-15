@@ -1,9 +1,11 @@
 item.controllercircuit.name=Controller circuit
+item.reinforcedheavyblock.name=Reinforced heavy block
 item.timecrystal.name=Time crystal
 item.timecrystalore.name=Time crystal ore
 item.timemachinebasicblock.name=Time machine basic block
 item.timemachinecontrolpanel.name=Time machine control panel
 item.timemachinecore.name=Time machine core
+tile.reinforcedheavyblock.name=Reinforced heavy block
 tile.timecrystalore.name=Time crystal ore
 tile.timemachinebasicblock.name=Time machine basic block
 tile.timemachinecontrolpanel.name=Time machine control panel
