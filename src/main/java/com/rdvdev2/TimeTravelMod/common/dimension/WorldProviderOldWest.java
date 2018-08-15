@@ -8,6 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeDesert;
 import net.minecraft.world.biome.BiomeProviderSingle;
 import net.minecraft.world.gen.ChunkGeneratorDebug;
 import net.minecraft.world.gen.ChunkGeneratorHell;
@@ -27,10 +28,11 @@ public class WorldProviderOldWest extends WorldProvider {
         return ModDimensions.OLD_WEST;
     }
 
-    public void registerWorldChunkManager() {
+    public void init() {
         this.biomeProvider = new BiomeProviderSingle(Biomes.DESERT);
         this.setDimension(ModDimensions.OldWestId);
         this.setAllowedSpawnTypes(true,true);
+        this.hasSkyLight = true;
     }
 
     @Override
