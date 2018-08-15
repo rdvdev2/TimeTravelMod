@@ -34,5 +34,6 @@ public class TimeTravelMod {
         ModDimensions.init();
         ModRecipes.init();
         ModRegistries.start();
+        ModRegistries.timeMachines.link();
     }
 }

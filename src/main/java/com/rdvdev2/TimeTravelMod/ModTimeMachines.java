@@ -16,6 +16,6 @@ public class ModTimeMachines {
     }
     @SubscribeEvent
     public static void registerTimeMachines(EventRegisterTimeMachine event) {
-        event.register(timeMachineTier1, ModBlocks.timeMachineControlPanel.getDefaultState());
+        event.register(timeMachineTier1);
     }
 }

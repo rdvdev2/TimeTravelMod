@@ -4,7 +4,10 @@ import com.rdvdev2.TimeTravelMod.common.block.BlockTimeCrystalOre;
 import com.rdvdev2.TimeTravelMod.common.block.BlockTimeMachineBasicBlock;
 import com.rdvdev2.TimeTravelMod.common.block.BlockTimeMachineControlPanel;
 import com.rdvdev2.TimeTravelMod.common.block.BlockTimeMachineCore;
+import com.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
+import com.rdvdev2.TimeTravelMod.util.BlockTimeMachineComponent;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -18,16 +21,16 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class ModBlocks {
 
     public static Block timeCrystalOre;
-    public static Block timeMachineBasicBlock;
-    public static Block timeMachineCore;
-    public static Block timeMachineControlPanel;
+    public static BlockTimeMachineComponent timeMachineBasicBlock;
+    public static BlockTimeMachineComponent timeMachineCore;
+    public static BlockTimeMachineComponent timeMachineControlPanel;
 
     public static void init() {
         timeCrystalOre = new BlockTimeCrystalOre();
         if (ModConfigs.unimplementedBlocks) {
-            timeMachineBasicBlock = new BlockTimeMachineBasicBlock().setNames();
-            timeMachineCore = new BlockTimeMachineCore().setNames();
-            timeMachineControlPanel = new BlockTimeMachineControlPanel().setNames();
+            timeMachineBasicBlock = new BlockTimeMachineBasicBlock();
+            timeMachineCore = new BlockTimeMachineCore();
+            timeMachineControlPanel = new BlockTimeMachineControlPanel();
         }
     }
 
@@ -83,6 +86,21 @@ public class ModBlocks {
         for (int i = 0; i < blocks.length; i++) {
             Item item = Item.getItemFromBlock(blocks[i]);
             ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+        }
+    }
+
+    @SubscribeEvent
+    public static void linkTimeMachines(EventSetTimeMachine event) {
+        linkTimeMachine( event,
+                timeMachineBasicBlock,
+                timeMachineCore,
+                timeMachineControlPanel
+        );
+    }
+
+    private static void linkTimeMachine(EventSetTimeMachine event, BlockTimeMachineComponent... blocks) {
+        for (int i = 0; i < blocks.length; i++) {
+            blocks[i].setTimeMachine(event);
         }
     }
 }

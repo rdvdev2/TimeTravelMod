@@ -1,6 +1,8 @@
 package com.rdvdev2.TimeTravelMod.common.block;
 
 import com.rdvdev2.TimeTravelMod.TimeTravelMod;
+import com.rdvdev2.TimeTravelMod.util.BlockTimeMachineComponent;
+import com.rdvdev2.TimeTravelMod.util.EnumTimeMachineComponentType;
 import jline.internal.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -13,22 +15,19 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockTimeMachineBasicBlock extends Block {
+public class BlockTimeMachineBasicBlock extends BlockTimeMachineComponent {
+
+    String name = "timemachinebasicblock";
 
     public BlockTimeMachineBasicBlock() {
-        super(Material.IRON);
+        super(Material.IRON, EnumTimeMachineComponentType.BASIC);
         setSoundType(SoundType.METAL);
         setHardness(3f);
         setLightLevel (0 / 16f);
         setLightOpacity(15);
         setCreativeTab(TimeTravelMod.tabTTM);
         setHarvestLevel("pickaxe", 2);
-    }
-
-    public Block setNames() {
-        String name = "timemachinebasicblock";
         setUnlocalizedName(name);
         setRegistryName(name);
-        return this;
     }
 }
