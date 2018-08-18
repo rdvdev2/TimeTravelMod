@@ -140,6 +140,7 @@ public interface TimeMachine {
         BlockPos[] posData = getPosData(controllerPos, side);
         IBlockState[] blockData = getBlockData(worldOut, posData);
         destroyTM(worldOut, posData);
+        worldIn.getChunkProvider().getLoadedChunk(worldIn.getChunkFromBlockCoords(controllerPos).x, worldIn.getChunkFromBlockCoords(controllerPos).z);
         buildTM(worldIn, posData, blockData);
     }
 
