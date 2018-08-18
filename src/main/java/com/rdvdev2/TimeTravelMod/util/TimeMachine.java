@@ -13,6 +13,9 @@ import org.apache.commons.lang3.ArrayUtils;
 
 public interface TimeMachine {
 
+    // Time Machine Tier
+    int tier();
+
     // Position(s) where must be a TM Core
     int[][] coreBlocksPos();
 
