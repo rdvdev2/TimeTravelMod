@@ -28,6 +28,9 @@ public class OreGen implements IWorldGenerator {
             // End
             case 1:
                 break;
+            // Old West
+            case 20:
+                break;
             // Other mods dimensions
             default:
                 break;
