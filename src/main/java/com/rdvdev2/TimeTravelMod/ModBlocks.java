@@ -42,13 +42,13 @@ public class ModBlocks {
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
         event.getRegistry().registerAll(
-                timeCrystalOre
+                timeCrystalOre,
+                timeMachineBasicBlock,
+                timeMachineCore,
+                timeMachineControlPanel
         );
         if (ModConfigs.unimplementedBlocks) {
             event.getRegistry().registerAll(
-                    timeMachineBasicBlock,
-                    timeMachineCore,
-                    timeMachineControlPanel,
                     heavyBlock,
                     reinforcedHeavyBlock
             );
@@ -58,13 +58,13 @@ public class ModBlocks {
     @SubscribeEvent
     public static void registerItemBlocks(RegistryEvent.Register<Item> event) {
         registerItemBlock(event,
-                timeCrystalOre
+                timeCrystalOre,
+                timeMachineBasicBlock,
+                timeMachineCore,
+                timeMachineControlPanel
         );
         if (ModConfigs.unimplementedBlocks) {
             registerItemBlock(event,
-                    timeMachineBasicBlock,
-                    timeMachineCore,
-                    timeMachineControlPanel,
                     heavyBlock,
                     reinforcedHeavyBlock
             );
@@ -80,13 +80,13 @@ public class ModBlocks {
     @SubscribeEvent
     public static void registerRenders(ModelRegistryEvent event) {
         registerRender(
-                timeCrystalOre
+                timeCrystalOre,
+                timeMachineBasicBlock,
+                timeMachineCore,
+                timeMachineControlPanel
         );
         if (ModConfigs.unimplementedBlocks) {
             registerRender(
-                    timeMachineBasicBlock,
-                    timeMachineCore,
-                    timeMachineControlPanel,
                     heavyBlock,
                     reinforcedHeavyBlock
             );

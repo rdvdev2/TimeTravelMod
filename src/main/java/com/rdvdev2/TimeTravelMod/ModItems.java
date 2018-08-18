@@ -20,8 +20,8 @@ public class ModItems {
 
     public static void init() {
         timeCrystal = new ItemTimeCrystal();
+        controllerCircuit = new ItemControllerCircuit();
         if (ModConfigs.unimplementedBlocks) {
-            controllerCircuit = new ItemControllerCircuit();
             heavyIngot = new ItemHeavyIngot();
         }
     }
@@ -29,11 +29,11 @@ public class ModItems {
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                timeCrystal
+                timeCrystal,
+                controllerCircuit
         );
         if (ModConfigs.unimplementedBlocks) {
             event.getRegistry().registerAll(
-                    controllerCircuit,
                     heavyIngot
             );
         }
@@ -42,11 +42,11 @@ public class ModItems {
     @SubscribeEvent
     public static void registerRenders(ModelRegistryEvent event) {
         registerRender(
-                timeCrystal
+                timeCrystal,
+                controllerCircuit
         );
         if (ModConfigs.unimplementedBlocks) {
             registerRender(
-                    controllerCircuit,
                     heavyIngot
             );
         }
