@@ -4,6 +4,8 @@ public class TimeMachineTier1 implements TimeMachine {
 
     public TimeMachineTier1() {};
 
+    public int tier() {return 1;}
+
     public int[][] coreBlocksPos() {
         return new int[][]{{0, -2, -1}};
     }

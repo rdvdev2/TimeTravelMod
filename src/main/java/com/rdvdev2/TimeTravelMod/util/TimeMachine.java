@@ -13,6 +13,9 @@ import org.apache.commons.lang3.ArrayUtils;
 
 public interface TimeMachine {
 
+    // Time Machine Tier
+    int tier();
+
     // Position(s) where must be a TM Core
     int[][] coreBlocksPos();
 
@@ -21,6 +24,11 @@ public interface TimeMachine {
 
     // Positions where must be air
     int[][] airBlocksPos();
+
+    // Valid IBlockState(s) for TM Control Panel
+    default IBlockState[] controllerBlocks() {
+        return new IBlockState[]{ModBlocks.timeMachineControlPanel.getDefaultState()};
+    }
 
     // Valid IBlockState(s) for TM Core
     default IBlockState[] coreBlocks() {
@@ -49,6 +57,10 @@ public interface TimeMachine {
         return applySide(airBlocksPos(), side);
     }
 
+    default IBlockState[] getControllerBlocks() {
+        return controllerBlocks();
+    }
+
     default IBlockState[] getCoreBlocks() {
         return coreBlocks();
     }
@@ -59,6 +71,14 @@ public interface TimeMachine {
 
     default IBlockState[] getUpgradeBlocks() {
         return upgradeBlocks();
+    }
+
+    default IBlockState[] getBlocks() {
+        if (upgradeBlocks().length != 0) {
+            return (IBlockState[]) ArrayUtils.addAll(ArrayUtils.addAll((IBlockState[]) getControllerBlocks(), (IBlockState[]) getCoreBlocks()), ArrayUtils.addAll((IBlockState[]) getBasicBlocks(), (IBlockState[]) getUpgradeBlocks()));
+        } else {
+            return (IBlockState[]) ArrayUtils.addAll(ArrayUtils.addAll((IBlockState[]) getControllerBlocks(), (IBlockState[]) getCoreBlocks()), (IBlockState[]) getBasicBlocks());
+        }
     }
 
     // Modifies the relative BlockPos arrays to meet the facing of the TM

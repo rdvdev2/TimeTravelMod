@@ -38,6 +38,13 @@ public class GuiTimeMachine extends GuiScreen {
         super.initGui();
         this.buttonList.add(ButtonPresent = new GuiButton(0, this.width / 2 -100, (this.height / (buttons+1))*1,"Present"));
         this.buttonList.add(ButtonOldWest = new GuiButton(1, this.width / 2 -100, (this.height / (buttons+1))*2,"Old West"));
+
+        switch (tm.tier()){
+            case 0:
+                ButtonOldWest.enabled=false;
+            case 1:
+                break;
+        }
     }
 
     @Override
