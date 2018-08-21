@@ -20,7 +20,7 @@ public class GuiTimeMachine extends GuiScreen {
 
     private GuiButton ButtonPresent;
     private GuiButton ButtonOldWest;
-    private final int buttons = 2;
+    private int buttons = 2;
     private EntityPlayer player;
     private TimeMachine tm;
     private BlockPos pos;
@@ -35,9 +35,10 @@ public class GuiTimeMachine extends GuiScreen {
 
     @Override
     public void initGui() {
-        super.initGui();
-        this.buttonList.add(ButtonPresent = new GuiButton(0, this.width / 2 -100, (this.height / (buttons+1))*1,"Present"));
-        this.buttonList.add(ButtonOldWest = new GuiButton(1, this.width / 2 -100, (this.height / (buttons+1))*2,"Old West"));
+        ButtonPresent = new GuiButton(0, this.width / 2 -100, (this.height / (buttons+1))*1,"Present");
+        ButtonOldWest = new GuiButton(1, this.width / 2 -100, (this.height / (buttons+1))*2,"Old West");
+        this.buttonList.add(ButtonPresent);
+        this.buttonList.add(ButtonOldWest);
 
         switch (tm.tier()){
             case 0:
