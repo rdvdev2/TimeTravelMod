@@ -1,7 +1,9 @@
 package com.rdvdev2.TimeTravelMod.client.gui;
 
 import com.rdvdev2.TimeTravelMod.ModDimensions;
+import com.rdvdev2.TimeTravelMod.ModPacketHandler;
 import com.rdvdev2.TimeTravelMod.common.dimension.ITeleporterTimeMachine;
+import com.rdvdev2.TimeTravelMod.common.networking.DimensionTP;
 import com.rdvdev2.TimeTravelMod.util.TimeMachine;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -74,10 +76,7 @@ public class GuiTimeMachine extends GuiScreen {
         }
 
         if (id != player.dimension && player.dimension != 1 && player.dimension != -1) {
-            if (player instanceof EntityPlayerMP) {
-                EntityPlayerMP mp = (EntityPlayerMP) player;
-                mp.getServer().getPlayerList().transferPlayerToDimension(mp, id, new ITeleporterTimeMachine(mp.getServer().getWorld(id), mp.getServer().getWorld(mp.dimension), tm, pos, side));
-            }
+            ModPacketHandler.INSTANCE.sendToServer(new DimensionTP(id, tm, pos, side));
         } else {
             this.sendChatMessage("You can't travel to your travel line or from nether or end!", false);
         }

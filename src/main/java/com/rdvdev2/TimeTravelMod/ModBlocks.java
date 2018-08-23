@@ -8,7 +8,6 @@ import com.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
 import com.rdvdev2.TimeTravelMod.util.BlockTimeMachineComponent;
 import com.rdvdev2.TimeTravelMod.common.block.*;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;

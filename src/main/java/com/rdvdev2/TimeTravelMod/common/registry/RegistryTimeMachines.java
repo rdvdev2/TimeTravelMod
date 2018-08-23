@@ -27,6 +27,7 @@ public class RegistryTimeMachines {
     public int register(TimeMachine tm) {
         int id = timeMachines.length;
         timeMachines = Arrays.copyOf(timeMachines, id+1);
+        tm.setId(id);
         timeMachines[id] = tm;
         return id;
     }
@@ -43,5 +44,9 @@ public class RegistryTimeMachines {
         }
         TimeTravelMod.logger.info("This is not registered :( "+block.toString());
         return null;
+    }
+
+    public TimeMachine getFromId(int id) {
+        return timeMachines[id];
     }
 }

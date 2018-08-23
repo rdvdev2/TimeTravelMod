@@ -4,6 +4,18 @@ public class TimeMachineTier1 implements TimeMachine {
 
     public TimeMachineTier1() {};
 
+    private int id;
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public int getId() {
+        return this.id;
+    }
+
     public int tier() {return 1;}
 
     public int[][] coreBlocksPos() {

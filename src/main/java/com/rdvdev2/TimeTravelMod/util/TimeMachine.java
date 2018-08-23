@@ -1,6 +1,7 @@
 package com.rdvdev2.TimeTravelMod.util;
 
 import com.rdvdev2.TimeTravelMod.ModBlocks;
+import com.rdvdev2.TimeTravelMod.TimeTravelMod;
 import com.rdvdev2.TimeTravelMod.client.gui.GuiTimeMachine;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -12,6 +13,10 @@ import net.minecraft.world.World;
 import org.apache.commons.lang3.ArrayUtils;
 
 public interface TimeMachine {
+
+    // Id methods
+    int getId();
+    void setId(int id);
 
     // Time Machine Tier
     int tier();
@@ -105,7 +110,7 @@ public interface TimeMachine {
 
     default void run(World world, EntityPlayer playerIn, BlockPos controllerPos, EnumFacing side) {
         if (isBuilt(world, controllerPos, side)) {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiTimeMachine(playerIn, this, controllerPos, side));
+            TimeTravelMod.proxy.displayTMGuiScreen(playerIn, this, controllerPos, side);
         }
     }
     // Checks if the TM is correctly built
