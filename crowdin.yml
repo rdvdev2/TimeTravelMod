@@ -6,5 +6,5 @@ files:
       locale_with_underscore:
         es-ES: es_es
         ca: ca_es
-        de_DE: de_de
-        it_IT: it_it
+        de: de_de
+        it: it_it
