@@ -29,10 +29,10 @@ public class ModBlocks {
 
     public static void init() {
         timeCrystalOre = new BlockTimeCrystalOre();
+        timeMachineBasicBlock = new BlockTimeMachineBasicBlock();
+        timeMachineCore = new BlockTimeMachineCore();
+        timeMachineControlPanel = new BlockTimeMachineControlPanel();
         if (ModConfigs.unimplementedBlocks) {
-            timeMachineBasicBlock = new BlockTimeMachineBasicBlock();
-            timeMachineCore = new BlockTimeMachineCore();
-            timeMachineControlPanel = new BlockTimeMachineControlPanel();
             heavyBlock = new BlockHeavyBlock();
             reinforcedHeavyBlock = new BlockReinforcedHeavyBlock();
         }
