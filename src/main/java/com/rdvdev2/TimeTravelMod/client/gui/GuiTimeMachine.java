@@ -7,6 +7,7 @@ import com.rdvdev2.TimeTravelMod.common.networking.DimensionTP;
 import com.rdvdev2.TimeTravelMod.util.TimeMachine;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumFacing;
@@ -37,8 +38,8 @@ public class GuiTimeMachine extends GuiScreen {
 
     @Override
     public void initGui() {
-        ButtonPresent = new GuiButton(0, this.width / 2 -100, (this.height / (buttons+1))*1,"Present");
-        ButtonOldWest = new GuiButton(1, this.width / 2 -100, (this.height / (buttons+1))*2,"Old West");
+        ButtonPresent = new GuiButton(0, this.width / 2 -100, (this.height / (buttons+1))*1, I18n.format("gui.tm.present.text"));
+        ButtonOldWest = new GuiButton(1, this.width / 2 -100, (this.height / (buttons+1))*2, I18n.format("gui.tm.oldwest.text"));
         this.buttonList.add(ButtonPresent);
         this.buttonList.add(ButtonOldWest);
 
@@ -78,7 +79,7 @@ public class GuiTimeMachine extends GuiScreen {
         if (id != player.dimension && player.dimension != 1 && player.dimension != -1) {
             ModPacketHandler.INSTANCE.sendToServer(new DimensionTP(id, tm, pos, side));
         } else {
-            this.sendChatMessage("You can't travel to your travel line or from nether or end!", false);
+            this.sendChatMessage(I18n.format("gui.tm.error.text"), false);
         }
     }
 }
