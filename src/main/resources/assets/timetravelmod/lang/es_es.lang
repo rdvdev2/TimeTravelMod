@@ -1,4 +1,7 @@
 #X-Generator: crowdin.com
+gui.tm.error.text=You can't travel to your travel line or from nether or end!
+gui.tm.oldwest.text=Old West
+gui.tm.present.text=Present
 item.controllercircuit.name=Circuito controlador
 item.heavyblock.name=Bloque pesado
 item.heavyingot.name=Lingote pesado
