@@ -2,6 +2,8 @@ package com.rdvdev2.TimeTravelMod.common.dimension;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.rdvdev2.TimeTravelMod.common.worldgen.villages.VillageGenerator;
+import com.rdvdev2.TimeTravelMod.common.worldgen.villages.oldwest.VillageOldWest;
 import jline.internal.Nullable;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.monster.EntityZombie;
@@ -33,12 +35,15 @@ public class ChunkGeneratorOldWest implements IChunkGenerator {
     private MapGenBase caveGenerator = new MapGenCaves();
     private NormalTerrainGenerator terraingen = new NormalTerrainGenerator();
 
+    private VillageGenerator villageGenerator;
+
     public ChunkGeneratorOldWest(World worldObj) {
         this.worldObj = worldObj;
         long seed = worldObj.getSeed();
         this.random = new Random((seed + 516) * 314);
         terraingen.setup(worldObj, random);
         caveGenerator = TerrainGen.getModdedMapGen(caveGenerator, CAVE);
+        villageGenerator = new VillageGenerator(worldObj, new VillageOldWest());
     }
 
     @Override
@@ -81,6 +86,9 @@ public class ChunkGeneratorOldWest implements IChunkGenerator {
 
         // Make sure animals appropiate to the biome spawn here when the chunk is generated
         WorldEntitySpawner.performWorldGenSpawning(this.worldObj, biome, i+8, j+8, 16, 16, this.random);
+
+        // Generate Old West villages
+        // villageGenerator.tryBuild(x, z);
     }
 
     @Override
