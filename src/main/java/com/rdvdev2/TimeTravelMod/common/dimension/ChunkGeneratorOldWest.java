@@ -88,7 +88,7 @@ public class ChunkGeneratorOldWest implements IChunkGenerator {
         WorldEntitySpawner.performWorldGenSpawning(this.worldObj, biome, i+8, j+8, 16, 16, this.random);
 
         // Generate Old West villages
-        villageGenerator.tryBuild(x, z);
+        // villageGenerator.tryBuild(x, z);
     }
 
     @Override
