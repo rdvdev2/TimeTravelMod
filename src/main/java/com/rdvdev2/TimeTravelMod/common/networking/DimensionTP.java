@@ -2,7 +2,7 @@ package com.rdvdev2.TimeTravelMod.common.networking;
 
 import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.common.dimension.ITeleporterTimeMachine;
-import com.rdvdev2.TimeTravelMod.util.TimeMachine;
+import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumFacing;
@@ -15,11 +15,11 @@ public class DimensionTP implements IMessage {
     public DimensionTP(){}
 
     private int dim;
-    private TimeMachine tm;
+    private ITimeMachine tm;
     private BlockPos pos;
     private EnumFacing side;
 
-    public DimensionTP(int dim, TimeMachine tm, BlockPos pos, EnumFacing side) {
+    public DimensionTP(int dim, ITimeMachine tm, BlockPos pos, EnumFacing side) {
         this.dim = dim;
         this.tm = tm;
         this.pos = pos;
@@ -69,7 +69,7 @@ public class DimensionTP implements IMessage {
         public IMessage onMessage(DimensionTP message, MessageContext ctx) {
             EntityPlayerMP serverPlayer = ctx.getServerHandler().player;
             int dim = message.dim;
-            TimeMachine tm = message.tm;
+            ITimeMachine tm = message.tm;
             BlockPos pos = message.pos;
             EnumFacing side = message.side;
             serverPlayer.getServerWorld().addScheduledTask(() -> {

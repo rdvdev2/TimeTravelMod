@@ -1,6 +1,8 @@
-package com.rdvdev2.TimeTravelMod.util;
+package com.rdvdev2.TimeTravelMod.common.timemachine;
 
-public class TimeMachineTier1 implements TimeMachine {
+import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
+
+public class TimeMachineTier1 implements ITimeMachine {
 
     public TimeMachineTier1() {};
 
@@ -16,7 +18,7 @@ public class TimeMachineTier1 implements TimeMachine {
         return this.id;
     }
 
-    public int tier() {return 1;}
+    public int getTier() {return 1;}
 
     public int[][] coreBlocksPos() {
         return new int[][]{{0, -2, -1}};

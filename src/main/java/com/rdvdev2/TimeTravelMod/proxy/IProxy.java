@@ -1,6 +1,6 @@
 package com.rdvdev2.TimeTravelMod.proxy;
 
-import com.rdvdev2.TimeTravelMod.util.TimeMachine;
+import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -12,5 +12,5 @@ public interface IProxy {
     void preInit(FMLPreInitializationEvent event);
     void init (FMLInitializationEvent event);
     void postInit (FMLPostInitializationEvent event);
-    void displayTMGuiScreen(EntityPlayer player, TimeMachine tm, BlockPos pos, EnumFacing side);
+    void displayTMGuiScreen(EntityPlayer player, ITimeMachine tm, BlockPos pos, EnumFacing side);
 }

@@ -1,6 +1,6 @@
 package com.rdvdev2.TimeTravelMod.common.dimension;
 
-import com.rdvdev2.TimeTravelMod.util.TimeMachine;
+import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -12,11 +12,11 @@ public class ITeleporterTimeMachine implements ITeleporter {
 
     protected final WorldServer worldIn;
     protected final WorldServer worldOut;
-    private TimeMachine tm;
+    private ITimeMachine tm;
     private BlockPos controlPos;
     private EnumFacing facing;
 
-    public ITeleporterTimeMachine(WorldServer worldIn, WorldServer worldOut, TimeMachine tm, BlockPos controlPos, EnumFacing facing) {
+    public ITeleporterTimeMachine(WorldServer worldIn, WorldServer worldOut, ITimeMachine tm, BlockPos controlPos, EnumFacing facing) {
         this.worldIn = worldIn;
         this.worldOut = worldOut;
         this.tm = tm;

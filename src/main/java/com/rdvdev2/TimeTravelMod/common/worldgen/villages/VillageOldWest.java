@@ -1,6 +1,7 @@
 package com.rdvdev2.TimeTravelMod.common.worldgen.villages;
 
 import com.rdvdev2.TimeTravelMod.ModDimensions;
+import com.rdvdev2.TimeTravelMod.api.worldgen.IVillage;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
