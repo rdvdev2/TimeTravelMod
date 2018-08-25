@@ -1,4 +1,5 @@
 #X-Generator: crowdin.com
+gui.tm.error.text=No pots viatjar a la teva línia temporal o des de el món inferior o el fi!
 gui.tm.oldwest.text=Vell Oest
 gui.tm.present.text=Present
 item.controllercircuit.name=Circuit controlador
