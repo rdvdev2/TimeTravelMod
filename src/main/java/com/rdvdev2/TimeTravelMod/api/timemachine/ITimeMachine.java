@@ -1,10 +1,8 @@
-package com.rdvdev2.TimeTravelMod.util;
+package com.rdvdev2.TimeTravelMod.api.timemachine;
 
 import com.rdvdev2.TimeTravelMod.ModBlocks;
 import com.rdvdev2.TimeTravelMod.TimeTravelMod;
-import com.rdvdev2.TimeTravelMod.client.gui.GuiTimeMachine;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
@@ -12,81 +10,124 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.ArrayUtils;
 
-public interface TimeMachine {
+/**
+ * Defines the behaviour and the aspect of a Time Machine
+ */
+public interface ITimeMachine {
 
-    // Id methods
+    /**
+     * Gets the Time Machine ID in the registry
+     * @return The Time Machine ID in the registry
+     */
     int getId();
+
+    /**
+     * Sets the Time Machine ID in the registry
+     * @param id The Time Machine ID in the registry
+     */
     void setId(int id);
 
-    // Time Machine Tier
-    int tier();
+    /**
+     * Gets the Time Machine tier
+     * @return The Time Machine tier
+     */
+    int getTier();
 
-    // Position(s) where must be a TM Core
+    /**
+     * Returns the position(s) where must be a TM Core relatively to a compatible Time Machine Controller facing north
+     * @return Array of positions where must be a TM Core
+     */
     int[][] coreBlocksPos();
 
-    // Positions where must be a TM Basic Block
+    /**
+     * Returns the position(s) where must be a TM Basic Block or a TM Upgrade relatively to a compatible Time Machine Controller facing north
+     * @return Array of positions where must be a TM Basic Block or a TM Upgrade
+     */
     int[][] basicBlocksPos();
 
-    // Positions where must be air
+    /**
+     * Returns the position(s) where must be air relatively to a compatible Time Machine Controller facing north
+     * @return Array of positions where must be air
+     */
     int[][] airBlocksPos();
 
-    // Valid IBlockState(s) for TM Control Panel
-    default IBlockState[] controllerBlocks() {
+    /**
+     * Returns the valid IBlockState(s) for TM Controller blocks
+     * @return Array of valid IBlockStates for TM Controller blocks
+     */
+    default IBlockState[] getControllerBlocks() {
         return new IBlockState[]{ModBlocks.timeMachineControlPanel.getDefaultState()};
     }
 
-    // Valid IBlockState(s) for TM Core
-    default IBlockState[] coreBlocks() {
+    /**
+     * Returns the valid IBlockState(s) for TM Blocks
+     * @return Array of valid IBlockStates for TM Blocks
+     */
+    default IBlockState[] getCoreBlocks() {
         return new IBlockState[]{ModBlocks.timeMachineCore.getDefaultState()};
     }
 
-    // Valid IBlockState(s) for TM Basic Block
-    default IBlockState[] basicBlocks() {
+    /**
+     * Returns the valid IBlockState(s) for TM Basic Blocks
+     * @return Array of valid IBlockStates for TM Basic Blocks
+     */
+    default IBlockState[] getBasicBlocks() {
         return new IBlockState[]{ModBlocks.timeMachineBasicBlock.getDefaultState()};
     }
 
-    // Valid IBlockState(s) for TM Upgrades
-    default IBlockState[] upgradeBlocks() {
+    /**
+     * Returns the valid IBlockState(s) for TM Upgrade Blocks
+     * @return Array of valid IBlockStates for TM Upgrade Blocks
+     */
+    default IBlockState[] getUpgradeBlocks() {
         return new IBlockState[]{};
     }
 
+    /**
+     * Returns the position(s) where must be a TM Core
+     * @param side Facing of the time machine
+     * @return Array of positions where must be a TM Core
+     */
     default BlockPos[] getCoreBlocksPos(EnumFacing side) {
         return applySide(coreBlocksPos(), side);
     }
 
+    /**
+     * Returns the position(s) where must be a TM Basic Block or a TM Upgrade
+     * @param side Facing of the time machine
+     * @return Array of positions where must be a TM Basic Block or a TM Upgrade
+     */
     default BlockPos[] getBasicBlocksPos(EnumFacing side) {
         return applySide(basicBlocksPos(), side);
     }
 
+    /**
+     * Returns the position(s) where must be air
+     * @param side Facing of the time machine
+     * @return Array of positions where must be air
+     */
     default BlockPos[] getAirBlocksPos(EnumFacing side) {
         return applySide(airBlocksPos(), side);
     }
 
-    default IBlockState[] getControllerBlocks() {
-        return controllerBlocks();
-    }
-
-    default IBlockState[] getCoreBlocks() {
-        return coreBlocks();
-    }
-
-    default IBlockState[] getBasicBlocks() {
-        return basicBlocks();
-    }
-
-    default IBlockState[] getUpgradeBlocks() {
-        return upgradeBlocks();
-    }
-
+    /**
+     * Returns all the valid IBlockStates that can be used to build this Time Machine
+     * @return Array of vaild IBlockStates
+     */
     default IBlockState[] getBlocks() {
-        if (upgradeBlocks().length != 0) {
+        if (getUpgradeBlocks().length != 0) {
             return (IBlockState[]) ArrayUtils.addAll(ArrayUtils.addAll((IBlockState[]) getControllerBlocks(), (IBlockState[]) getCoreBlocks()), ArrayUtils.addAll((IBlockState[]) getBasicBlocks(), (IBlockState[]) getUpgradeBlocks()));
         } else {
             return (IBlockState[]) ArrayUtils.addAll(ArrayUtils.addAll((IBlockState[]) getControllerBlocks(), (IBlockState[]) getCoreBlocks()), (IBlockState[]) getBasicBlocks());
         }
     }
 
-    // Modifies the relative BlockPos arrays to meet the facing of the TM
+    /**
+     * Converts the relative block positions to meet the actual Time Machine Facing
+     * @param input An array of relative positions. The positions are represented in an int array of format {x, y, z}
+     * @param side The actual facing of the Time Machine
+     * @return An array of BlockPos aligned with the Time Machine facing
+     */
     static BlockPos[] applySide(int[][] input, EnumFacing side){
         BlockPos[] output = new BlockPos[input.length];
         for (int i = 0; i < input.length; i++) {
@@ -108,12 +149,26 @@ public interface TimeMachine {
         return output;
     }
 
+    /**
+     * Starts the Time Machine to check if the player can be teleported
+     * @param world The player's world
+     * @param playerIn The player that triggered the time machine
+     * @param controllerPos The position of the TM Controller
+     * @param side The facing of the time machine
+     */
     default void run(World world, EntityPlayer playerIn, BlockPos controllerPos, EnumFacing side) {
         if (isBuilt(world, controllerPos, side)) {
             TimeTravelMod.proxy.displayTMGuiScreen(playerIn, this, controllerPos, side);
         }
     }
-    // Checks if the TM is correctly built
+
+    /**
+     * Checks if the Time Machine is correctly built
+     * @param world The world were the Time Machine is built
+     * @param controllerPos The position of the TM Controller
+     * @param side The facing of the Time Machine
+     * @return Returns true if the Time Machine is correctly built
+     */
     default boolean isBuilt(World world, BlockPos controllerPos, EnumFacing side) {
         BlockPos[] corePos = getCoreBlocksPos(side);
         BlockPos[] basicPos = getBasicBlocksPos(side);
@@ -140,7 +195,13 @@ public interface TimeMachine {
         return true;
     }
 
-    // ITeleporterTimeMachine related methods
+    /**
+     * Does the tasks of the ITimeMachineTeleporter when a time travel starts
+     * @param worldIn The source world
+     * @param worldOut The target world
+     * @param controllerPos The position of the TM Controller
+     * @param side The facing of the time machine
+     */
     default void teleporterTasks(World worldIn, World worldOut, BlockPos controllerPos, EnumFacing side) {
         BlockPos[] posData = getPosData(controllerPos, side);
         IBlockState[] blockData = getBlockData(worldOut, posData);
@@ -149,6 +210,12 @@ public interface TimeMachine {
         buildTM(worldIn, posData, blockData);
     }
 
+    /**
+     * Copies the Time Machine blocks positions in the source world
+     * @param controllerPos The position of the TM Controller
+     * @param side The Time Machine facing
+     * @return An array with all the Time Machine blocks positions
+     */
     default BlockPos[] getPosData(BlockPos controllerPos, EnumFacing side) {
         BlockPos[] controllerPosA = new BlockPos[]{new BlockPos(0, 0, 0)};
         BlockPos[] corePos = getCoreBlocksPos(side);
@@ -161,6 +228,12 @@ public interface TimeMachine {
         return posData;
     }
 
+    /**
+     * Copies the Time Machine blocks IBlockStates in the source world
+     * @param world The world were the Time Machine is now placed
+     * @param posData The positions gathered by the getPosData() method
+     * @return An array with all the Time Machine blocks IBlockStates
+     */
     default IBlockState[] getBlockData(World world, BlockPos[] posData) {
         IBlockState[] blockData = new IBlockState[posData.length];
         for (int i = 0; i < blockData.length; i++) {
@@ -169,12 +242,23 @@ public interface TimeMachine {
         return blockData;
     }
 
+    /**
+     * Destroys the Time Machine in the source world
+     * @param world The source world
+     * @param posData The positions gathered by the getPosData() method
+     */
     default void destroyTM(World world, BlockPos[] posData) {
         for (int i = 0; i < posData.length; i++) {
             world.setBlockState(posData[i], Blocks.AIR.getDefaultState());
         }
     }
 
+    /**
+     * Build the Time Machine in the target world
+     * @param world The target world
+     * @param posData The positions gathered by the getPosData() method
+     * @param blockData The IBlockStates gathered by the getBlockData() method
+     */
     default void buildTM(World world, BlockPos[] posData, IBlockState[] blockData) {
         for (int i = 0; i < posData.length; i++) {
             world.setBlockState(posData[i], blockData[i]);

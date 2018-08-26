@@ -5,7 +5,7 @@ import com.rdvdev2.TimeTravelMod.common.block.BlockTimeMachineBasicBlock;
 import com.rdvdev2.TimeTravelMod.common.block.BlockTimeMachineControlPanel;
 import com.rdvdev2.TimeTravelMod.common.block.BlockTimeMachineCore;
 import com.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
-import com.rdvdev2.TimeTravelMod.util.BlockTimeMachineComponent;
+import com.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineComponent;
 import com.rdvdev2.TimeTravelMod.common.block.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;

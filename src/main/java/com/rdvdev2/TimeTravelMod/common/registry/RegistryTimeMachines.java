@@ -1,9 +1,9 @@
 package com.rdvdev2.TimeTravelMod.common.registry;
 
 import com.rdvdev2.TimeTravelMod.TimeTravelMod;
-import com.rdvdev2.TimeTravelMod.common.event.EventRegisterTimeMachine;
+import com.rdvdev2.TimeTravelMod.api.event.EventRegisterTimeMachine;
 import com.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
-import com.rdvdev2.TimeTravelMod.util.TimeMachine;
+import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
 import net.minecraft.block.state.IBlockState;
 
 import java.util.Arrays;
@@ -12,7 +12,7 @@ import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
 public class RegistryTimeMachines {
 
-    private TimeMachine[] timeMachines = new TimeMachine[]{};
+    private ITimeMachine[] timeMachines = new ITimeMachine[]{};
 
     public RegistryTimeMachines(){}
 
@@ -24,7 +24,7 @@ public class RegistryTimeMachines {
         EVENT_BUS.post(new EventSetTimeMachine(this));
     }
 
-    public int register(TimeMachine tm) {
+    public int register(ITimeMachine tm) {
         int id = timeMachines.length;
         timeMachines = Arrays.copyOf(timeMachines, id+1);
         tm.setId(id);
@@ -32,7 +32,7 @@ public class RegistryTimeMachines {
         return id;
     }
 
-    public TimeMachine getCompatibleTimeMachine(IBlockState block) {
+    public ITimeMachine getCompatibleTimeMachine(IBlockState block) {
         for (int i = 0; i < timeMachines.length; i++) {
             IBlockState[] blocks = timeMachines[i].getBlocks();
             for (int j = 0; j < blocks.length; j++) {
@@ -46,7 +46,7 @@ public class RegistryTimeMachines {
         return null;
     }
 
-    public TimeMachine getFromId(int id) {
+    public ITimeMachine getFromId(int id) {
         return timeMachines[id];
     }
 }

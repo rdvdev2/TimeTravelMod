@@ -1,9 +1,8 @@
 package com.rdvdev2.TimeTravelMod.common.block;
 
 import com.rdvdev2.TimeTravelMod.TimeTravelMod;
-import com.rdvdev2.TimeTravelMod.util.BlockTimeMachineComponent;
-import com.rdvdev2.TimeTravelMod.util.EnumTimeMachineComponentType;
-import net.minecraft.block.Block;
+import com.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineComponent;
+import com.rdvdev2.TimeTravelMod.api.timemachine.block.EnumTimeMachineComponentType;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 

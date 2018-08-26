@@ -2,14 +2,12 @@ package com.rdvdev2.TimeTravelMod.client.gui;
 
 import com.rdvdev2.TimeTravelMod.ModDimensions;
 import com.rdvdev2.TimeTravelMod.ModPacketHandler;
-import com.rdvdev2.TimeTravelMod.common.dimension.ITeleporterTimeMachine;
 import com.rdvdev2.TimeTravelMod.common.networking.DimensionTP;
-import com.rdvdev2.TimeTravelMod.util.TimeMachine;
+import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
@@ -25,11 +23,11 @@ public class GuiTimeMachine extends GuiScreen {
     private GuiButton ButtonOldWest;
     private int buttons = 2;
     private EntityPlayer player;
-    private TimeMachine tm;
+    private ITimeMachine tm;
     private BlockPos pos;
     private EnumFacing side;
 
-    public GuiTimeMachine(EntityPlayer player, TimeMachine tm, BlockPos pos, EnumFacing side){
+    public GuiTimeMachine(EntityPlayer player, ITimeMachine tm, BlockPos pos, EnumFacing side){
         this.player = player;
         this.tm = tm;
         this.pos = pos;
@@ -43,7 +41,7 @@ public class GuiTimeMachine extends GuiScreen {
         this.buttonList.add(ButtonPresent);
         this.buttonList.add(ButtonOldWest);
 
-        switch (tm.tier()){
+        switch (tm.getTier()){
             case 0:
                 ButtonOldWest.enabled=false;
             case 1:

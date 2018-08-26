@@ -10,8 +10,17 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
+sourceSets.main {
+    java {
+        srcDirs = ['src/main/java']
+    }
+    resources {
+        srcDirs = ['src/main/resources']
+    }
+}
 
 version = "1.12.2-0.0.1.0"
+def apiVersion = version
 group = "com.rdvdev2.TimeTravelMod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "TimeTravelMod"
 
@@ -73,6 +82,7 @@ processResources {
 
         versionProps['PATCH'] = patch.toString()
         versionProps.store(versionPropsFile.newWriter(), null)
+        apiVersion = project.minecraft.version.toString() + "-" + majormod + "." + majorapi
 
         project.version = project.minecraft.version.toString() + "-" + majormod + "." + majorapi + "." + minor + "." + patch.toString()
     }
@@ -92,4 +102,19 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+}
+
+task packApi(type: Jar, dependsOn: "classes") {
+    outputs.upToDateWhen {false}
+    baseName = "TimeTravelMod-API"
+    from (sourceSets.main.output) {
+        excludes.addAll("assets")
+        excludes.addAll("com/rdvdev2/TimeTravelMod/Mod*")
+        excludes.addAll("com/rdvdev2/TimeTravelMod/TimeTravelMod")
+        excludes.addAll("com/rdvdev2/TimeTravelMod/client")
+        excludes.addAll("com/rdvdev2/TimeTravelMod/common")
+        excludes.addAll("com/rdvdev2/TimeTravelMod/proxy")
+        includes.addAll("com/rdvdev2/TimeTravelMod/api/**")
+    }
+    packApi.version = apiVersion
 }
