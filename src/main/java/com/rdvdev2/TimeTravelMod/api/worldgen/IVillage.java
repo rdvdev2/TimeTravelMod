@@ -28,6 +28,18 @@ public interface IVillage {
     IStructure.IStreet getStreet();
 
     /**
+     * Returns the minimum size of the village (Size is handled as a radius)
+     * @return The minimum village size
+     */
+    default int getMinSize() {return 0;}
+
+    /**
+     * Returns the maximum size of the village (Size is handled as a radius)
+     * @return The maximum village size
+     */
+    default int getMaxSize() {return 0;}
+
+    /**
      * Defines how is a village structure
      */
     interface IStructure {
@@ -81,18 +93,6 @@ public interface IVillage {
              * @return The Y offset
              */
             default int getBridgeYOffset() {return 0;}
-
-            /**
-             * Returns the minimum size of the village (Size is handled as a radius)
-             * @return The minimum village size
-             */
-            default int getMinSize() {return 0;}
-
-            /**
-             * Returns the maximum size of the village (Size is handled as a radius)
-             * @return The maximum village size
-             */
-            default int getMaxSize() {return 0;}
         }
     }
 
