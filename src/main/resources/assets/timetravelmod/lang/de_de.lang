@@ -1,3 +1,13 @@
 #X-Generator: crowdin.com
+gui.tm.oldwest.text=Alter Westen
+item.timecrystal.name=Zeit Kristall
+item.timecrystalore.name=Zeit Kristall Erz
+item.timemachinebasicblock.name=Basisblock der Zeitmaschine
+item.timemachinecontrolpanel.name=Zeitmaschinenbedienfeld
+item.timemachinecore.name=Kern der Zeitmaschine
+tile.timecrystalore.name=Zeit Kristall Erz
+tile.timemachinebasicblock.name=Basisblock der Zeitmaschine
+tile.timemachinecontrolpanel.name=Zeitmaschinenbedienfeld
+tile.timemachinecore.name=Kern der Zeitmaschine
 
 
