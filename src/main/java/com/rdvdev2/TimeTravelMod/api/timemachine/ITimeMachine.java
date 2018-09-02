@@ -205,10 +205,25 @@ public interface ITimeMachine {
         return true;
     }
 
+    /**
+     * Detects if the Time Machine has too many Entities inside
+     * @param world The world where the Time Machine is
+     * @param controllerPos The position of the Time Machine Controller
+     * @param side The facing of the Time Machine
+     * @return True if the Time Machine is overloaded
+     */
     default boolean isOverloaded(World world, BlockPos controllerPos, EnumFacing side) {
         return getEntitiesInside(world, controllerPos, side).size() > getEntityMaxLoad();
     }
 
+    /**
+     * Detects if a given player is inside the Time Machine
+     * @param world The world where the Time Machine is
+     * @param controllerPos The position of the Time Machine Controller
+     * @param side The facing of the Time Machine
+     * @param player The wanted player
+     * @return True if the player is inside the Time Machine
+     */
     default boolean isPlayerInside(World world, BlockPos controllerPos, EnumFacing side, EntityPlayer player) {
         System.out.println(getEntitiesInside(world, controllerPos, side));
         for (Entity entity:getEntitiesInside(world, controllerPos, side)){
@@ -222,12 +237,25 @@ public interface ITimeMachine {
         return false;
     }
 
+    /**
+     * Gets all the Entities inside the Time Machine
+     * @param world The world where the Time Machine is
+     * @param controllerPos The position of the Time Machine Controller
+     * @param side The facing of the Time Machine
+     * @return A list with all the Entities inside the Time Machine
+     */
     default List<Entity> getEntitiesInside(World world, BlockPos controllerPos, EnumFacing side) {
         AxisAlignedBB airSpace = getAirSpace(controllerPos, side);
         System.out.println(airSpace);
         return world.getEntitiesWithinAABB(Entity.class, airSpace);
     }
 
+    /**
+     * Calculates the zone where Entities must be detected
+     * @param controllerPos The position of the Time Machine Controller
+     * @param side The facing of the Time Machine
+     * @return An AxisAlignedBB of the Time Machine Air Blocks
+     */
     default AxisAlignedBB getAirSpace(BlockPos controllerPos, EnumFacing side) {
         // Get the air blocks
         BlockPos relativeAirBlocks[] = applySide(airBlocksPos(), side);
