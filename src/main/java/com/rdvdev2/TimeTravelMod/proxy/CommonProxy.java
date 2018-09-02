@@ -20,6 +20,7 @@ public class CommonProxy implements IProxy {
         ModItems.init();
         ModRegistries.init();
         ModTimeMachines.init();
+        ModTimeLines.init();
         ModPacketHandler.init();
     }
 
@@ -27,7 +28,6 @@ public class CommonProxy implements IProxy {
     public void init(FMLInitializationEvent event) {
         TimeTravelMod.logger.info("Time Travel Mod is in init state.");
         GameRegistry.registerWorldGenerator(new OreGen(), 3);
-        ModDimensions.init();
         ModRecipes.init();
         ModRegistries.start();
         ModRegistries.timeMachines.link();

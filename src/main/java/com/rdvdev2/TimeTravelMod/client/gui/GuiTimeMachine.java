@@ -1,6 +1,6 @@
 package com.rdvdev2.TimeTravelMod.client.gui;
 
-import com.rdvdev2.TimeTravelMod.ModDimensions;
+import com.rdvdev2.TimeTravelMod.ModTimeLines;
 import com.rdvdev2.TimeTravelMod.ModPacketHandler;
 import com.rdvdev2.TimeTravelMod.common.networking.DimensionTP;
 import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
@@ -69,7 +69,7 @@ public class GuiTimeMachine extends GuiScreen {
             id = 0;
         }
         else if (button == ButtonOldWest) {
-            id = ModDimensions.OldWestId;
+            id = ModTimeLines.oldWest.getDimId();
         } else {
             id = -1;
         }
