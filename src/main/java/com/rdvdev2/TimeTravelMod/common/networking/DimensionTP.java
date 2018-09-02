@@ -73,7 +73,10 @@ public class DimensionTP implements IMessage {
             BlockPos pos = message.pos;
             EnumFacing side = message.side;
             serverPlayer.getServerWorld().addScheduledTask(() -> {
-                if (serverPlayer.world.isBlockLoaded(pos) && tm.isBuilt(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side)){
+                if (serverPlayer.world.isBlockLoaded(pos) &&
+                    tm.isBuilt(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
+                    tm.isPlayerInside(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side, serverPlayer) &&
+                    !tm.isOverloaded(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side)){
                     serverPlayer.getServer().getPlayerList().transferPlayerToDimension(serverPlayer, dim, new ITeleporterTimeMachine(serverPlayer.getServer().getWorld(dim), serverPlayer.getServer().getWorld(serverPlayer.dimension), tm, pos, side));
                 }
             });

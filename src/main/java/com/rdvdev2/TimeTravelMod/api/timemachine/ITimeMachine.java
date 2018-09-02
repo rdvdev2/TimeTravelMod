@@ -3,12 +3,17 @@ package com.rdvdev2.TimeTravelMod.api.timemachine;
 import com.rdvdev2.TimeTravelMod.ModBlocks;
 import com.rdvdev2.TimeTravelMod.TimeTravelMod;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.List;
 
 /**
  * Defines the behaviour and the aspect of a Time Machine
@@ -110,6 +115,9 @@ public interface ITimeMachine {
         return applySide(airBlocksPos(), side);
     }
 
+    default int getEntityMaxLoad() {
+        return 1;
+    }
     /**
      * Returns all the valid IBlockStates that can be used to build this Time Machine
      * @return Array of vaild IBlockStates
@@ -157,7 +165,9 @@ public interface ITimeMachine {
      * @param side The facing of the time machine
      */
     default void run(World world, EntityPlayer playerIn, BlockPos controllerPos, EnumFacing side) {
-        if (isBuilt(world, controllerPos, side)) {
+        if (isBuilt(world, controllerPos, side) &&
+            isPlayerInside(world, controllerPos, side, playerIn) &&
+            !isOverloaded(world, controllerPos, side)) {
             TimeTravelMod.proxy.displayTMGuiScreen(playerIn, this, controllerPos, side);
         }
     }
@@ -193,6 +203,64 @@ public interface ITimeMachine {
             if (world.getBlockState(controllerPos.add(airPos[i])) != Blocks.AIR.getDefaultState()) {return false;}
         }
         return true;
+    }
+
+    default boolean isOverloaded(World world, BlockPos controllerPos, EnumFacing side) {
+        return getEntitiesInside(world, controllerPos, side).size() > getEntityMaxLoad();
+    }
+
+    default boolean isPlayerInside(World world, BlockPos controllerPos, EnumFacing side, EntityPlayer player) {
+        System.out.println(getEntitiesInside(world, controllerPos, side));
+        for (Entity entity:getEntitiesInside(world, controllerPos, side)){
+            System.out.println(entity);
+            if (entity.getPersistentID().equals(player.getPersistentID())) {
+                System.out.println("The player is inside");
+                return true;
+            }
+        }
+        System.out.println("The player isn't inside");
+        return false;
+    }
+
+    // FIXME: Entities aren't found
+    default List<Entity> getEntitiesInside(World world, BlockPos controllerPos, EnumFacing side) {
+        AxisAlignedBB airSpace = getAirSpace(controllerPos, side);
+        System.out.println(airSpace);
+        return world.getEntitiesWithinAABB(Entity.class, airSpace);
+    }
+
+    default AxisAlignedBB getAirSpace(BlockPos controllerPos, EnumFacing side) {
+        // Get the air blocks
+        BlockPos relativeAirBlocks[] = applySide(airBlocksPos(), side);
+        // First block is the min and max block by default
+        BlockPos minPos = relativeAirBlocks[0];
+        BlockPos maxPos = relativeAirBlocks[0];
+        // Check for the correct min and max block
+        for (int block = 1; block < relativeAirBlocks.length; block++) {
+            if (relativeAirBlocks[block].getX() < minPos.getX() ||
+                relativeAirBlocks[block].getY() < minPos.getY() ||
+                relativeAirBlocks[block].getZ() < minPos.getZ()) {
+                minPos = relativeAirBlocks[block];
+            } else
+            if (relativeAirBlocks[block].getX() > maxPos.getX() ||
+                relativeAirBlocks[block].getY() > maxPos.getY() ||
+                relativeAirBlocks[block].getZ() > maxPos.getZ()) {
+                maxPos = relativeAirBlocks[block];
+            }
+        }
+        // Convert the relative positions to real ones
+        minPos = minPos.add(controllerPos);
+        maxPos = maxPos.add(controllerPos);
+        // Return the Air Space
+        float offset = 0.3f;
+        return new AxisAlignedBB(
+                minPos.getX() + offset,
+                minPos.getY() + offset,
+                minPos.getZ() + offset,
+                maxPos.getX() + 1-offset,
+                maxPos.getY() + 1-offset,
+                maxPos.getZ() + 1-offset
+        );
     }
 
     /**
