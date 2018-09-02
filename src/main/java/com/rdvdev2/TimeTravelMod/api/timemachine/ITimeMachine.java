@@ -222,7 +222,6 @@ public interface ITimeMachine {
         return false;
     }
 
-    // FIXME: Entities aren't found
     default List<Entity> getEntitiesInside(World world, BlockPos controllerPos, EnumFacing side) {
         AxisAlignedBB airSpace = getAirSpace(controllerPos, side);
         System.out.println(airSpace);
