@@ -1,9 +1,9 @@
 package com.rdvdev2.TimeTravelMod.proxy;
 
 import com.rdvdev2.TimeTravelMod.*;
+import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady;
 import com.rdvdev2.TimeTravelMod.common.worldgen.OreGen;
-import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;

@@ -1,19 +1,13 @@
 package com.rdvdev2.TimeTravelMod;
 
-import com.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady;
-import com.rdvdev2.TimeTravelMod.api.timemachine.entity.TileEntityTMCooldown;
-import com.rdvdev2.TimeTravelMod.common.block.BlockTimeCrystalOre;
-import com.rdvdev2.TimeTravelMod.common.block.BlockTimeMachineBasicBlock;
-import com.rdvdev2.TimeTravelMod.common.block.BlockTimeMachineControlPanel;
-import com.rdvdev2.TimeTravelMod.common.block.BlockTimeMachineCore;
-import com.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineComponent;
+import com.rdvdev2.TimeTravelMod.api.timemachine.entity.TileEntityTMCooldown;
 import com.rdvdev2.TimeTravelMod.common.block.*;
+import com.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;

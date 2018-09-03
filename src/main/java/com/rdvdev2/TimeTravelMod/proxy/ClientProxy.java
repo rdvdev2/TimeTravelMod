@@ -1,7 +1,7 @@
 package com.rdvdev2.TimeTravelMod.proxy;
 
-import com.rdvdev2.TimeTravelMod.client.gui.GuiTimeMachine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
+import com.rdvdev2.TimeTravelMod.client.gui.GuiTimeMachine;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;

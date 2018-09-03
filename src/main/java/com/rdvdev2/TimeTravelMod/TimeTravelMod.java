@@ -1,7 +1,6 @@
 package com.rdvdev2.TimeTravelMod;
 
 import com.rdvdev2.TimeTravelMod.client.creativetab.tabTTM;
-import com.rdvdev2.TimeTravelMod.common.worldgen.OreGen;
 import com.rdvdev2.TimeTravelMod.proxy.IProxy;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;

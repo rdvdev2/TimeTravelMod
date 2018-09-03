@@ -2,8 +2,8 @@ package com.rdvdev2.TimeTravelMod.client.gui;
 
 import com.rdvdev2.TimeTravelMod.ModPacketHandler;
 import com.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
-import com.rdvdev2.TimeTravelMod.common.networking.DimensionTP;
 import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
+import com.rdvdev2.TimeTravelMod.common.networking.DimensionTP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;

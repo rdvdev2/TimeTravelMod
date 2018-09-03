@@ -1,24 +1,22 @@
 package com.rdvdev2.TimeTravelMod.api.timemachine.block;
 
+import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.entity.TileEntityTMCooldown;
 import com.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
-import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-import static com.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady.ready;
-
 import javax.annotation.OverridingMethodsMustInvokeSuper;
+
+import static com.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady.ready;
 
 /**
  * A generic Block instance that works with the TimeMachine mechanics

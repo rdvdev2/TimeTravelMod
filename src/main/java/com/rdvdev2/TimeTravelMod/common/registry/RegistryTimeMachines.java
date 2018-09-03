@@ -2,8 +2,8 @@ package com.rdvdev2.TimeTravelMod.common.registry;
 
 import com.rdvdev2.TimeTravelMod.TimeTravelMod;
 import com.rdvdev2.TimeTravelMod.api.event.EventRegisterTimeMachine;
-import com.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
+import com.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
 import net.minecraft.block.state.IBlockState;
 
 import java.util.Arrays;

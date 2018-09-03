@@ -1,7 +1,7 @@
 package com.rdvdev2.TimeTravelMod.api.event;
 
-import com.rdvdev2.TimeTravelMod.common.registry.RegistryTimeMachines;
 import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
+import com.rdvdev2.TimeTravelMod.common.registry.RegistryTimeMachines;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
 /**
