@@ -16,7 +16,7 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 /**
  * A generic Block instance that works with the TimeMachine mechanics
  */
-public class BlockTimeMachineComponent extends Block {
+public abstract class BlockTimeMachineComponent extends Block {
 
     /**
      * The type of Time Machine block this is. The constructor sets this value
@@ -67,7 +67,7 @@ public class BlockTimeMachineComponent extends Block {
      * Returns the Time Machine block type
      * @return The Time Machine block type
      */
-    public EnumTimeMachineComponentType getType() {
+    public final EnumTimeMachineComponentType getType() {
         return type;
     }
 
@@ -75,7 +75,7 @@ public class BlockTimeMachineComponent extends Block {
      * Returns the Time Machine that belongs to this block
      * @return The compatible Time Machine
      */
-    public ITimeMachine getTimeMachine() {
+    public final ITimeMachine getTimeMachine() {
         return timeMachine;
     }
 }
