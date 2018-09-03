@@ -52,4 +52,8 @@ public class RegistryTimeLines {
         }
         return null;
     }
+
+    public TimeLine[] getTimeLines() {
+        return timeLines;
+    }
 }

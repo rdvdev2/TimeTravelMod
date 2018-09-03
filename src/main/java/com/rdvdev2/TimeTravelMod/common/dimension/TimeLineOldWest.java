@@ -13,6 +13,7 @@ public class TimeLineOldWest extends TimeLine {
         super();
         super.dimId = 20;
         super.DIMENSION_TYPE = DimensionType.register("OLDWEST", "_oldwest", super.dimId, TimeLineOldWest.class, false);
+        super.minTier = 1;
     }
 
     @Override

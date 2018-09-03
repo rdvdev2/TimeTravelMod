@@ -11,7 +11,7 @@ public abstract class TimeLine extends WorldProvider {
 
     public int dimId;
     private int modRegistryId = -1;
-    private int minTier;
+    public int minTier;
 
     public int getDimId() {
         return dimId;

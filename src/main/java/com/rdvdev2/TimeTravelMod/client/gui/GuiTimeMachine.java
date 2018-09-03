@@ -2,6 +2,7 @@ package com.rdvdev2.TimeTravelMod.client.gui;
 
 import com.rdvdev2.TimeTravelMod.ModTimeLines;
 import com.rdvdev2.TimeTravelMod.ModPacketHandler;
+import com.rdvdev2.TimeTravelMod.common.dimension.TimeLine;
 import com.rdvdev2.TimeTravelMod.common.networking.DimensionTP;
 import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
 import net.minecraft.client.gui.GuiButton;
@@ -16,12 +17,18 @@ import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
 
+import static com.rdvdev2.TimeTravelMod.ModRegistries.timeLines;
+
 @SideOnly(Side.CLIENT)
 public class GuiTimeMachine extends GuiScreen {
 
+    /*
     private GuiButton ButtonPresent;
     private GuiButton ButtonOldWest;
     private int buttons = 2;
+    */
+    TimeLine[] tls;
+    private GuiButton[] buttons;
     private EntityPlayer player;
     private ITimeMachine tm;
     private BlockPos pos;
@@ -36,6 +43,7 @@ public class GuiTimeMachine extends GuiScreen {
 
     @Override
     public void initGui() {
+        /*
         ButtonPresent = new GuiButton(0, this.width / 2 -100, (this.height / (buttons+1))*1, I18n.format("gui.tm.present.text"));
         ButtonOldWest = new GuiButton(1, this.width / 2 -100, (this.height / (buttons+1))*2, I18n.format("gui.tm.oldwest.text"));
         this.buttonList.add(ButtonPresent);
@@ -46,6 +54,23 @@ public class GuiTimeMachine extends GuiScreen {
                 ButtonOldWest.enabled=false;
             case 1:
                 break;
+        }
+        */
+        tls = timeLines.getTimeLines();
+        TimeLine[] atls = timeLines.getAvailableTimeLines(tm.getTier());
+        int buttoncount = tls.length+1;
+        buttons = new GuiButton[buttoncount];
+        buttons[0] = new GuiButton(0, this.width / 2 -100, (this.height / (buttoncount+1)), I18n.format("gui.tm.present.text"));
+        this.buttonList.add(buttons[0]);
+        for(int i = 1; i < tls.length+1; i++) {
+            buttons[i] = new GuiButton(i, this.width / 2 -100, (this.height / (buttoncount+1)*(i+1)), I18n.format("gui.tm."+tls[i-1].DIMENSION_TYPE.getName().toLowerCase()+".text"));
+            buttons[i].enabled=false;
+            for (TimeLine tl:atls) {
+                if (tl.getDimId() == tls[i-1].getDimId()) {
+                    buttons[i].enabled=true;
+                }
+            }
+            this.buttonList.add(buttons[i]);
         }
     }
 
@@ -64,6 +89,7 @@ public class GuiTimeMachine extends GuiScreen {
     @Override
     public void actionPerformed(GuiButton button) throws IOException {
         this.mc.displayGuiScreen(null);
+        /*
         int id;
         if (button == ButtonPresent) {
             id = 0;
@@ -74,6 +100,20 @@ public class GuiTimeMachine extends GuiScreen {
             id = -1;
         }
 
+        if (id != player.dimension && player.dimension != 1 && player.dimension != -1) {
+            ModPacketHandler.INSTANCE.sendToServer(new DimensionTP(id, tm, pos, side));
+        } else {
+            this.sendChatMessage(I18n.format("gui.tm.error.text"), false);
+        }
+        */
+        int id;
+        if (button.id == 0) {
+            id = 0;
+        } else if (1 <= button.id && button.id <= tls.length) {
+            id = tls[button.id - 1].getDimId();
+        } else {
+            id = -1;
+        }
         if (id != player.dimension && player.dimension != 1 && player.dimension != -1) {
             ModPacketHandler.INSTANCE.sendToServer(new DimensionTP(id, tm, pos, side));
         } else {
