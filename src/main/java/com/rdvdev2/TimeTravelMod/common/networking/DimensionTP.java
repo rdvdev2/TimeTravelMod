@@ -3,6 +3,7 @@ package com.rdvdev2.TimeTravelMod.common.networking;
 import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.common.dimension.ITeleporterTimeMachine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
+import com.rdvdev2.TimeTravelMod.common.dimension.TimeLine;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumFacing;
@@ -10,6 +11,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+
+import static com.rdvdev2.TimeTravelMod.ModRegistries.timeLines;
 
 public class DimensionTP implements IMessage {
     public DimensionTP(){}
@@ -76,11 +79,24 @@ public class DimensionTP implements IMessage {
                 if (serverPlayer.world.isBlockLoaded(pos) &&
                     tm.isBuilt(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
                     tm.isPlayerInside(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side, serverPlayer) &&
-                    !tm.isOverloaded(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side)){
+                    !tm.isOverloaded(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
+                    canTravel(tm, dim)){
                     serverPlayer.getServer().getPlayerList().transferPlayerToDimension(serverPlayer, dim, new ITeleporterTimeMachine(serverPlayer.getServer().getWorld(dim), serverPlayer.getServer().getWorld(serverPlayer.dimension), tm, pos, side));
                 }
             });
             return null;
+        }
+
+        private boolean canTravel(ITimeMachine tm, int dim) {
+            if (dim == 0) {
+                return true;
+            }
+            for (TimeLine tl:timeLines.getAvailableTimeLines(tm.getTier())) {
+                if (tl.getDimId() == dim) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
