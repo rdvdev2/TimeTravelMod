@@ -3,6 +3,7 @@ gui.tm.error.text=You can't travel to your time line or from nether or end!
 gui.tm.oldwest.text=Old West
 gui.tm.present.text=Present
 item.controllercircuit.name=Controller circuit
+item.creativetimemachine.name=Creative time machine
 item.heavyblock.name=Heavy block
 item.heavyingot.name=Heavy ingot
 item.reinforcedheavyblock.name=Reinforced heavy block

@@ -1,11 +1,16 @@
 package com.rdvdev2.TimeTravelMod.common.networking;
 
+import com.rdvdev2.TimeTravelMod.ModItems;
 import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
 import com.rdvdev2.TimeTravelMod.common.dimension.ITeleporterTimeMachine;
+import com.rdvdev2.TimeTravelMod.common.item.ItemCreativeTimeMachine;
+import com.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineCreative;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -80,14 +85,18 @@ public class DimensionTP implements IMessage {
                     tm.isBuilt(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
                     tm.isPlayerInside(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side, serverPlayer) &&
                     !tm.isOverloaded(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
-                    canTravel(tm, dim)){
+                    canTravel(tm, dim, serverPlayer)){
                     serverPlayer.getServer().getPlayerList().transferPlayerToDimension(serverPlayer, dim, new ITeleporterTimeMachine(serverPlayer.getServer().getWorld(dim), serverPlayer.getServer().getWorld(serverPlayer.dimension), tm, pos, side));
                 }
             });
             return null;
         }
 
-        private boolean canTravel(ITimeMachine tm, int dim) {
+        private boolean canTravel(ITimeMachine tm, int dim, EntityPlayerMP player) {
+            if (tm instanceof TimeMachineCreative) {
+                if (!ItemStack.areItemsEqual(player.inventory.getCurrentItem(), new ItemStack(ModItems.creativeTimeMachine, 1)))
+                    return false;
+            }
             if (dim == 0) {
                 return true;
             }
