@@ -26,7 +26,8 @@ public abstract class BlockTimeMachineComponent extends Block {
     /**
      * The type of Time Machine block this is. The constructor sets this value
      */
-    private static EnumTimeMachineComponentType type;
+    private static EnumTimeMachineComponentType stype;
+    private EnumTimeMachineComponentType type;
 
     /**
      * The Time Machine this block belongs to. This value is automatically set
@@ -48,7 +49,7 @@ public abstract class BlockTimeMachineComponent extends Block {
     }
 
     private static Material prepare(Material material, EnumTimeMachineComponentType ntype) {
-        type = ntype;
+        stype = ntype;
         return material;
     }
 
@@ -71,7 +72,7 @@ public abstract class BlockTimeMachineComponent extends Block {
                                     float hitX,
                                     float hitY,
                                     float hitZ) {
-        if (type == EnumTimeMachineComponentType.CONTROLPANEL) {
+        if (this.type == EnumTimeMachineComponentType.CONTROLPANEL) {
             timeMachine.run(worldIn, playerIn, pos, side);
             return true;
         } else return false;
@@ -96,7 +97,7 @@ public abstract class BlockTimeMachineComponent extends Block {
     // TODO: JavaDoc
     @Override
     public BlockStateContainer createBlockState() {
-        if (type == EnumTimeMachineComponentType.CORE)
+        if (this.stype == EnumTimeMachineComponentType.CORE)
             return new BlockStateContainer(this, ready);
         else
             return new BlockStateContainer(this);
@@ -104,7 +105,7 @@ public abstract class BlockTimeMachineComponent extends Block {
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        if (type == EnumTimeMachineComponentType.CORE) {
+        if (this.type == EnumTimeMachineComponentType.CORE) {
             if (state.getValue(ready)) {
                 return 0;
             } else {
@@ -117,7 +118,7 @@ public abstract class BlockTimeMachineComponent extends Block {
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        if (type == EnumTimeMachineComponentType.CORE)
+        if (this.type == EnumTimeMachineComponentType.CORE)
             if (meta == 0)
                 return blockState.getBaseState().withProperty(ready, true);
             else
@@ -128,14 +129,14 @@ public abstract class BlockTimeMachineComponent extends Block {
 
     @Override
     public boolean hasTileEntity(IBlockState state) {
-        if (type == EnumTimeMachineComponentType.CORE)
+        if (this.type == EnumTimeMachineComponentType.CORE)
             return !state.getValue(ready);
         return false;
     }
 
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
-        if (type == EnumTimeMachineComponentType.CORE)
+        if (this.type == EnumTimeMachineComponentType.CORE)
             if (!state.getValue(ready))
                 return new TileEntityTMCooldown();
             else

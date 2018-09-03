@@ -1,9 +1,6 @@
 {
   "variants": {
-    "ready=true": [
-      { "model": "timetravelmod:timemachinecontrolpanel"}
-    ],
-    "ready=false": [
+    "normal": [
       { "model": "timetravelmod:timemachinecontrolpanel"}
     ]
   }
