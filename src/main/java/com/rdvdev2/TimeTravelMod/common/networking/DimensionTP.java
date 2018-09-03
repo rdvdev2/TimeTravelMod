@@ -3,7 +3,7 @@ package com.rdvdev2.TimeTravelMod.common.networking;
 import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.common.dimension.ITeleporterTimeMachine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
-import com.rdvdev2.TimeTravelMod.common.dimension.TimeLine;
+import com.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumFacing;

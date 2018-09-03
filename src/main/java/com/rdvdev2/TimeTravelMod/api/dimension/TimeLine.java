@@ -1,4 +1,4 @@
-package com.rdvdev2.TimeTravelMod.common.dimension;
+package com.rdvdev2.TimeTravelMod.api.dimension;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.DimensionType;
@@ -6,6 +6,7 @@ import net.minecraft.world.WorldProvider;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
+// TODO: JavaDoc
 public abstract class TimeLine extends WorldProvider {
     private DimensionType DIMENSION_TYPE;
 

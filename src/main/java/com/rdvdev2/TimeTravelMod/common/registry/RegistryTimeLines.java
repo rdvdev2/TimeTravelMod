@@ -1,8 +1,7 @@
 package com.rdvdev2.TimeTravelMod.common.registry;
 
-import com.rdvdev2.TimeTravelMod.TimeTravelMod;
-import com.rdvdev2.TimeTravelMod.common.event.EventRegisterTimeLine;
-import com.rdvdev2.TimeTravelMod.common.dimension.TimeLine;
+import com.rdvdev2.TimeTravelMod.api.event.EventRegisterTimeLine;
+import com.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import net.minecraftforge.common.DimensionManager;
 
 import java.util.Arrays;

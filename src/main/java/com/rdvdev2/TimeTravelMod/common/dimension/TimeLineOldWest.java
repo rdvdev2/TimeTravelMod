@@ -1,5 +1,6 @@
 package com.rdvdev2.TimeTravelMod.common.dimension;
 
+import com.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import net.minecraft.init.Biomes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
