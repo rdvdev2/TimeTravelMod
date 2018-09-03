@@ -63,7 +63,7 @@ public class GuiTimeMachine extends GuiScreen {
         buttons[0] = new GuiButton(0, this.width / 2 -100, (this.height / (buttoncount+1)), I18n.format("gui.tm.present.text"));
         this.buttonList.add(buttons[0]);
         for(int i = 1; i < tls.length+1; i++) {
-            buttons[i] = new GuiButton(i, this.width / 2 -100, (this.height / (buttoncount+1)*(i+1)), I18n.format("gui.tm."+tls[i-1].DIMENSION_TYPE.getName().toLowerCase()+".text"));
+            buttons[i] = new GuiButton(i, this.width / 2 -100, (this.height / (buttoncount+1)*(i+1)), I18n.format("gui.tm."+tls[i-1].getDimensionType().getName().toLowerCase()+".text"));
             buttons[i].enabled=false;
             for (TimeLine tl:atls) {
                 if (tl.getDimId() == tls[i-1].getDimId()) {

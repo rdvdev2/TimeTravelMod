@@ -7,11 +7,11 @@ import net.minecraft.world.WorldProvider;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 public abstract class TimeLine extends WorldProvider {
-    public DimensionType DIMENSION_TYPE;
+    private DimensionType DIMENSION_TYPE;
 
-    public int dimId;
+    private int dimId;
     private int modRegistryId = -1;
-    public int minTier;
+    private int minTier;
 
     public int getDimId() {
         return dimId;
@@ -21,8 +21,11 @@ public abstract class TimeLine extends WorldProvider {
         return minTier;
     }
 
-    public TimeLine() {
+    public TimeLine(int dimId, DimensionType dimType, int minTier) {
         super();
+        this.dimId = dimId;
+        this.DIMENSION_TYPE = dimType;
+        this.minTier = minTier;
     }
 
     public final void setModRegistryId(int id) {
@@ -55,5 +58,9 @@ public abstract class TimeLine extends WorldProvider {
     @Override
     public boolean isSurfaceWorld() {
         return true;
+    }
+
+    public final DimensionType getDimensionType() {
+        return DIMENSION_TYPE;
     }
 }

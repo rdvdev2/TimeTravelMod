@@ -10,15 +10,7 @@ import net.minecraft.world.gen.IChunkGenerator;
 public class TimeLineOldWest extends TimeLine {
 
     public TimeLineOldWest() {
-        super();
-        super.dimId = 20;
-        super.DIMENSION_TYPE = DimensionType.register("OLDWEST", "_oldwest", super.dimId, TimeLineOldWest.class, false);
-        super.minTier = 1;
-    }
-
-    @Override
-    public DimensionType getDimensionType() {
-        return DIMENSION_TYPE;
+        super(20, DimensionType.register("OLDWEST", "_oldwest", 20, TimeLineOldWest.class, false), 1);
     }
 
     public void init() {
