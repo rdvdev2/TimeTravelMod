@@ -1,7 +1,8 @@
-package com.rdvdev2.TimeTravelMod.common.dimension;
+package com.rdvdev2.TimeTravelMod.common.dimension.oldwest;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.rdvdev2.TimeTravelMod.common.dimension.NormalTerrainGenerator;
 import com.rdvdev2.TimeTravelMod.common.worldgen.villages.VillageGenerator;
 import com.rdvdev2.TimeTravelMod.common.worldgen.villages.VillageOldWest;
 import jline.internal.Nullable;

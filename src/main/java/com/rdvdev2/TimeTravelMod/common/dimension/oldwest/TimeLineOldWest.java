@@ -1,4 +1,4 @@
-package com.rdvdev2.TimeTravelMod.common.dimension;
+package com.rdvdev2.TimeTravelMod.common.dimension.oldwest;
 
 import com.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import net.minecraft.init.Biomes;
