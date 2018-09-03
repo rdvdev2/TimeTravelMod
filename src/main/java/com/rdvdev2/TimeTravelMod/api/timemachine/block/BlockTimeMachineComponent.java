@@ -1,15 +1,22 @@
 package com.rdvdev2.TimeTravelMod.api.timemachine.block;
 
+import com.rdvdev2.TimeTravelMod.api.timemachine.entity.TileEntityTMCooldown;
 import com.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+
+import static com.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady.ready;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
@@ -21,7 +28,7 @@ public abstract class BlockTimeMachineComponent extends Block {
     /**
      * The type of Time Machine block this is. The constructor sets this value
      */
-    private EnumTimeMachineComponentType type;
+    private static EnumTimeMachineComponentType type;
 
     /**
      * The Time Machine this block belongs to. This value is automatically set
@@ -34,8 +41,17 @@ public abstract class BlockTimeMachineComponent extends Block {
      * @param type
      */
     public BlockTimeMachineComponent(Material material, EnumTimeMachineComponentType type) {
-        super(material);
+        super(prepare(material, type));
         this.type = type;
+        if (type == EnumTimeMachineComponentType.CORE)
+            setDefaultState(blockState.getBaseState().withProperty(ready, true));
+        else
+            setDefaultState(blockState.getBaseState());
+    }
+
+    private static Material prepare(Material material, EnumTimeMachineComponentType ntype) {
+        type = ntype;
+        return material;
     }
 
     /**
@@ -60,7 +76,7 @@ public abstract class BlockTimeMachineComponent extends Block {
         if (type == EnumTimeMachineComponentType.CONTROLPANEL) {
             timeMachine.run(worldIn, playerIn, pos, side);
             return true;
-        } else {return false;}
+        } else return false;
     }
 
     /**
@@ -77,5 +93,55 @@ public abstract class BlockTimeMachineComponent extends Block {
      */
     public final ITimeMachine getTimeMachine() {
         return timeMachine;
+    }
+
+    // TODO: JavaDoc
+    @Override
+    public BlockStateContainer createBlockState() {
+        if (type == EnumTimeMachineComponentType.CORE)
+            return new BlockStateContainer(this, ready);
+        else
+            return new BlockStateContainer(this);
+    }
+
+    @Override
+    public int getMetaFromState(IBlockState state) {
+        if (type == EnumTimeMachineComponentType.CORE) {
+            if (state.getValue(ready)) {
+                return 0;
+            } else {
+                return 1;
+            }
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
+    public IBlockState getStateFromMeta(int meta) {
+        if (type == EnumTimeMachineComponentType.CORE)
+            if (meta == 0)
+                return blockState.getBaseState().withProperty(ready, true);
+            else
+                return blockState.getBaseState().withProperty(ready, false);
+        else
+            return blockState.getBaseState();
+    }
+
+    @Override
+    public boolean hasTileEntity(IBlockState state) {
+        if (type == EnumTimeMachineComponentType.CORE)
+            return !state.getValue(ready);
+        return false;
+    }
+
+    @Override
+    public TileEntity createTileEntity(World world, IBlockState state) {
+        if (type == EnumTimeMachineComponentType.CORE)
+            if (!state.getValue(ready))
+                return new TileEntityTMCooldown();
+            else
+                throw new RuntimeException("TileEntityTMCooldown can't be created in a ready TM");
+            throw new RuntimeException("TileEntityTMCooldown can be created only in TM Core blocks");
     }
 }

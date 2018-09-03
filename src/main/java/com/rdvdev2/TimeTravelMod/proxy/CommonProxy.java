@@ -1,6 +1,7 @@
 package com.rdvdev2.TimeTravelMod.proxy;
 
 import com.rdvdev2.TimeTravelMod.*;
+import com.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady;
 import com.rdvdev2.TimeTravelMod.common.worldgen.OreGen;
 import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +17,7 @@ public class CommonProxy implements IProxy {
     public void preInit(FMLPreInitializationEvent event) {
         TimeTravelMod.logger = event.getModLog();
         TimeTravelMod.logger.info("Time Travel Mod is in preinit state.");
+        PropertyTMReady.init();
         ModBlocks.init();
         ModItems.init();
         ModRegistries.init();

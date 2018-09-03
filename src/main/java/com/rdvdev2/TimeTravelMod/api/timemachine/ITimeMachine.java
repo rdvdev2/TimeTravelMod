@@ -2,6 +2,7 @@ package com.rdvdev2.TimeTravelMod.api.timemachine;
 
 import com.rdvdev2.TimeTravelMod.ModBlocks;
 import com.rdvdev2.TimeTravelMod.TimeTravelMod;
+import com.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -188,7 +189,7 @@ public interface ITimeMachine {
         for (int i = 0; i < corePos.length; i++) {
             boolean coincidence = false;
             for (int j = 0; j < core.length; j++) {
-                if (world.getBlockState(controllerPos.add(corePos[i])) == core[j]) {coincidence=true; break;}
+                if (world.getBlockState(controllerPos.add(corePos[i])) == core[j].withProperty(PropertyTMReady.ready, true)) {coincidence=true; break;}
             }
             if (!coincidence) {return false;}
         }
@@ -303,6 +304,7 @@ public interface ITimeMachine {
         destroyTM(worldOut, posData);
         worldIn.getChunkProvider().getLoadedChunk(worldIn.getChunkFromBlockCoords(controllerPos).x, worldIn.getChunkFromBlockCoords(controllerPos).z);
         buildTM(worldIn, posData, blockData);
+        doCooldown(worldIn, controllerPos, side);
     }
 
     /**
@@ -357,6 +359,13 @@ public interface ITimeMachine {
     default void buildTM(World world, BlockPos[] posData, IBlockState[] blockData) {
         for (int i = 0; i < posData.length; i++) {
             world.setBlockState(posData[i], blockData[i]);
+        }
+    }
+
+    // TODO: JadaDoc
+    default void doCooldown(World worldIn, BlockPos controllerPos, EnumFacing side) {
+        for (BlockPos block:getCoreBlocksPos(side)) {
+            worldIn.setBlockState(controllerPos.add(block), worldIn.getBlockState(controllerPos.add(block)).withProperty(PropertyTMReady.ready, false));
         }
     }
 }

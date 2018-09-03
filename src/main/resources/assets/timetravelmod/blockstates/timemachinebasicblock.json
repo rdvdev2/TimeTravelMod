@@ -1,6 +1,9 @@
 {
   "variants": {
-    "normal": [
+    "ready=true": [
+      { "model": "timetravelmod:timemachinebasicblock"}
+    ],
+    "ready=false": [
       { "model": "timetravelmod:timemachinebasicblock"}
     ]
   }

@@ -1,5 +1,7 @@
 package com.rdvdev2.TimeTravelMod;
 
+import com.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady;
+import com.rdvdev2.TimeTravelMod.api.timemachine.entity.TileEntityTMCooldown;
 import com.rdvdev2.TimeTravelMod.common.block.BlockTimeCrystalOre;
 import com.rdvdev2.TimeTravelMod.common.block.BlockTimeMachineBasicBlock;
 import com.rdvdev2.TimeTravelMod.common.block.BlockTimeMachineControlPanel;
@@ -11,11 +13,14 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @Mod.EventBusSubscriber(modid = "timetravelmod")
 public class ModBlocks {
@@ -51,6 +56,7 @@ public class ModBlocks {
                     heavyBlock,
                     reinforcedHeavyBlock
             );
+            GameRegistry.registerTileEntity(TileEntityTMCooldown.class, new ResourceLocation("tile.tmcooldown"));
         }
     }
 
