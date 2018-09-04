@@ -25,6 +25,7 @@ public class ModBlocks {
     public static BlockTimeMachineComponent timeMachineControlPanel;
     public static Block heavyBlock;
     public static Block reinforcedHeavyBlock;
+    public static Block temporalExplosion;
 
     public static void init() {
         timeCrystalOre = new BlockTimeCrystalOre();
@@ -34,6 +35,7 @@ public class ModBlocks {
         if (ModConfigs.unimplementedBlocks) {
             heavyBlock = new BlockHeavyBlock();
             reinforcedHeavyBlock = new BlockReinforcedHeavyBlock();
+            temporalExplosion = new BlockTemporalExplosion();
         }
     }
 
@@ -48,9 +50,10 @@ public class ModBlocks {
         if (ModConfigs.unimplementedBlocks) {
             event.getRegistry().registerAll(
                     heavyBlock,
-                    reinforcedHeavyBlock
+                    reinforcedHeavyBlock,
+                    temporalExplosion
             );
-            GameRegistry.registerTileEntity(TileEntityTMCooldown.class, new ResourceLocation("tile.tmcooldown"));
+            GameRegistry.registerTileEntity(TileEntityTMCooldown.class, new ResourceLocation("entity.tmcooldown"));
         }
     }
 
@@ -65,7 +68,8 @@ public class ModBlocks {
         if (ModConfigs.unimplementedBlocks) {
             registerItemBlock(event,
                     heavyBlock,
-                    reinforcedHeavyBlock
+                    reinforcedHeavyBlock,
+                    temporalExplosion
             );
         }
     }
@@ -87,8 +91,10 @@ public class ModBlocks {
         if (ModConfigs.unimplementedBlocks) {
             registerRender(
                     heavyBlock,
-                    reinforcedHeavyBlock
+                    reinforcedHeavyBlock,
+                    temporalExplosion
             );
+
         }
     }
 
