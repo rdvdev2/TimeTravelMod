@@ -3,6 +3,7 @@ package com.rdvdev2.TimeTravelMod.api.timemachine.block;
 import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.entity.TileEntityTMCooldown;
 import com.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
+import com.rdvdev2.TimeTravelMod.common.world.TemporalExplosion;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
@@ -15,6 +16,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
+
+import java.util.Random;
 
 import static com.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady.ready;
 
@@ -34,6 +37,8 @@ public abstract class BlockTimeMachineComponent extends Block {
      */
     private ITimeMachine timeMachine;
 
+    private float randomExplosionChance = 0.001F;
+
     /**
      * The constructor of the block. It's recommended to overwrite it and call super() to set the Time Machine block type.
      * @param material
@@ -51,6 +56,14 @@ public abstract class BlockTimeMachineComponent extends Block {
     private static Material prepare(Material material, EnumTimeMachineComponentType ntype) {
         stype = ntype;
         return material;
+    }
+
+    public float getRandomExplosionChance() {
+        return randomExplosionChance;
+    }
+
+    public void setRandomExplosionChance(float randomExplosionChance) {
+        this.randomExplosionChance = randomExplosionChance;
     }
 
     /**
@@ -142,5 +155,24 @@ public abstract class BlockTimeMachineComponent extends Block {
             else
                 throw new RuntimeException("TileEntityTMCooldown can't be created in a ready TM");
             throw new RuntimeException("TileEntityTMCooldown can be created only in TM Core blocks");
+    }
+
+    public boolean randomExplosion(World world, BlockPos pos, float approtation) {
+        if (this.type == EnumTimeMachineComponentType.CORE) {
+            Random r = new Random();
+            if (r.nextFloat() < randomExplosionChance+approtation) {
+                new TemporalExplosion(world, null, pos, 4.0F).explode();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean randomExplosion(World world, BlockPos pos) {
+        return randomExplosion(world, pos, 0);
+    }
+
+    public boolean forceExplosion(World world, BlockPos pos) {
+        return randomExplosion(world, pos, 1);
     }
 }
