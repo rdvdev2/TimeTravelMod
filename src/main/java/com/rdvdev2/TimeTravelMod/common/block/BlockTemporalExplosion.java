@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class BlockTemporalExplosion extends Block {
     private String name = "temporalexplosion";
-    private DamageSource damage = new DamageSource("temporalerror").setDamageIsAbsolute();
+    public static DamageSource damage = new DamageSource("temporalerror").setDamageIsAbsolute();
 
     public BlockTemporalExplosion() {
         super(Material.PORTAL);
