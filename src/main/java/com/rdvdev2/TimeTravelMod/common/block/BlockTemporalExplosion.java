@@ -1,5 +1,7 @@
 package com.rdvdev2.TimeTravelMod.common.block;
 
+import com.rdvdev2.TimeTravelMod.ModBlocks;
+import com.rdvdev2.TimeTravelMod.ModItems;
 import com.rdvdev2.TimeTravelMod.TimeTravelMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -7,7 +9,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.DamageSource;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -56,5 +61,16 @@ public class BlockTemporalExplosion extends Block {
     @Override
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
         return FULL_BLOCK_AABB.shrink(0.1);
+    }
+
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        if (ItemStack.areItemStacksEqual(playerIn.inventory.getCurrentItem(), new ItemStack(ModBlocks.reinforcedHeavyBlock, playerIn.inventory.getCurrentItem().getCount()))) {
+            if(!playerIn.isCreative()) playerIn.inventory.getCurrentItem().grow(-1);
+            worldIn.setBlockState(pos, ModBlocks.reinforcedHeavyBlock.getDefaultState());
+            worldIn.playSound(null, pos, SoundEvents.BLOCK_METAL_PLACE, SoundCategory.BLOCKS, 3.0F, 1);
+            return true;
+        }
+        return false;
     }
 }
