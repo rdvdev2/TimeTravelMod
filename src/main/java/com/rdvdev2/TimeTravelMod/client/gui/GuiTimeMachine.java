@@ -15,6 +15,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Iterator;
 
 import static com.rdvdev2.TimeTravelMod.ModRegistries.timeLines;
 
@@ -42,7 +45,7 @@ public class GuiTimeMachine extends GuiScreen {
 
     @Override
     public void initGui() {
-        tls = timeLines.getTimeLines();
+        tls = iteratorToArray(timeLines.getTimeLines(), TimeLine.class);
         TimeLine[] atls = timeLines.getAvailableTimeLines(tm.getTier());
         int buttoncount = tls.length+1;
         buttons = new GuiButton[buttoncount];
@@ -88,5 +91,15 @@ public class GuiTimeMachine extends GuiScreen {
         } else {
             this.sendChatMessage(I18n.format("gui.tm.error.text"), false);
         }
+    }
+
+    private <T> T[] iteratorToArray(Iterator<T> iterator, Class<T> clazz) {
+        T[] array = (T[]) Array.newInstance(clazz, 0);
+        while (iterator.hasNext()) {
+            int i = array.length;
+            array = Arrays.copyOf(array, i+1);
+            array[i] = iterator.next();
+        }
+        return array;
     }
 }
