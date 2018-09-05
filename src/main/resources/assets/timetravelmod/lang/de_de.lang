@@ -3,6 +3,7 @@ gui.tm.error.text=Sie können nicht zu Ihrer Zeitlinie oder zu der vom Nether od
 gui.tm.oldwest.text=Alter Westen
 gui.tm.present.text=Gegenwart
 item.controllercircuit.name=Controller-Schaltung
+item.creativetimemachine.name=Erschaffe Zeitmaschine
 item.heavyblock.name=Schwerer Block
 item.heavyingot.name=Schwerer Barren
 item.reinforcedheavyblock.name=Verstärkter Schwerer Block
