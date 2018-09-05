@@ -31,7 +31,6 @@ public class CommonProxy implements IProxy {
         TimeTravelMod.logger.info("Time Travel Mod is in init state.");
         GameRegistry.registerWorldGenerator(new OreGen(), 3);
         ModRecipes.init();
-        ModRegistries.start();
         ModRegistries.timeMachines.link();
     }
 

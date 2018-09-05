@@ -11,6 +11,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.List;
@@ -18,19 +19,7 @@ import java.util.List;
 /**
  * Defines the behaviour and the aspect of a Time Machine
  */
-public abstract class TimeMachine {
-
-    /**
-     * Gets the Time Machine ID in the registry
-     * @return The Time Machine ID in the registry
-     */
-    abstract public int getId();
-
-    /**
-     * Sets the Time Machine ID in the registry
-     * @param id The Time Machine ID in the registry
-     */
-    abstract public void setId(int id);
+public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> {
 
     /**
      * Gets the Time Machine tier

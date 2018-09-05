@@ -6,18 +6,6 @@ public class TimeMachineTier1 extends TimeMachine {
 
     public TimeMachineTier1() {};
 
-    private int id;
-
-    @Override
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Override
-    public int getId() {
-        return this.id;
-    }
-
     public int getTier() {return 1;}
 
     public int[][] coreBlocksPos() {

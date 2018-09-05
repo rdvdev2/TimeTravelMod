@@ -1,6 +1,7 @@
 package com.rdvdev2.TimeTravelMod;
 
 import com.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
+import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import com.rdvdev2.TimeTravelMod.common.registry.RegistryTimeLines;
 import com.rdvdev2.TimeTravelMod.common.registry.RegistryTimeMachines;
 import net.minecraft.util.ResourceLocation;
@@ -21,15 +22,12 @@ public class ModRegistries {
 
     public static RegistryTimeMachines timeMachines;
     public static RegistryTimeLines timeLines;
+    public static IForgeRegistry<TimeMachine> timeMachinesRegistry;
     public static IForgeRegistry<TimeLine> timeLinesRegistry;
 
     public static void init() {
         timeMachines = new RegistryTimeMachines();
         timeLines = new RegistryTimeLines();
-    }
-
-    public static void start() {
-        timeMachines.start();
     }
 
     @SubscribeEvent
@@ -44,6 +42,11 @@ public class ModRegistries {
                             DimensionManager.registerDimension(obj.getDimId(), obj.getDimensionType());
                     }
                 })
+                .create();
+
+        timeMachinesRegistry = new RegistryBuilder<TimeMachine>()
+                .setType(TimeMachine.class)
+                .setName(new ResourceLocation("timetravelmod:timemachines"))
                 .create();
     }
 }

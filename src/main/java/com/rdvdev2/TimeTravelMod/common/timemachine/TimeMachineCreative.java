@@ -9,17 +9,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class TimeMachineCreative extends TimeMachine {
-    private int id;
-
-    @Override
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id = id;
-    }
 
     @Override
     public int getTier() {
