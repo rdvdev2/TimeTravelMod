@@ -3,7 +3,7 @@ package com.rdvdev2.TimeTravelMod;
 import com.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import com.rdvdev2.TimeTravelMod.common.registry.RegistryTimeLines;
-import com.rdvdev2.TimeTravelMod.common.registry.RegistryTimeMachines;
+import com.rdvdev2.TimeTravelMod.common.registry.TimeMachinesCallbacks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.RegistryEvent;
@@ -20,13 +20,11 @@ import javax.annotation.Nullable;
 @Mod.EventBusSubscriber(modid="timetravelmod")
 public class ModRegistries {
 
-    public static RegistryTimeMachines timeMachines;
     public static RegistryTimeLines timeLines;
     public static IForgeRegistry<TimeMachine> timeMachinesRegistry;
     public static IForgeRegistry<TimeLine> timeLinesRegistry;
 
     public static void init() {
-        timeMachines = new RegistryTimeMachines();
         timeLines = new RegistryTimeLines();
     }
 
@@ -47,6 +45,7 @@ public class ModRegistries {
         timeMachinesRegistry = new RegistryBuilder<TimeMachine>()
                 .setType(TimeMachine.class)
                 .setName(new ResourceLocation("timetravelmod:timemachines"))
+                .addCallback(new TimeMachinesCallbacks())
                 .create();
     }
 }

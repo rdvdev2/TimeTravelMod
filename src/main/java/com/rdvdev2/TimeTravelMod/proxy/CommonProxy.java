@@ -3,6 +3,7 @@ package com.rdvdev2.TimeTravelMod.proxy;
 import com.rdvdev2.TimeTravelMod.*;
 import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady;
+import com.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
 import com.rdvdev2.TimeTravelMod.common.worldgen.OreGen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
@@ -11,6 +12,8 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
 public class CommonProxy implements IProxy {
     @Override
@@ -31,7 +34,7 @@ public class CommonProxy implements IProxy {
         TimeTravelMod.logger.info("Time Travel Mod is in init state.");
         GameRegistry.registerWorldGenerator(new OreGen(), 3);
         ModRecipes.init();
-        ModRegistries.timeMachines.link();
+        EVENT_BUS.post(new EventSetTimeMachine());
     }
 
     @Override
