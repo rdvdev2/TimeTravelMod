@@ -1,15 +1,14 @@
 package com.rdvdev2.TimeTravelMod.common.timemachine;
 
 import com.rdvdev2.TimeTravelMod.TimeTravelMod;
-import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
-import net.minecraft.block.state.IBlockState;
+import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TimeMachineCreative implements ITimeMachine {
+public class TimeMachineCreative extends TimeMachine {
     private int id;
 
     @Override

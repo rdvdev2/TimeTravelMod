@@ -1,6 +1,6 @@
 package com.rdvdev2.TimeTravelMod.api.timemachine.block;
 
-import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
+import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.entity.TileEntityTMCooldown;
 import com.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
 import net.minecraft.block.Block;
@@ -32,7 +32,7 @@ public abstract class BlockTimeMachineComponent extends Block {
     /**
      * The Time Machine this block belongs to. This value is automatically set
      */
-    private ITimeMachine timeMachine;
+    private TimeMachine timeMachine;
 
     /**
      * The constructor of the block. It's recommended to overwrite it and call super() to set the Time Machine block type.
@@ -90,7 +90,7 @@ public abstract class BlockTimeMachineComponent extends Block {
      * Returns the Time Machine that belongs to this block
      * @return The compatible Time Machine
      */
-    public final ITimeMachine getTimeMachine() {
+    public final TimeMachine getTimeMachine() {
         return timeMachine;
     }
 

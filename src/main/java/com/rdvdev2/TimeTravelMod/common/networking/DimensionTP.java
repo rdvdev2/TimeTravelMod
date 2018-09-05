@@ -3,12 +3,10 @@ package com.rdvdev2.TimeTravelMod.common.networking;
 import com.rdvdev2.TimeTravelMod.ModItems;
 import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
-import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
+import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import com.rdvdev2.TimeTravelMod.common.dimension.ITeleporterTimeMachine;
-import com.rdvdev2.TimeTravelMod.common.item.ItemCreativeTimeMachine;
 import com.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineCreative;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -23,11 +21,11 @@ public class DimensionTP implements IMessage {
     public DimensionTP(){}
 
     private int dim;
-    private ITimeMachine tm;
+    private TimeMachine tm;
     private BlockPos pos;
     private EnumFacing side;
 
-    public DimensionTP(int dim, ITimeMachine tm, BlockPos pos, EnumFacing side) {
+    public DimensionTP(int dim, TimeMachine tm, BlockPos pos, EnumFacing side) {
         this.dim = dim;
         this.tm = tm;
         this.pos = pos;
@@ -77,7 +75,7 @@ public class DimensionTP implements IMessage {
         public IMessage onMessage(DimensionTP message, MessageContext ctx) {
             EntityPlayerMP serverPlayer = ctx.getServerHandler().player;
             int dim = message.dim;
-            ITimeMachine tm = message.tm;
+            TimeMachine tm = message.tm;
             BlockPos pos = message.pos;
             EnumFacing side = message.side;
             serverPlayer.getServerWorld().addScheduledTask(() -> {
@@ -92,7 +90,7 @@ public class DimensionTP implements IMessage {
             return null;
         }
 
-        private boolean canTravel(ITimeMachine tm, int dim, EntityPlayerMP player) {
+        private boolean canTravel(TimeMachine tm, int dim, EntityPlayerMP player) {
             if (tm instanceof TimeMachineCreative) {
                 if (!ItemStack.areItemsEqual(player.inventory.getCurrentItem(), new ItemStack(ModItems.creativeTimeMachine, 1)))
                     return false;

@@ -1,8 +1,8 @@
 package com.rdvdev2.TimeTravelMod.common.timemachine;
 
-import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
+import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 
-public class TimeMachineTier1 implements ITimeMachine {
+public class TimeMachineTier1 extends TimeMachine {
 
     public TimeMachineTier1() {};
 

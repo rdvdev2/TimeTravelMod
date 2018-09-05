@@ -1,6 +1,6 @@
 package com.rdvdev2.TimeTravelMod.api.event;
 
-import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
+import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import com.rdvdev2.TimeTravelMod.common.registry.RegistryTimeMachines;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
@@ -21,7 +21,7 @@ public class EventRegisterTimeMachine extends Event {
      * @param tm The time machine to be registered
      * @return Returns the time machine ID in the registry
      */
-    public int register(ITimeMachine tm) {
+    public int register(TimeMachine tm) {
         return registry.register(tm);
     }
 }

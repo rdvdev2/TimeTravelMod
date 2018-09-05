@@ -2,7 +2,7 @@ package com.rdvdev2.TimeTravelMod.client.gui;
 
 import com.rdvdev2.TimeTravelMod.ModPacketHandler;
 import com.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
-import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
+import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import com.rdvdev2.TimeTravelMod.common.networking.DimensionTP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -32,11 +32,11 @@ public class GuiTimeMachine extends GuiScreen {
     TimeLine[] tls;
     private GuiButton[] buttons;
     private EntityPlayer player;
-    private ITimeMachine tm;
+    private TimeMachine tm;
     private BlockPos pos;
     private EnumFacing side;
 
-    public GuiTimeMachine(EntityPlayer player, ITimeMachine tm, BlockPos pos, EnumFacing side){
+    public GuiTimeMachine(EntityPlayer player, TimeMachine tm, BlockPos pos, EnumFacing side){
         this.player = player;
         this.tm = tm;
         this.pos = pos;

@@ -18,49 +18,49 @@ import java.util.List;
 /**
  * Defines the behaviour and the aspect of a Time Machine
  */
-public interface ITimeMachine {
+public abstract class TimeMachine {
 
     /**
      * Gets the Time Machine ID in the registry
      * @return The Time Machine ID in the registry
      */
-    int getId();
+    abstract public int getId();
 
     /**
      * Sets the Time Machine ID in the registry
      * @param id The Time Machine ID in the registry
      */
-    void setId(int id);
+    abstract public void setId(int id);
 
     /**
      * Gets the Time Machine tier
      * @return The Time Machine tier
      */
-    int getTier();
+    abstract public int getTier();
 
     /**
      * Returns the position(s) where must be a TM Core relatively to a compatible Time Machine Controller facing north
      * @return Array of positions where must be a TM Core
      */
-    int[][] coreBlocksPos();
+    abstract public int[][] coreBlocksPos();
 
     /**
      * Returns the position(s) where must be a TM Basic Block or a TM Upgrade relatively to a compatible Time Machine Controller facing north
      * @return Array of positions where must be a TM Basic Block or a TM Upgrade
      */
-    int[][] basicBlocksPos();
+    abstract public int[][] basicBlocksPos();
 
     /**
      * Returns the position(s) where must be air relatively to a compatible Time Machine Controller facing north
      * @return Array of positions where must be air
      */
-    int[][] airBlocksPos();
+    abstract public int[][] airBlocksPos();
 
     /**
      * Returns the valid IBlockState(s) for TM Controller blocks
      * @return Array of valid IBlockStates for TM Controller blocks
      */
-    default IBlockState[] getControllerBlocks() {
+    public IBlockState[] getControllerBlocks() {
         return new IBlockState[]{ModBlocks.timeMachineControlPanel.getDefaultState()};
     }
 
@@ -68,7 +68,7 @@ public interface ITimeMachine {
      * Returns the valid IBlockState(s) for TM Blocks
      * @return Array of valid IBlockStates for TM Blocks
      */
-    default IBlockState[] getCoreBlocks() {
+    public IBlockState[] getCoreBlocks() {
         return new IBlockState[]{ModBlocks.timeMachineCore.getDefaultState()};
     }
 
@@ -76,7 +76,7 @@ public interface ITimeMachine {
      * Returns the valid IBlockState(s) for TM Basic Blocks
      * @return Array of valid IBlockStates for TM Basic Blocks
      */
-    default IBlockState[] getBasicBlocks() {
+    public IBlockState[] getBasicBlocks() {
         return new IBlockState[]{ModBlocks.timeMachineBasicBlock.getDefaultState()};
     }
 
@@ -84,7 +84,7 @@ public interface ITimeMachine {
      * Returns the valid IBlockState(s) for TM Upgrade Blocks
      * @return Array of valid IBlockStates for TM Upgrade Blocks
      */
-    default IBlockState[] getUpgradeBlocks() {
+    public IBlockState[] getUpgradeBlocks() {
         return new IBlockState[]{};
     }
 
@@ -93,7 +93,7 @@ public interface ITimeMachine {
      * @param side Facing of the time machine
      * @return Array of positions where must be a TM Core
      */
-    default BlockPos[] getCoreBlocksPos(EnumFacing side) {
+    public BlockPos[] getCoreBlocksPos(EnumFacing side) {
         return applySide(coreBlocksPos(), side);
     }
 
@@ -102,7 +102,7 @@ public interface ITimeMachine {
      * @param side Facing of the time machine
      * @return Array of positions where must be a TM Basic Block or a TM Upgrade
      */
-    default BlockPos[] getBasicBlocksPos(EnumFacing side) {
+    public BlockPos[] getBasicBlocksPos(EnumFacing side) {
         return applySide(basicBlocksPos(), side);
     }
 
@@ -111,18 +111,18 @@ public interface ITimeMachine {
      * @param side Facing of the time machine
      * @return Array of positions where must be air
      */
-    default BlockPos[] getAirBlocksPos(EnumFacing side) {
+    public BlockPos[] getAirBlocksPos(EnumFacing side) {
         return applySide(airBlocksPos(), side);
     }
 
-    default int getEntityMaxLoad() {
+    public int getEntityMaxLoad() {
         return 1;
     }
     /**
      * Returns all the valid IBlockStates that can be used to build this Time Machine
      * @return Array of vaild IBlockStates
      */
-    default IBlockState[] getBlocks() {
+    public IBlockState[] getBlocks() {
         if (getUpgradeBlocks().length != 0) {
             return (IBlockState[]) ArrayUtils.addAll(ArrayUtils.addAll((IBlockState[]) getControllerBlocks(), (IBlockState[]) getCoreBlocks()), ArrayUtils.addAll((IBlockState[]) getBasicBlocks(), (IBlockState[]) getUpgradeBlocks()));
         } else {
@@ -136,7 +136,7 @@ public interface ITimeMachine {
      * @param side The actual facing of the Time Machine
      * @return An array of BlockPos aligned with the Time Machine facing
      */
-    static BlockPos[] applySide(int[][] input, EnumFacing side){
+    private static BlockPos[] applySide(int[][] input, EnumFacing side){
         BlockPos[] output = new BlockPos[input.length];
         for (int i = 0; i < input.length; i++) {
             switch (side.getName()) {
@@ -164,7 +164,7 @@ public interface ITimeMachine {
      * @param controllerPos The position of the TM Controller
      * @param side The facing of the time machine
      */
-    default void run(World world, EntityPlayer playerIn, BlockPos controllerPos, EnumFacing side) {
+    public void run(World world, EntityPlayer playerIn, BlockPos controllerPos, EnumFacing side) {
         if (isBuilt(world, controllerPos, side) &&
             isPlayerInside(world, controllerPos, side, playerIn) &&
             !isOverloaded(world, controllerPos, side)) {
@@ -179,7 +179,7 @@ public interface ITimeMachine {
      * @param side The facing of the Time Machine
      * @return Returns true if the Time Machine is correctly built
      */
-    default boolean isBuilt(World world, BlockPos controllerPos, EnumFacing side) {
+    public boolean isBuilt(World world, BlockPos controllerPos, EnumFacing side) {
         BlockPos[] corePos = getCoreBlocksPos(side);
         BlockPos[] basicPos = getBasicBlocksPos(side);
         BlockPos[] airPos = getAirBlocksPos(side);
@@ -212,7 +212,7 @@ public interface ITimeMachine {
      * @param side The facing of the Time Machine
      * @return True if the Time Machine is overloaded
      */
-    default boolean isOverloaded(World world, BlockPos controllerPos, EnumFacing side) {
+    public boolean isOverloaded(World world, BlockPos controllerPos, EnumFacing side) {
         return getEntitiesInside(world, controllerPos, side).size() > getEntityMaxLoad();
     }
 
@@ -224,7 +224,7 @@ public interface ITimeMachine {
      * @param player The wanted player
      * @return True if the player is inside the Time Machine
      */
-    default boolean isPlayerInside(World world, BlockPos controllerPos, EnumFacing side, EntityPlayer player) {
+    public boolean isPlayerInside(World world, BlockPos controllerPos, EnumFacing side, EntityPlayer player) {
         System.out.println(getEntitiesInside(world, controllerPos, side));
         for (Entity entity:getEntitiesInside(world, controllerPos, side)){
             System.out.println(entity);
@@ -244,7 +244,7 @@ public interface ITimeMachine {
      * @param side The facing of the Time Machine
      * @return A list with all the Entities inside the Time Machine
      */
-    default List<Entity> getEntitiesInside(World world, BlockPos controllerPos, EnumFacing side) {
+    public final List<Entity> getEntitiesInside(World world, BlockPos controllerPos, EnumFacing side) {
         AxisAlignedBB airSpace = getAirSpace(controllerPos, side);
         System.out.println(airSpace);
         return world.getEntitiesWithinAABB(Entity.class, airSpace);
@@ -256,7 +256,7 @@ public interface ITimeMachine {
      * @param side The facing of the Time Machine
      * @return An AxisAlignedBB of the Time Machine Air Blocks
      */
-    default AxisAlignedBB getAirSpace(BlockPos controllerPos, EnumFacing side) {
+    public AxisAlignedBB getAirSpace(BlockPos controllerPos, EnumFacing side) {
         // Get the air blocks
         BlockPos relativeAirBlocks[] = applySide(airBlocksPos(), side);
         // First block is the min and max block by default
@@ -297,7 +297,7 @@ public interface ITimeMachine {
      * @param controllerPos The position of the TM Controller
      * @param side The facing of the time machine
      */
-    default void teleporterTasks(World worldIn, World worldOut, BlockPos controllerPos, EnumFacing side) {
+    public void teleporterTasks(World worldIn, World worldOut, BlockPos controllerPos, EnumFacing side) {
         BlockPos[] posData = getPosData(controllerPos, side);
         IBlockState[] blockData = getBlockData(worldOut, posData);
         destroyTM(worldOut, posData);
@@ -312,7 +312,7 @@ public interface ITimeMachine {
      * @param side The Time Machine facing
      * @return An array with all the Time Machine blocks positions
      */
-    default BlockPos[] getPosData(BlockPos controllerPos, EnumFacing side) {
+    private BlockPos[] getPosData(BlockPos controllerPos, EnumFacing side) {
         BlockPos[] controllerPosA = new BlockPos[]{new BlockPos(0, 0, 0)};
         BlockPos[] corePos = getCoreBlocksPos(side);
         BlockPos[] basePos = getBasicBlocksPos(side);
@@ -330,7 +330,7 @@ public interface ITimeMachine {
      * @param posData The positions gathered by the getPosData() method
      * @return An array with all the Time Machine blocks IBlockStates
      */
-    default IBlockState[] getBlockData(World world, BlockPos[] posData) {
+    private IBlockState[] getBlockData(World world, BlockPos[] posData) {
         IBlockState[] blockData = new IBlockState[posData.length];
         for (int i = 0; i < blockData.length; i++) {
             blockData[i] = world.getBlockState(posData[i]);
@@ -343,7 +343,7 @@ public interface ITimeMachine {
      * @param world The source world
      * @param posData The positions gathered by the getPosData() method
      */
-    default void destroyTM(World world, BlockPos[] posData) {
+    private void destroyTM(World world, BlockPos[] posData) {
         for (int i = 0; i < posData.length; i++) {
             world.setBlockState(posData[i], Blocks.AIR.getDefaultState());
         }
@@ -355,14 +355,14 @@ public interface ITimeMachine {
      * @param posData The positions gathered by the getPosData() method
      * @param blockData The IBlockStates gathered by the getBlockData() method
      */
-    default void buildTM(World world, BlockPos[] posData, IBlockState[] blockData) {
+    private void buildTM(World world, BlockPos[] posData, IBlockState[] blockData) {
         for (int i = 0; i < posData.length; i++) {
             world.setBlockState(posData[i], blockData[i]);
         }
     }
 
     // TODO: JadaDoc
-    default void doCooldown(World worldIn, BlockPos controllerPos, EnumFacing side) {
+    private void doCooldown(World worldIn, BlockPos controllerPos, EnumFacing side) {
         for (BlockPos block:getCoreBlocksPos(side)) {
             worldIn.setBlockState(controllerPos.add(block), worldIn.getBlockState(controllerPos.add(block)).withProperty(PropertyTMReady.ready, false));
         }
