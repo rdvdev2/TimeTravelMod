@@ -23,8 +23,4 @@ public class RegistryTimeLines {
         }
         return availableTimeLines;
     }
-
-    public Iterator<TimeLine> getTimeLines() {
-        return ModRegistries.timeLinesRegistry.iterator();
-    }
 }

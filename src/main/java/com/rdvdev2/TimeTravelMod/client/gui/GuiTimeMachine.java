@@ -1,6 +1,7 @@
 package com.rdvdev2.TimeTravelMod.client.gui;
 
 import com.rdvdev2.TimeTravelMod.ModPacketHandler;
+import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import com.rdvdev2.TimeTravelMod.common.networking.DimensionTP;
@@ -45,7 +46,7 @@ public class GuiTimeMachine extends GuiScreen {
 
     @Override
     public void initGui() {
-        tls = iteratorToArray(timeLines.getTimeLines(), TimeLine.class);
+        tls = iteratorToArray(ModRegistries.timeLinesRegistry.iterator(), TimeLine.class);
         TimeLine[] atls = timeLines.getAvailableTimeLines(tm.getTier());
         int buttoncount = tls.length+1;
         buttons = new GuiButton[buttoncount];
