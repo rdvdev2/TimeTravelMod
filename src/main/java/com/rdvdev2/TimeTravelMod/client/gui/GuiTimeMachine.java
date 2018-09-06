@@ -5,6 +5,7 @@ import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import com.rdvdev2.TimeTravelMod.common.networking.DimensionTP;
+import com.rdvdev2.TimeTravelMod.common.registry.TimeLinesCallbacks;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
@@ -19,8 +20,6 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Iterator;
-
-import static com.rdvdev2.TimeTravelMod.ModRegistries.timeLines;
 
 @SideOnly(Side.CLIENT)
 public class GuiTimeMachine extends GuiScreen {
@@ -47,7 +46,7 @@ public class GuiTimeMachine extends GuiScreen {
     @Override
     public void initGui() {
         tls = iteratorToArray(ModRegistries.timeLinesRegistry.iterator(), TimeLine.class);
-        TimeLine[] atls = timeLines.getAvailableTimeLines(tm.getTier());
+        TimeLine[] atls = ModRegistries.timeLinesRegistry.getSlaveMap(TimeLinesCallbacks.TIERTOTIMELINE, TimeLine[][].class)[tm.getTier()];
         int buttoncount = tls.length+1;
         buttons = new GuiButton[buttoncount];
         buttons[0] = new GuiButton(0, this.width / 2 -100, (this.height / (buttoncount+1)), I18n.format("gui.tm.present.text"));

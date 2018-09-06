@@ -6,6 +6,7 @@ import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import com.rdvdev2.TimeTravelMod.common.dimension.ITeleporterTimeMachine;
+import com.rdvdev2.TimeTravelMod.common.registry.TimeLinesCallbacks;
 import com.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineCreative;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -16,8 +17,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-
-import static com.rdvdev2.TimeTravelMod.ModRegistries.timeLines;
 
 public class DimensionTP implements IMessage {
     public DimensionTP(){}
@@ -103,7 +102,7 @@ public class DimensionTP implements IMessage {
             if (dim == 0) {
                 return true;
             }
-            for (TimeLine tl:timeLines.getAvailableTimeLines(tm.getTier())) {
+            for (TimeLine tl:ModRegistries.timeLinesRegistry.getSlaveMap(TimeLinesCallbacks.TIERTOTIMELINE, TimeLine[][].class)[tm.getTier()]) {
                 if (tl.getDimId() == dim) {
                     return true;
                 }

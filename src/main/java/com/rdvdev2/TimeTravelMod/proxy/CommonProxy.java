@@ -23,7 +23,6 @@ public class CommonProxy implements IProxy {
         PropertyTMReady.init();
         ModBlocks.init();
         ModItems.init();
-        ModRegistries.init();
         ModTimeMachines.init();
         ModTimeLines.init();
         ModPacketHandler.init();

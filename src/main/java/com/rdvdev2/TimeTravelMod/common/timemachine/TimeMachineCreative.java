@@ -1,7 +1,10 @@
 package com.rdvdev2.TimeTravelMod.common.timemachine;
 
+import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.TimeTravelMod;
+import com.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
+import com.rdvdev2.TimeTravelMod.common.registry.TimeLinesCallbacks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -12,7 +15,7 @@ public class TimeMachineCreative extends TimeMachine {
 
     @Override
     public int getTier() {
-        return 99;
+        return ModRegistries.timeLinesRegistry.getSlaveMap(TimeLinesCallbacks.TIERTOTIMELINE, TimeLine[][].class).length -1;
     }
 
     @Override
