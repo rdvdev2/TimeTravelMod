@@ -182,4 +182,13 @@ public abstract class BlockTimeMachineComponent extends Block {
     public boolean forceExplosion(World world, BlockPos pos) {
         return randomExplosion(world, pos, 1);
     }
+
+    @Override
+    public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, IBlockState state) {
+        if (this.type == EnumTimeMachineComponentType.CORE) {
+            if (!state.getValue(PropertyTMReady.ready)) {
+                forceExplosion(worldIn, pos);
+            }
+        }
+    }
 }
