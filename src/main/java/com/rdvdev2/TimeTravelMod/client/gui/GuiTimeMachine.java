@@ -1,8 +1,9 @@
 package com.rdvdev2.TimeTravelMod.client.gui;
 
 import com.rdvdev2.TimeTravelMod.ModPacketHandler;
+import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
-import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
+import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import com.rdvdev2.TimeTravelMod.common.networking.DimensionTP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -15,8 +16,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
-
-import static com.rdvdev2.TimeTravelMod.ModRegistries.timeLines;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Iterator;
 
 @SideOnly(Side.CLIENT)
 public class GuiTimeMachine extends GuiScreen {
@@ -29,11 +31,11 @@ public class GuiTimeMachine extends GuiScreen {
     TimeLine[] tls;
     private GuiButton[] buttons;
     private EntityPlayer player;
-    private ITimeMachine tm;
+    private TimeMachine tm;
     private BlockPos pos;
     private EnumFacing side;
 
-    public GuiTimeMachine(EntityPlayer player, ITimeMachine tm, BlockPos pos, EnumFacing side){
+    public GuiTimeMachine(EntityPlayer player, TimeMachine tm, BlockPos pos, EnumFacing side){
         this.player = player;
         this.tm = tm;
         this.pos = pos;
@@ -42,8 +44,8 @@ public class GuiTimeMachine extends GuiScreen {
 
     @Override
     public void initGui() {
-        tls = timeLines.getTimeLines();
-        TimeLine[] atls = timeLines.getAvailableTimeLines(tm.getTier());
+        tls = iteratorToArray(ModRegistries.timeLinesRegistry.iterator(), TimeLine.class);
+        TimeLine[] atls = ModRegistries.timeLinesRegistry.getSlaveMap(ModRegistries.TIERTOTIMELINE, TimeLine[][].class)[tm.getTier()];
         int buttoncount = tls.length+1;
         buttons = new GuiButton[buttoncount];
         buttons[0] = new GuiButton(0, this.width / 2 -100, (this.height / (buttoncount+1)), I18n.format("gui.tm.present.text"));
@@ -88,5 +90,15 @@ public class GuiTimeMachine extends GuiScreen {
         } else {
             this.sendChatMessage(I18n.format("gui.tm.error.text"), false);
         }
+    }
+
+    private <T> T[] iteratorToArray(Iterator<T> iterator, Class<T> clazz) {
+        T[] array = (T[]) Array.newInstance(clazz, 0);
+        while (iterator.hasNext()) {
+            int i = array.length;
+            array = Arrays.copyOf(array, i+1);
+            array[i] = iterator.next();
+        }
+        return array;
     }
 }

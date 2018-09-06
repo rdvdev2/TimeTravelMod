@@ -2,7 +2,7 @@ package com.rdvdev2.TimeTravelMod.common.item;
 
 import com.rdvdev2.TimeTravelMod.ModTimeMachines;
 import com.rdvdev2.TimeTravelMod.TimeTravelMod;
-import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
+import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import com.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 
 public class ItemCreativeTimeMachine extends Item {
     private String name = "creativetimemachine";
-    private ITimeMachine timeMachine;
+    private TimeMachine timeMachine;
 
     public ItemCreativeTimeMachine() {
         super();
