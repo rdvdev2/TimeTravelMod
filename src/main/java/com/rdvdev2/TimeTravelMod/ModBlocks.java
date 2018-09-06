@@ -32,11 +32,9 @@ public class ModBlocks {
         timeMachineBasicBlock = new BlockTimeMachineBasicBlock();
         timeMachineCore = new BlockTimeMachineCore();
         timeMachineControlPanel = new BlockTimeMachineControlPanel();
-        if (ModConfigs.unimplementedBlocks) {
-            heavyBlock = new BlockHeavyBlock();
-            reinforcedHeavyBlock = new BlockReinforcedHeavyBlock();
-            temporalExplosion = new BlockTemporalExplosion();
-        }
+        heavyBlock = new BlockHeavyBlock();
+        reinforcedHeavyBlock = new BlockReinforcedHeavyBlock();
+        temporalExplosion = new BlockTemporalExplosion();
     }
 
     @SubscribeEvent
@@ -45,15 +43,11 @@ public class ModBlocks {
                 timeCrystalOre,
                 timeMachineBasicBlock,
                 timeMachineCore,
-                timeMachineControlPanel
+                timeMachineControlPanel,
+                heavyBlock,
+                reinforcedHeavyBlock,
+                temporalExplosion
         );
-        if (ModConfigs.unimplementedBlocks) {
-            event.getRegistry().registerAll(
-                    heavyBlock,
-                    reinforcedHeavyBlock,
-                    temporalExplosion
-            );
-        }
         GameRegistry.registerTileEntity(TileEntityTMCooldown.class, new ResourceLocation("timetravelmod:entity.tmcooldown"));
     }
 
@@ -63,15 +57,11 @@ public class ModBlocks {
                 timeCrystalOre,
                 timeMachineBasicBlock,
                 timeMachineCore,
-                timeMachineControlPanel
+                timeMachineControlPanel,
+                heavyBlock,
+                reinforcedHeavyBlock,
+                temporalExplosion
         );
-        if (ModConfigs.unimplementedBlocks) {
-            registerItemBlock(event,
-                    heavyBlock,
-                    reinforcedHeavyBlock,
-                    temporalExplosion
-            );
-        }
     }
 
     private static void registerItemBlock(RegistryEvent.Register<Item> event, Block... blocks) {
@@ -86,15 +76,11 @@ public class ModBlocks {
                 timeCrystalOre,
                 timeMachineBasicBlock,
                 timeMachineCore,
-                timeMachineControlPanel
-        );
-        if (ModConfigs.unimplementedBlocks) {
-            registerRender(
+                timeMachineControlPanel,
                     heavyBlock,
                     reinforcedHeavyBlock,
                     temporalExplosion
-            );
-        }
+        );
     }
 
     private static void registerRender(Block... blocks) {
