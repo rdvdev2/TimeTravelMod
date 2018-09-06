@@ -53,8 +53,8 @@ public class ModBlocks {
                     reinforcedHeavyBlock,
                     temporalExplosion
             );
-            GameRegistry.registerTileEntity(TileEntityTMCooldown.class, new ResourceLocation("entity.tmcooldown"));
         }
+        GameRegistry.registerTileEntity(TileEntityTMCooldown.class, new ResourceLocation("timetravelmod:entity.tmcooldown"));
     }
 
     @SubscribeEvent
@@ -94,7 +94,6 @@ public class ModBlocks {
                     reinforcedHeavyBlock,
                     temporalExplosion
             );
-
         }
     }
 

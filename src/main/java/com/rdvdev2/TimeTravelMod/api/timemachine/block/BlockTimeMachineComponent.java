@@ -1,6 +1,7 @@
 package com.rdvdev2.TimeTravelMod.api.timemachine.block;
 
-import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
+import com.rdvdev2.TimeTravelMod.ModRegistries;
+import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.entity.TileEntityTMCooldown;
 import com.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
 import com.rdvdev2.TimeTravelMod.common.world.TemporalExplosion;
@@ -12,10 +13,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
+import java.util.HashMap;
 
 import java.util.Random;
 
@@ -35,7 +39,7 @@ public abstract class BlockTimeMachineComponent extends Block {
     /**
      * The Time Machine this block belongs to. This value is automatically set
      */
-    private ITimeMachine timeMachine;
+    private TimeMachine timeMachine;
 
     private float randomExplosionChance = 0.001F;
 
@@ -70,8 +74,10 @@ public abstract class BlockTimeMachineComponent extends Block {
      * Links the block with it's corresponding Time Machine
      * @param event The linking event
      */
+    @SubscribeEvent
     public final void setTimeMachine(EventSetTimeMachine event) {
-        this.timeMachine = event.getTimeMachine(this.getDefaultState());
+        this.timeMachine = ModRegistries.timeMachinesRegistry.getValue(((HashMap<IBlockState, ResourceLocation>) ModRegistries.timeMachinesRegistry.getSlaveMap(ModRegistries.BLOCKTOTM, HashMap.class)).get(getDefaultState()));
+        if (this.timeMachine == null) throw new IllegalArgumentException("This block ("+getDefaultState().toString()+") is not registered in any Time Machine");
     }
 
     @OverridingMethodsMustInvokeSuper
@@ -85,7 +91,8 @@ public abstract class BlockTimeMachineComponent extends Block {
                                     float hitX,
                                     float hitY,
                                     float hitZ) {
-        if (this.type == EnumTimeMachineComponentType.CONTROLPANEL) {
+        if (this.type == EnumTimeMachineComponentType.CONTROLPANEL &&
+                !(side == EnumFacing.UP || side == EnumFacing.DOWN)) {
             timeMachine.run(worldIn, playerIn, pos, side);
             return true;
         } else return false;
@@ -103,7 +110,7 @@ public abstract class BlockTimeMachineComponent extends Block {
      * Returns the Time Machine that belongs to this block
      * @return The compatible Time Machine
      */
-    public final ITimeMachine getTimeMachine() {
+    public final TimeMachine getTimeMachine() {
         return timeMachine;
     }
 

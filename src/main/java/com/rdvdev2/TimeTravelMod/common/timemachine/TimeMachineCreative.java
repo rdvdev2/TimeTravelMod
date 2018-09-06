@@ -1,30 +1,20 @@
 package com.rdvdev2.TimeTravelMod.common.timemachine;
 
+import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.TimeTravelMod;
-import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
-import net.minecraft.block.state.IBlockState;
+import com.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
+import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TimeMachineCreative implements ITimeMachine {
-    private int id;
-
-    @Override
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id = id;
-    }
+public class TimeMachineCreative extends TimeMachine {
 
     @Override
     public int getTier() {
-        return 99;
+        return ModRegistries.timeLinesRegistry.getSlaveMap(ModRegistries.TIERTOTIMELINE, TimeLine[][].class).length -1;
     }
 
     @Override
