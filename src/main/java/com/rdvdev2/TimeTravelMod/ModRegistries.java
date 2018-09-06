@@ -2,6 +2,7 @@ package com.rdvdev2.TimeTravelMod;
 
 import com.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
+import com.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import com.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineCreative;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -26,6 +27,7 @@ public class ModRegistries {
 
     public static IForgeRegistry<TimeMachine> timeMachinesRegistry;
     public static IForgeRegistry<TimeLine> timeLinesRegistry;
+    public static IForgeRegistry<TimeMachineUpgrade> upgradesRegistry;
     public static ResourceLocation TIERTOTIMELINE = new ResourceLocation("timetravelmod:tiertotimeline");
     public static ResourceLocation BLOCKTOTM = new ResourceLocation("timetravelmod:blocktotm");
 
@@ -41,6 +43,11 @@ public class ModRegistries {
                 .setType(TimeMachine.class)
                 .setName(new ResourceLocation("timetravelmod:timemachines"))
                 .addCallback(new TimeMachinesCallbacks())
+                .create();
+
+        upgradesRegistry = new RegistryBuilder<TimeMachineUpgrade>()
+                .setType(TimeMachineUpgrade.class)
+                .setName(new ResourceLocation("timetravelmod:tmupgrades"))
                 .create();
     }
 
