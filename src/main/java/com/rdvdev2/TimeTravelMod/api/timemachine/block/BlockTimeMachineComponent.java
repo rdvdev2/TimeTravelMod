@@ -4,7 +4,6 @@ import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.entity.TileEntityTMCooldown;
 import com.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
-import com.rdvdev2.TimeTravelMod.common.registry.TimeMachinesCallbacks;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
@@ -64,7 +63,7 @@ public abstract class BlockTimeMachineComponent extends Block {
      */
     @SubscribeEvent
     public final void setTimeMachine(EventSetTimeMachine event) {
-        this.timeMachine = ModRegistries.timeMachinesRegistry.getValue(((HashMap<IBlockState, ResourceLocation>) ModRegistries.timeMachinesRegistry.getSlaveMap(TimeMachinesCallbacks.BLOCKTOTM, HashMap.class)).get(getDefaultState()));
+        this.timeMachine = ModRegistries.timeMachinesRegistry.getValue(((HashMap<IBlockState, ResourceLocation>) ModRegistries.timeMachinesRegistry.getSlaveMap(ModRegistries.BLOCKTOTM, HashMap.class)).get(getDefaultState()));
         if (this.timeMachine == null) throw new IllegalArgumentException("This block ("+getDefaultState().toString()+") is not registered in any Time Machine");
     }
 
