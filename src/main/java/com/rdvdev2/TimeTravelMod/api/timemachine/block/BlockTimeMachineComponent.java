@@ -20,7 +20,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.HashMap;
-
 import java.util.Random;
 
 import static com.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady.ready;
@@ -168,6 +167,7 @@ public abstract class BlockTimeMachineComponent extends Block {
         if (this.type == EnumTimeMachineComponentType.CORE) {
             Random r = new Random();
             if (r.nextFloat() < randomExplosionChance+approtation) {
+                world.setBlockToAir(pos);
                 new TemporalExplosion(world, null, pos, 4.0F).explode();
                 return true;
             }

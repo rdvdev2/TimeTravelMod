@@ -2,6 +2,7 @@ package com.rdvdev2.TimeTravelMod.api.timemachine;
 
 import com.rdvdev2.TimeTravelMod.ModBlocks;
 import com.rdvdev2.TimeTravelMod.TimeTravelMod;
+import com.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineComponent;
 import com.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -156,9 +157,20 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
     public void run(World world, EntityPlayer playerIn, BlockPos controllerPos, EnumFacing side) {
         if (isBuilt(world, controllerPos, side) &&
             isPlayerInside(world, controllerPos, side, playerIn) &&
-            !isOverloaded(world, controllerPos, side)) {
-            TimeTravelMod.proxy.displayTMGuiScreen(playerIn, this, controllerPos, side);
+            !isOverloaded(world, controllerPos, side) &&
+            !world.isRemote) {
+            if (!triggerTemporalExplosion(world, controllerPos, side))
+                TimeTravelMod.proxy.displayTMGuiScreen(playerIn, this, controllerPos, side);
         }
+    }
+
+    public boolean triggerTemporalExplosion(World world, BlockPos controllerPos, EnumFacing side) {
+        for (BlockPos pos:getCoreBlocksPos(side)) {
+            BlockTimeMachineComponent core = (BlockTimeMachineComponent)world.getBlockState(controllerPos.add(pos)).getBlock();
+            if (core.randomExplosion(world, controllerPos.add(pos)))
+                return true;
+        }
+        return false;
     }
 
     /**

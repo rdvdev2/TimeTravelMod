@@ -4,8 +4,10 @@ import com.rdvdev2.TimeTravelMod.*;
 import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady;
 import com.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
+import com.rdvdev2.TimeTravelMod.common.networking.OpenTMGUI;
 import com.rdvdev2.TimeTravelMod.common.worldgen.OreGen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -43,6 +45,6 @@ public class CommonProxy implements IProxy {
 
     @Override
     public void displayTMGuiScreen(EntityPlayer player, TimeMachine tm, BlockPos pos, EnumFacing side) {
-
+        ModPacketHandler.INSTANCE.sendTo(new OpenTMGUI(tm, pos, side), (EntityPlayerMP) player);
     }
 }
