@@ -78,7 +78,8 @@ public abstract class BlockTimeMachineComponent extends Block {
                                     float hitX,
                                     float hitY,
                                     float hitZ) {
-        if (this.type == EnumTimeMachineComponentType.CONTROLPANEL) {
+        if (this.type == EnumTimeMachineComponentType.CONTROLPANEL &&
+                !(side == EnumFacing.UP || side == EnumFacing.DOWN)) {
             timeMachine.run(worldIn, playerIn, pos, side);
             return true;
         } else return false;
