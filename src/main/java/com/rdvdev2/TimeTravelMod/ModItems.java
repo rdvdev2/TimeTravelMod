@@ -1,6 +1,8 @@
 package com.rdvdev2.TimeTravelMod;
 
+import com.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
 import com.rdvdev2.TimeTravelMod.common.item.ItemControllerCircuit;
+import com.rdvdev2.TimeTravelMod.common.item.ItemCreativeTimeMachine;
 import com.rdvdev2.TimeTravelMod.common.item.ItemHeavyIngot;
 import com.rdvdev2.TimeTravelMod.common.item.ItemTimeCrystal;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -17,44 +19,45 @@ public class ModItems {
     public static Item timeCrystal;
     public static Item controllerCircuit;
     public static Item heavyIngot;
+    public static Item creativeTimeMachine;
 
     public static void init() {
         timeCrystal = new ItemTimeCrystal();
         controllerCircuit = new ItemControllerCircuit();
-        if (ModConfigs.unimplementedBlocks) {
-            heavyIngot = new ItemHeavyIngot();
-        }
+        heavyIngot = new ItemHeavyIngot();
+        creativeTimeMachine = new ItemCreativeTimeMachine();
     }
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
                 timeCrystal,
-                controllerCircuit
+                controllerCircuit,
+                heavyIngot,
+                creativeTimeMachine
         );
-        if (ModConfigs.unimplementedBlocks) {
-            event.getRegistry().registerAll(
-                    heavyIngot
-            );
-        }
     }
 
     @SubscribeEvent
     public static void registerRenders(ModelRegistryEvent event) {
         registerRender(
                 timeCrystal,
-                controllerCircuit
+                controllerCircuit,
+                heavyIngot,
+                creativeTimeMachine
         );
-        if (ModConfigs.unimplementedBlocks) {
-            registerRender(
-                    heavyIngot
-            );
-        }
     }
 
     private static void registerRender(Item... item) {
         for (int i = 0; i < item.length; i++) {
             ModelLoader.setCustomModelResourceLocation(item[i], 0, new ModelResourceLocation(item[i].getRegistryName(), "inventory"));
+        }
+    }
+
+    @SubscribeEvent
+    public static void linkTimeMachines(EventSetTimeMachine event) {
+        if (ModConfigs.unimplementedBlocks) {
+            ((ItemCreativeTimeMachine)creativeTimeMachine).setTimeMachine(event);
         }
     }
 }

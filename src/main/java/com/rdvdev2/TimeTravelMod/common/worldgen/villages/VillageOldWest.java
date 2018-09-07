@@ -1,6 +1,6 @@
 package com.rdvdev2.TimeTravelMod.common.worldgen.villages;
 
-import com.rdvdev2.TimeTravelMod.ModDimensions;
+import com.rdvdev2.TimeTravelMod.ModTimeLines;
 import com.rdvdev2.TimeTravelMod.api.worldgen.IVillage;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -10,7 +10,7 @@ public class VillageOldWest implements IVillage {
 
     @Override
     public int frequency(World world) {
-        if (world.provider.getDimension() == ModDimensions.OldWestId) {
+        if (world.provider.getDimension() == ModTimeLines.oldWest.getDimId()) {
             return 100;
         } else {
             return 0;

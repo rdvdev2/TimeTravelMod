@@ -1,10 +1,8 @@
 package com.rdvdev2.TimeTravelMod.common.worldgen.villages;
 
 import com.rdvdev2.TimeTravelMod.api.worldgen.IVillage;
-import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import org.apache.commons.lang3.ArrayUtils;

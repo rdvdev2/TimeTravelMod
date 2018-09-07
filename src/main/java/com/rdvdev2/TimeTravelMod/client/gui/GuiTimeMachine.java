@@ -1,9 +1,10 @@
 package com.rdvdev2.TimeTravelMod.client.gui;
 
-import com.rdvdev2.TimeTravelMod.ModDimensions;
 import com.rdvdev2.TimeTravelMod.ModPacketHandler;
+import com.rdvdev2.TimeTravelMod.ModRegistries;
+import com.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
+import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import com.rdvdev2.TimeTravelMod.common.networking.DimensionTP;
-import com.rdvdev2.TimeTravelMod.api.timemachine.ITimeMachine;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
@@ -15,19 +16,26 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Iterator;
 
 @SideOnly(Side.CLIENT)
 public class GuiTimeMachine extends GuiScreen {
 
+    /*
     private GuiButton ButtonPresent;
     private GuiButton ButtonOldWest;
     private int buttons = 2;
+    */
+    TimeLine[] tls;
+    private GuiButton[] buttons;
     private EntityPlayer player;
-    private ITimeMachine tm;
+    private TimeMachine tm;
     private BlockPos pos;
     private EnumFacing side;
 
-    public GuiTimeMachine(EntityPlayer player, ITimeMachine tm, BlockPos pos, EnumFacing side){
+    public GuiTimeMachine(EntityPlayer player, TimeMachine tm, BlockPos pos, EnumFacing side){
         this.player = player;
         this.tm = tm;
         this.pos = pos;
@@ -36,16 +44,21 @@ public class GuiTimeMachine extends GuiScreen {
 
     @Override
     public void initGui() {
-        ButtonPresent = new GuiButton(0, this.width / 2 -100, (this.height / (buttons+1))*1, I18n.format("gui.tm.present.text"));
-        ButtonOldWest = new GuiButton(1, this.width / 2 -100, (this.height / (buttons+1))*2, I18n.format("gui.tm.oldwest.text"));
-        this.buttonList.add(ButtonPresent);
-        this.buttonList.add(ButtonOldWest);
-
-        switch (tm.getTier()){
-            case 0:
-                ButtonOldWest.enabled=false;
-            case 1:
-                break;
+        tls = iteratorToArray(ModRegistries.timeLinesRegistry.iterator(), TimeLine.class);
+        TimeLine[] atls = ModRegistries.timeLinesRegistry.getSlaveMap(ModRegistries.TIERTOTIMELINE, TimeLine[][].class)[tm.getTier()];
+        int buttoncount = tls.length+1;
+        buttons = new GuiButton[buttoncount];
+        buttons[0] = new GuiButton(0, this.width / 2 -100, (this.height / (buttoncount+1)), I18n.format("gui.tm.present.text"));
+        this.buttonList.add(buttons[0]);
+        for(int i = 1; i < tls.length+1; i++) {
+            buttons[i] = new GuiButton(i, this.width / 2 -100, (this.height / (buttoncount+1)*(i+1)), I18n.format("gui.tm."+tls[i-1].getDimensionType().getName().toLowerCase()+".text"));
+            buttons[i].enabled=false;
+            for (TimeLine tl:atls) {
+                if (tl.getDimId() == tls[i-1].getDimId()) {
+                    buttons[i].enabled=true;
+                }
+            }
+            this.buttonList.add(buttons[i]);
         }
     }
 
@@ -65,19 +78,27 @@ public class GuiTimeMachine extends GuiScreen {
     public void actionPerformed(GuiButton button) throws IOException {
         this.mc.displayGuiScreen(null);
         int id;
-        if (button == ButtonPresent) {
+        if (button.id == 0) {
             id = 0;
-        }
-        else if (button == ButtonOldWest) {
-            id = ModDimensions.OldWestId;
+        } else if (1 <= button.id && button.id <= tls.length) {
+            id = tls[button.id - 1].getDimId();
         } else {
             id = -1;
         }
-
         if (id != player.dimension && player.dimension != 1 && player.dimension != -1) {
             ModPacketHandler.INSTANCE.sendToServer(new DimensionTP(id, tm, pos, side));
         } else {
             this.sendChatMessage(I18n.format("gui.tm.error.text"), false);
         }
+    }
+
+    private <T> T[] iteratorToArray(Iterator<T> iterator, Class<T> clazz) {
+        T[] array = (T[]) Array.newInstance(clazz, 0);
+        while (iterator.hasNext()) {
+            int i = array.length;
+            array = Arrays.copyOf(array, i+1);
+            array[i] = iterator.next();
+        }
+        return array;
     }
 }

@@ -2,11 +2,12 @@
   "homepage": "https://minecraft.curseforge.com/projects/time-travel-mod/files",
   "1.12.2": {
     "1.12.2-0.0.0.96": "First public alpha relase!",
-    "1.12.2-0.0.1.0": "The time machine is now available by default. Old west is a big desert.",
-    "1.12.2-0.0.1.29":  "Mod is now server compatible. No more first travel crashes."
+    "1.12.2-0.0.1.0":  "The time machine is now available by default. Old west is a big desert.",
+    "1.12.2-0.0.1.29": "Mod is now server compatible. No more first travel crashes.",
+    "1.12.2-0.1.0.3":  "German translations! First API and some interesting internal work. Wait for updates..."
   },
   "promos": {
-    "1.12.2-latest": "1.12.2-0.0.1.29",
-    "1.12.2-recommended": "1.12.2-0.0.1.29"
+    "1.12.2-latest":      "1.12.2-0.1.0.3",
+    "1.12.2-recommended": "1.12.2-0.1.0.3"
   }
 }
