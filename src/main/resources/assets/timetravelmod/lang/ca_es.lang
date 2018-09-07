@@ -1,11 +1,14 @@
 #X-Generator: crowdin.com
+death.attack.temporalerror=%s està jugant massa amb el temps
 gui.tm.error.text=No pots viatjar a la teva línia temporal o des de el món inferior o el fi!
 gui.tm.oldwest.text=Vell Oest
 gui.tm.present.text=Present
 item.controllercircuit.name=Circuit controlador
+item.creativetimemachine.name=Màquina del temps (Creatiu)
 item.heavyblock.name=Bloc pesat
 item.heavyingot.name=Lingot pesat
 item.reinforcedheavyblock.name=Bloc pesat reforçat
+item.temporalexplosion.name=Explosió temporal
 item.timecrystal.name=Cristall del temps
 item.timecrystalore.name=Mena de cristall del temps
 item.timemachinebasicblock.name=Bloc bàsic de màquina del temps
@@ -13,6 +16,7 @@ item.timemachinecontrolpanel.name=Tauler de control de màquina del temps
 item.timemachinecore.name=Nucli de màquina del temps
 tile.heavyblock.name=Bloc pesat
 tile.reinforcedheavyblock.name=Bloc pesat reforçat
+tile.temporalexplosion.name=Explosió temporal
 tile.timecrystalore.name=Mena de cristall del temps
 tile.timemachinebasicblock.name=Bloc bàsic de màquina del temps
 tile.timemachinecontrolpanel.name=Tauler de control de màquina del temps
