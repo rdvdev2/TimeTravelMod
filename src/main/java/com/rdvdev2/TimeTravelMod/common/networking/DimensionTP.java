@@ -5,6 +5,7 @@ import com.rdvdev2.TimeTravelMod.ModItems;
 import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
+import com.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHookRunner;
 import com.rdvdev2.TimeTravelMod.common.dimension.ITeleporterTimeMachine;
 import com.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineCreative;
 import io.netty.buffer.ByteBuf;
@@ -27,7 +28,7 @@ public class DimensionTP implements IMessage {
 
     public DimensionTP(int dim, TimeMachine tm, BlockPos pos, EnumFacing side) {
         this.dim = dim;
-        this.tm = tm;
+        this.tm = tm instanceof TimeMachineHookRunner ? ((TimeMachineHookRunner)tm).removeHooks() : tm;
         this.pos = pos;
         this.side = side;
     }
@@ -78,9 +79,9 @@ public class DimensionTP implements IMessage {
         public IMessage onMessage(DimensionTP message, MessageContext ctx) {
             EntityPlayerMP serverPlayer = ctx.getServerHandler().player;
             int dim = message.dim;
-            TimeMachine tm = message.tm;
             BlockPos pos = message.pos;
             EnumFacing side = message.side;
+            TimeMachine tm = message.tm.hook(serverPlayer.world, pos, side);
             serverPlayer.getServerWorld().addScheduledTask(() -> {
                 if (serverPlayer.world.isBlockLoaded(pos) &&
                     tm.isBuilt(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&

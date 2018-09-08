@@ -3,6 +3,7 @@ package com.rdvdev2.TimeTravelMod.api.timemachine.block;
 import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.entity.TileEntityTMCooldown;
+import com.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHookRunner;
 import com.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import com.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
 import com.rdvdev2.TimeTravelMod.common.world.TemporalExplosion;
@@ -99,7 +100,8 @@ public abstract class BlockTimeMachineComponent extends Block {
                                     float hitZ) {
         if (this.type == EnumTimeMachineComponentType.CONTROLPANEL &&
                 !(side == EnumFacing.UP || side == EnumFacing.DOWN)) {
-            timeMachine.run(worldIn, playerIn, pos, side);
+            TimeMachineHookRunner hookRunner = timeMachine.hook(worldIn, pos, side);
+            hookRunner.run(worldIn, playerIn, pos, side);
             return true;
         } else return false;
     }
