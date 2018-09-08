@@ -18,6 +18,10 @@ public class TimeMachineHookRunner extends TimeMachine {
         this.upgrades = upgrades;
     }
 
+    public TimeMachine removeHooks() {
+        return this.tm;
+    }
+
     @Override
     public int getTier() {
         return tm.getTier();
