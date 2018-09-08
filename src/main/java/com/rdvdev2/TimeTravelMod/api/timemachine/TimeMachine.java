@@ -82,15 +82,19 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      */
     public final IBlockState[] getUpgradeBlocks() {
         BlockTimeMachineComponent[] blocks = new BlockTimeMachineComponent[0];
-        for (TimeMachineUpgrade upgrade:getCompatibleUpgrades()) {
-            HashMap<TimeMachineUpgrade, BlockTimeMachineComponent[]> hm = (HashMap<TimeMachineUpgrade, BlockTimeMachineComponent[]>)ModRegistries.upgradesRegistry.getSlaveMap(ModRegistries.UPGRADETOBLOCK, HashMap.class);
-            blocks = blocks == null ? hm.get(upgrade) : ArrayUtils.addAll(blocks, hm.get(upgrade));
+        try {
+            for (TimeMachineUpgrade upgrade : getCompatibleUpgrades()) {
+                HashMap<TimeMachineUpgrade, BlockTimeMachineComponent[]> hm = (HashMap<TimeMachineUpgrade, BlockTimeMachineComponent[]>) ModRegistries.upgradesRegistry.getSlaveMap(ModRegistries.UPGRADETOBLOCK, HashMap.class);
+                blocks = blocks == null ? hm.get(upgrade) : ArrayUtils.addAll(blocks, hm.get(upgrade));
+            }
+            IBlockState[] states = new IBlockState[0];
+            for (BlockTimeMachineComponent block : blocks) {
+                states = states == null ? new IBlockState[]{block.getDefaultState()} : ArrayUtils.addAll(states, new IBlockState[]{block.getDefaultState()});
+            }
+            return states;
+        } catch (NullPointerException e) {
+            return new IBlockState[]{};
         }
-        IBlockState[] states = new IBlockState[0];
-        for(BlockTimeMachineComponent block: blocks) {
-            states = states == null ? new IBlockState[]{block.getDefaultState()} : ArrayUtils.addAll(states, new IBlockState[]{block.getDefaultState()});
-        }
-        return states;
     }
 
     public final TimeMachineUpgrade[] getCompatibleUpgrades() {
