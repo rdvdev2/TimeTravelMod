@@ -123,4 +123,9 @@ public class TimeMachineHookRunner extends TimeMachine {
     public void teleporterTasks(World worldIn, World worldOut, BlockPos controllerPos, EnumFacing side) {
         tm.teleporterTasks(worldIn, worldOut, controllerPos, side);
     }
+
+    @Override
+    public boolean isCooledDown(World world, BlockPos controllerPos, EnumFacing side) {
+        return tm.isCooledDown(world, controllerPos, side);
+    }
 }
