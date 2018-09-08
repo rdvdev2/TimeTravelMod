@@ -29,15 +29,9 @@ import static com.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady.re
  */
 public abstract class BlockTimeMachineComponent extends Block {
 
-    /**
-     * The type of Time Machine block this is. The constructor sets this value
-     */
     private static EnumTimeMachineComponentType stype;
     private EnumTimeMachineComponentType type;
 
-    /**
-     * The Time Machine this block belongs to. This value is automatically set
-     */
     private TimeMachine timeMachine;
 
     private float randomExplosionChance = 0.001F;
@@ -61,10 +55,18 @@ public abstract class BlockTimeMachineComponent extends Block {
         return material;
     }
 
+    /**
+     * Gets the chance of the Time Machine core to explode
+     * @return The chance (x/1000)
+     */
     public float getRandomExplosionChance() {
         return randomExplosionChance;
     }
 
+    /**
+     * Sets the chance of the Time Machine core to explode
+     * @param randomExplosionChance The chance (1/1000)
+     */
     public void setRandomExplosionChance(float randomExplosionChance) {
         this.randomExplosionChance = randomExplosionChance;
     }
@@ -113,7 +115,6 @@ public abstract class BlockTimeMachineComponent extends Block {
         return timeMachine;
     }
 
-    // TODO: JavaDoc
     @Override
     public BlockStateContainer createBlockState() {
         if (this.stype == EnumTimeMachineComponentType.CORE)
@@ -163,6 +164,13 @@ public abstract class BlockTimeMachineComponent extends Block {
             throw new RuntimeException("TileEntityTMCooldown can be created only in TM Core blocks");
     }
 
+    /**
+     * Triggers a Time Machine core random explosion
+     * @param world The world where the Time Machine core is
+     * @param pos The position of the Time Machine core
+     * @param approtation The extra chance of the Time Machine core to explode (It is summed to the base one)
+     * @return True if the Time Machine core exploded
+     */
     public boolean randomExplosion(World world, BlockPos pos, float approtation) {
         if (this.type == EnumTimeMachineComponentType.CORE) {
             Random r = new Random();
@@ -175,10 +183,22 @@ public abstract class BlockTimeMachineComponent extends Block {
         return false;
     }
 
+    /**
+     * Triggers a Time Machine core random explosion with it's default explosion chance
+     * @param world The world where the Time Machine core is
+     * @param pos The position of the Time Machine core
+     * @return True if the Time Machine core exploded
+     */
     public boolean randomExplosion(World world, BlockPos pos) {
         return randomExplosion(world, pos, 0);
     }
 
+    /**
+     * Trigger a Time Machine core explosion
+     * @param world The world where the Time Machine core is
+     * @param pos The position of the Time Machine core
+     * @return True if the Time Machine core exploded (This should be always true)
+     */
     public boolean forceExplosion(World world, BlockPos pos) {
         return randomExplosion(world, pos, 1);
     }

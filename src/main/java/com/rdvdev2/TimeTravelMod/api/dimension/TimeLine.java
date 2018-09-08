@@ -11,12 +11,19 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
-// TODO: JavaDoc
+/**
+ * This class defines a time line. It's the dimension's world provider. It must be registered in the time line registry instead of the dimension manager.
+ */
 public abstract class TimeLine extends WorldProvider implements IForgeRegistryEntry<TimeLine> {
 
     private TypeToken<TimeLine> token = new TypeToken<TimeLine>(getClass()){};
     private ResourceLocation registryName = null;
 
+    /**
+     * Sets the name of the time line in the registry
+     * @param name The name in the registry (String)
+     * @return The time line
+     */
     public final TimeLine setRegistryName(String name)
     {
         if (getRegistryName() != null)
@@ -26,10 +33,26 @@ public abstract class TimeLine extends WorldProvider implements IForgeRegistryEn
         return (TimeLine) this;
     }
 
-    //Helper functions
+    /**
+     * Sets the name of the time line in the registry
+     * @param name The name in the registry (ResourceLocation)
+     * @return The time line
+     */
     @Override
     public final TimeLine setRegistryName(ResourceLocation name){ return setRegistryName(name.toString()); }
+
+    /**
+     * Sets the name of the time line in the registry
+     * @param modID The modid (String)
+     * @param name The name in the registry (String)
+     * @return
+     */
     public final TimeLine setRegistryName(String modID, String name){ return setRegistryName(modID + ":" + name); }
+
+    /**
+     * Gets the time line registry name
+     * @return The registry name
+     */
     @Override
     @Nullable
     public final ResourceLocation getRegistryName()
@@ -37,6 +60,10 @@ public abstract class TimeLine extends WorldProvider implements IForgeRegistryEn
         return registryName != null ? registryName : null;
     }
 
+    /**
+     * Gets the registry type
+     * @return The registry type class
+     */
     @Override
     public final Class<TimeLine> getRegistryType() { return (Class<TimeLine>) token.getRawType(); };
 
@@ -45,14 +72,28 @@ public abstract class TimeLine extends WorldProvider implements IForgeRegistryEn
     private int dimId;
     private int minTier;
 
+    /**
+     * Gets the dimension id in the game
+     * @return The dimension id
+     */
     public int getDimId() {
         return dimId;
     }
 
+    /**
+     * Gets the minimum Time Machine tier required to travel to this time line
+     * @return The minimum tier
+     */
     public int getMinTier() {
         return minTier;
     }
 
+    /**
+     * Constructor of the Time Line
+     * @param dimId The desired dimension id
+     * @param dimType The desired dimension type
+     * @param minTier The desired minimum tier
+     */
     public TimeLine(int dimId, DimensionType dimType, int minTier) {
         super();
         this.dimId = dimId;
