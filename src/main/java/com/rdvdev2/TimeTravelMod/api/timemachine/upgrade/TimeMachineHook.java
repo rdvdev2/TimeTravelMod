@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 
 public interface TimeMachineHook {
     boolean runOriginal();
-    <T> T run(T original, Object... args);
+    <T> T run(T original, TimeMachineHookRunner tm, Object... args);
 
     interface RunHook extends TimeMachineHook {
         @Override
@@ -16,11 +16,11 @@ public interface TimeMachineHook {
         };
 
         @Override
-        default <T> T run(T original, Object... args) {
-            run((World) args[0], (EntityPlayer) args[1], (BlockPos) args[2], (EnumFacing) args[3]);
+        default <T> T run(T original, TimeMachineHookRunner tm, Object... args) {
+            run(tm, (World) args[0], (EntityPlayer) args[1], (BlockPos) args[2], (EnumFacing) args[3]);
             return null;
         }
 
-        void run(World world, EntityPlayer playerIn, BlockPos controllerPos, EnumFacing side);
+        void run(TimeMachineHookRunner tm, World world, EntityPlayer playerIn, BlockPos controllerPos, EnumFacing side);
     }
 }

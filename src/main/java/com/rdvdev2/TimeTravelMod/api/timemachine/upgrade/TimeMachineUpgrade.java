@@ -33,20 +33,20 @@ public abstract class TimeMachineUpgrade extends IForgeRegistryEntry.Impl<TimeMa
         return maxTier;
     }
 
-    public <T> T runHook(T original, Class<? extends TimeMachineHook> clazz, Object... args) {
+    public <T> T runHook(T original, Class<? extends TimeMachineHook> clazz, TimeMachineHookRunner tm, Object... args) {
         T result = original;
         for (TimeMachineHook hook:this.hooks) {
             if (clazz.isInstance(hook)) {
-                result = hook.run(result, args);
+                result = hook.run(result, tm, args);
             }
         }
         return result;
     }
 
-    public boolean runVoidHook(Class<? extends TimeMachineHook> clazz, Object... args) {
+    public boolean runVoidHook(Class<? extends TimeMachineHook> clazz, TimeMachineHookRunner tm, Object... args) {
         for (TimeMachineHook hook:this.hooks) {
             if (clazz.isInstance(hook)) {
-                hook.run(null, args);
+                hook.run(null, tm, args);
                 return true;
             }
         }
