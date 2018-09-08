@@ -159,7 +159,10 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      * @return A TimeMachineHookRunner with all the upgrades
      */
     public final TimeMachineHookRunner hook(World world, BlockPos controllerPos, EnumFacing side) {
-        return new TimeMachineHookRunner(this, getUpgrades(world, controllerPos, side));
+        if (!(this instanceof TimeMachineHookRunner))
+            return new TimeMachineHookRunner(this, getUpgrades(world, controllerPos, side));
+        else
+            return (TimeMachineHookRunner)this;
     }
 
     /**
