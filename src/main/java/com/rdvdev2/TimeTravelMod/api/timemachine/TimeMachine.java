@@ -3,6 +3,7 @@ package com.rdvdev2.TimeTravelMod.api.timemachine;
 import com.rdvdev2.TimeTravelMod.ModBlocks;
 import com.rdvdev2.TimeTravelMod.TimeTravelMod;
 import com.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineComponent;
+import com.rdvdev2.TimeTravelMod.api.timemachine.block.EnumTimeMachineComponentType;
 import com.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -156,6 +157,7 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      */
     public void run(World world, EntityPlayer playerIn, BlockPos controllerPos, EnumFacing side) {
         if (isBuilt(world, controllerPos, side) &&
+            isCooledDown(world, controllerPos, side) &&
             isPlayerInside(world, controllerPos, side, playerIn) &&
             !isOverloaded(world, controllerPos, side) &&
             !world.isRemote) {
@@ -181,27 +183,82 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      * @return Returns true if the Time Machine is correctly built
      */
     public boolean isBuilt(World world, BlockPos controllerPos, EnumFacing side) {
-        BlockPos[] corePos = getCoreBlocksPos(side);
-        BlockPos[] basicPos = getBasicBlocksPos(side);
-        BlockPos[] airPos = getAirBlocksPos(side);
-        IBlockState[] core = getCoreBlocks();
-        IBlockState[] base = ArrayUtils.addAll(getBasicBlocks(), getUpgradeBlocks());
-        for (int i = 0; i < corePos.length; i++) {
+        if (isComponentTypeBuilt(EnumTimeMachineComponentType.CORE, world, controllerPos, side) &&
+            isComponentTypeBuilt(EnumTimeMachineComponentType.BASIC, world, controllerPos, side)) {
+            BlockPos[] airPos = getAirBlocksPos(side);
+            for (int i = 0; i < airPos.length; i++) {
+                if (world.getBlockState(controllerPos.add(airPos[i])) != Blocks.AIR.getDefaultState()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks if a particular component of the Time Machine is correctly built (Doesn't check if the core is cooled down)
+     * @param type The component type
+     * @param world The world where the Time Machine is built
+     * @param controllerPos The position of the Time Machine controller
+     * @param side The Time Machine facing
+     * @return True if the component is correctly built
+     */
+    public final boolean isComponentTypeBuilt(EnumTimeMachineComponentType type, World world, BlockPos controllerPos, EnumFacing side) {
+        BlockPos[] positions;
+        IBlockState[] states;
+
+        switch (type) {
+            case CORE:
+                positions = getCoreBlocksPos(side);
+                states = getCoreBlocks();
+                break;
+            case BASIC:
+            case UPGRADE:
+                positions = getBasicBlocksPos(side);
+                states = ArrayUtils.addAll(getBasicBlocks(), getUpgradeBlocks());
+                break;
+            case CONTROLPANEL:
+                positions = new BlockPos[]{new BlockPos(0, 0, 0)};
+                states = getControllerBlocks();
+                break;
+            default:
+                throw new IllegalArgumentException("EnumMachineComponentType can't be null");
+        }
+
+        for (BlockPos pos:positions) {
             boolean coincidence = false;
-            for (int j = 0; j < core.length; j++) {
-                if (world.getBlockState(controllerPos.add(corePos[i])) == core[j].withProperty(PropertyTMReady.ready, true)) {coincidence=true; break;}
+            for (IBlockState state:states) {
+                if (type == EnumTimeMachineComponentType.CORE ?
+                        world.getBlockState(controllerPos.add(pos)).withProperty(PropertyTMReady.ready, true) == state.withProperty(PropertyTMReady.ready, true) :
+                        world.getBlockState(controllerPos.add(pos)) == state) {
+                    coincidence = true;
+                    break;
+                }
             }
             if (!coincidence) {return false;}
         }
-        for (int i = 0; i < basicPos.length; i++) {
+        return true;
+    }
+
+    /**
+     * Checks if all the Time Machine cores are cooled down
+     * @param world The world where the Time Machine is built
+     * @param controllerPos The position of the Time Machine controller
+     * @param side The Time Machine facing
+     * @return False if any of the cores is not cooled down
+     */
+    public boolean isCooledDown(World world, BlockPos controllerPos, EnumFacing side) {
+        for(BlockPos pos:getCoreBlocksPos(side)) {
             boolean coincidence = false;
-            for (int j = 0; j < base.length; j++) {
-                if (world.getBlockState(controllerPos.add(basicPos[i])) == base[j]) {coincidence=true; break;}
+            for(IBlockState state:getCoreBlocks()) {
+                if(world.getBlockState(controllerPos.add(pos)) == state.withProperty(PropertyTMReady.ready, true)) {
+                    coincidence = true;
+                    break;
+                }
             }
-            if (!coincidence) {return false;}
-        }
-        for (int i = 0; i < airPos.length; i++) {
-            if (world.getBlockState(controllerPos.add(airPos[i])) != Blocks.AIR.getDefaultState()) {return false;}
+            if(!coincidence)
+                return false;
         }
         return true;
     }
