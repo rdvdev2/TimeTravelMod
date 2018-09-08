@@ -5,6 +5,8 @@ import com.rdvdev2.TimeTravelMod.TimeTravelMod;
 import com.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineComponent;
 import com.rdvdev2.TimeTravelMod.api.timemachine.block.EnumTimeMachineComponentType;
 import com.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady;
+import com.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHookRunner;
+import com.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +18,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -146,6 +149,41 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
             }
         }
         return output;
+    }
+
+    /**
+     * Checks the Time Machine upgrades and returns the correct TimeMachineHookRunner
+     * @param world The world where the Time Machine is built
+     * @param controllerPos The position of the Time Machine controller
+     * @param side The facing of the Time Machine
+     * @return A TimeMachineHookRunner with all the upgrades
+     */
+    public final TimeMachineHookRunner hook(World world, BlockPos controllerPos, EnumFacing side) {
+        return new TimeMachineHookRunner(this, getUpgrades(world, controllerPos, side));
+    }
+
+    /**
+     * Checks all the Time Machine upgrades applied to the Time Machine
+     * @param world The world where the Time Machine is built
+     * @param controllerPos The position of the Time Machine controller
+     * @param side The facing of the Time Machine
+     * @return An array of Time Machine upgrades that are applied to this Time Machine
+     */
+    public final TimeMachineUpgrade[] getUpgrades(World world, BlockPos controllerPos, EnumFacing side) {
+        TimeMachineUpgrade[] upgrades = new TimeMachineUpgrade[0];
+        for (BlockPos pos:getBasicBlocksPos(side))
+            for (IBlockState state:getUpgradeBlocks())
+                if (world.getBlockState(controllerPos.add(pos)) == state) {
+                    try {
+                        int id = upgrades.length;
+                        upgrades = Arrays.copyOf(upgrades, id + 1);
+                        upgrades[id] = ((BlockTimeMachineComponent)state.getBlock()).getUpgrade();
+                    } catch (NullPointerException e) {
+                        upgrades = new TimeMachineUpgrade[]{((BlockTimeMachineComponent)state.getBlock()).getUpgrade()};
+                    }
+                    break;
+                }
+        return upgrades;
     }
 
     /**
