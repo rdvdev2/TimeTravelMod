@@ -79,8 +79,11 @@ public abstract class BlockTimeMachineComponent extends Block {
      */
     @SubscribeEvent
     public final void setTimeMachine(EventSetTimeMachine event) {
-        this.timeMachine = ModRegistries.timeMachinesRegistry.getValue(((HashMap<IBlockState, ResourceLocation>) ModRegistries.timeMachinesRegistry.getSlaveMap(ModRegistries.BLOCKTOTM, HashMap.class)).get(getDefaultState()));
-        if (this.timeMachine == null) throw new IllegalArgumentException("This block ("+getDefaultState().toString()+") is not registered in any Time Machine");
+        if (this.type != EnumTimeMachineComponentType.UPGRADE) { // Time Machine upgrades are not attached to a particular Time Machine
+            this.timeMachine = ModRegistries.timeMachinesRegistry.getValue(((HashMap<IBlockState, ResourceLocation>) ModRegistries.timeMachinesRegistry.getSlaveMap(ModRegistries.BLOCKTOTM, HashMap.class)).get(getDefaultState()));
+            if (this.timeMachine == null)
+                throw new IllegalArgumentException("This block (" + getDefaultState().toString() + ") is not registered in any Time Machine");
+        }
     }
 
     @OverridingMethodsMustInvokeSuper
