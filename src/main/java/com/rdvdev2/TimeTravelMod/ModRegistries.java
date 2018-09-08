@@ -2,6 +2,8 @@ package com.rdvdev2.TimeTravelMod;
 
 import com.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
+import com.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineComponent;
+import com.rdvdev2.TimeTravelMod.api.timemachine.block.EnumTimeMachineComponentType;
 import com.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import com.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineCreative;
 import net.minecraft.block.Block;
@@ -123,6 +125,7 @@ public class ModRegistries {
             if (obj instanceof TimeMachineCreative) return; // Special rule for the creative Time Machine
             if (!blockStateResourceLocationHashMap.containsValue(obj.getRegistryName())) {
                 for(IBlockState block:obj.getBlocks()) {
+                    if (((BlockTimeMachineComponent)block.getBlock()).getType() == EnumTimeMachineComponentType.UPGRADE) continue; // Time Machine Upgrade blocks must be ignored
                     if (!blockStateResourceLocationHashMap.containsKey(block)) {
                         blockStateResourceLocationHashMap.put(block, obj.getRegistryName());
                     } else {
