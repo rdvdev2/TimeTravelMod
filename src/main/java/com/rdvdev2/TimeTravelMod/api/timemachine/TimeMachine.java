@@ -166,6 +166,13 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
         }
     }
 
+    /**
+     * Triggers a Time Machine core explosion in every Time Machine core of this Time Machine
+     * @param world The world of the Time Machine
+     * @param controllerPos The position of the Time Machine controller block
+     * @param side The facing of the Time Machine
+     * @return True if any of the Time Machine cores exploded
+     */
     public boolean triggerTemporalExplosion(World world, BlockPos controllerPos, EnumFacing side) {
         for (BlockPos pos:getCoreBlocksPos(side)) {
             BlockTimeMachineComponent core = (BlockTimeMachineComponent)world.getBlockState(controllerPos.add(pos)).getBlock();
@@ -419,7 +426,12 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
         }
     }
 
-    // TODO: JadaDoc
+    /**
+     * Attaches TileEntityTMCooldown to all Time Machine cores in the Time Machine to start the cooling down phase
+     * @param worldIn The world of the new Time Machine
+     * @param controllerPos The position of the new Time Machine controller block
+     * @param side The facing of the Time Machine
+     */
     public final void doCooldown(World worldIn, BlockPos controllerPos, EnumFacing side) {
         for (BlockPos block:getCoreBlocksPos(side)) {
             worldIn.setBlockState(controllerPos.add(block), worldIn.getBlockState(controllerPos.add(block)).withProperty(PropertyTMReady.ready, false));

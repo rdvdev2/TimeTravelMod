@@ -8,16 +8,24 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-// TODO: JavaDoc
+/**
+ * This TileEntity is attached to non cooled down Time Machine cores and is used to calculate when they are ready
+ */
 public class TileEntityTMCooldown extends TileEntity implements ITickable {
     int remainingTicks;
 
+    /**
+     * Constructor of the TileEntity
+     * @param ticks How many ticks needs this Time Machine core to cool down
+     */
     public TileEntityTMCooldown(int ticks) {
         super();
         this.remainingTicks = ticks;
     }
 
-    // Cooldown time defaults to 20 seconds (20 ticks per second)
+    /**
+     * Default constructor of the TileEntity (20 seconds cool down time)
+     */
     public TileEntityTMCooldown() {
         this(20*20);
     }
