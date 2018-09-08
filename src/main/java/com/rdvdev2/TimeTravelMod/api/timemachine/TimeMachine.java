@@ -126,7 +126,7 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      * @param side The actual facing of the Time Machine
      * @return An array of BlockPos aligned with the Time Machine facing
      */
-    private static BlockPos[] applySide(int[][] input, EnumFacing side){
+    public final static BlockPos[] applySide(int[][] input, EnumFacing side){
         BlockPos[] output = new BlockPos[input.length];
         for (int i = 0; i < input.length; i++) {
             switch (side.getName()) {
@@ -313,7 +313,7 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      * @param side The Time Machine facing
      * @return An array with all the Time Machine blocks positions
      */
-    private BlockPos[] getPosData(BlockPos controllerPos, EnumFacing side) {
+    public final BlockPos[] getPosData(BlockPos controllerPos, EnumFacing side) {
         BlockPos[] controllerPosA = new BlockPos[]{new BlockPos(0, 0, 0)};
         BlockPos[] corePos = getCoreBlocksPos(side);
         BlockPos[] basePos = getBasicBlocksPos(side);
@@ -331,7 +331,7 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      * @param posData The positions gathered by the getPosData() method
      * @return An array with all the Time Machine blocks IBlockStates
      */
-    private IBlockState[] getBlockData(World world, BlockPos[] posData) {
+    public final IBlockState[] getBlockData(World world, BlockPos[] posData) {
         IBlockState[] blockData = new IBlockState[posData.length];
         for (int i = 0; i < blockData.length; i++) {
             blockData[i] = world.getBlockState(posData[i]);
@@ -344,7 +344,7 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      * @param world The source world
      * @param posData The positions gathered by the getPosData() method
      */
-    private void destroyTM(World world, BlockPos[] posData) {
+    public final void destroyTM(World world, BlockPos[] posData) {
         for (int i = 0; i < posData.length; i++) {
             world.setBlockState(posData[i], Blocks.AIR.getDefaultState());
         }
@@ -356,14 +356,14 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      * @param posData The positions gathered by the getPosData() method
      * @param blockData The IBlockStates gathered by the getBlockData() method
      */
-    private void buildTM(World world, BlockPos[] posData, IBlockState[] blockData) {
+    public final void buildTM(World world, BlockPos[] posData, IBlockState[] blockData) {
         for (int i = 0; i < posData.length; i++) {
             world.setBlockState(posData[i], blockData[i]);
         }
     }
 
     // TODO: JadaDoc
-    private void doCooldown(World worldIn, BlockPos controllerPos, EnumFacing side) {
+    public final void doCooldown(World worldIn, BlockPos controllerPos, EnumFacing side) {
         for (BlockPos block:getCoreBlocksPos(side)) {
             worldIn.setBlockState(controllerPos.add(block), worldIn.getBlockState(controllerPos.add(block)).withProperty(PropertyTMReady.ready, false));
         }
