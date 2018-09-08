@@ -1,6 +1,7 @@
 package com.rdvdev2.TimeTravelMod.api.timemachine;
 
 import com.rdvdev2.TimeTravelMod.ModBlocks;
+import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.TimeTravelMod;
 import com.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineComponent;
 import com.rdvdev2.TimeTravelMod.api.timemachine.block.EnumTimeMachineComponentType;
@@ -19,6 +20,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -78,8 +80,21 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      * Returns the valid IBlockState(s) for TM Upgrade Blocks
      * @return Array of valid IBlockStates for TM Upgrade Blocks
      */
-    public IBlockState[] getUpgradeBlocks() {
-        return new IBlockState[]{};
+    public final IBlockState[] getUpgradeBlocks() {
+        BlockTimeMachineComponent[] blocks = new BlockTimeMachineComponent[0];
+        for (TimeMachineUpgrade upgrade:getCompatibleUpgrades()) {
+            HashMap<TimeMachineUpgrade, BlockTimeMachineComponent[]> hm = (HashMap<TimeMachineUpgrade, BlockTimeMachineComponent[]>)ModRegistries.upgradesRegistry.getSlaveMap(ModRegistries.UPGRADETOBLOCK, HashMap.class);
+            blocks = blocks == null ? hm.get(upgrade) : ArrayUtils.addAll(blocks, hm.get(upgrade));
+        }
+        IBlockState[] states = new IBlockState[0];
+        for(BlockTimeMachineComponent block: blocks) {
+            states = states == null ? new IBlockState[]{block.getDefaultState()} : ArrayUtils.addAll(states, new IBlockState[]{block.getDefaultState()});
+        }
+        return states;
+    }
+
+    public final TimeMachineUpgrade[] getCompatibleUpgrades() {
+        return ((HashMap<TimeMachine, TimeMachineUpgrade[]>)ModRegistries.upgradesRegistry.getSlaveMap(ModRegistries.TMTOUPGRADE, HashMap.class)).get(this);
     }
 
     /**

@@ -21,6 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -35,7 +36,6 @@ public abstract class BlockTimeMachineComponent extends Block {
     private EnumTimeMachineComponentType type;
 
     private TimeMachine timeMachine;
-    private TimeMachineUpgrade upgrade;
 
     private float randomExplosionChance = 0.001F;
 
@@ -84,6 +84,17 @@ public abstract class BlockTimeMachineComponent extends Block {
             this.timeMachine = ModRegistries.timeMachinesRegistry.getValue(((HashMap<IBlockState, ResourceLocation>) ModRegistries.timeMachinesRegistry.getSlaveMap(ModRegistries.BLOCKTOTM, HashMap.class)).get(getDefaultState()));
             if (this.timeMachine == null)
                 throw new IllegalArgumentException("This block (" + getDefaultState().toString() + ") is not registered in any Time Machine");
+        } else {
+            HashMap<TimeMachineUpgrade, BlockTimeMachineComponent[]> hm = (HashMap<TimeMachineUpgrade, BlockTimeMachineComponent[]>)ModRegistries.upgradesRegistry.getSlaveMap(ModRegistries.UPGRADETOBLOCK, HashMap.class);
+                if (hm.containsKey(getUpgrade())) {
+                    BlockTimeMachineComponent[] blocks = hm.get(getUpgrade());
+                    int index = blocks.length;
+                    blocks = Arrays.copyOf(blocks, index+1);
+                    blocks[index] = this;
+                    hm.put(getUpgrade(), blocks);
+                } else {
+                    hm.put(getUpgrade(), new BlockTimeMachineComponent[]{this});
+                }
         }
     }
 
@@ -224,18 +235,6 @@ public abstract class BlockTimeMachineComponent extends Block {
      * @return The attached upgrade
      */
     public TimeMachineUpgrade getUpgrade() {
-        if (this.type == EnumTimeMachineComponentType.UPGRADE)
-            return upgrade;
-        throw new RuntimeException("Only Time Machine Upgrade blocks have a TimeMachineUpgrade attached");
-    }
-
-    /**
-     * Attaches an upgrade if the block is a Time Machine Upgrade
-     * @param upgrade The upgrade to attach
-     */
-    public void setUpgrade(TimeMachineUpgrade upgrade) {
-        if (this.type == EnumTimeMachineComponentType.UPGRADE)
-            this.upgrade = upgrade;
-        else throw new RuntimeException("You can only attach TimeMachineUpgrades to Time Machine Upgrade blocks");
+        return null;
     }
 }

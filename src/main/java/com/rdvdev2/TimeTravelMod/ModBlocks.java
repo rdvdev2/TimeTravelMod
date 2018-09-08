@@ -95,7 +95,8 @@ public class ModBlocks {
         linkTimeMachine( event,
                 timeMachineBasicBlock,
                 timeMachineCore,
-                timeMachineControlPanel
+                timeMachineControlPanel,
+                testUpgrades
         );
     }
 

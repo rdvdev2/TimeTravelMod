@@ -1,5 +1,6 @@
 package com.rdvdev2.TimeTravelMod.api.timemachine.upgrade;
 
+import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.util.Arrays;
@@ -8,6 +9,7 @@ public abstract class TimeMachineUpgrade extends IForgeRegistryEntry.Impl<TimeMa
 
     private int maxTier;
     private TimeMachineHook[] hooks;
+    private TimeMachine[] compatibleTMs;
 
     public TimeMachineUpgrade (int maxTier) {
         this.maxTier = maxTier;
@@ -51,5 +53,13 @@ public abstract class TimeMachineUpgrade extends IForgeRegistryEntry.Impl<TimeMa
             }
         }
         return false;
+    }
+
+    public TimeMachine[] getCompatibleTMs() {
+        return compatibleTMs;
+    }
+
+    public void setCompatibleTMs(TimeMachine[] compatibleTMs) {
+        this.compatibleTMs = compatibleTMs;
     }
 }

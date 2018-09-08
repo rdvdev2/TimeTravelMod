@@ -58,11 +58,6 @@ public class TimeMachineHookRunner extends TimeMachine {
     }
 
     @Override
-    public IBlockState[] getUpgradeBlocks() {
-        return tm.getUpgradeBlocks();
-    }
-
-    @Override
     public BlockPos[] getCoreBlocksPos(EnumFacing side) {
         return tm.getCoreBlocksPos(side);
     }

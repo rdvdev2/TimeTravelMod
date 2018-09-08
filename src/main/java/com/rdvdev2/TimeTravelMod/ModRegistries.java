@@ -32,6 +32,8 @@ public class ModRegistries {
     public static IForgeRegistry<TimeMachineUpgrade> upgradesRegistry;
     public static ResourceLocation TIERTOTIMELINE = new ResourceLocation("timetravelmod:tiertotimeline");
     public static ResourceLocation BLOCKTOTM = new ResourceLocation("timetravelmod:blocktotm");
+    public static ResourceLocation TMTOUPGRADE = new ResourceLocation("timetravelmod:tmtoupgrade");
+    public static ResourceLocation UPGRADETOBLOCK = new ResourceLocation("timetravelmod:upgradetoblock");
 
     @SubscribeEvent
     public static void addRegistries(RegistryEvent.NewRegistry event) {
@@ -43,13 +45,14 @@ public class ModRegistries {
 
         timeMachinesRegistry = new RegistryBuilder<TimeMachine>()
                 .setType(TimeMachine.class)
-                .setName(new ResourceLocation("timetravelmod:timemachines"))
+                .setName(new ResourceLocation("timetravelmod:ztimemachines"))
                 .addCallback(new TimeMachinesCallbacks())
                 .create();
 
         upgradesRegistry = new RegistryBuilder<TimeMachineUpgrade>()
                 .setType(TimeMachineUpgrade.class)
                 .setName(new ResourceLocation("timetravelmod:tmupgrades"))
+                .addCallback(new TimeMachineUpgradesCallbacks())
                 .create();
     }
 
@@ -74,7 +77,6 @@ public class ModRegistries {
 
             // Expand the array if there is a new max tier
             if (tierToTimeLineArray.length < obj.getMinTier()+1) {
-                System.out.println("Expanding array");
                 int oldMax = tierToTimeLineArray.length - 1;
                 TimeLine[] oldMaxTLS = null;
                 if (oldMax != -1)
@@ -82,7 +84,6 @@ public class ModRegistries {
                 tierToTimeLineArray = Arrays.copyOf(tierToTimeLineArray, obj.getMinTier() + 1);
                 if (oldMax != -1) {
                     // Copy all the registered TimeLines to the new tiers
-                    System.out.println("Copying old max tier TL's");
                     for (; oldMax < tierToTimeLineArray.length; oldMax++)
                         tierToTimeLineArray[oldMax] = oldMaxTLS;
                 } /*else {
@@ -131,6 +132,36 @@ public class ModRegistries {
                     } else {
                         throw new RuntimeException(obj.getRegistryName()+" tryed to register with block "+block.toString()+", but it is already registered to "+ GameRegistry.findRegistry(Block.class).getValue(blockStateResourceLocationHashMap.get(block)).toString());
                     }
+                }
+            }
+        }
+    }
+
+    public static class TimeMachineUpgradesCallbacks implements IForgeRegistry.CreateCallback<TimeMachineUpgrade>, IForgeRegistry.AddCallback<TimeMachineUpgrade> {
+
+        private HashMap<TimeMachine, TimeMachineUpgrade[]> tmtoupgradehm;
+        private HashMap<TimeMachineUpgrade, BlockTimeMachineComponent[]> upgradetoblockhm;
+
+        @Override
+        public void onCreate(IForgeRegistryInternal<TimeMachineUpgrade> owner, RegistryManager stage) {
+            tmtoupgradehm = new HashMap<>();
+            owner.setSlaveMap(TMTOUPGRADE, tmtoupgradehm);
+            upgradetoblockhm = new HashMap<>();
+            owner.setSlaveMap(UPGRADETOBLOCK, upgradetoblockhm);
+        }
+
+        @Override
+        public void onAdd(IForgeRegistryInternal<TimeMachineUpgrade> owner, RegistryManager stage, int id, TimeMachineUpgrade obj, @Nullable TimeMachineUpgrade oldObj) {
+            tmtoupgradehm = (HashMap<TimeMachine, TimeMachineUpgrade[]>) owner.getSlaveMap(TMTOUPGRADE, HashMap.class);
+            for (TimeMachine tm:obj.getCompatibleTMs()) {
+                if (tmtoupgradehm.containsKey(tm)) {
+                    TimeMachineUpgrade[] upgrades = tmtoupgradehm.get(tm);
+                    int index = upgrades.length;
+                    upgrades = Arrays.copyOf(upgrades, index+1);
+                    upgrades[index] = obj;
+                    tmtoupgradehm.put(tm, upgrades);
+                } else {
+                    tmtoupgradehm.put(tm, new TimeMachineUpgrade[]{obj});
                 }
             }
         }
