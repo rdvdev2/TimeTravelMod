@@ -42,4 +42,14 @@ public abstract class TimeMachineUpgrade extends IForgeRegistryEntry.Impl<TimeMa
         }
         return result;
     }
+
+    public boolean runVoidHook(Class<? extends TimeMachineHook> clazz, Object... args) {
+        for (TimeMachineHook hook:this.hooks) {
+            if (clazz.isInstance(hook)) {
+                hook.run(null, args);
+                return true;
+            }
+        }
+        return false;
+    }
 }

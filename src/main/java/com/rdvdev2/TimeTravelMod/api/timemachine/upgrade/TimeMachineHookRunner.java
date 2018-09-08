@@ -90,8 +90,10 @@ public class TimeMachineHookRunner extends TimeMachine {
     @Override
     public void run(World world, EntityPlayer playerIn, BlockPos controllerPos, EnumFacing side) {
         for(TimeMachineUpgrade upgrade:upgrades) {
-            upgrade.runHook(null, TimeMachineHook.RunHook.class, world, playerIn, controllerPos, side);
+            if (upgrade.runVoidHook(TimeMachineHook.RunHook.class, world, playerIn, controllerPos, side))
+                return;
         }
+        tm.run(world, playerIn, controllerPos, side);
     }
 
     @Override
