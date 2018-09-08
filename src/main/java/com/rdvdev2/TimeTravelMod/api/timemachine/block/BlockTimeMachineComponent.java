@@ -3,6 +3,7 @@ package com.rdvdev2.TimeTravelMod.api.timemachine.block;
 import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.entity.TileEntityTMCooldown;
+import com.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import com.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
 import com.rdvdev2.TimeTravelMod.common.world.TemporalExplosion;
 import net.minecraft.block.Block;
@@ -33,6 +34,7 @@ public abstract class BlockTimeMachineComponent extends Block {
     private EnumTimeMachineComponentType type;
 
     private TimeMachine timeMachine;
+    private TimeMachineUpgrade upgrade;
 
     private float randomExplosionChance = 0.001F;
 
@@ -210,5 +212,25 @@ public abstract class BlockTimeMachineComponent extends Block {
                 forceExplosion(worldIn, pos);
             }
         }
+    }
+
+    /**
+     * Returns the attached upgrade if the block is a Time Machine Upgrade
+     * @return The attached upgrade
+     */
+    public TimeMachineUpgrade getUpgrade() {
+        if (this.type == EnumTimeMachineComponentType.UPGRADE)
+            return upgrade;
+        throw new RuntimeException("Only Time Machine Upgrade blocks have a TimeMachineUpgrade attached");
+    }
+
+    /**
+     * Attaches an upgrade if the block is a Time Machine Upgrade
+     * @param upgrade The upgrade to attach
+     */
+    public void setUpgrade(TimeMachineUpgrade upgrade) {
+        if (this.type == EnumTimeMachineComponentType.UPGRADE)
+            this.upgrade = upgrade;
+        else throw new RuntimeException("You can only attach TimeMachineUpgrades to Time Machine Upgrade blocks");
     }
 }
