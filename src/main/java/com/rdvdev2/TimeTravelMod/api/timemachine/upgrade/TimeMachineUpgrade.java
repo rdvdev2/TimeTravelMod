@@ -7,12 +7,10 @@ import java.util.Arrays;
 
 public abstract class TimeMachineUpgrade extends IForgeRegistryEntry.Impl<TimeMachineUpgrade> {
 
-    private int maxTier;
     private TimeMachineHook[] hooks;
     private TimeMachine[] compatibleTMs;
 
-    public TimeMachineUpgrade (int maxTier) {
-        this.maxTier = maxTier;
+    public TimeMachineUpgrade() {
     }
 
     public void addHook(TimeMachineHook hook) {
@@ -29,10 +27,6 @@ public abstract class TimeMachineUpgrade extends IForgeRegistryEntry.Impl<TimeMa
         for (TimeMachineHook hook:hooks) {
             this.addHook(hook);
         }
-    }
-
-    public int getMaxTier() {
-        return maxTier;
     }
 
     public <T> T runHook(T original, Class<? extends TimeMachineHook> clazz, TimeMachineHookRunner tm, Object... args) {
