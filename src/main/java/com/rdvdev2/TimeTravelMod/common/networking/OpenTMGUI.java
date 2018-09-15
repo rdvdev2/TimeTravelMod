@@ -4,6 +4,7 @@ import com.google.common.base.Charsets;
 import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.TimeTravelMod;
 import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
+import com.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHookRunner;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +24,7 @@ public class OpenTMGUI implements IMessage {
     EnumFacing side;
 
     public OpenTMGUI(TimeMachine tm, BlockPos pos, EnumFacing side) {
-        this.tm = tm;
+        this.tm = tm instanceof TimeMachineHookRunner ? ((TimeMachineHookRunner)tm).removeHooks() : tm;
         this.pos = pos;
         this.side = side;
     }
@@ -71,7 +72,7 @@ public class OpenTMGUI implements IMessage {
         @Override
         public IMessage onMessage(OpenTMGUI message, MessageContext ctx) {
             EntityPlayer player = Minecraft.getMinecraft().player;
-            TimeTravelMod.proxy.displayTMGuiScreen(player, message.tm, message.pos, message.side);
+            TimeTravelMod.proxy.displayTMGuiScreen(player, message.tm.hook(player.world, message.pos, message.side), message.pos, message.side);
             return null;
         }
     }

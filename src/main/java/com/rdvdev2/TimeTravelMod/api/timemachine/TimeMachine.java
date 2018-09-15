@@ -1,9 +1,13 @@
 package com.rdvdev2.TimeTravelMod.api.timemachine;
 
 import com.rdvdev2.TimeTravelMod.ModBlocks;
+import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.TimeTravelMod;
 import com.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineComponent;
+import com.rdvdev2.TimeTravelMod.api.timemachine.block.EnumTimeMachineComponentType;
 import com.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady;
+import com.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHookRunner;
+import com.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,6 +19,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -74,8 +80,25 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      * Returns the valid IBlockState(s) for TM Upgrade Blocks
      * @return Array of valid IBlockStates for TM Upgrade Blocks
      */
-    public IBlockState[] getUpgradeBlocks() {
-        return new IBlockState[]{};
+    public final IBlockState[] getUpgradeBlocks() {
+        BlockTimeMachineComponent[] blocks = new BlockTimeMachineComponent[0];
+        try {
+            for (TimeMachineUpgrade upgrade : getCompatibleUpgrades()) {
+                HashMap<TimeMachineUpgrade, BlockTimeMachineComponent[]> hm = (HashMap<TimeMachineUpgrade, BlockTimeMachineComponent[]>) ModRegistries.upgradesRegistry.getSlaveMap(ModRegistries.UPGRADETOBLOCK, HashMap.class);
+                blocks = blocks == null ? hm.get(upgrade) : ArrayUtils.addAll(blocks, hm.get(upgrade));
+            }
+            IBlockState[] states = new IBlockState[0];
+            for (BlockTimeMachineComponent block : blocks) {
+                states = states == null ? new IBlockState[]{block.getDefaultState()} : ArrayUtils.addAll(states, new IBlockState[]{block.getDefaultState()});
+            }
+            return states;
+        } catch (NullPointerException e) {
+            return new IBlockState[]{};
+        }
+    }
+
+    public final TimeMachineUpgrade[] getCompatibleUpgrades() {
+        return ((HashMap<TimeMachine, TimeMachineUpgrade[]>)ModRegistries.upgradesRegistry.getSlaveMap(ModRegistries.TMTOUPGRADE, HashMap.class)).get(this);
     }
 
     /**
@@ -126,7 +149,7 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      * @param side The actual facing of the Time Machine
      * @return An array of BlockPos aligned with the Time Machine facing
      */
-    private static BlockPos[] applySide(int[][] input, EnumFacing side){
+    public final static BlockPos[] applySide(int[][] input, EnumFacing side){
         BlockPos[] output = new BlockPos[input.length];
         for (int i = 0; i < input.length; i++) {
             switch (side.getName()) {
@@ -148,6 +171,44 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
     }
 
     /**
+     * Checks the Time Machine upgrades and returns the correct TimeMachineHookRunner
+     * @param world The world where the Time Machine is built
+     * @param controllerPos The position of the Time Machine controller
+     * @param side The facing of the Time Machine
+     * @return A TimeMachineHookRunner with all the upgrades
+     */
+    public final TimeMachineHookRunner hook(World world, BlockPos controllerPos, EnumFacing side) {
+        if (!(this instanceof TimeMachineHookRunner))
+            return new TimeMachineHookRunner(this, getUpgrades(world, controllerPos, side));
+        else
+            return (TimeMachineHookRunner)this;
+    }
+
+    /**
+     * Checks all the Time Machine upgrades applied to the Time Machine
+     * @param world The world where the Time Machine is built
+     * @param controllerPos The position of the Time Machine controller
+     * @param side The facing of the Time Machine
+     * @return An array of Time Machine upgrades that are applied to this Time Machine
+     */
+    public final TimeMachineUpgrade[] getUpgrades(World world, BlockPos controllerPos, EnumFacing side) {
+        TimeMachineUpgrade[] upgrades = new TimeMachineUpgrade[0];
+        for (BlockPos pos:getBasicBlocksPos(side))
+            for (IBlockState state:getUpgradeBlocks())
+                if (world.getBlockState(controllerPos.add(pos)) == state) {
+                    try {
+                        int id = upgrades.length;
+                        upgrades = Arrays.copyOf(upgrades, id + 1);
+                        upgrades[id] = ((BlockTimeMachineComponent)state.getBlock()).getUpgrade();
+                    } catch (NullPointerException e) {
+                        upgrades = new TimeMachineUpgrade[]{((BlockTimeMachineComponent)state.getBlock()).getUpgrade()};
+                    }
+                    break;
+                }
+        return upgrades;
+    }
+
+    /**
      * Starts the Time Machine to check if the player can be teleported
      * @param world The player's world
      * @param playerIn The player that triggered the time machine
@@ -156,6 +217,7 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      */
     public void run(World world, EntityPlayer playerIn, BlockPos controllerPos, EnumFacing side) {
         if (isBuilt(world, controllerPos, side) &&
+            isCooledDown(world, controllerPos, side) &&
             isPlayerInside(world, controllerPos, side, playerIn) &&
             !isOverloaded(world, controllerPos, side) &&
             !world.isRemote) {
@@ -188,27 +250,82 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      * @return Returns true if the Time Machine is correctly built
      */
     public boolean isBuilt(World world, BlockPos controllerPos, EnumFacing side) {
-        BlockPos[] corePos = getCoreBlocksPos(side);
-        BlockPos[] basicPos = getBasicBlocksPos(side);
-        BlockPos[] airPos = getAirBlocksPos(side);
-        IBlockState[] core = getCoreBlocks();
-        IBlockState[] base = ArrayUtils.addAll(getBasicBlocks(), getUpgradeBlocks());
-        for (int i = 0; i < corePos.length; i++) {
+        if (isComponentTypeBuilt(EnumTimeMachineComponentType.CORE, world, controllerPos, side) &&
+            isComponentTypeBuilt(EnumTimeMachineComponentType.BASIC, world, controllerPos, side)) {
+            BlockPos[] airPos = getAirBlocksPos(side);
+            for (int i = 0; i < airPos.length; i++) {
+                if (world.getBlockState(controllerPos.add(airPos[i])) != Blocks.AIR.getDefaultState()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks if a particular component of the Time Machine is correctly built (Doesn't check if the core is cooled down)
+     * @param type The component type
+     * @param world The world where the Time Machine is built
+     * @param controllerPos The position of the Time Machine controller
+     * @param side The Time Machine facing
+     * @return True if the component is correctly built
+     */
+    public final boolean isComponentTypeBuilt(EnumTimeMachineComponentType type, World world, BlockPos controllerPos, EnumFacing side) {
+        BlockPos[] positions;
+        IBlockState[] states;
+
+        switch (type) {
+            case CORE:
+                positions = getCoreBlocksPos(side);
+                states = getCoreBlocks();
+                break;
+            case BASIC:
+            case UPGRADE:
+                positions = getBasicBlocksPos(side);
+                states = ArrayUtils.addAll(getBasicBlocks(), getUpgradeBlocks());
+                break;
+            case CONTROLPANEL:
+                positions = new BlockPos[]{new BlockPos(0, 0, 0)};
+                states = getControllerBlocks();
+                break;
+            default:
+                throw new IllegalArgumentException("EnumMachineComponentType can't be null");
+        }
+
+        for (BlockPos pos:positions) {
             boolean coincidence = false;
-            for (int j = 0; j < core.length; j++) {
-                if (world.getBlockState(controllerPos.add(corePos[i])) == core[j].withProperty(PropertyTMReady.ready, true)) {coincidence=true; break;}
+            for (IBlockState state:states) {
+                if (type == EnumTimeMachineComponentType.CORE ?
+                        world.getBlockState(controllerPos.add(pos)).withProperty(PropertyTMReady.ready, true) == state.withProperty(PropertyTMReady.ready, true) :
+                        world.getBlockState(controllerPos.add(pos)) == state) {
+                    coincidence = true;
+                    break;
+                }
             }
             if (!coincidence) {return false;}
         }
-        for (int i = 0; i < basicPos.length; i++) {
+        return true;
+    }
+
+    /**
+     * Checks if all the Time Machine cores are cooled down
+     * @param world The world where the Time Machine is built
+     * @param controllerPos The position of the Time Machine controller
+     * @param side The Time Machine facing
+     * @return False if any of the cores is not cooled down
+     */
+    public boolean isCooledDown(World world, BlockPos controllerPos, EnumFacing side) {
+        for(BlockPos pos:getCoreBlocksPos(side)) {
             boolean coincidence = false;
-            for (int j = 0; j < base.length; j++) {
-                if (world.getBlockState(controllerPos.add(basicPos[i])) == base[j]) {coincidence=true; break;}
+            for(IBlockState state:getCoreBlocks()) {
+                if(world.getBlockState(controllerPos.add(pos)) == state.withProperty(PropertyTMReady.ready, true)) {
+                    coincidence = true;
+                    break;
+                }
             }
-            if (!coincidence) {return false;}
-        }
-        for (int i = 0; i < airPos.length; i++) {
-            if (world.getBlockState(controllerPos.add(airPos[i])) != Blocks.AIR.getDefaultState()) {return false;}
+            if(!coincidence)
+                return false;
         }
         return true;
     }
@@ -320,7 +437,7 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      * @param side The Time Machine facing
      * @return An array with all the Time Machine blocks positions
      */
-    private BlockPos[] getPosData(BlockPos controllerPos, EnumFacing side) {
+    public final BlockPos[] getPosData(BlockPos controllerPos, EnumFacing side) {
         BlockPos[] controllerPosA = new BlockPos[]{new BlockPos(0, 0, 0)};
         BlockPos[] corePos = getCoreBlocksPos(side);
         BlockPos[] basePos = getBasicBlocksPos(side);
@@ -338,7 +455,7 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      * @param posData The positions gathered by the getPosData() method
      * @return An array with all the Time Machine blocks IBlockStates
      */
-    private IBlockState[] getBlockData(World world, BlockPos[] posData) {
+    public final IBlockState[] getBlockData(World world, BlockPos[] posData) {
         IBlockState[] blockData = new IBlockState[posData.length];
         for (int i = 0; i < blockData.length; i++) {
             blockData[i] = world.getBlockState(posData[i]);
@@ -351,7 +468,7 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      * @param world The source world
      * @param posData The positions gathered by the getPosData() method
      */
-    private void destroyTM(World world, BlockPos[] posData) {
+    public final void destroyTM(World world, BlockPos[] posData) {
         for (int i = 0; i < posData.length; i++) {
             world.setBlockState(posData[i], Blocks.AIR.getDefaultState());
         }
@@ -363,7 +480,7 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      * @param posData The positions gathered by the getPosData() method
      * @param blockData The IBlockStates gathered by the getBlockData() method
      */
-    private void buildTM(World world, BlockPos[] posData, IBlockState[] blockData) {
+    public final void buildTM(World world, BlockPos[] posData, IBlockState[] blockData) {
         for (int i = 0; i < posData.length; i++) {
             world.setBlockState(posData[i], blockData[i]);
         }
@@ -375,7 +492,7 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      * @param controllerPos The position of the new Time Machine controller block
      * @param side The facing of the Time Machine
      */
-    private void doCooldown(World worldIn, BlockPos controllerPos, EnumFacing side) {
+    public final void doCooldown(World worldIn, BlockPos controllerPos, EnumFacing side) {
         for (BlockPos block:getCoreBlocksPos(side)) {
             worldIn.setBlockState(controllerPos.add(block), worldIn.getBlockState(controllerPos.add(block)).withProperty(PropertyTMReady.ready, false));
         }

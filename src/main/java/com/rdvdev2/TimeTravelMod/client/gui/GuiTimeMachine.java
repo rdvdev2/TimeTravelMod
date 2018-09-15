@@ -37,7 +37,7 @@ public class GuiTimeMachine extends GuiScreen {
 
     public GuiTimeMachine(EntityPlayer player, TimeMachine tm, BlockPos pos, EnumFacing side){
         this.player = player;
-        this.tm = tm;
+        this.tm = tm.hook(player.world, pos, side);
         this.pos = pos;
         this.side = side;
     }

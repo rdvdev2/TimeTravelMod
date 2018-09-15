@@ -19,7 +19,7 @@ public class ITeleporterTimeMachine implements ITeleporter {
     public ITeleporterTimeMachine(WorldServer worldIn, WorldServer worldOut, TimeMachine tm, BlockPos controlPos, EnumFacing facing) {
         this.worldIn = worldIn;
         this.worldOut = worldOut;
-        this.tm = tm;
+        this.tm = tm.hook(worldIn, controlPos, facing);
         this.controlPos = controlPos;
         this.facing = facing;
     }
