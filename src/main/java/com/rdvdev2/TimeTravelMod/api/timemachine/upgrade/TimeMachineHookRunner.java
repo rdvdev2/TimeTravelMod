@@ -24,7 +24,11 @@ public class TimeMachineHookRunner extends TimeMachine {
 
     @Override
     public int getTier() {
-        return tm.getTier();
+        int result = tm.getTier();
+        for (TimeMachineUpgrade upgrade:upgrades) {
+            result = upgrade.runHook(result, TimeMachineHook.TierHook.class, this);
+        }
+        return result;
     }
 
     @Override

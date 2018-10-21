@@ -23,4 +23,6 @@ public interface TimeMachineHook {
 
         void run(TimeMachineHookRunner tm, World world, EntityPlayer playerIn, BlockPos controllerPos, EnumFacing side);
     }
+
+    interface TierHook extends TimeMachineHook {}
 }
