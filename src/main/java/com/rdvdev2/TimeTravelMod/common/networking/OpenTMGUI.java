@@ -1,7 +1,6 @@
 package com.rdvdev2.TimeTravelMod.common.networking;
 
 import com.google.common.base.Charsets;
-import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.TimeTravelMod;
 import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHookRunner;
@@ -42,7 +41,7 @@ public class OpenTMGUI implements IMessage {
 
     @Override
     public void toBytes(ByteBuf buf) {
-        String key = ModRegistries.timeMachinesRegistry.getKey(tm).toString();
+        String key = tm.toString();
         buf.writeInt(key.length());
         buf.writeCharSequence(tm.toString(), Charsets.UTF_8);
         writeBlockPos(buf, pos);
