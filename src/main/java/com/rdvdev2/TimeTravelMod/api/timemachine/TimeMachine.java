@@ -13,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -496,5 +497,14 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
         for (BlockPos block:getCoreBlocksPos(side)) {
             worldIn.setBlockState(controllerPos.add(block), worldIn.getBlockState(controllerPos.add(block)).withProperty(PropertyTMReady.ready, false));
         }
+    }
+
+    @Override
+    public String toString() {
+        return ModRegistries.timeMachinesRegistry.getKey(this).toString();
+    }
+
+    public static TimeMachine fromString(String s) {
+        return ModRegistries.timeMachinesRegistry.getValue(new ResourceLocation(s));
     }
 }

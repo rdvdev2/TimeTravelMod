@@ -12,7 +12,6 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -40,7 +39,7 @@ public class DimensionTP implements IMessage {
         buf.writeInt(dim);
         String key = ModRegistries.timeMachinesRegistry.getKey(tm).toString();
         buf.writeInt(key.length());
-        buf.writeCharSequence(ModRegistries.timeMachinesRegistry.getKey(tm).toString(), Charsets.UTF_8);
+        buf.writeCharSequence(tm.toString(), Charsets.UTF_8);
         buf.writeInt(pos.getX());
         buf.writeInt(pos.getY());
         buf.writeInt(pos.getZ());
@@ -51,7 +50,7 @@ public class DimensionTP implements IMessage {
     public void fromBytes(ByteBuf buf) {
         dim = buf.readInt();
         int size = buf.readInt();
-        tm = ModRegistries.timeMachinesRegistry.getValue(new ResourceLocation(buf.readCharSequence(size, Charsets.UTF_8).toString()));
+        tm = TimeMachine.fromString(buf.readCharSequence(size, Charsets.UTF_8).toString());
         pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
         side = intToEnumFacing(buf.readInt());
     }
