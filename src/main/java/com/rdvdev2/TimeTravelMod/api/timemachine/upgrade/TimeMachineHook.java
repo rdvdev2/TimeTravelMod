@@ -29,4 +29,15 @@ public interface TimeMachineHook {
 
         int run(int original, TimeMachineHookRunner tm);
     }
+
+    interface EntityMaxLoadHook extends TimeMachineHook {
+
+        @Override
+        default <T> T run(T original, TimeMachineHookRunner tm, Object... args) {
+            if (original instanceof Integer) return (T) (Integer)run((Integer) original, tm);
+            else throw new IllegalArgumentException("EntityMaxLoadHook takes an int value");
+        }
+
+        int run(int original, TimeMachineHookRunner tm);
+    }
 }

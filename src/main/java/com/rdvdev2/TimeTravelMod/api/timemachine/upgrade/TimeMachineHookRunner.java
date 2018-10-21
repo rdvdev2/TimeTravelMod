@@ -78,7 +78,11 @@ public class TimeMachineHookRunner extends TimeMachine {
 
     @Override
     public int getEntityMaxLoad() {
-        return tm.getEntityMaxLoad();
+        int result = tm.getEntityMaxLoad();
+        for (TimeMachineUpgrade upgrade:upgrades) {
+            result = upgrade.runHook(result, TimeMachineHook.EntityMaxLoadHook.class, this);
+        }
+        return result;
     }
 
     @Override
