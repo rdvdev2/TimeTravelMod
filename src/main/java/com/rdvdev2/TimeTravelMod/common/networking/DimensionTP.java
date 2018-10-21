@@ -37,7 +37,7 @@ public class DimensionTP implements IMessage {
     @Override
     public void toBytes(ByteBuf buf) {
         buf.writeInt(dim);
-        writeString(buf, tm.toString());
+        writeTimeMachine(buf, tm);
         writeBlockPos(buf, pos);
         buf.writeInt(side.getIndex());
     }
@@ -46,7 +46,7 @@ public class DimensionTP implements IMessage {
     public void fromBytes(ByteBuf buf) {
         dim = buf.readInt();
         int size = buf.readInt();
-        tm = TimeMachine.fromString(readString(buf));
+        tm = readTimeMachine(buf);
         pos = readBlockPos(buf);
         side = intToEnumFacing(buf.readInt());
     }

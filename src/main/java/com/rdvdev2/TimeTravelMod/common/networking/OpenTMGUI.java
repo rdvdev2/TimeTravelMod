@@ -31,14 +31,14 @@ public class OpenTMGUI implements IMessage {
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        tm = TimeMachine.fromString(readString(buf));
+        tm = readTimeMachine(buf);
         pos = readBlockPos(buf);
         side = intToEnumFacing(buf.readInt());
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        writeString(buf, tm.toString());
+        writeTimeMachine(buf, tm);
         writeBlockPos(buf, pos);
         buf.writeInt(side.getIndex());
     }
