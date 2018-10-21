@@ -24,11 +24,7 @@ public class TimeMachineHookRunner extends TimeMachine {
 
     @Override
     public int getTier() {
-        int result = tm.getTier();
-        for (TimeMachineUpgrade upgrade:upgrades) {
-            result = upgrade.runHook(result, TimeMachineHook.TierHook.class, this);
-        }
-        return result;
+        return runHooks(tm.getTier(), TimeMachineHook.TierHook.class);
     }
 
     @Override
@@ -78,11 +74,7 @@ public class TimeMachineHookRunner extends TimeMachine {
 
     @Override
     public int getEntityMaxLoad() {
-        int result = tm.getEntityMaxLoad();
-        for (TimeMachineUpgrade upgrade:upgrades) {
-            result = upgrade.runHook(result, TimeMachineHook.EntityMaxLoadHook.class, this);
-        }
-        return result;
+        return runHooks(tm.getEntityMaxLoad(), TimeMachineHook.EntityMaxLoadHook.class);
     }
 
     @Override
@@ -92,10 +84,7 @@ public class TimeMachineHookRunner extends TimeMachine {
 
     @Override
     public void run(World world, EntityPlayer playerIn, BlockPos controllerPos, EnumFacing side) {
-        for(TimeMachineUpgrade upgrade:upgrades) {
-            if (upgrade.runVoidHook(TimeMachineHook.RunHook.class, this, world, playerIn, controllerPos, side))
-                return;
-        }
+        if (runVoidHooks(TimeMachineHook.RunHook.class, world, playerIn, controllerPos, side)) return;
         tm.run(world, playerIn, controllerPos, side);
     }
 
@@ -132,5 +121,21 @@ public class TimeMachineHookRunner extends TimeMachine {
     @Override
     public boolean isCooledDown(World world, BlockPos controllerPos, EnumFacing side) {
         return tm.isCooledDown(world, controllerPos, side);
+    }
+
+    private <T> T runHooks(T original, Class<? extends TimeMachineHook> clazz, Object... args) {
+        T result = original;
+        for (TimeMachineUpgrade upgrade:upgrades) {
+            result = upgrade.runHook(result, clazz, this, args);
+        }
+        return result;
+    }
+
+    private boolean runVoidHooks(Class<? extends TimeMachineHook> clazz, Object... args) {
+        for(TimeMachineUpgrade upgrade:upgrades) {
+            if (upgrade.runVoidHook(clazz, this, args))
+                return true;
+        }
+        return false;
     }
 }
