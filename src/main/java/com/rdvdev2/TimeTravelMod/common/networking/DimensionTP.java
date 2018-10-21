@@ -18,6 +18,8 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+import static com.rdvdev2.TimeTravelMod.util.CastingHelper.intToEnumFacing;
+
 public class DimensionTP implements IMessage {
     public DimensionTP(){}
 
@@ -51,26 +53,7 @@ public class DimensionTP implements IMessage {
         int size = buf.readInt();
         tm = ModRegistries.timeMachinesRegistry.getValue(new ResourceLocation(buf.readCharSequence(size, Charsets.UTF_8).toString()));
         pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-        switch (buf.readInt()) {
-            case 0:
-                side = EnumFacing.DOWN;
-                break;
-            case 1:
-                side = EnumFacing.UP;
-                break;
-            case 2:
-                side = EnumFacing.NORTH;
-                break;
-            case 3:
-                side = EnumFacing.SOUTH;
-                break;
-            case 4:
-                side = EnumFacing.WEST;
-                break;
-            case 5:
-                side = EnumFacing.EAST;
-                break;
-        }
+        side = intToEnumFacing(buf.readInt());
     }
 
     public static class DimensionTPHandler implements IMessageHandler<DimensionTP, IMessage> {

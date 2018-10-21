@@ -17,6 +17,8 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import static com.rdvdev2.TimeTravelMod.util.CastingHelper.intToEnumFacing;
+
 public class OpenTMGUI implements IMessage {
 
     TimeMachine tm;
@@ -34,26 +36,7 @@ public class OpenTMGUI implements IMessage {
         int size = buf.readInt();
         tm = ModRegistries.timeMachinesRegistry.getValue(new ResourceLocation(buf.readCharSequence(size, Charsets.UTF_8).toString()));
         pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-        switch (buf.readInt()) {
-            case 0:
-                side = EnumFacing.DOWN;
-                break;
-            case 1:
-                side = EnumFacing.UP;
-                break;
-            case 2:
-                side = EnumFacing.NORTH;
-                break;
-            case 3:
-                side = EnumFacing.SOUTH;
-                break;
-            case 4:
-                side = EnumFacing.WEST;
-                break;
-            case 5:
-                side = EnumFacing.EAST;
-                break;
-        }
+        side = intToEnumFacing(buf.readInt());
     }
 
     @Override
