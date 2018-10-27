@@ -1,7 +1,7 @@
 package com.rdvdev2.TimeTravelMod.common.dimension.oldwest;
 
+import com.rdvdev2.TimeTravelMod.ModBiomes;
 import com.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
-import net.minecraft.init.Biomes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.biome.Biome;
@@ -16,7 +16,7 @@ public class TimeLineOldWest extends TimeLine {
 
     public void init() {
         super.init();
-        this.biomeProvider = new BiomeProviderSingle(Biomes.DESERT);
+        this.biomeProvider = new BiomeProviderSingle(ModBiomes.OLDWEST);
         this.setAllowedSpawnTypes(true,true);
         this.hasSkyLight = true;
     }
@@ -27,7 +27,7 @@ public class TimeLineOldWest extends TimeLine {
     }
 
     public Biome getBiomeGenForCoords(BlockPos pos){
-        return Biomes.DESERT;
+        return ModBiomes.OLDWEST;
     }
 
 }
