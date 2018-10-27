@@ -1,7 +1,6 @@
 package com.rdvdev2.TimeTravelMod.util;
 
 import com.google.common.base.Charsets;
-import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.util.math.BlockPos;
 
@@ -24,13 +23,5 @@ public class ByteBufHelper {
     public static String readString(ByteBuf buf) {
         int size = buf.readInt();
         return buf.readCharSequence(size, Charsets.UTF_8).toString();
-    }
-
-    public static void writeTimeMachine(ByteBuf buf, TimeMachine tm) {
-        writeString(buf, tm.toString());
-    }
-
-    public static TimeMachine readTimeMachine(ByteBuf buf) {
-        return TimeMachine.fromString(readString(buf));
     }
 }
