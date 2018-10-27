@@ -17,8 +17,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-import static com.rdvdev2.TimeTravelMod.util.ByteBufHelper.readBlockPos;
-import static com.rdvdev2.TimeTravelMod.util.ByteBufHelper.writeBlockPos;
 import static com.rdvdev2.TimeTravelMod.util.CastingHelper.intToEnumFacing;
 
 public class DimensionTP implements IMessage {
@@ -42,7 +40,9 @@ public class DimensionTP implements IMessage {
         String key = ModRegistries.timeMachinesRegistry.getKey(tm).toString();
         buf.writeInt(key.length());
         buf.writeCharSequence(tm.toString(), Charsets.UTF_8);
-        writeBlockPos(buf, pos);
+        buf.writeInt(pos.getX());
+        buf.writeInt(pos.getY());
+        buf.writeInt(pos.getZ());
         buf.writeInt(side.getIndex());
     }
 
@@ -51,7 +51,7 @@ public class DimensionTP implements IMessage {
         dim = buf.readInt();
         int size = buf.readInt();
         tm = TimeMachine.fromString(buf.readCharSequence(size, Charsets.UTF_8).toString());
-        pos = readBlockPos(buf);
+        pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
         side = intToEnumFacing(buf.readInt());
     }
 
