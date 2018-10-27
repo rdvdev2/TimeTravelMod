@@ -3,8 +3,6 @@ package com.rdvdev2.TimeTravelMod.common.dimension.oldwest;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.rdvdev2.TimeTravelMod.common.dimension.NormalTerrainGenerator;
-import com.rdvdev2.TimeTravelMod.common.worldgen.villages.VillageGenerator;
-import com.rdvdev2.TimeTravelMod.common.worldgen.villages.VillageOldWest;
 import jline.internal.Nullable;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.monster.EntityZombie;
@@ -35,15 +33,12 @@ public class ChunkGeneratorOldWest implements IChunkGenerator {
     private MapGenBase caveGenerator = new MapGenCaves();
     private NormalTerrainGenerator terraingen = new NormalTerrainGenerator();
 
-    private VillageGenerator villageGenerator;
-
     public ChunkGeneratorOldWest(World worldObj) {
         this.worldObj = worldObj;
         long seed = worldObj.getSeed();
         this.random = new Random((seed + 516) * 314);
         terraingen.setup(worldObj, random);
         caveGenerator = TerrainGen.getModdedMapGen(caveGenerator, CAVE);
-        villageGenerator = new VillageGenerator(worldObj, new VillageOldWest());
     }
 
     @Override
