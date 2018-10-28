@@ -13,6 +13,11 @@ import net.minecraft.world.World;
 public class TimeMachineCreative extends TimeMachine {
 
     @Override
+    public int getCooldownTime() {
+        return 0;
+    }
+
+    @Override
     public int getTier() {
         return ModRegistries.timeLinesRegistry.getSlaveMap(ModRegistries.TIERTOTIMELINE, TimeLine[][].class).length -1;
     }

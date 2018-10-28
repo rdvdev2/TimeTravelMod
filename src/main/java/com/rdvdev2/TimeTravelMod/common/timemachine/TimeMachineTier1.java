@@ -6,6 +6,11 @@ public class TimeMachineTier1 extends TimeMachine {
 
     public TimeMachineTier1() {};
 
+    @Override
+    public int getCooldownTime() {
+        return 20*20; // 20 seconds (20t = 1s)
+    }
+
     public int getTier() {return 1;}
 
     public int[][] coreBlocksPos() {

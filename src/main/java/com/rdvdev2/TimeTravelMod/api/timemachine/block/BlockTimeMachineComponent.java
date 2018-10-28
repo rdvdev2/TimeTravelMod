@@ -176,7 +176,7 @@ public abstract class BlockTimeMachineComponent extends Block {
     public TileEntity createTileEntity(World world, IBlockState state) {
         if (this.type == EnumTimeMachineComponentType.CORE)
             if (!state.getValue(ready))
-                return new TileEntityTMCooldown();
+                return new TileEntityTMCooldown(this.timeMachine.getCooldownTime());
             else
                 throw new RuntimeException("TileEntityTMCooldown can't be created in a ready TM");
             throw new RuntimeException("TileEntityTMCooldown can be created only in TM Core blocks");

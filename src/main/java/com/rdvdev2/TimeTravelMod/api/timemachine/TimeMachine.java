@@ -30,6 +30,12 @@ import java.util.List;
 public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> {
 
     /**
+     * Gets the cooldown time of the core
+     * @return Cooldown time in game ticks (1s = 20t)
+     */
+    abstract public int getCooldownTime();
+
+    /**
      * Gets the Time Machine tier
      * @return The Time Machine tier
      */
