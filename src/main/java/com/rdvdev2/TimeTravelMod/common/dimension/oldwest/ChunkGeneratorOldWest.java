@@ -3,12 +3,12 @@ package com.rdvdev2.TimeTravelMod.common.dimension.oldwest;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.rdvdev2.TimeTravelMod.common.dimension.NormalTerrainGenerator;
-import com.rdvdev2.TimeTravelMod.common.worldgen.villages.VillageGenerator;
-import com.rdvdev2.TimeTravelMod.common.worldgen.villages.VillageOldWest;
+import com.rdvdev2.TimeTravelMod.common.dimension.oldwest.village.MapGenVillageOldWest;
 import jline.internal.Nullable;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldEntitySpawner;
 import net.minecraft.world.biome.Biome;
@@ -29,13 +29,12 @@ public class ChunkGeneratorOldWest implements IChunkGenerator {
     private final World worldObj;
     private Random random;
     private Biome[] biomesForGeneration;
+    private MapGenVillageOldWest villageGenerator = new MapGenVillageOldWest();
 
     private List<Biome.SpawnListEntry> mobs = Lists.newArrayList(new Biome.SpawnListEntry(EntityZombie.class, 100, 2, 2));
 
     private MapGenBase caveGenerator = new MapGenCaves();
     private NormalTerrainGenerator terraingen = new NormalTerrainGenerator();
-
-    private VillageGenerator villageGenerator;
 
     public ChunkGeneratorOldWest(World worldObj) {
         this.worldObj = worldObj;
@@ -43,7 +42,7 @@ public class ChunkGeneratorOldWest implements IChunkGenerator {
         this.random = new Random((seed + 516) * 314);
         terraingen.setup(worldObj, random);
         caveGenerator = TerrainGen.getModdedMapGen(caveGenerator, CAVE);
-        villageGenerator = new VillageGenerator(worldObj, new VillageOldWest());
+        villageGenerator = (MapGenVillageOldWest) net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen(villageGenerator, net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.VILLAGE);
     }
 
     @Override
@@ -59,6 +58,9 @@ public class ChunkGeneratorOldWest implements IChunkGenerator {
         this.biomesForGeneration = this.worldObj.getBiomeProvider().getBiomes(this.biomesForGeneration, x*16, z*16, 16, 16);
         // This will replace stone with the biome specific stones
         terraingen.replaceBiomeBlocks(x, z, chunkprimer, this, biomesForGeneration);
+
+        // Generate villages
+        this.villageGenerator.generate(worldObj, x, z, chunkprimer);
 
         // Generate caves
         this.caveGenerator.generate(this.worldObj, x, z, chunkprimer);
@@ -80,6 +82,7 @@ public class ChunkGeneratorOldWest implements IChunkGenerator {
         int j = z*16;
         BlockPos blockpos = new BlockPos(i, 0, j);
         Biome biome = this.worldObj.getBiome(blockpos.add(16, 0, 16));
+        ChunkPos chunkPos = new ChunkPos(x, z);
 
         // Add biome decorations (like flowers, grass, trees, ...)
         biome.decorate(this.worldObj, this.random, blockpos);
@@ -88,7 +91,7 @@ public class ChunkGeneratorOldWest implements IChunkGenerator {
         WorldEntitySpawner.performWorldGenSpawning(this.worldObj, biome, i+8, j+8, 16, 16, this.random);
 
         // Generate Old West villages
-        // villageGenerator.tryBuild(x, z);
+        this.villageGenerator.generateStructure(worldObj, random, chunkPos);
     }
 
     @Override

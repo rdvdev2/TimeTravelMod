@@ -1,5 +1,7 @@
 package com.rdvdev2.TimeTravelMod.common.networking;
 
+import com.google.common.base.Charsets;
+import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.TimeTravelMod;
 import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHookRunner;
@@ -14,7 +16,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import static com.rdvdev2.TimeTravelMod.util.ByteBufHelper.*;
 import static com.rdvdev2.TimeTravelMod.util.CastingHelper.intToEnumFacing;
 
 public class OpenTMGUI implements IMessage {
@@ -31,15 +32,20 @@ public class OpenTMGUI implements IMessage {
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        tm = readTimeMachine(buf);
-        pos = readBlockPos(buf);
+        int size = buf.readInt();
+        tm = TimeMachine.fromString(buf.readCharSequence(size, Charsets.UTF_8).toString());
+        pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
         side = intToEnumFacing(buf.readInt());
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        writeTimeMachine(buf, tm);
-        writeBlockPos(buf, pos);
+        String key = ModRegistries.timeMachinesRegistry.getKey(tm).toString();
+        buf.writeInt(key.length());
+        buf.writeCharSequence(tm.toString(), Charsets.UTF_8);
+        buf.writeInt(pos.getX());
+        buf.writeInt(pos.getY());
+        buf.writeInt(pos.getZ());
         buf.writeInt(side.getIndex());
     }
 
