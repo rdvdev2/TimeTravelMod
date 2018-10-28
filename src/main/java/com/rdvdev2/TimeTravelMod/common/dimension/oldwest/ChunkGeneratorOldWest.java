@@ -3,6 +3,7 @@ package com.rdvdev2.TimeTravelMod.common.dimension.oldwest;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.rdvdev2.TimeTravelMod.common.dimension.NormalTerrainGenerator;
+import com.rdvdev2.TimeTravelMod.common.dimension.oldwest.village.MapGenVillageOldWest;
 import jline.internal.Nullable;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.monster.EntityZombie;

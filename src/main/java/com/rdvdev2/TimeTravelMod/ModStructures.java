@@ -1,6 +1,6 @@
 package com.rdvdev2.TimeTravelMod;
 
-import com.rdvdev2.TimeTravelMod.common.dimension.oldwest.MapGenVillageOldWest;
+import com.rdvdev2.TimeTravelMod.common.dimension.oldwest.village.MapGenVillageOldWest;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
 
 public class ModStructures {

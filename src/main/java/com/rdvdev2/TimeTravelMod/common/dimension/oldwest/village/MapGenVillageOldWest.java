@@ -1,4 +1,4 @@
-package com.rdvdev2.TimeTravelMod.common.dimension.oldwest;
+package com.rdvdev2.TimeTravelMod.common.dimension.oldwest.village;
 
 import com.rdvdev2.TimeTravelMod.ModBiomes;
 import net.minecraft.world.biome.Biome;
