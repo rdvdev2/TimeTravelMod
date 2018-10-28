@@ -17,7 +17,6 @@ import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.MapGenBase;
 import net.minecraft.world.gen.MapGenCaves;
-import net.minecraft.world.gen.structure.MapGenVillage;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public class ChunkGeneratorOldWest implements IChunkGenerator {
     private final World worldObj;
     private Random random;
     private Biome[] biomesForGeneration;
-    private MapGenVillage villageGenerator = new MapGenVillageOldWest();
+    private MapGenVillageOldWest villageGenerator = new MapGenVillageOldWest();
 
     private List<Biome.SpawnListEntry> mobs = Lists.newArrayList(new Biome.SpawnListEntry(EntityZombie.class, 100, 2, 2));
 
@@ -43,7 +42,7 @@ public class ChunkGeneratorOldWest implements IChunkGenerator {
         this.random = new Random((seed + 516) * 314);
         terraingen.setup(worldObj, random);
         caveGenerator = TerrainGen.getModdedMapGen(caveGenerator, CAVE);
-        villageGenerator = (MapGenVillage)net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen(villageGenerator, net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.VILLAGE);
+        villageGenerator = (MapGenVillageOldWest) net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen(villageGenerator, net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.VILLAGE);
     }
 
     @Override
