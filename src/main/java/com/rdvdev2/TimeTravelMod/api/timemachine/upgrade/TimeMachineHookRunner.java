@@ -23,6 +23,11 @@ public class TimeMachineHookRunner extends TimeMachine {
     }
 
     @Override
+    public int getCooldownTime() {
+        return tm.getCooldownTime();
+    }
+
+    @Override
     public int getTier() {
         return runHooks(tm.getTier(), TimeMachineHook.TierHook.class);
     }
