@@ -26,6 +26,7 @@ public class ModBlocks {
     public static Block heavyBlock;
     public static Block reinforcedHeavyBlock;
     public static Block temporalExplosion;
+    public static Block temporalCauldron;
 
     public static void init() {
         timeCrystalOre = new BlockTimeCrystalOre();
@@ -35,6 +36,7 @@ public class ModBlocks {
         heavyBlock = new BlockHeavyBlock();
         reinforcedHeavyBlock = new BlockReinforcedHeavyBlock();
         temporalExplosion = new BlockTemporalExplosion();
+        temporalCauldron = new BlockTemporalCauldron();
     }
 
     @SubscribeEvent
@@ -46,7 +48,8 @@ public class ModBlocks {
                 timeMachineControlPanel,
                 heavyBlock,
                 reinforcedHeavyBlock,
-                temporalExplosion
+                temporalExplosion,
+                temporalCauldron
         );
         GameRegistry.registerTileEntity(TileEntityTMCooldown.class, new ResourceLocation("timetravelmod:entity.tmcooldown"));
     }
@@ -60,7 +63,8 @@ public class ModBlocks {
                 timeMachineControlPanel,
                 heavyBlock,
                 reinforcedHeavyBlock,
-                temporalExplosion
+                temporalExplosion,
+                temporalCauldron
         );
     }
 
@@ -77,9 +81,10 @@ public class ModBlocks {
                 timeMachineBasicBlock,
                 timeMachineCore,
                 timeMachineControlPanel,
-                    heavyBlock,
-                    reinforcedHeavyBlock,
-                    temporalExplosion
+                heavyBlock,
+                reinforcedHeavyBlock,
+                temporalExplosion,
+                temporalCauldron
         );
     }
 
