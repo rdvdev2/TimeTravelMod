@@ -6,6 +6,7 @@ import com.rdvdev2.TimeTravelMod.common.block.*;
 import com.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
@@ -86,6 +87,8 @@ public class ModBlocks {
                 temporalExplosion,
                 temporalCauldron
         );
+        if(!ModConfigs.vanillaCauldronTexture)
+            ModelLoader.setCustomModelResourceLocation(Items.CAULDRON, 0, new ModelResourceLocation("timetravelmod:cauldron", "inventory"));
     }
 
     private static void registerRender(Block... blocks) {

@@ -8,4 +8,9 @@ public class ModConfigs {
     @Config.Comment("If changed to true, all blocks in development will be added, even if they have no recipe or function.")
     @Config.RequiresMcRestart
     public static boolean unimplementedBlocks = false;
+
+    @Config.Name("Use the vanilla cauldron texture")
+    @Config.Comment("If changed to true, the cauldron will show up the vanilla texture in the inventory. If disabled, the cauldron won't be afected by Resource Packs.")
+    @Config.RequiresMcRestart
+    public static boolean vanillaCauldronTexture = false;
 }
