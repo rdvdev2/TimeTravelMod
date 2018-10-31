@@ -1,7 +1,7 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "items/cauldron"
+        "layer0": "timetravelmod:items/temporalcauldron"
     },
 
     "display": {
