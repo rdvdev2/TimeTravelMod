@@ -120,6 +120,7 @@ public class ModRegistries {
             owner.setSlaveMap(BLOCKTOTM, blockStateResourceLocationHashMap.clone());
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         public void onAdd(IForgeRegistryInternal owner, RegistryManager stage, int id, TimeMachine obj, @Nullable TimeMachine oldObj) {
             blockStateResourceLocationHashMap = (HashMap<IBlockState, ResourceLocation>)owner.getSlaveMap(BLOCKTOTM, HashMap.class);
@@ -150,6 +151,7 @@ public class ModRegistries {
             owner.setSlaveMap(UPGRADETOBLOCK, upgradetoblockhm);
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         public void onAdd(IForgeRegistryInternal<TimeMachineUpgrade> owner, RegistryManager stage, int id, TimeMachineUpgrade obj, @Nullable TimeMachineUpgrade oldObj) {
             tmtoupgradehm = (HashMap<TimeMachine, TimeMachineUpgrade[]>) owner.getSlaveMap(TMTOUPGRADE, HashMap.class);

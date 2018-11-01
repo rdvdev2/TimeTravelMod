@@ -92,6 +92,7 @@ public class GuiTimeMachine extends GuiScreen {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private <T> T[] iteratorToArray(Iterator<T> iterator, Class<T> clazz) {
         T[] array = (T[]) Array.newInstance(clazz, 0);
         while (iterator.hasNext()) {

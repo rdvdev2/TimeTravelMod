@@ -87,6 +87,7 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      * Returns the valid IBlockState(s) for TM Upgrade Blocks
      * @return Array of valid IBlockStates for TM Upgrade Blocks
      */
+    @SuppressWarnings("unchecked")
     public final IBlockState[] getUpgradeBlocks() {
         BlockTimeMachineComponent[] blocks = new BlockTimeMachineComponent[0];
         try {
@@ -104,6 +105,7 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
         }
     }
 
+    @SuppressWarnings("unchecked")
     public final TimeMachineUpgrade[] getCompatibleUpgrades() {
         return ((HashMap<TimeMachine, TimeMachineUpgrade[]>)ModRegistries.upgradesRegistry.getSlaveMap(ModRegistries.TMTOUPGRADE, HashMap.class)).get(this);
     }

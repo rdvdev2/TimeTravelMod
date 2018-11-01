@@ -78,6 +78,7 @@ public abstract class BlockTimeMachineComponent extends Block {
      * Links the block with it's corresponding Time Machine
      * @param event The linking event
      */
+    @SuppressWarnings("unchecked")
     @SubscribeEvent
     public final void setTimeMachine(EventSetTimeMachine event) {
         if (this.type != EnumTimeMachineComponentType.UPGRADE) { // Time Machine upgrades are not attached to a particular Time Machine

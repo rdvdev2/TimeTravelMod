@@ -65,7 +65,8 @@ public abstract class TimeLine extends WorldProvider implements IForgeRegistryEn
      * @return The registry type class
      */
     @Override
-    public final Class<TimeLine> getRegistryType() { return (Class<TimeLine>) token.getRawType(); };
+    public final Class<TimeLine> getRegistryType() { //noinspection unchecked
+        return (Class<TimeLine>) token.getRawType(); };
 
     private DimensionType DIMENSION_TYPE;
 

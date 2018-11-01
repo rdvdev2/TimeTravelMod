@@ -19,6 +19,7 @@ public interface TimeMachineHook {
         void run(TimeMachineHookRunner tm, World world, EntityPlayer playerIn, BlockPos controllerPos, EnumFacing side);
     }
 
+    @SuppressWarnings("unchecked")
     interface TierHook extends TimeMachineHook {
 
         @Override
@@ -30,6 +31,7 @@ public interface TimeMachineHook {
         int run(int original, TimeMachineHookRunner tm);
     }
 
+    @SuppressWarnings("unchecked")
     interface EntityMaxLoadHook extends TimeMachineHook {
 
         @Override
