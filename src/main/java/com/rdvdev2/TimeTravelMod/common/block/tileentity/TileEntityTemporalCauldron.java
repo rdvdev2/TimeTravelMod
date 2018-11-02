@@ -20,13 +20,17 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable 
     @CapabilityInject(IItemHandler.class)
     static Capability<IItemHandler> ITEM_HANDLER_CAPABILITY = null;
 
-    IItemHandler inventory = new ItemStackHandler(2) {
-        @Override
-        protected void onContentsChanged(int slot) {
-            super.onContentsChanged(slot);
-            markDirty();
-        }
-    };
+    IItemHandler inventory;
+
+    public TileEntityTemporalCauldron() {
+        inventory = new ItemStackHandler(2) {
+            @Override
+            protected void onContentsChanged(int slot) {
+                super.onContentsChanged(slot);
+                markDirty();
+            }
+        };
+    }
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
