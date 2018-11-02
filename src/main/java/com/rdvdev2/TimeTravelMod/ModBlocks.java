@@ -3,6 +3,7 @@ package com.rdvdev2.TimeTravelMod;
 import com.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineComponent;
 import com.rdvdev2.TimeTravelMod.api.timemachine.entity.TileEntityTMCooldown;
 import com.rdvdev2.TimeTravelMod.common.block.*;
+import com.rdvdev2.TimeTravelMod.common.block.tileentity.TileEntityTemporalCauldron;
 import com.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -53,6 +54,7 @@ public class ModBlocks {
                 temporalCauldron
         );
         GameRegistry.registerTileEntity(TileEntityTMCooldown.class, new ResourceLocation("timetravelmod:entity.tmcooldown"));
+        GameRegistry.registerTileEntity(TileEntityTemporalCauldron.class, new ResourceLocation("timetravelmod:entity.temporalcauldron"));
     }
 
     @SubscribeEvent
