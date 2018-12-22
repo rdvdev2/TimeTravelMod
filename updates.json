@@ -5,10 +5,11 @@
     "1.12.2-0.0.1.0":  "The time machine is now available by default. Old west is a big desert.",
     "1.12.2-0.0.1.29": "Mod is now server compatible. No more first travel crashes.",
     "1.12.2-0.1.0.3":  "German translations! First API and some interesting internal work. Wait for updates...",
-    "1.12.2-0.1.2.3":  "Anti-cheat measures, Time Machine mechanics (overloading and cooling down), the Creative time machine item, temporal explosions and Heavy blocks. Better check it out yourself!"
+    "1.12.2-0.1.2.3":  "Anti-cheat measures, Time Machine mechanics (overloading and cooling down), the Creative time machine item, temporal explosions and Heavy blocks. Better check it out yourself!",
+    "1.12.2-0.1.2.55": "Italian and lots of new features! Just kidding, only Italian. :c"
   },
   "promos": {
-    "1.12.2-latest":      "1.12.2-0.1.2.3",
-    "1.12.2-recommended": "1.12.2-0.1.2.3"
+    "1.12.2-latest":      "1.12.2-0.1.2.55",
+    "1.12.2-recommended": "1.12.2-0.1.2.55"
   }
 }
