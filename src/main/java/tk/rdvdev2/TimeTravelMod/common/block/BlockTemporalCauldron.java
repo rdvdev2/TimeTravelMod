@@ -1,8 +1,5 @@
-package com.rdvdev2.TimeTravelMod.common.block;
+package tk.rdvdev2.TimeTravelMod.common.block;
 
-import com.rdvdev2.TimeTravelMod.ModBlocks;
-import com.rdvdev2.TimeTravelMod.TimeTravelMod;
-import com.rdvdev2.TimeTravelMod.common.block.tileentity.TileEntityTemporalCauldron;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -21,6 +18,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import tk.rdvdev2.TimeTravelMod.ModBlocks;
+import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
+import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TileEntityTemporalCauldron;
 
 import javax.annotation.Nullable;
 import java.util.List;

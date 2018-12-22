@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineComponent;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.entity.TileEntityTMCooldown;
 import tk.rdvdev2.TimeTravelMod.common.block.*;
+import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TileEntityTemporalCauldron;
 import tk.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
 
 @Mod.EventBusSubscriber(modid = "timetravelmod")

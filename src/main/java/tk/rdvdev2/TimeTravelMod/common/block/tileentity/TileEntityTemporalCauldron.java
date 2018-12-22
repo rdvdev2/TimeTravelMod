@@ -1,6 +1,5 @@
-package com.rdvdev2.TimeTravelMod.common.block.tileentity;
+package tk.rdvdev2.TimeTravelMod.common.block.tileentity;
 
-import com.rdvdev2.TimeTravelMod.ModBlocks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -12,6 +11,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import tk.rdvdev2.TimeTravelMod.ModBlocks;
 
 import javax.annotation.Nullable;
 
