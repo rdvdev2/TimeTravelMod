@@ -15,13 +15,18 @@ import net.minecraftforge.items.ItemStackHandler;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
 import tk.rdvdev2.TimeTravelMod.ModItems;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
+import tk.rdvdev2.TimeTravelMod.common.block.BlockTemporalCauldron;
 
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class TileEntityTemporalCauldron extends TileEntity implements ITickable {
 
     private final static int CRYSTAL_SLOT = 0;
     private final static int ITEM_SLOT = 1;
+
+    private int crystal_usages = 0;
+    private int tick_count = 0;
 
     @CapabilityInject(IItemHandler.class)
     static Capability<IItemHandler> ITEM_HANDLER_CAPABILITY = null;
@@ -44,7 +49,7 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable 
     }
 
     public void putItem(ItemStack item) {
-        if (item.isItemStackDamageable()); inventory.insertItem(ITEM_SLOT, new ItemStack(item.getItem(), 1), false);
+        if (item.isItemStackDamageable()); inventory.insertItem(ITEM_SLOT, item, false);
     }
 
     public ItemStack removeItem() {
@@ -56,7 +61,11 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable 
     }
 
     public void putCrystal(ItemStack item) {
-        if (item.getItem() == ModItems.timeCrystal); inventory.insertItem(CRYSTAL_SLOT, new ItemStack(item.getItem(), 1), false);
+        if (item.getItem() == ModItems.timeCrystal) {
+            inventory.insertItem(CRYSTAL_SLOT, item, false);
+            crystal_usages = 2000;
+            this.world.setBlockState(this.pos, this.world.getBlockState(pos).withProperty(BlockTemporalCauldron.LEVEL, 3));
+        }
     }
 
     @Override
@@ -64,7 +73,8 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable 
         super.readFromNBT(compound);
         ITEM_HANDLER_CAPABILITY.readNBT(inventory, null, compound.getTag("inventory"));
 
-        // Read data
+        crystal_usages = compound.getInteger("crystal_usages");
+        tick_count = compound.getInteger("tick_count");
     }
 
     @Override
@@ -72,7 +82,8 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable 
         compound = super.writeToNBT(compound);
         compound.setTag("inventory", ITEM_HANDLER_CAPABILITY.writeNBT(inventory, null));
 
-        // Write data
+        compound.setInteger("crystal_usages", crystal_usages);
+        compound.setInteger("tick_count", tick_count);
 
         return compound;
     }
@@ -91,7 +102,35 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable 
 
     @Override
     public void update() {
-        // Do temporal cauldron behaviour
+        if (!world.isRemote && !inventory.getStackInSlot(ITEM_SLOT).isEmpty() && !inventory.getStackInSlot(CRYSTAL_SLOT).isEmpty()) {
+            if (crystal_usages == 1300) this.world.setBlockState(this.pos, this.world.getBlockState(pos).withProperty(BlockTemporalCauldron.LEVEL, 2));
+            if (crystal_usages == 600) this.world.setBlockState(this.pos, this.world.getBlockState(pos).withProperty(BlockTemporalCauldron.LEVEL, 1));
+            if (crystal_usages == 0) {
+                this.world.setBlockState(this.pos, this.world.getBlockState(pos).withProperty(BlockTemporalCauldron.LEVEL, 0));
+                inventory.extractItem(CRYSTAL_SLOT, 1, false);
+            }
+
+            tick_count++;
+            if (tick_count == 10) {
+                tick_count = 0;
+                crystal_usages--;
+                TimeTravelMod.logger.info("Reverting damage");
+
+                ItemStack tool = inventory.extractItem(ITEM_SLOT, 1, false);
+                int damage = tool.getItemDamage();
+                Random r = new Random();
+
+                int n = r.nextInt(100);
+                if (n >= 98) damage++;
+                else if (n >= 95) damage = damage=damage;
+                else damage--;
+
+                tool.setItemDamage(damage);
+                inventory.insertItem(ITEM_SLOT, tool, false);
+            }
+
+            markDirty();
+        }
     }
 
     @Override
