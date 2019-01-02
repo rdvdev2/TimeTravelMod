@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:cauldron",
+      "data": 0
+    },
+    {
+      "item": "timetravelmod:controllercircuit",
+      "data": 0
+    }
+  ],
+  "result": {
+    "item": "timetravelmod:temporalcauldron",
+    "data": 0
+  }
+}
