@@ -1,6 +1,7 @@
 package tk.rdvdev2.TimeTravelMod.common.block.tileentity;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -12,10 +13,15 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
+import tk.rdvdev2.TimeTravelMod.ModItems;
+import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 
 import javax.annotation.Nullable;
 
 public class TileEntityTemporalCauldron extends TileEntity implements ITickable {
+
+    private final static int CRYSTAL_SLOT = 0;
+    private final static int ITEM_SLOT = 1;
 
     @CapabilityInject(IItemHandler.class)
     static Capability<IItemHandler> ITEM_HANDLER_CAPABILITY = null;
@@ -27,9 +33,30 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable 
             @Override
             protected void onContentsChanged(int slot) {
                 super.onContentsChanged(slot);
+                TimeTravelMod.logger.info("Cauldron contents: " + inventory.getStackInSlot(CRYSTAL_SLOT) + ", " + inventory.getStackInSlot(ITEM_SLOT));
                 markDirty();
             }
         };
+    }
+
+    public boolean containsItem() {
+        return !inventory.getStackInSlot(ITEM_SLOT).isEmpty();
+    }
+
+    public void putItem(ItemStack item) {
+        if (item.isItemStackDamageable()); inventory.insertItem(ITEM_SLOT, new ItemStack(item.getItem(), 1), false);
+    }
+
+    public ItemStack removeItem() {
+        return inventory.extractItem(ITEM_SLOT, 1, false);
+    }
+
+    public boolean containsCrystal() {
+        return !inventory.getStackInSlot(CRYSTAL_SLOT).isEmpty();
+    }
+
+    public void putCrystal(ItemStack item) {
+        if (item.getItem() == ModItems.timeCrystal); inventory.insertItem(CRYSTAL_SLOT, new ItemStack(item.getItem(), 1), false);
     }
 
     @Override
@@ -67,15 +94,7 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable 
         // Do temporal cauldron behaviour
     }
 
-    @Override
-    public NBTTagCompound getUpdateTag() {
-        return writeToNBT(new NBTTagCompound());
-    }
-
-    @Override
-    public void handleUpdateTag(NBTTagCompound tag) {
-        readFromNBT(tag);
-    }
+    // TODO: Custom network sync
 
     @Override
     public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {

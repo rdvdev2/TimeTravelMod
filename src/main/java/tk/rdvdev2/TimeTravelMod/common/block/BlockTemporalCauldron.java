@@ -9,16 +9,20 @@ import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
+import tk.rdvdev2.TimeTravelMod.ModItems;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TileEntityTemporalCauldron;
 
@@ -42,6 +46,26 @@ public class BlockTemporalCauldron extends Block {
         this.setRegistryName(name);
         this.setUnlocalizedName(name);
         this.setCreativeTab(TimeTravelMod.tabTTM);
+    }
+
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
+        TileEntityTemporalCauldron te = (TileEntityTemporalCauldron) worldIn.getTileEntity(pos);
+        ItemStack playerItemStack = playerIn.getHeldItem(hand);
+        if (te == null) {
+            return false;
+        }
+        if (!playerItemStack.isEmpty() && !playerItemStack.isItemEqual(new ItemStack(ModItems.timeCrystal)) && !te.containsItem()) {
+            if (playerItemStack.isItemStackDamageable()) {
+                playerIn.setHeldItem(hand, new ItemStack(playerItemStack.getItem(), playerItemStack.getCount() - 1));
+                te.putItem(playerItemStack);
+            }
+        } else if (playerItemStack.isItemEqual(new ItemStack(ModItems.timeCrystal)) && !te.containsCrystal()) {
+            playerIn.setHeldItem(hand, new ItemStack(playerItemStack.getItem(), playerItemStack.getCount() -1));
+        } else if (te.containsItem()) {
+            worldIn.spawnEntity(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), te.removeItem()));
+        } else return false; return true;
     }
 
     @Override
