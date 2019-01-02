@@ -94,8 +94,6 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable 
         // Do temporal cauldron behaviour
     }
 
-    // TODO: Custom network sync
-
     @Override
     public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
         if (capability == ITEM_HANDLER_CAPABILITY) {

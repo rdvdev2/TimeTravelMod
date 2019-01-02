@@ -56,15 +56,20 @@ public class BlockTemporalCauldron extends Block {
         if (te == null) {
             return false;
         }
-        if (!playerItemStack.isEmpty() && !playerItemStack.isItemEqual(new ItemStack(ModItems.timeCrystal)) && !te.containsItem()) {
-            if (playerItemStack.isItemStackDamageable()) {
+        if (!playerItemStack.isEmpty() && !playerItemStack.isItemEqual(new ItemStack(ModItems.timeCrystal)) && playerItemStack.isItemStackDamageable() && !te.containsItem()) {
+            if (!worldIn.isRemote) {
                 playerIn.setHeldItem(hand, new ItemStack(playerItemStack.getItem(), playerItemStack.getCount() - 1));
                 te.putItem(playerItemStack);
             }
         } else if (playerItemStack.isItemEqual(new ItemStack(ModItems.timeCrystal)) && !te.containsCrystal()) {
-            playerIn.setHeldItem(hand, new ItemStack(playerItemStack.getItem(), playerItemStack.getCount() -1));
+            if(!worldIn.isRemote) {
+                playerIn.setHeldItem(hand, new ItemStack(playerItemStack.getItem(), playerItemStack.getCount() - 1));
+                te.putCrystal(new ItemStack(ModItems.timeCrystal, 1));
+            }
         } else if (te.containsItem()) {
-            worldIn.spawnEntity(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), te.removeItem()));
+            if(!worldIn.isRemote) {
+                worldIn.spawnEntity(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), te.removeItem()));
+            }
         } else return false; return true;
     }
 
