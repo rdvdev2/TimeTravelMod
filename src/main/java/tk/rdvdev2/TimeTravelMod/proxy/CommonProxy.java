@@ -7,6 +7,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import tk.rdvdev2.TimeTravelMod.*;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
@@ -48,5 +49,11 @@ public class CommonProxy implements IProxy {
     @Override
     public void displayTMGuiScreen(EntityPlayer player, TimeMachine tm, BlockPos pos, EnumFacing side) {
         ModPacketHandler.INSTANCE.sendTo(new OpenTMGUI(tm, pos, side), (EntityPlayerMP) player);
+    }
+
+    @Override
+    public void handleOpenTMGUI(OpenTMGUI message, MessageContext ctx) {
+        // Server is not going to handle this
+        TimeTravelMod.logger.warn("Server is trying to handle the OpenTMGUI packet. That's weird!");
     }
 }

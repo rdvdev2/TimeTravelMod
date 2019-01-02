@@ -110,7 +110,8 @@ public abstract class BlockTimeMachineComponent extends Block {
                                     float hitX,
                                     float hitY,
                                     float hitZ) {
-        if (this.type == EnumTimeMachineComponentType.CONTROLPANEL &&
+        if (    !worldIn.isRemote &&
+                this.type == EnumTimeMachineComponentType.CONTROLPANEL &&
                 !(side == EnumFacing.UP || side == EnumFacing.DOWN)) {
             TimeMachineHookRunner hookRunner = timeMachine.hook(worldIn, pos, side);
             hookRunner.run(worldIn, playerIn, pos, side);
