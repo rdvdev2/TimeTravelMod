@@ -14,7 +14,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
 import tk.rdvdev2.TimeTravelMod.ModItems;
-import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.common.block.BlockTemporalCauldron;
 
 import javax.annotation.Nullable;
@@ -38,7 +37,6 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable 
             @Override
             protected void onContentsChanged(int slot) {
                 super.onContentsChanged(slot);
-                TimeTravelMod.logger.info("Cauldron contents: " + inventory.getStackInSlot(CRYSTAL_SLOT) + ", " + inventory.getStackInSlot(ITEM_SLOT));
                 markDirty();
             }
         };
@@ -114,7 +112,6 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable 
             if (tick_count == 10) {
                 tick_count = 0;
                 crystal_usages--;
-                TimeTravelMod.logger.info("Reverting damage");
 
                 ItemStack tool = inventory.extractItem(ITEM_SLOT, 1, false);
                 int damage = tool.getItemDamage();
