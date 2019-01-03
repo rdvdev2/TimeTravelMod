@@ -361,13 +361,10 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
     public boolean isPlayerInside(World world, BlockPos controllerPos, EnumFacing side, EntityPlayer player) {
         System.out.println(getEntitiesInside(world, controllerPos, side));
         for (Entity entity:getEntitiesInside(world, controllerPos, side)){
-            System.out.println(entity);
             if (entity.getPersistentID().equals(player.getPersistentID())) {
-                System.out.println("The player is inside");
                 return true;
             }
         }
-        System.out.println("The player isn't inside");
         return false;
     }
 
@@ -380,7 +377,6 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      */
     public final List<Entity> getEntitiesInside(World world, BlockPos controllerPos, EnumFacing side) {
         AxisAlignedBB airSpace = getAirSpace(controllerPos, side);
-        System.out.println(airSpace);
         return world.getEntitiesWithinAABB(Entity.class, airSpace);
     }
 
