@@ -13,7 +13,7 @@ import tk.rdvdev2.TimeTravelMod.common.networking.OpenTMGUI;
 public class ClientProxy extends CommonProxy {
     @Override
     public void displayTMGuiScreen(EntityPlayer player, TimeMachine tm, BlockPos pos, EnumFacing side) {
-        Minecraft.getMinecraft().displayGuiScreen(new GuiTimeMachine(player, tm, pos, side));
+        Minecraft.getMinecraft().addScheduledTask(()->Minecraft.getMinecraft().displayGuiScreen(new GuiTimeMachine(player, tm, pos, side)));
     }
 
     @Override
