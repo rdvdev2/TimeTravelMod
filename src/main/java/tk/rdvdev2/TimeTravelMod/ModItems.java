@@ -56,8 +56,6 @@ public class ModItems {
 
     @SubscribeEvent
     public static void linkTimeMachines(EventSetTimeMachine event) {
-        if (ModConfigs.unimplementedBlocks) {
-            ((ItemCreativeTimeMachine)creativeTimeMachine).setTimeMachine(event);
-        }
+        ((ItemCreativeTimeMachine)creativeTimeMachine).setTimeMachine(event);
     }
 }
