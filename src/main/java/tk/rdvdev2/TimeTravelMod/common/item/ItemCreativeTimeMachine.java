@@ -35,7 +35,7 @@ public class ItemCreativeTimeMachine extends Item {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
-        this.timeMachine.run(worldIn, playerIn, playerIn.getPosition(), EnumFacing.NORTH);
+        if (!worldIn.isRemote) this.timeMachine.run(worldIn, playerIn, playerIn.getPosition(), EnumFacing.NORTH);
         return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
     }
 }
