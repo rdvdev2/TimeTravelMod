@@ -7,7 +7,6 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import tk.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
 import tk.rdvdev2.TimeTravelMod.common.item.ItemControllerCircuit;
 import tk.rdvdev2.TimeTravelMod.common.item.ItemCreativeTimeMachine;
 import tk.rdvdev2.TimeTravelMod.common.item.ItemHeavyIngot;
@@ -52,10 +51,5 @@ public class ModItems {
         for (int i = 0; i < item.length; i++) {
             ModelLoader.setCustomModelResourceLocation(item[i], 0, new ModelResourceLocation(item[i].getRegistryName(), "inventory"));
         }
-    }
-
-    @SubscribeEvent
-    public static void linkTimeMachines(EventSetTimeMachine event) {
-        ((ItemCreativeTimeMachine)creativeTimeMachine).setTimeMachine(event);
     }
 }

@@ -11,6 +11,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.entity.TileEntityTMCooldown;
@@ -50,6 +52,7 @@ public abstract class BlockTimeMachineComponent extends Block {
             setDefaultState(blockState.getBaseState().withProperty(ready, true));
         else
             setDefaultState(blockState.getBaseState());
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     private static Material prepare(Material material, EnumTimeMachineComponentType ntype) {
@@ -78,6 +81,7 @@ public abstract class BlockTimeMachineComponent extends Block {
      * @param event The linking event
      */
     @SuppressWarnings("unchecked")
+    @SubscribeEvent
     public final void setTimeMachine(EventSetTimeMachine event) {
         if (this.type != EnumTimeMachineComponentType.UPGRADE) { // Time Machine upgrades are not attached to a particular Time Machine
             this.timeMachine = ModRegistries.timeMachinesRegistry.getValue(((HashMap<IBlockState, ResourceLocation>) ModRegistries.timeMachinesRegistry.getSlaveMap(ModRegistries.BLOCKTOTM, HashMap.class)).get(getDefaultState()));

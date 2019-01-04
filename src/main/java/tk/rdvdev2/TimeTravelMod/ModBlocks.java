@@ -16,7 +16,6 @@ import tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineComponent;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.entity.TileEntityTMCooldown;
 import tk.rdvdev2.TimeTravelMod.common.block.*;
 import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TileEntityTemporalCauldron;
-import tk.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
 
 @Mod.EventBusSubscriber(modid = "timetravelmod")
 public class ModBlocks {
@@ -97,21 +96,6 @@ public class ModBlocks {
         for (int i = 0; i < blocks.length; i++) {
             Item item = Item.getItemFromBlock(blocks[i]);
             ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
-        }
-    }
-
-    @SubscribeEvent
-    public static void linkTimeMachines(EventSetTimeMachine event) {
-        linkTimeMachine( event,
-                timeMachineBasicBlock,
-                timeMachineCore,
-                timeMachineControlPanel
-        );
-    }
-
-    private static void linkTimeMachine(EventSetTimeMachine event, BlockTimeMachineComponent... blocks) {
-        for (int i = 0; i < blocks.length; i++) {
-            blocks[i].setTimeMachine(event);
         }
     }
 }
