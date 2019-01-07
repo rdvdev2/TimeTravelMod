@@ -1,6 +1,9 @@
 ---
 name: Feature request
 about: Suggest an idea for the mod. We are expecting your awesome ideas.
+title: ''
+labels: enhancement
+assignees: rdvdev2
 
 ---
 

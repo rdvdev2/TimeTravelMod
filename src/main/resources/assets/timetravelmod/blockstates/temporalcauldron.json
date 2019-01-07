@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "level=0": { "model": "timetravelmod:temporalcauldron_empty" },
+        "level=1": { "model": "timetravelmod:temporalcauldron_level1" },
+        "level=2": { "model": "timetravelmod:temporalcauldron_level2" },
+        "level=3": { "model": "timetravelmod:temporalcauldron_level3" }
+    }
+}
