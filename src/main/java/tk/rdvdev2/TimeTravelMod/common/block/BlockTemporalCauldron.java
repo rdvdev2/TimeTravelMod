@@ -65,7 +65,8 @@ public class BlockTemporalCauldron extends Block {
             }
         } else if (playerItemStack.isItemEqual(new ItemStack(ModItems.timeCrystal)) && !te.containsCrystal()) {
             if(!worldIn.isRemote) {
-                playerIn.setHeldItem(hand, new ItemStack(playerItemStack.getItem(), playerItemStack.getCount() - 1));
+                if (!playerIn.isCreative())
+                    playerIn.setHeldItem(hand, new ItemStack(playerItemStack.getItem(), playerItemStack.getCount() - 1));
                 te.putCrystal(new ItemStack(ModItems.timeCrystal, 1));
             }
         } else if (te.containsItem()) {
