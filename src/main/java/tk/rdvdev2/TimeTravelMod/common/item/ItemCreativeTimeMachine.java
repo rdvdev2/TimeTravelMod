@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tk.rdvdev2.TimeTravelMod.ModTimeMachines;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
-import tk.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
+import tk.rdvdev2.TimeTravelMod.common.event.EventConfigureTimeMachineBlocks;
 
 public class ItemCreativeTimeMachine extends Item {
     private String name = "creativetimemachine";
@@ -29,7 +29,7 @@ public class ItemCreativeTimeMachine extends Item {
     }
 
     @SubscribeEvent
-    public void setTimeMachine(EventSetTimeMachine event) {
+    public void setTimeMachine(EventConfigureTimeMachineBlocks event) {
         this.timeMachine = ModTimeMachines.timeMachineCreative;
     }
 

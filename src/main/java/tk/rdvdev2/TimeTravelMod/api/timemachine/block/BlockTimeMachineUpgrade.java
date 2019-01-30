@@ -1,9 +1,8 @@
 package tk.rdvdev2.TimeTravelMod.api.timemachine.block;
 
 import net.minecraft.block.material.Material;
-import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
-import tk.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
+import tk.rdvdev2.TimeTravelMod.common.event.EventConfigureTimeMachineBlocks;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -20,8 +19,8 @@ public abstract class BlockTimeMachineUpgrade extends BlockTimeMachineComponent 
      * @param event The linking event
      */
     @Override
-    public void setTimeMachine(EventSetTimeMachine event) {
-        HashMap<TimeMachineUpgrade, BlockTimeMachineComponent[]> hm = (HashMap<TimeMachineUpgrade, BlockTimeMachineComponent[]>) ModRegistries.upgradesRegistry.getSlaveMap(ModRegistries.UPGRADETOBLOCK, HashMap.class);
+    public void setTimeMachine(EventConfigureTimeMachineBlocks event) {
+        HashMap<TimeMachineUpgrade, BlockTimeMachineComponent[]> hm = event.getUpgrades();
         if (hm.containsKey(getUpgrade())) {
             BlockTimeMachineComponent[] blocks = hm.get(getUpgrade());
             int index = blocks.length;

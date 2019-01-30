@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import tk.rdvdev2.TimeTravelMod.*;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady;
-import tk.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
+import tk.rdvdev2.TimeTravelMod.common.event.EventConfigureTimeMachineBlocks;
 import tk.rdvdev2.TimeTravelMod.common.networking.OpenTMGUI;
 import tk.rdvdev2.TimeTravelMod.common.worldgen.OreGen;
 
@@ -38,7 +38,7 @@ public class CommonProxy implements IProxy {
         GameRegistry.registerWorldGenerator(new OreGen(), 3);
         ModStructures.init();
         ModRecipes.init();
-        EVENT_BUS.post(new EventSetTimeMachine());
+        EVENT_BUS.post(new EventConfigureTimeMachineBlocks());
     }
 
     @Override
