@@ -16,6 +16,7 @@ import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineComponent;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineCore;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineUpgrade;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHookRunner;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
@@ -208,9 +209,9 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
                     try {
                         int id = upgrades.length;
                         upgrades = Arrays.copyOf(upgrades, id + 1);
-                        upgrades[id] = ((BlockTimeMachineComponent)state.getBlock()).getUpgrade();
+                        upgrades[id] = ((BlockTimeMachineUpgrade)state.getBlock()).getUpgrade();
                     } catch (NullPointerException e) {
-                        upgrades = new TimeMachineUpgrade[]{((BlockTimeMachineComponent)state.getBlock()).getUpgrade()};
+                        upgrades = new TimeMachineUpgrade[]{((BlockTimeMachineUpgrade)state.getBlock()).getUpgrade()};
                     }
                     break;
                 }

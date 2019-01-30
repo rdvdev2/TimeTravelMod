@@ -8,7 +8,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import tk.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
 
 import java.util.HashMap;
@@ -43,13 +42,5 @@ public abstract class BlockTimeMachineComponent extends Block {
      */
     public final TimeMachine getTimeMachine() {
         return timeMachine;
-    }
-
-    /**
-     * Returns the attached upgrade if the block is a Time Machine Upgrade
-     * @return The attached upgrade
-     */
-    public TimeMachineUpgrade getUpgrade() {
-        return null;
     }
 }

@@ -13,7 +13,7 @@ import java.util.Random;
 
 import static tk.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady.ready;
 
-public class BlockTimeMachineCore extends BlockTimeMachineComponent {
+public abstract class BlockTimeMachineCore extends BlockTimeMachineComponent {
 
     private float randomExplosionChance = 0.001F;
 
@@ -24,18 +24,10 @@ public class BlockTimeMachineCore extends BlockTimeMachineComponent {
 
     /**
      * Gets the chance of the Time Machine core to explode
-     * @return The chance (x/1000)
+     * @return The chance (x/1)
      */
     public float getRandomExplosionChance() {
-        return randomExplosionChance;
-    }
-
-    /**
-     * Sets the chance of the Time Machine core to explode
-     * @param randomExplosionChance The chance (1/1000)
-     */
-    public void setRandomExplosionChance(float randomExplosionChance) {
-        this.randomExplosionChance = randomExplosionChance;
+        return 0.001F;
     }
     @Override
     public BlockStateContainer createBlockState() {
@@ -76,12 +68,12 @@ public class BlockTimeMachineCore extends BlockTimeMachineComponent {
      * Triggers a Time Machine core random explosion
      * @param world The world where the Time Machine core is
      * @param pos The position of the Time Machine core
-     * @param approtation The extra chance of the Time Machine core to explode (It is summed to the base one)
+     * @param aportation The extra chance of the Time Machine core to explode (It is summed to the base one)
      * @return True if the Time Machine core exploded
      */
-    public boolean randomExplosion(World world, BlockPos pos, float approtation) {
+    public boolean randomExplosion(World world, BlockPos pos, float aportation) {
         Random r = new Random();
-        if (r.nextFloat() < randomExplosionChance+approtation) {
+        if (r.nextFloat() < randomExplosionChance+aportation) {
             world.setBlockToAir(pos);
             new TemporalExplosion(world, null, pos, 4.0F).explode();
             return true;

@@ -8,7 +8,7 @@ import tk.rdvdev2.TimeTravelMod.common.event.EventSetTimeMachine;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class BlockTimeMachineUpgrade extends BlockTimeMachineComponent {
+public abstract class BlockTimeMachineUpgrade extends BlockTimeMachineComponent {
 
     public BlockTimeMachineUpgrade(Material material) {
         super(material);
@@ -32,4 +32,10 @@ public class BlockTimeMachineUpgrade extends BlockTimeMachineComponent {
             hm.put(getUpgrade(), new BlockTimeMachineComponent[]{this});
         }
     }
+
+    /**
+     * Returns the attached upgrade
+     * @return The attached upgrade
+     */
+    public abstract TimeMachineUpgrade getUpgrade();
 }
