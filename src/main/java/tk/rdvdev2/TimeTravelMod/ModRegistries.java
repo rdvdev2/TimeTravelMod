@@ -16,7 +16,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineComponent;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.EnumTimeMachineComponentType;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineUpgrade;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineCreative;
 
@@ -127,7 +127,7 @@ public class ModRegistries {
             if (obj instanceof TimeMachineCreative) return; // Special rule for the creative Time Machine
             if (!blockStateResourceLocationHashMap.containsValue(obj.getRegistryName())) {
                 for(IBlockState block:obj.getBlocks()) {
-                    if (((BlockTimeMachineComponent)block.getBlock()).getType() == EnumTimeMachineComponentType.UPGRADE) continue; // Time Machine Upgrade blocks must be ignored
+                    if (block.getBlock() instanceof BlockTimeMachineUpgrade) continue; // Time Machine Upgrade blocks must be ignored
                     if (!blockStateResourceLocationHashMap.containsKey(block)) {
                         blockStateResourceLocationHashMap.put(block, obj.getRegistryName());
                     } else {

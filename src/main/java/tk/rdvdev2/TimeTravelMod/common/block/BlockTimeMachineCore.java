@@ -3,15 +3,13 @@ package tk.rdvdev2.TimeTravelMod.common.block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineComponent;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.EnumTimeMachineComponentType;
 
-public class BlockTimeMachineCore extends BlockTimeMachineComponent {
+public class BlockTimeMachineCore extends tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineCore {
 
     private String name = "timemachinecore";
 
     public BlockTimeMachineCore() {
-        super(Material.IRON, EnumTimeMachineComponentType.CORE);
+        super(Material.IRON);
         setSoundType(SoundType.METAL);
         setHarvestLevel("pickaxe", 3);
         setLightLevel(5 / 16f);

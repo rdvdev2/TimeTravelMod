@@ -15,7 +15,7 @@ import tk.rdvdev2.TimeTravelMod.ModBlocks;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineComponent;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.EnumTimeMachineComponentType;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineCore;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHookRunner;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
@@ -245,7 +245,7 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
     public boolean triggerTemporalExplosion(World world, BlockPos controllerPos, EnumFacing side) {
         for (BlockPos pos:getCoreBlocksPos(side)) {
             BlockTimeMachineComponent core = (BlockTimeMachineComponent)world.getBlockState(controllerPos.add(pos)).getBlock();
-            if (core.randomExplosion(world, controllerPos.add(pos)))
+            if (((BlockTimeMachineCore)core).randomExplosion(world, controllerPos.add(pos)))
                 return true;
         }
         return false;
@@ -259,8 +259,8 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      * @return Returns true if the Time Machine is correctly built
      */
     public boolean isBuilt(World world, BlockPos controllerPos, EnumFacing side) {
-        if (isComponentTypeBuilt(EnumTimeMachineComponentType.CORE, world, controllerPos, side) &&
-            isComponentTypeBuilt(EnumTimeMachineComponentType.BASIC, world, controllerPos, side)) {
+        if (isComponentTypeBuilt(TMComponentType.CORE, world, controllerPos, side) &&
+            isComponentTypeBuilt(TMComponentType.BASIC, world, controllerPos, side)) {
             BlockPos[] airPos = getAirBlocksPos(side);
             for (int i = 0; i < airPos.length; i++) {
                 if (world.getBlockState(controllerPos.add(airPos[i])) != Blocks.AIR.getDefaultState()) {
@@ -280,7 +280,7 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      * @param side The Time Machine facing
      * @return True if the component is correctly built
      */
-    public final boolean isComponentTypeBuilt(EnumTimeMachineComponentType type, World world, BlockPos controllerPos, EnumFacing side) {
+    public final boolean isComponentTypeBuilt(TMComponentType type, World world, BlockPos controllerPos, EnumFacing side) {
         BlockPos[] positions;
         IBlockState[] states;
 
@@ -305,7 +305,7 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
         for (BlockPos pos:positions) {
             boolean coincidence = false;
             for (IBlockState state:states) {
-                if (type == EnumTimeMachineComponentType.CORE ?
+                if (type == TMComponentType.CORE ?
                         world.getBlockState(controllerPos.add(pos)).withProperty(PropertyTMReady.ready, true) == state.withProperty(PropertyTMReady.ready, true) :
                         world.getBlockState(controllerPos.add(pos)) == state) {
                     coincidence = true;
@@ -510,5 +510,9 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
 
     public static TimeMachine fromString(String s) {
         return ModRegistries.timeMachinesRegistry.getValue(new ResourceLocation(s));
+    }
+
+    private enum TMComponentType {
+        BASIC, CORE, CONTROLPANEL, UPGRADE
     }
 }
