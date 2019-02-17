@@ -1,17 +1,24 @@
 package tk.rdvdev2.TimeTravelMod;
 
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.relauncher.Side;
-import tk.rdvdev2.TimeTravelMod.common.networking.DimensionTP;
-import tk.rdvdev2.TimeTravelMod.common.networking.OpenTMGUI;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.simple.SimpleChannel;
+import tk.rdvdev2.TimeTravelMod.common.networking.DimensionTpPKT;
+import tk.rdvdev2.TimeTravelMod.common.networking.OpenTmGuiPKT;
 
 public class ModPacketHandler {
-    public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel("timetravelmod");
+    private static final String PROTOCOL_VERSION = Integer.toString(1);
+    public static final SimpleChannel CHANNEL = NetworkRegistry.ChannelBuilder
+            .named(new ResourceLocation(TimeTravelMod.MODID, "main_channel"))
+            .clientAcceptedVersions(PROTOCOL_VERSION::equals)
+            .serverAcceptedVersions(PROTOCOL_VERSION::equals)
+            .networkProtocolVersion(() -> PROTOCOL_VERSION)
+            .simpleChannel();
 
     public static void init() {
-        int d = 0;
-        INSTANCE.registerMessage(DimensionTP.DimensionTPHandler.class, DimensionTP.class, d++, Side.SERVER);
-        INSTANCE.registerMessage(OpenTMGUI.OpenTMGUIHandler.class, OpenTMGUI.class, d++, Side.CLIENT );
+        int disc = 0;
+
+        CHANNEL.registerMessage(disc++, DimensionTpPKT.class, DimensionTpPKT::encode, DimensionTpPKT::decode, DimensionTpPKT.Handler::handle);
+        CHANNEL.registerMessage(disc++, OpenTmGuiPKT.class, OpenTmGuiPKT::encode, OpenTmGuiPKT::decode, OpenTmGuiPKT.Handler::handle);
     }
 }

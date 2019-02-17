@@ -1,10 +1,14 @@
 package tk.rdvdev2.TimeTravelMod.api.timemachine.block;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
+import net.minecraft.state.IProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.entity.TileEntityTMCooldown;
 import tk.rdvdev2.TimeTravelMod.common.world.TemporalExplosion;
@@ -17,9 +21,9 @@ public abstract class BlockTimeMachineCore extends BlockTimeMachineComponent {
 
     private float randomExplosionChance = 0.001F;
 
-    public BlockTimeMachineCore(Material material) {
-        super(material);
-        setDefaultState(blockState.getBaseState().withProperty(ready, true));
+    public BlockTimeMachineCore(Properties properties) {
+        super(properties);
+        setDefaultState(getStateContainer().getBaseState().with(ready, true));
     }
 
     /**
@@ -29,36 +33,20 @@ public abstract class BlockTimeMachineCore extends BlockTimeMachineComponent {
     public float getRandomExplosionChance() {
         return 0.001F;
     }
-    @Override
-    public BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, ready);
-    }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
-        if (state.getValue(ready)) {
-            return 0;
-        } else {
-            return 1;
-        }
-    }
-
-    @Override
-    public IBlockState getStateFromMeta(int meta) {
-        if (meta == 0)
-            return blockState.getBaseState().withProperty(ready, true);
-        else
-            return blockState.getBaseState().withProperty(ready, false);
+    protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> stateBuilder) {
+        stateBuilder.add(new IProperty[]{ready});
     }
 
     @Override
     public boolean hasTileEntity(IBlockState state) {
-        return !state.getValue(ready);
+        return !state.get(ready);
     }
 
     @Override
-    public TileEntity createTileEntity(World world, IBlockState state) {
-        if (!state.getValue(ready))
+    public TileEntity createTileEntity(IBlockState state, IBlockReader world) {
+        if (!state.get(ready))
             return new TileEntityTMCooldown(super.getTimeMachine().getCooldownTime());
         else
             throw new RuntimeException("TileEntityTMCooldown can't be created in a ready TM");
@@ -74,7 +62,7 @@ public abstract class BlockTimeMachineCore extends BlockTimeMachineComponent {
     public boolean randomExplosion(World world, BlockPos pos, float aportation) {
         Random r = new Random();
         if (r.nextFloat() < randomExplosionChance+aportation) {
-            world.setBlockToAir(pos);
+            world.setBlockState(pos, Blocks.AIR.getDefaultState());
             new TemporalExplosion(world, null, pos, 4.0F).explode();
             return true;
         }
@@ -102,9 +90,9 @@ public abstract class BlockTimeMachineCore extends BlockTimeMachineComponent {
     }
 
     @Override
-    public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, IBlockState state) {
-        if (!state.getValue(PropertyTMReady.ready)) {
-                forceExplosion(worldIn, pos);
-            }
+    public void onPlayerDestroy(IWorld worldIn, BlockPos pos, IBlockState state) {
+        if (!state.get(PropertyTMReady.ready)) {
+            forceExplosion(worldIn.getWorld(), pos);
+        }
     }
 }

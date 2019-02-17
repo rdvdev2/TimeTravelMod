@@ -4,56 +4,47 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.MinableConfig;
+import net.minecraft.world.gen.placement.CountRangeConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.network.NetworkDirection;
+import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import tk.rdvdev2.TimeTravelMod.*;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady;
 import tk.rdvdev2.TimeTravelMod.common.event.EventConfigureTimeMachineBlocks;
-import tk.rdvdev2.TimeTravelMod.common.networking.OpenTMGUI;
-import tk.rdvdev2.TimeTravelMod.common.worldgen.OreGen;
+import tk.rdvdev2.TimeTravelMod.common.networking.OpenTmGuiPKT;
 
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
 public class CommonProxy implements IProxy {
-    @Override
-    public void preInit(FMLPreInitializationEvent event) {
-        TimeTravelMod.logger = event.getModLog();
-        TimeTravelMod.logger.info("Time Travel Mod is in preinit state.");
-        PropertyTMReady.init();
-        ModBlocks.init();
-        ModItems.init();
-        ModTimeMachines.init();
-        ModBiomes.init();
-        ModTimeLines.init();
-        ModPacketHandler.init();
-    }
 
     @Override
-    public void init(FMLInitializationEvent event) {
-        TimeTravelMod.logger.info("Time Travel Mod is in init state.");
-        GameRegistry.registerWorldGenerator(new OreGen(), 3);
+    public void commonSetup(FMLCommonSetupEvent event) {
+        TimeTravelMod.logger.info("Time Travel Mod is in common setup state.");
+        ForgeRegistries.BIOMES.forEach((biome ->
+                biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createCompositeFeature(
+                        Feature.MINABLE,
+                        new MinableConfig(MinableConfig.IS_ROCK, ModBlocks.timeCrystalOre.getDefaultState(), 4),
+                        Biome.COUNT_RANGE,
+                        new CountRangeConfig(1, 0, 0, 16)
+                ))));
         ModStructures.init();
         ModRecipes.init();
         EVENT_BUS.post(new EventConfigureTimeMachineBlocks());
     }
 
     @Override
-    public void postInit(FMLPostInitializationEvent event) {
-
-    }
-
-    @Override
     public void displayTMGuiScreen(EntityPlayer player, TimeMachine tm, BlockPos pos, EnumFacing side) {
-        ModPacketHandler.INSTANCE.sendTo(new OpenTMGUI(tm, pos, side), (EntityPlayerMP) player);
+        ModPacketHandler.CHANNEL.sendTo(new OpenTmGuiPKT(tm, pos, side), ((EntityPlayerMP)player).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
     }
 
     @Override
-    public void handleOpenTMGUI(OpenTMGUI message, MessageContext ctx) {
+    public void handleOpenTMGUI(OpenTmGuiPKT message, NetworkEvent.Context ctx) {
         // Server is not going to handle this
-        TimeTravelMod.logger.warn("Server is trying to handle the OpenTMGUI packet. That's weird!");
+        TimeTravelMod.logger.warn("Server is trying to handle the OpenTmGuiPKT packet. That's weird!");
     }
 }

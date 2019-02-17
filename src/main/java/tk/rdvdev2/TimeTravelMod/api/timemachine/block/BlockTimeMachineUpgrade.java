@@ -1,6 +1,5 @@
 package tk.rdvdev2.TimeTravelMod.api.timemachine.block;
 
-import net.minecraft.block.material.Material;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import tk.rdvdev2.TimeTravelMod.common.event.EventConfigureTimeMachineBlocks;
 
@@ -9,8 +8,8 @@ import java.util.HashMap;
 
 public abstract class BlockTimeMachineUpgrade extends BlockTimeMachineComponent {
 
-    public BlockTimeMachineUpgrade(Material material) {
-        super(material);
+    public BlockTimeMachineUpgrade(Properties properties) {
+        super(properties);
     }
 
     /**

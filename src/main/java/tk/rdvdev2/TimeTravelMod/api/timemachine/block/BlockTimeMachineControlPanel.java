@@ -1,6 +1,5 @@
 package tk.rdvdev2.TimeTravelMod.api.timemachine.block;
 
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
@@ -13,15 +12,15 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 public abstract class BlockTimeMachineControlPanel extends BlockTimeMachineComponent {
 
-    public BlockTimeMachineControlPanel(Material material) {
-        super(material);
+    public BlockTimeMachineControlPanel(Properties properties) {
+        super(properties);
     }
 
     @OverridingMethodsMustInvokeSuper
     @Override
-    public boolean onBlockActivated(World worldIn,
+    public boolean onBlockActivated(IBlockState state,
+                                    World worldIn,
                                     BlockPos pos,
-                                    IBlockState state,
                                     EntityPlayer playerIn,
                                     EnumHand hand,
                                     EnumFacing side,

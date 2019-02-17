@@ -1,9 +1,8 @@
 package tk.rdvdev2.TimeTravelMod.api.timemachine.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.common.event.EventConfigureTimeMachineBlocks;
 
@@ -14,8 +13,8 @@ public abstract class BlockTimeMachineComponent extends Block {
 
     private TimeMachine timeMachine = null;
 
-    BlockTimeMachineComponent(Material material) {
-        super(material);
+    BlockTimeMachineComponent(Properties properties) {
+        super(properties);
         MinecraftForge.EVENT_BUS.register(this);
     }
 

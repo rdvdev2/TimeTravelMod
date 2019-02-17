@@ -1,19 +1,19 @@
 package tk.rdvdev2.TimeTravelMod.client.creativetab;
 
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tk.rdvdev2.TimeTravelMod.ModItems;
 
-public class tabTTM extends CreativeTabs {
+public class tabTTM extends ItemGroup {
     public tabTTM(int id){
         super(id, "Time Travel Mod");
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public ItemStack getTabIconItem(){
+    @OnlyIn(Dist.CLIENT)
+    public ItemStack createIcon(){
         return new ItemStack(ModItems.timeCrystal);
     }
 

@@ -3,8 +3,8 @@ package tk.rdvdev2.TimeTravelMod.api.dimension;
 import com.google.common.reflect.TypeToken;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.registries.GameData;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 

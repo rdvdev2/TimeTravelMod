@@ -5,7 +5,7 @@ import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 
 import java.util.Arrays;
 
-public abstract class TimeMachineUpgrade extends IForgeRegistryEntry.Impl<TimeMachineUpgrade> {
+public abstract class TimeMachineUpgrade implements IForgeRegistryEntry<TimeMachineUpgrade> {
 
     private TimeMachineHook[] hooks;
     private TimeMachine[] compatibleTMs;

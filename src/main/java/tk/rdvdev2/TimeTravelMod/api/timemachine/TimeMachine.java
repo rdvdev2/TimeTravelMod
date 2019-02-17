@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * Defines the behaviour and the aspect of a Time Machine
  */
-public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> {
+public abstract class TimeMachine implements IForgeRegistryEntry<TimeMachine> {
 
     /**
      * Gets the cooldown time of the core
@@ -307,7 +307,7 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
             boolean coincidence = false;
             for (IBlockState state:states) {
                 if (type == TMComponentType.CORE ?
-                        world.getBlockState(controllerPos.add(pos)).withProperty(PropertyTMReady.ready, true) == state.withProperty(PropertyTMReady.ready, true) :
+                        world.getBlockState(controllerPos.add(pos)).with(PropertyTMReady.ready, true) == state.with(PropertyTMReady.ready, true) :
                         world.getBlockState(controllerPos.add(pos)) == state) {
                     coincidence = true;
                     break;
@@ -329,7 +329,7 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
         for(BlockPos pos:getCoreBlocksPos(side)) {
             boolean coincidence = false;
             for(IBlockState state:getCoreBlocks()) {
-                if(world.getBlockState(controllerPos.add(pos)) == state.withProperty(PropertyTMReady.ready, true)) {
+                if(world.getBlockState(controllerPos.add(pos)) == state.with(PropertyTMReady.ready, true)) {
                     coincidence = true;
                     break;
                 }
@@ -362,7 +362,7 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
     public boolean isPlayerInside(World world, BlockPos controllerPos, EnumFacing side, EntityPlayer player) {
         System.out.println(getEntitiesInside(world, controllerPos, side));
         for (Entity entity:getEntitiesInside(world, controllerPos, side)){
-            if (entity.getPersistentID().equals(player.getPersistentID())) {
+            if (entity.getEntityId() == (player.getEntityId())) {
                 return true;
             }
         }
@@ -432,7 +432,7 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
         BlockPos[] posData = getPosData(controllerPos, side);
         IBlockState[] blockData = getBlockData(worldOut, posData);
         destroyTM(worldOut, posData);
-        worldIn.getChunkProvider().getLoadedChunk(worldIn.getChunkFromBlockCoords(controllerPos).x, worldIn.getChunkFromBlockCoords(controllerPos).z);
+        // worldIn.getChunkProvider().getLoadedChunk(worldIn.getChunkFromBlockCoords(controllerPos).x, worldIn.getChunkFromBlockCoords(controllerPos).z); TODO: Find a replacement
         buildTM(worldIn, posData, blockData);
         doCooldown(worldIn, controllerPos, side);
     }
@@ -500,7 +500,7 @@ public abstract class TimeMachine extends IForgeRegistryEntry.Impl<TimeMachine> 
      */
     public final void doCooldown(World worldIn, BlockPos controllerPos, EnumFacing side) {
         for (BlockPos block:getCoreBlocksPos(side)) {
-            worldIn.setBlockState(controllerPos.add(block), worldIn.getBlockState(controllerPos.add(block)).withProperty(PropertyTMReady.ready, false));
+            worldIn.setBlockState(controllerPos.add(block), worldIn.getBlockState(controllerPos.add(block)).with(PropertyTMReady.ready, false));
         }
     }
 

@@ -7,27 +7,22 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tk.rdvdev2.TimeTravelMod.ModPacketHandler;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
-import tk.rdvdev2.TimeTravelMod.common.networking.DimensionTP;
+import tk.rdvdev2.TimeTravelMod.common.networking.DimensionTpPKT;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Iterator;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class GuiTimeMachine extends GuiScreen {
 
-    /*
-    private GuiButton ButtonPresent;
-    private GuiButton ButtonOldWest;
-    private int buttons = 2;
-    */
     TimeLine[] tls;
     private GuiButton[] buttons;
     private EntityPlayer player;
@@ -49,7 +44,7 @@ public class GuiTimeMachine extends GuiScreen {
         int buttoncount = tls.length+1;
         buttons = new GuiButton[buttoncount];
         buttons[0] = new GuiButton(0, this.width / 2 -100, (this.height / (buttoncount+1)), I18n.format("gui.tm.present.text"));
-        this.buttonList.add(buttons[0]);
+        addButton(buttons[0]);
         for(int i = 1; i < tls.length+1; i++) {
             buttons[i] = new GuiButton(i, this.width / 2 -100, (this.height / (buttoncount+1)*(i+1)), I18n.format("gui.tm."+tls[i-1].getDimensionType().getName().toLowerCase()+".text"));
             buttons[i].enabled=false;
@@ -58,14 +53,14 @@ public class GuiTimeMachine extends GuiScreen {
                     buttons[i].enabled=true;
                 }
             }
-            this.buttonList.add(buttons[i]);
+            addButton(buttons[i]);
         }
     }
 
     @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    public void render(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
-        super.drawScreen(mouseX, mouseY, partialTicks);
+        super.render(mouseX, mouseY, partialTicks);
     }
 
     @Override
@@ -84,8 +79,8 @@ public class GuiTimeMachine extends GuiScreen {
         } else {
             id = -1;
         }
-        if (id != player.dimension && player.dimension != 1 && player.dimension != -1) {
-            ModPacketHandler.INSTANCE.sendToServer(new DimensionTP(id, tm, pos, side));
+        if (id != player.dimension.getId() && player.dimension.getId() != 1 && player.dimension.getId() != -1) {
+            ModPacketHandler.CHANNEL.sendToServer(new DimensionTpPKT(id, tm, pos, side));
         } else {
             this.player.sendMessage(new TextComponentTranslation("gui.tm.error.text"));
         }
