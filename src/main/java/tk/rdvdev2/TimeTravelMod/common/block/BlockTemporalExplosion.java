@@ -15,9 +15,9 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
-import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -27,24 +27,22 @@ public class BlockTemporalExplosion extends Block {
     public static DamageSource damage = new DamageSource("temporalerror").setDamageIsAbsolute();
 
     public BlockTemporalExplosion() {
-        super(Material.PORTAL);
-        setSoundType(SoundType.METAL);
-        setBlockUnbreakable();
-        setResistance(999999999);
-        setLightLevel (0 / 16f);
-        setLightOpacity(15);
-        setUnlocalizedName(name);
-        setCreativeTab(TimeTravelMod.tabTTM);
+        super(Properties.create(Material.PORTAL)
+                .sound(SoundType.METAL)
+                .hardnessAndResistance(-1)
+                .lightValue(0)
+                .variableOpacity()
+        );
         setRegistryName(name);
     }
 
     @Override
-    public int quantityDropped(Random random) {
+    public int getItemsToDropCount(IBlockState p_196251_1_, int p_196251_2_, World p_196251_3_, BlockPos p_196251_4_, Random p_196251_5_) {
         return 0;
     }
 
     @Override
-    public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity) {
+    public boolean canEntityDestroy(IBlockState state, IBlockReader world, BlockPos pos, Entity entity) {
         if (entity instanceof EntityPlayer) {
             if (((EntityPlayer)entity).isCreative()) {
                 return true;

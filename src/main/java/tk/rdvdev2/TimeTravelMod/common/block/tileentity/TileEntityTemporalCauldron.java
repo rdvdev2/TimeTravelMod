@@ -1,25 +1,22 @@
 package tk.rdvdev2.TimeTravelMod.common.block.tileentity;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import tk.rdvdev2.TimeTravelMod.ModBlocks;
 import tk.rdvdev2.TimeTravelMod.ModItems;
 import tk.rdvdev2.TimeTravelMod.common.block.BlockTemporalCauldron;
 
-import javax.annotation.Nullable;
 import java.util.Random;
 
 public class TileEntityTemporalCauldron extends TileEntity implements ITickable {
+
+    public static TileEntityType<TileEntityTemporalCauldron> type = TileEntityType.register("timetravelmod:temporalcauldron", TileEntityType.Builder.create(TileEntityTemporalCauldron::new));
 
     private final static int CRYSTAL_SLOT = 0;
     private final static int ITEM_SLOT = 1;
@@ -33,6 +30,7 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable 
     IItemHandler inventory;
 
     public TileEntityTemporalCauldron() {
+        super(type);
         inventory = new ItemStackHandler(2) {
             @Override
             protected void onContentsChanged(int slot) {
@@ -47,7 +45,7 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable 
     }
 
     public void putItem(ItemStack item) {
-        if (item.isItemStackDamageable()); inventory.insertItem(ITEM_SLOT, item, false);
+        if (item.isDamageable()); inventory.insertItem(ITEM_SLOT, item, false);
     }
 
     public ItemStack removeItem() {
@@ -62,49 +60,49 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable 
         if (item.getItem() == ModItems.timeCrystal) {
             inventory.insertItem(CRYSTAL_SLOT, item, false);
             crystal_usages = 2000;
-            this.world.setBlockState(this.pos, this.world.getBlockState(pos).withProperty(BlockTemporalCauldron.LEVEL, 3));
+            this.world.setBlockState(this.pos, this.world.getBlockState(pos).with(BlockTemporalCauldron.LEVEL, 3));
         }
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
-        super.readFromNBT(compound);
+    public void read(NBTTagCompound compound) {
+        super.read(compound);
         ITEM_HANDLER_CAPABILITY.readNBT(inventory, null, compound.getTag("inventory"));
 
-        crystal_usages = compound.getInteger("crystal_usages");
-        tick_count = compound.getInteger("tick_count");
+        crystal_usages = compound.getInt("crystal_usages");
+        tick_count = compound.getInt("tick_count");
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        compound = super.writeToNBT(compound);
+    public NBTTagCompound write(NBTTagCompound compound) {
+        compound = super.write(compound);
         compound.setTag("inventory", ITEM_HANDLER_CAPABILITY.writeNBT(inventory, null));
 
-        compound.setInteger("crystal_usages", crystal_usages);
-        compound.setInteger("tick_count", tick_count);
+        compound.setInt("crystal_usages", crystal_usages);
+        compound.setInt("tick_count", tick_count);
 
         return compound;
     }
 
-    @Override
+    /*@Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
         if (
-                newSate == ModBlocks.temporalCauldron.getStateFromMeta(0) ||
-                newSate == ModBlocks.temporalCauldron.getStateFromMeta(1) ||
-                newSate == ModBlocks.temporalCauldron.getStateFromMeta(2) ||
-                newSate == ModBlocks.temporalCauldron.getStateFromMeta(3))
+                newSate == ModBlocks.temporalCauldron.getDefaultState().with(BlockTemporalCauldron.LEVEL, 0) ||
+                newSate == ModBlocks.temporalCauldron.getDefaultState().with(BlockTemporalCauldron.LEVEL, 1) ||
+                newSate == ModBlocks.temporalCauldron.getDefaultState().with(BlockTemporalCauldron.LEVEL, 2) ||
+                newSate == ModBlocks.temporalCauldron.getDefaultState().with(BlockTemporalCauldron.LEVEL, 3))
             return false;
         else
             return true;
-    }
+    }*/
 
     @Override
-    public void update() {
+    public void tick() {
         if (!world.isRemote && !inventory.getStackInSlot(ITEM_SLOT).isEmpty() && !inventory.getStackInSlot(CRYSTAL_SLOT).isEmpty()) {
-            if (crystal_usages == 1300) this.world.setBlockState(this.pos, this.world.getBlockState(pos).withProperty(BlockTemporalCauldron.LEVEL, 2));
-            if (crystal_usages == 600) this.world.setBlockState(this.pos, this.world.getBlockState(pos).withProperty(BlockTemporalCauldron.LEVEL, 1));
+            if (crystal_usages == 1300) this.world.setBlockState(this.pos, this.world.getBlockState(pos).with(BlockTemporalCauldron.LEVEL, 2));
+            if (crystal_usages == 600) this.world.setBlockState(this.pos, this.world.getBlockState(pos).with(BlockTemporalCauldron.LEVEL, 1));
             if (crystal_usages == 0) {
-                this.world.setBlockState(this.pos, this.world.getBlockState(pos).withProperty(BlockTemporalCauldron.LEVEL, 0));
+                this.world.setBlockState(this.pos, this.world.getBlockState(pos).with(BlockTemporalCauldron.LEVEL, 0));
                 inventory.extractItem(CRYSTAL_SLOT, 1, false);
             }
 
@@ -114,7 +112,7 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable 
                 crystal_usages--;
 
                 ItemStack tool = inventory.extractItem(ITEM_SLOT, 1, false);
-                int damage = tool.getItemDamage();
+                int damage = tool.getDamage();
                 Random r = new Random();
 
                 int n = r.nextInt(100);
@@ -122,7 +120,7 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable 
                 else if (n >= 95) damage = damage=damage;
                 else damage--;
 
-                tool.setItemDamage(damage);
+                tool.setDamage(damage);
                 inventory.insertItem(ITEM_SLOT, tool, false);
             }
 
@@ -130,7 +128,9 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable 
         }
     }
 
-    @Override
+
+    // TODO: Investigate new capabilty system
+    /*@Override
     public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
         if (capability == ITEM_HANDLER_CAPABILITY) {
             return true;
@@ -145,5 +145,5 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable 
             return (T) inventory;
         }
         return super.getCapability(capability, facing);
-    }
+    } */
 }

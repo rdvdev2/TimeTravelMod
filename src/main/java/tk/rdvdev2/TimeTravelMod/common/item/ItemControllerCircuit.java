@@ -8,10 +8,10 @@ public class ItemControllerCircuit extends Item {
     private String name = "controllercircuit";
 
     public ItemControllerCircuit() {
-        super();
-        setUnlocalizedName(name);
+        super(new Properties()
+                .maxStackSize(64)
+                .group(TimeTravelMod.tabTTM)
+        );
         setRegistryName(name);
-        setCreativeTab(TimeTravelMod.tabTTM);
-        setMaxStackSize(64);
     }
 }

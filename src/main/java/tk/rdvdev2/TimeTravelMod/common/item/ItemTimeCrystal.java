@@ -8,10 +8,10 @@ public class ItemTimeCrystal extends Item {
     String name = "timecrystal";
 
     public ItemTimeCrystal() {
-        super();
-        setUnlocalizedName(name);
+        super(new Properties()
+                .maxStackSize(64)
+                .group(TimeTravelMod.tabTTM)
+        );
         setRegistryName(name);
-        setCreativeTab(TimeTravelMod.tabTTM);
-        setMaxStackSize(64);
     }
 }

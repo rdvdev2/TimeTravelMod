@@ -9,7 +9,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import tk.rdvdev2.TimeTravelMod.ModTimeMachines;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
@@ -20,11 +20,11 @@ public class ItemCreativeTimeMachine extends Item {
     private TimeMachine timeMachine;
 
     public ItemCreativeTimeMachine() {
-        super();
-        setUnlocalizedName(name);
+        super(new Properties()
+                .maxStackSize(1)
+                .group(TimeTravelMod.tabTTM)
+        );
         setRegistryName(name);
-        setCreativeTab(TimeTravelMod.tabTTM);
-        setMaxStackSize(1);
         MinecraftForge.EVENT_BUS.register(this);
     }
 

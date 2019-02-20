@@ -25,7 +25,7 @@ modId="timetravelmod" #mandatory
 version="${file.jarVersion}" #mandatory
  # A display name for the mod
 displayName="Time Travel Mod" #mandatory
-# A URL to query for updates for this mod. See the JSON update specification <here>
+# A URL to query for updates for this mod. See the JSON tick specification <here>
 updateJSONURL="https://raw.githubusercontent.com/rdvdev2/TimeTravelMod/1.13.2/updates.json" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''

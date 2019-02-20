@@ -3,11 +3,10 @@ package tk.rdvdev2.TimeTravelMod;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.ForgeRegistries;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.entity.TileEntityTMCooldown;
 import tk.rdvdev2.TimeTravelMod.common.block.*;
 import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TileEntityTemporalCauldron;
@@ -36,8 +35,12 @@ public class ModBlocks {
                 temporalExplosion,
                 temporalCauldron
         );
-        GameRegistry.registerTileEntity(TileEntityTMCooldown.class, new ResourceLocation("timetravelmod:entity.tmcooldown"));
-        GameRegistry.registerTileEntity(TileEntityTemporalCauldron.class, new ResourceLocation("timetravelmod:entity.temporalcauldron"));
+        //GameRegistry.registerTileEntity(TileEntityTMCooldown.class, new ResourceLocation("timetravelmod:entity.tmcooldown"));
+        //GameRegistry.registerTileEntity(TileEntityTemporalCauldron.class, new ResourceLocation("timetravelmod:entity.temporalcauldron"));
+        ForgeRegistries.TILE_ENTITIES.registerAll( // TODO: Check this is the way TE's are registered
+                TileEntityTMCooldown.type,
+                TileEntityTemporalCauldron.type
+        );
     }
 
     @SubscribeEvent
@@ -56,7 +59,7 @@ public class ModBlocks {
 
     private static void registerItemBlock(RegistryEvent.Register<Item> event, Block... blocks) {
         for (int i = 0; i < blocks.length; i++) {
-            event.getRegistry().register(new ItemBlock(blocks[i]).setRegistryName(blocks[i].getRegistryName()));
+            event.getRegistry().register(new ItemBlock(blocks[i], new Item.Properties().maxStackSize(64).group(TimeTravelMod.tabTTM)).setRegistryName(blocks[i].getRegistryName()));
         }
     }
 }

@@ -3,7 +3,6 @@ package tk.rdvdev2.TimeTravelMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -12,7 +11,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryInternal;
 import net.minecraftforge.registries.RegistryBuilder;
 import net.minecraftforge.registries.RegistryManager;
-import org.apache.commons.lang3.ArrayUtils;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineComponent;
@@ -68,9 +66,6 @@ public class ModRegistries {
 
         @Override
         public void onAdd(IForgeRegistryInternal<TimeLine> owner, RegistryManager stage, int id, TimeLine obj, @Nullable TimeLine oldObj) {
-
-            if (!ArrayUtils.contains(DimensionManager.getDimensions(obj.getDimensionType()), obj.getDimId()))
-                DimensionManager.registerDimension(obj.getDimId(), obj.getDimensionType());
 
             // Get the tiers array
             tierToTimeLineArray = owner.getSlaveMap(TIERTOTIMELINE, TimeLine[][].class);

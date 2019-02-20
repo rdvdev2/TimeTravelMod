@@ -8,10 +8,10 @@ public class ItemHeavyIngot extends Item {
     private String name = "heavyingot";
 
     public ItemHeavyIngot() {
-        super();
-        setUnlocalizedName(name);
+        super(new Properties()
+                .maxStackSize(64)
+                .group(TimeTravelMod.tabTTM)
+        );
         setRegistryName(name);
-        setCreativeTab(TimeTravelMod.tabTTM);
-        setMaxStackSize(64);
     }
 }

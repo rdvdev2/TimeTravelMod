@@ -1,4 +1,6 @@
-package tk.rdvdev2.TimeTravelMod;
+// TODO: There's still no default config system in forge 1.13.2
+
+/*package tk.rdvdev2.TimeTravelMod;
 
 import net.minecraftforge.common.config.Config;
 
@@ -14,3 +16,4 @@ public class ModConfigs {
     @Config.RequiresMcRestart
     public static boolean vanillaCauldronTexture = false;
 }
+*/
