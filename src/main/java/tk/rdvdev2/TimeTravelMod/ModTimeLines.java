@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.Mod;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.common.dimension.oldwest.TimeLineOldWest;
 
-@Mod.EventBusSubscriber(modid="timetravelmod")
+@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModTimeLines {
 
     public static TimeLine oldWest = new TimeLineOldWest();

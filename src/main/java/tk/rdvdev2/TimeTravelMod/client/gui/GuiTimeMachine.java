@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tk.rdvdev2.TimeTravelMod.ModPacketHandler;
@@ -20,7 +21,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 @OnlyIn(Dist.CLIENT)
-public class GuiTimeMachine extends GuiScreen {
+public class GuiTimeMachine extends GuiScreen { // TODO: Fix GUI approaching custom GuiButton class
 
     TimeLine[] tls;
     private GuiButton[] buttons;
@@ -42,10 +43,10 @@ public class GuiTimeMachine extends GuiScreen {
         TimeLine[] atls = ModRegistries.timeLinesRegistry.getSlaveMap(ModRegistries.TIERTOTIMELINE, TimeLine[][].class)[tm.getTier()];
         int buttoncount = tls.length+1;
         buttons = new GuiButton[buttoncount];
-        buttons[0] = new GuiButton(0, this.width / 2 -100, (this.height / (buttoncount+1)), I18n.format("gui.tm.present.text"));
+        buttons[0] = new GuiButton(DimensionType.OVERWORLD.getId(), this.width / 2 -100, (this.height / (buttoncount+1)), I18n.format("gui.tm.present.text"));
         addButton(buttons[0]);
         for(int i = 1; i < tls.length+1; i++) {
-            buttons[i] = new GuiButton(i, this.width / 2 -100, (this.height / (buttoncount+1)*(i+1)), I18n.format("gui.tm."+tls[i-1].getRegistryName()+".text"));
+            buttons[i] = new GuiButton(tls[i-1].getDimId(), this.width / 2 -100, (this.height / (buttoncount+1)*(i+1)), I18n.format("gui.tm."+tls[i-1].getRegistryName()+".text"));
             buttons[i].enabled=false;
             for (TimeLine tl:atls) {
                 if (tl.getDimId() == tls[i-1].getDimId()) {
@@ -69,15 +70,8 @@ public class GuiTimeMachine extends GuiScreen {
 
     public void actionPerformed(GuiButton button) throws IOException {
         this.mc.displayGuiScreen(null);
-        int id;
-        if (button.id == 0) {
-            id = 0;
-        } else if (1 <= button.id && button.id <= tls.length) {
-            id = tls[button.id - 1].getDimId();
-        } else {
-            id = -1;
-        }
-        if (id != player.dimension.getId() && player.dimension.getId() != 1 && player.dimension.getId() != -1) {
+        int id = button.id;
+        if (id != player.dimension.getId() && player.dimension.getId() != DimensionType.NETHER.getId() && player.dimension.getId() != DimensionType.THE_END.getId()) {
             ModPacketHandler.CHANNEL.sendToServer(new DimensionTpPKT(id, tm, pos, side));
         } else {
             this.player.sendMessage(new TextComponentTranslation("gui.tm.error.text"));

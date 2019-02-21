@@ -64,7 +64,7 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.13.2-25.0.22'
+    minecraft 'net.minecraftforge:forge:1.13.2-25.0.45'
 
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
@@ -113,7 +113,7 @@ jar {
                     "Specification-Vendor": "rdvdev2",
                     "Specification-Version": "24.0", // We are version 1 of the modlauncher specification
                     "Implementation-Title": "Time Travel Mod",
-                    "Implementation-Version": "${version}",
+                    "Implementation-Version": "${project.version}",
                     "Implementation-Vendor" :"rdvdev2",
                     "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
     }

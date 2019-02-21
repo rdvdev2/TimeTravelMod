@@ -9,7 +9,7 @@ import tk.rdvdev2.TimeTravelMod.common.item.ItemCreativeTimeMachine;
 import tk.rdvdev2.TimeTravelMod.common.item.ItemHeavyIngot;
 import tk.rdvdev2.TimeTravelMod.common.item.ItemTimeCrystal;
 
-@Mod.EventBusSubscriber(modid="timetravelmod")
+@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModItems {
 
     public static Item timeCrystal = new ItemTimeCrystal();

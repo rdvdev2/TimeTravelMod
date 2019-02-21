@@ -16,13 +16,16 @@ import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineComponent;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineUpgrade;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
+import tk.rdvdev2.TimeTravelMod.common.event.EventConfigureTimeMachineBlocks;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineCreative;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.HashMap;
 
-@Mod.EventBusSubscriber(modid="timetravelmod")
+import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
+
+@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModRegistries {
 
     public static IForgeRegistry<TimeMachine> timeMachinesRegistry;
@@ -105,7 +108,7 @@ public class ModRegistries {
         }
     }
 
-    public static class TimeMachinesCallbacks implements IForgeRegistry.CreateCallback<TimeMachine>, IForgeRegistry.AddCallback<TimeMachine> {
+    public static class TimeMachinesCallbacks implements IForgeRegistry.CreateCallback<TimeMachine>, IForgeRegistry.AddCallback<TimeMachine>, IForgeRegistry.BakeCallback {
 
         private HashMap<IBlockState, ResourceLocation> blockStateResourceLocationHashMap;
 
@@ -130,6 +133,11 @@ public class ModRegistries {
                     }
                 }
             }
+        }
+
+        @Override
+        public void onBake(IForgeRegistryInternal owner, RegistryManager stage) {
+            EVENT_BUS.post(new EventConfigureTimeMachineBlocks());
         }
     }
 

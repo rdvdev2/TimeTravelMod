@@ -7,12 +7,11 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.entity.TileEntityTMCooldown;
 import tk.rdvdev2.TimeTravelMod.common.block.*;
 import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TileEntityTemporalCauldron;
 
-@Mod.EventBusSubscriber(modid = "timetravelmod")
+@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModBlocks {
 
     public static Block timeCrystalOre = new BlockTimeCrystalOre();
@@ -35,12 +34,6 @@ public class ModBlocks {
                 reinforcedHeavyBlock,
                 temporalExplosion,
                 temporalCauldron
-        );
-        //GameRegistry.registerTileEntity(TileEntityTMCooldown.class, new ResourceLocation("timetravelmod:entity.tmcooldown"));
-        //GameRegistry.registerTileEntity(TileEntityTemporalCauldron.class, new ResourceLocation("timetravelmod:entity.temporalcauldron"));
-        ForgeRegistries.TILE_ENTITIES.registerAll( // TODO: Check this is the way TE's are registered
-                TileEntityTMCooldown.type,
-                TileEntityTemporalCauldron.type
         );
     }
 

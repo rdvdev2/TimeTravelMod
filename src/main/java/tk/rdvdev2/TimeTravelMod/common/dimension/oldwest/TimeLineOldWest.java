@@ -33,10 +33,6 @@ public class TimeLineOldWest extends TimeLine {
 
     public DimensionType Type = new DimensionType(20, "_oldwest", "OLDWEST", Dimension::new);
 
-    /*public void init() {
-        this.biomeProvider = new BiomeProviderSingle(ModBiomes.OLDWEST);
-    }*/
-
     public TimeLineOldWest() {
         super(new ModDimension() {
             @Override

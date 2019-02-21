@@ -8,7 +8,7 @@ import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineCreative;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineTier1;
 
-@Mod.EventBusSubscriber(modid="timetravelmod")
+@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModTimeMachines {
 
     public static TimeMachine timeMachineTier1 = new TimeMachineTier1();

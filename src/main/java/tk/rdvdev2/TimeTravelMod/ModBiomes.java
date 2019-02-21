@@ -6,7 +6,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import tk.rdvdev2.TimeTravelMod.common.dimension.oldwest.BiomeOldWest;
 
-@Mod.EventBusSubscriber(modid="timetravelmod")
+@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModBiomes {
     public static Biome OLDWEST = new BiomeOldWest();
 
