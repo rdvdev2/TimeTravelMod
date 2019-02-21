@@ -1,7 +1,7 @@
 {
   "variants": {
     "normal": [
-      { "model": "timetravelmod:timecrystalore"}
+      { "model": "timetravelmod:block/timecrystalore"}
     ]
   }
 }

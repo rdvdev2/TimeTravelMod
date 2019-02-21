@@ -55,7 +55,6 @@ public class TimeTravelMod {
                         new CountRangeConfig(1, 0, 0, 16)
                 ))));
         ModStructures.init();
-        ModRecipes.init();
         EVENT_BUS.post(new EventConfigureTimeMachineBlocks());
     }
 

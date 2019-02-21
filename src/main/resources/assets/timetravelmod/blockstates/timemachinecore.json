@@ -1,10 +1,10 @@
 {
   "variants": {
     "ready=true": [
-      { "model": "timetravelmod:timemachinecore"}
+      { "model": "timetravelmod:block/timemachinecore"}
     ],
     "ready=false": [
-      { "model": "timetravelmod:timemachinecore"}
+      { "model": "timetravelmod:block/timemachinecore"}
     ]
   }
 }

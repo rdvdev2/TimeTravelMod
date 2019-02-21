@@ -1,7 +1,7 @@
 {
   "variants": {
     "normal": [
-      { "model": "timetravelmod:timemachinebasicblock"}
+      { "model": "timetravelmod:block/timemachinebasicblock"}
     ]
   }
 }

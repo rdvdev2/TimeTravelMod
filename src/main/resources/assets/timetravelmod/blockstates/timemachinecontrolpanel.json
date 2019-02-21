@@ -1,7 +1,7 @@
 {
   "variants": {
     "normal": [
-      { "model": "timetravelmod:timemachinecontrolpanel"}
+      { "model": "timetravelmod:block/timemachinecontrolpanel"}
     ]
   }
 }
