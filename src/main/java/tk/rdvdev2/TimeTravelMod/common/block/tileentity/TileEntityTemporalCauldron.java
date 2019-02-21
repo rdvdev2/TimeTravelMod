@@ -16,7 +16,7 @@ import java.util.Random;
 
 public class TileEntityTemporalCauldron extends TileEntity implements ITickable {
 
-    public static TileEntityType<TileEntityTemporalCauldron> type = TileEntityType.register("timetravelmod:temporalcauldron", TileEntityType.Builder.create(TileEntityTemporalCauldron::new));
+    public static TileEntityType<TileEntityTemporalCauldron> type;
 
     private final static int CRYSTAL_SLOT = 0;
     private final static int ITEM_SLOT = 1;

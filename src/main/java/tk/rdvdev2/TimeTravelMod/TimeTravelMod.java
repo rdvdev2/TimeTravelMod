@@ -54,7 +54,6 @@ public class TimeTravelMod {
                         Biome.COUNT_RANGE,
                         new CountRangeConfig(1, 0, 0, 16)
                 ))));
-        ModStructures.init();
         EVENT_BUS.post(new EventConfigureTimeMachineBlocks());
     }
 

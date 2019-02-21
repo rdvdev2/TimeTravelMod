@@ -11,7 +11,7 @@ import tk.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady;
  */
 public class TileEntityTMCooldown extends TileEntity implements ITickable {
 
-    public static TileEntityType<TileEntityTMCooldown> type = TileEntityType.register("timetravelmod:entity.tmcooldown", TileEntityType.Builder.create(TileEntityTMCooldown::new));
+    public static TileEntityType<TileEntityTMCooldown> type;
 
     int remainingTicks;
 

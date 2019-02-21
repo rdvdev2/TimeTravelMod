@@ -5,6 +5,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
@@ -68,8 +69,10 @@ public class TimeMachineCreative extends TimeMachine {
     }
 
     @Override
-    public void teleporterTasks(World worldIn, World worldOut, BlockPos controllerPos, EnumFacing side) {
-        worldIn.getChunkProvider().getLoadedChunk(worldIn.getChunkFromBlockCoords(controllerPos).x, worldIn.getChunkFromBlockCoords(controllerPos).z);
+    public void teleporterTasks(World worldIn, World worldOut, BlockPos controllerPos, EnumFacing side) { // TODO: Check if this actually loads the chunk
+        Chunk chunk = worldIn.getChunk(controllerPos);
+        //worldIn.getChunkProvider().getLoadedChunk(worldIn.getChunkFromBlockCoords(controllerPos).x, worldIn.getChunkFromBlockCoords(controllerPos).z);
+        worldIn.getChunkProvider().provideChunk(chunk.x, chunk.z, true, false);
     }
 
     @Override

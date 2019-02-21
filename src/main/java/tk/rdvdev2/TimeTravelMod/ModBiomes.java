@@ -8,7 +8,7 @@ import tk.rdvdev2.TimeTravelMod.common.dimension.oldwest.BiomeOldWest;
 
 @Mod.EventBusSubscriber(modid="timetravelmod")
 public class ModBiomes {
-    public static Biome OLDWEST = new BiomeOldWest(new Biome.BiomeProperties("Old West"));
+    public static Biome OLDWEST = new BiomeOldWest();
 
     @SubscribeEvent
     public static void registerBiomes(RegistryEvent.Register<Biome> event) {

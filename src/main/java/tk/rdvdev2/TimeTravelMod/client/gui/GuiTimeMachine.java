@@ -1,6 +1,5 @@
 package tk.rdvdev2.TimeTravelMod.client.gui;
 
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -46,7 +45,7 @@ public class GuiTimeMachine extends GuiScreen {
         buttons[0] = new GuiButton(0, this.width / 2 -100, (this.height / (buttoncount+1)), I18n.format("gui.tm.present.text"));
         addButton(buttons[0]);
         for(int i = 1; i < tls.length+1; i++) {
-            buttons[i] = new GuiButton(i, this.width / 2 -100, (this.height / (buttoncount+1)*(i+1)), I18n.format("gui.tm."+tls[i-1].getDimensionType().getName().toLowerCase()+".text"));
+            buttons[i] = new GuiButton(i, this.width / 2 -100, (this.height / (buttoncount+1)*(i+1)), I18n.format("gui.tm."+tls[i-1].getRegistryName()+".text"));
             buttons[i].enabled=false;
             for (TimeLine tl:atls) {
                 if (tl.getDimId() == tls[i-1].getDimId()) {
@@ -68,7 +67,6 @@ public class GuiTimeMachine extends GuiScreen {
         return false;
     }
 
-    @Override
     public void actionPerformed(GuiButton button) throws IOException {
         this.mc.displayGuiScreen(null);
         int id;
@@ -95,5 +93,25 @@ public class GuiTimeMachine extends GuiScreen {
             array[i] = iterator.next();
         }
         return array;
+    }
+
+    protected class GuiButton extends net.minecraft.client.gui.GuiButton {
+        public GuiButton(int p_i1020_1_, int p_i1020_2_, int p_i1020_3_, String p_i1020_4_) {
+            super(p_i1020_1_, p_i1020_2_, p_i1020_3_, p_i1020_4_);
+        }
+
+        public GuiButton(int p_i46323_1_, int p_i46323_2_, int p_i46323_3_, int p_i46323_4_, int p_i46323_5_, String p_i46323_6_) {
+            super(p_i46323_1_, p_i46323_2_, p_i46323_3_, p_i46323_4_, p_i46323_5_, p_i46323_6_);
+        }
+
+        @Override
+        public void onClick(double p_194829_1_, double p_194829_3_) {
+            super.onClick(p_194829_1_, p_194829_3_);
+            try {
+                actionPerformed(this);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

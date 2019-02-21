@@ -3,6 +3,7 @@ package tk.rdvdev2.TimeTravelMod;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -41,6 +42,12 @@ public class ModBlocks {
                 TileEntityTMCooldown.type,
                 TileEntityTemporalCauldron.type
         );
+    }
+
+    @SubscribeEvent
+    public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event) {
+        TileEntityTemporalCauldron.type = TileEntityType.register("timetravelmod:temporalcauldron", TileEntityType.Builder.create(TileEntityTemporalCauldron::new));
+        TileEntityTMCooldown.type = TileEntityType.register("timetravelmod:entity.tmcooldown", TileEntityType.Builder.create(TileEntityTMCooldown::new));
     }
 
     @SubscribeEvent
