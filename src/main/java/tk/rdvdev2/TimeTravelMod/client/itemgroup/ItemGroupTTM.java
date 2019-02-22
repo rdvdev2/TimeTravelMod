@@ -9,16 +9,12 @@ import tk.rdvdev2.TimeTravelMod.ModItems;
 public class ItemGroupTTM extends ItemGroup {
 
     public ItemGroupTTM(){
-        super("Time Travel Mod");
+        super("timetravelmod");
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
     public ItemStack createIcon(){
         return new ItemStack(ModItems.timeCrystal);
-    }
-
-    public String getTranslatedTabLabel() {
-        return "Time Travel Mod";
     }
 }

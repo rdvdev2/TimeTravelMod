@@ -46,7 +46,7 @@ public class GuiTimeMachine extends GuiScreen { // TODO: Fix GUI approaching cus
         buttons[0] = new GuiButton(DimensionType.OVERWORLD.getId(), this.width / 2 -100, (this.height / (buttoncount+1)), I18n.format("gui.tm.present.text"));
         addButton(buttons[0]);
         for(int i = 1; i < tls.length+1; i++) {
-            buttons[i] = new GuiButton(tls[i-1].getDimId(), this.width / 2 -100, (this.height / (buttoncount+1)*(i+1)), I18n.format("gui.tm."+tls[i-1].getRegistryName()+".text"));
+            buttons[i] = new GuiButton(tls[i-1].getDimId(), this.width / 2 -100, (this.height / (buttoncount+1)*(i+1)), I18n.format("gui.tm."+tls[i-1].getRegistryName().getPath()+".text"));
             buttons[i].enabled=false;
             for (TimeLine tl:atls) {
                 if (tl.getDimId() == tls[i-1].getDimId()) {
