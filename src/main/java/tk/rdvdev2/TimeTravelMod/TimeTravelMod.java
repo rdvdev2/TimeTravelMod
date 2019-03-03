@@ -1,6 +1,7 @@
 package tk.rdvdev2.TimeTravelMod;
 
 import net.minecraft.item.ItemGroup;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -10,6 +11,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tk.rdvdev2.TimeTravelMod.client.itemgroup.ItemGroupTTM;
+import tk.rdvdev2.TimeTravelMod.common.dimension.oldwest.TimeLineOldWest;
 import tk.rdvdev2.TimeTravelMod.proxy.ClientProxy;
 import tk.rdvdev2.TimeTravelMod.proxy.CommonProxy;
 import tk.rdvdev2.TimeTravelMod.proxy.IProxy;
@@ -39,6 +41,9 @@ public class TimeTravelMod {
 
     private void commonSetup(FMLCommonSetupEvent event) {
         TimeTravelMod.logger.info("Time Travel Mod is in common setup state.");
+        ModPacketHandler.init();
+        DimensionManager.registerDimensionInternal(20, ModTimeLines.OLD_WEST, TimeLineOldWest.modDimension, null);
+        //DimensionManager.registerDimension( ModTimeLines.OLD_WEST, TimeLineOldWest.modDimension, null);
         /*ForgeRegistries.BIOMES.forEach((biome ->
                 biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createCompositeFeature(
                         Feature.MINABLE,
@@ -49,6 +54,6 @@ public class TimeTravelMod {
     }
 
     private void serverSetup(FMLDedicatedServerSetupEvent event) {
-        proxy.serverSetup(event);
+
     }
 }

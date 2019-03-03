@@ -4,7 +4,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
 import net.minecraftforge.fml.network.NetworkEvent;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
@@ -12,10 +11,6 @@ import tk.rdvdev2.TimeTravelMod.client.gui.GuiTimeMachine;
 import tk.rdvdev2.TimeTravelMod.common.networking.OpenTmGuiPKT;
 
 public class ClientProxy extends CommonProxy {
-    @Override
-    public void serverSetup(FMLDedicatedServerSetupEvent event) {
-        // Do nothing
-    }
 
     @Override
     public void displayTMGuiScreen(EntityPlayer player, TimeMachine tm, BlockPos pos, EnumFacing side) {
