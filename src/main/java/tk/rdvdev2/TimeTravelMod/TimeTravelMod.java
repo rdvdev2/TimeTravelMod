@@ -42,8 +42,7 @@ public class TimeTravelMod {
     private void commonSetup(FMLCommonSetupEvent event) {
         TimeTravelMod.logger.info("Time Travel Mod is in common setup state.");
         ModPacketHandler.init();
-        DimensionManager.registerDimensionInternal(20, ModTimeLines.OLD_WEST, TimeLineOldWest.modDimension, null);
-        //DimensionManager.registerDimension( ModTimeLines.OLD_WEST, TimeLineOldWest.modDimension, null);
+        DimensionManager.registerDimension( ModTimeLines.OLD_WEST, TimeLineOldWest.modDimension, null);
         /*ForgeRegistries.BIOMES.forEach((biome ->
                 biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createCompositeFeature(
                         Feature.MINABLE,

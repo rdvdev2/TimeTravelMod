@@ -18,10 +18,6 @@ public abstract class TimeLine implements IForgeRegistryEntry<TimeLine> {
     private DimensionType dimension;
     private TimeLine registeredInstance = null;
 
-    public int getDimId() {
-        return dimension.getId();
-    }
-
     /**
      * Gets the minimum Time Machine tier required to travel to this time line
      * @return The minimum tier
@@ -101,7 +97,7 @@ public abstract class TimeLine implements IForgeRegistryEntry<TimeLine> {
         Iterator<TimeLine> iterator = ModRegistries.timeLinesRegistry.iterator();
         while (iterator.hasNext()) {
             TimeLine tl = iterator.next();
-            if (tl.getDimId() == world.getDimension().getType().getId()) return true;
+            if (tl.getDimension() == world.getDimension().getType()) return true;
         }
         return false;
     }
