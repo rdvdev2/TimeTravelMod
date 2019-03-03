@@ -2,16 +2,13 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "timetravelmod:timemachinebasicblock",
-      "data": 0
+      "item": "timetravelmod:timemachinebasicblock"
     },
     {
-      "item": "timetravelmod:timecrystal",
-      "data": 0
+      "item": "timetravelmod:timecrystal"
     }
   ],
   "result": {
-    "item": "timetravelmod:timemachinecore",
-    "data": 0
+    "item": "timetravelmod:timemachinecore"
   }
 }

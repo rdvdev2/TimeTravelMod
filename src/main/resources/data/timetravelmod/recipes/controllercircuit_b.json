@@ -7,37 +7,31 @@
   "key": {
     "B": [
       {
-        "item": "minecraft:stone_button",
-        "data": 0
+        "item": "minecraft:stone_button"
       }
     ],
     "R": [
       {
-        "item": "minecraft:redstone",
-        "data": 0
+        "item": "minecraft:redstone"
       }
     ],
     "C": [
       {
-        "item": "minecraft:comparator",
-        "data": 0
+        "item": "minecraft:comparator"
       }
     ],
     "A": [
       {
-        "item": "minecraft:repeater",
-        "data": 0
+        "item": "minecraft:repeater"
       }
     ],
     "L": [
       {
-        "item": "minecraft:lever",
-        "data": 0
+        "item": "minecraft:lever"
       }
     ]
   },
   "result": {
-    "item": "timetravelmod:controllercircuit",
-    "data": 0
+    "item": "timetravelmod:controllercircuit"
   }
 }

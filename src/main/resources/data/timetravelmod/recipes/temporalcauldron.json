@@ -7,18 +7,15 @@
   "key": {
     "I": [
       {
-        "item": "minecraft:iron_ingot",
-        "data": 0
+        "item": "minecraft:iron_ingot"
       }
     ],
     "C": {
-      "item": "timetravelmod:controllercircuit",
-      "data": 0
+      "item": "timetravelmod:controllercircuit"
     }
   },
   "result": {
     "item": "timetravelmod:temporalcauldron",
-    "data": 0,
     "count": 1
   }
 }

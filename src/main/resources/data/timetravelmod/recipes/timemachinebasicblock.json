@@ -7,20 +7,17 @@
   "key": {
     "G": [
       {
-        "item": "minecraft:gold_block",
-        "data": 0
+        "item": "minecraft:gold_block"
       }
     ],
     "R": [
       {
-        "item": "minecraft:redstone",
-        "data": 0
+        "item": "minecraft:redstone"
       }
     ]
   },
   "result": {
     "item": "timetravelmod:timemachinebasicblock",
-    "data": 0,
     "count": 4
   }
 }

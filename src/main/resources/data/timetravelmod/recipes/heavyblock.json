@@ -7,14 +7,12 @@
   "key": {
     "H": [
       {
-        "item": "timetravelmod:heavyingot",
-        "data": 0
+        "item": "timetravelmod:heavyingot"
       }
     ]
   },
   "result": {
     "item": "timetravelmod:heavyblock",
-    "data": 0,
     "count": 1
   }
 }
