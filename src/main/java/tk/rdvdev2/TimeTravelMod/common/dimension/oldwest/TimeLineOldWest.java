@@ -9,7 +9,8 @@ import java.util.function.Function;
 
 public class TimeLineOldWest extends TimeLine {
 
-    public static DimensionType type = new DimensionType(20, "_oldwest", "OLDWEST", DimensionOldWest::new);
+    public static DimensionType type = new DimensionType(20, "_oldwest", "OLDWEST",DimensionOldWest::new)
+            .setRegistryName(new ResourceLocation("timetravelmod:oldwest"));
     public static ModDimension modDimension = new ModDimension() {
         @Override
         public Function<DimensionType, ? extends net.minecraft.world.dimension.Dimension> getFactory() {
