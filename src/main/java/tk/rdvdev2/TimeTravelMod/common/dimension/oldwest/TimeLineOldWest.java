@@ -18,6 +18,6 @@ public class TimeLineOldWest extends TimeLine {
     }.setRegistryName(new ResourceLocation("timetravelmod:oldwest"));
 
     public TimeLineOldWest() {
-        super(modDimension, 1);
+        super(type, 1);
     }
 }

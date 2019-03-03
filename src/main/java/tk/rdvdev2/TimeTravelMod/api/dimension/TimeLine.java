@@ -1,12 +1,13 @@
 package tk.rdvdev2.TimeTravelMod.api.dimension;
 
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
-import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.registries.IForgeRegistryEntry;
+import tk.rdvdev2.TimeTravelMod.ModRegistries;
 
 import javax.annotation.Nullable;
+import java.util.Iterator;
 
 /**
  * This class defines a time line. It's the dimension's world provider. It must be registered in the time line registry instead of the dimension manager.
@@ -14,11 +15,11 @@ import javax.annotation.Nullable;
 public abstract class TimeLine implements IForgeRegistryEntry<TimeLine> {
 
     private int minTier;
-    private ModDimension dimension;
+    private DimensionType dimension;
     private TimeLine registeredInstance = null;
 
     public int getDimId() {
-        return DimensionManager.getRegistry().getId(DimensionType.byName(this.getRegistryName())); // TODO: Check this works
+        return dimension.getId();
     }
 
     /**
@@ -29,15 +30,16 @@ public abstract class TimeLine implements IForgeRegistryEntry<TimeLine> {
         return minTier;
     }
 
-    public ModDimension getDimension() {
+    public DimensionType getDimension() {
         return dimension;
     }
 
     /**
      * Constructor of the Time Line
+     * @param dimension The dimension
      * @param minTier The desired minimum tier
      */
-    public TimeLine(ModDimension dimension, int minTier) {
+    public TimeLine(DimensionType dimension, int minTier) {
         super();
         this.dimension = dimension;
         this.minTier = minTier;
@@ -93,5 +95,14 @@ public abstract class TimeLine implements IForgeRegistryEntry<TimeLine> {
     @Override
     public Class<TimeLine> getRegistryType() {
         return (Class<TimeLine>)getClass();
+    }
+
+    public static boolean isValidTimeLine(World world) {
+        Iterator<TimeLine> iterator = ModRegistries.timeLinesRegistry.iterator();
+        while (iterator.hasNext()) {
+            TimeLine tl = iterator.next();
+            if (tl.getDimId() == world.getDimension().getType().getId()) return true;
+        }
+        return false;
     }
 }

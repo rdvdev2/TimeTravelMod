@@ -10,6 +10,7 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.fml.network.NetworkEvent;
 import tk.rdvdev2.TimeTravelMod.ModItems;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
+import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHookRunner;
@@ -71,7 +72,7 @@ public class DimensionTpPKT {
                     !tm.isOverloaded(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
                     canTravel(tm, dim, serverPlayer)){
                         serverPlayer.getServer().getPlayerList().changePlayerDimension(serverPlayer, DimensionType.getById(dim), new ITeleporterTimeMachine(serverPlayer.getServer().getWorld(DimensionType.getById(dim)), serverPlayer.getServer().getWorld(serverPlayer.dimension), tm, pos, side));
-                }
+                } else TimeTravelMod.logger.error("Time Travel canceled due to incorrect conditions");
             });
         }
 

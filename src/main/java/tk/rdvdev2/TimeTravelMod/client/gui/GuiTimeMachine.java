@@ -1,12 +1,12 @@
 package tk.rdvdev2.TimeTravelMod.client.gui;
 
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tk.rdvdev2.TimeTravelMod.ModPacketHandler;
@@ -15,7 +15,6 @@ import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.common.networking.DimensionTpPKT;
 
-import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -23,7 +22,6 @@ import java.util.Iterator;
 @OnlyIn(Dist.CLIENT)
 public class GuiTimeMachine extends GuiScreen { // TODO: Fix GUI approaching custom GuiButton class
 
-    TimeLine[] tls;
     private GuiButton[] buttons;
     private EntityPlayer player;
     private TimeMachine tm;
@@ -39,21 +37,12 @@ public class GuiTimeMachine extends GuiScreen { // TODO: Fix GUI approaching cus
 
     @Override
     public void initGui() {
-        tls = iteratorToArray(ModRegistries.timeLinesRegistry.iterator(), TimeLine.class);
-        TimeLine[] atls = ModRegistries.timeLinesRegistry.getSlaveMap(ModRegistries.TIERTOTIMELINE, TimeLine[][].class)[tm.getTier()];
-        int buttoncount = tls.length+1;
+        TimeLine[] tls = iteratorToArray(ModRegistries.timeLinesRegistry.iterator(), TimeLine.class);
+        Arrays.sort(tls, (o1, o2) -> o1.getMinTier() - o2.getMinTier());
+        int buttoncount = tls.length;
         buttons = new GuiButton[buttoncount];
-        buttons[0] = new GuiButton(DimensionType.OVERWORLD.getId(), this.width / 2 -100, (this.height / (buttoncount+1)), I18n.format("gui.tm.present.text"));
-        addButton(buttons[0]);
-        for(int i = 1; i < tls.length+1; i++) {
-            buttons[i] = new GuiButton(tls[i-1].getDimId(), this.width / 2 -100, (this.height / (buttoncount+1)*(i+1)), I18n.format("gui.tm."+tls[i-1].getRegistryName().getPath()+".text"));
-            buttons[i].enabled=false;
-            for (TimeLine tl:atls) {
-                if (tl.getDimId() == tls[i-1].getDimId()) {
-                    buttons[i].enabled=true;
-                }
-            }
-            addButton(buttons[i]);
+        for(int id = 0; id < tls.length; id++) {
+            addButton(new TimeLineButton(id, this.width / 2 -100, (this.height / (buttoncount+1))*(id+1), tls[id]));
         }
     }
 
@@ -68,16 +57,6 @@ public class GuiTimeMachine extends GuiScreen { // TODO: Fix GUI approaching cus
         return false;
     }
 
-    public void actionPerformed(GuiButton button) throws IOException {
-        this.mc.displayGuiScreen(null);
-        int id = button.id;
-        if (id != player.dimension.getId() && player.dimension.getId() != DimensionType.NETHER.getId() && player.dimension.getId() != DimensionType.THE_END.getId()) {
-            ModPacketHandler.CHANNEL.sendToServer(new DimensionTpPKT(id, tm, pos, side));
-        } else {
-            this.player.sendMessage(new TextComponentTranslation("gui.tm.error.text"));
-        }
-    }
-
     @SuppressWarnings("unchecked")
     private <T> T[] iteratorToArray(Iterator<T> iterator, Class<T> clazz) {
         T[] array = (T[]) Array.newInstance(clazz, 0);
@@ -89,22 +68,24 @@ public class GuiTimeMachine extends GuiScreen { // TODO: Fix GUI approaching cus
         return array;
     }
 
-    protected class GuiButton extends net.minecraft.client.gui.GuiButton {
-        public GuiButton(int p_i1020_1_, int p_i1020_2_, int p_i1020_3_, String p_i1020_4_) {
-            super(p_i1020_1_, p_i1020_2_, p_i1020_3_, p_i1020_4_);
-        }
+    protected class TimeLineButton extends net.minecraft.client.gui.GuiButton {
 
-        public GuiButton(int p_i46323_1_, int p_i46323_2_, int p_i46323_3_, int p_i46323_4_, int p_i46323_5_, String p_i46323_6_) {
-            super(p_i46323_1_, p_i46323_2_, p_i46323_3_, p_i46323_4_, p_i46323_5_, p_i46323_6_);
+        TimeLine tl;
+
+        TimeLineButton(int id, int x, int y, TimeLine tl) {
+            super(id, x, y, I18n.format("gui.tm."+tl.getRegistryName().getPath()+".text"));
+            this.tl = tl;
+            this.enabled = tl.getMinTier() <= tm.getTier();
         }
 
         @Override
         public void onClick(double p_194829_1_, double p_194829_3_) {
-            super.onClick(p_194829_1_, p_194829_3_);
-            try {
-                actionPerformed(this);
-            } catch (IOException e) {
-                e.printStackTrace();
+            mc.displayGuiScreen(null);
+            int id = tl.getDimension().getId();
+            if (id != player.dimension.getId() && TimeLine.isValidTimeLine(player.world)) {
+                ModPacketHandler.CHANNEL.sendToServer(new DimensionTpPKT(id, tm, pos, side));
+            } else {
+                player.sendMessage(new TextComponentTranslation("gui.tm.error.text"));
             }
         }
     }
