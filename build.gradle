@@ -11,6 +11,13 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
+version = "1.13.2-0.0.1.0"
+def apiVersion = version
+group = "tk.rdvdev2.TimeTravelMod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "TimeTravelMod"
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+
 sourceSets.main {
     java {
         srcDirs = ['src/main/java']
@@ -19,13 +26,6 @@ sourceSets.main {
         srcDirs = ['src/main/resources']
     }
 }
-
-version = "1.13.2-0.0.1.0"
-def apiVersion = version
-group = "tk.rdvdev2.TimeTravelMod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "TimeTravelMod"
-
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
     // the mappings can be changed at any time, and must be in the following format.
@@ -41,21 +41,36 @@ minecraft {
     // default run configurations.
     // these can be tweaked, removed, or duplicated as needed.
     runs {
-        client = {
-            // recommended logging data for a userdev environment
-            properties 'forge.logging.markers': 'SCAN,REGISTRIES,REGISTRYDUMP'
-            // recommended logging level for the console
-            properties 'forge.logging.console.level': 'debug'
-            workingDirectory project.file('run').canonicalPath
-            source sourceSets.main
+        client {
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                timetravelmod {
+                    source sourceSets.main
+                }
+            }
         }
-        server = {
-            // recommended logging data for a userdev environment
-            properties 'forge.logging.markers': 'SCAN,REGISTRIES,REGISTRYDUMP'
-            // recommended logging level for the console
-            properties 'forge.logging.console.level': 'debug'
-            workingDirectory project.file('run').canonicalPath
-            source sourceSets.main
+
+        server {
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                timetravelmod {
+                    source sourceSets.main
+                }
+            }
         }
     }
 }
