@@ -15,6 +15,7 @@ import net.minecraft.world.gen.feature.structure.VillageConfig;
 import net.minecraft.world.gen.feature.structure.VillagePieces;
 import net.minecraft.world.gen.placement.*;
 import net.minecraft.world.gen.surfacebuilders.CompositeSurfaceBuilder;
+import tk.rdvdev2.TimeTravelMod.ModBlocks;
 
 public final class BiomeOldWest extends Biome {
     public BiomeOldWest() {
@@ -63,5 +64,8 @@ public final class BiomeOldWest extends Biome {
         this.addSpawn(EnumCreatureType.MONSTER, new SpawnListEntry(EntityType.ZOMBIE, 19, 4, 4));
         this.addSpawn(EnumCreatureType.MONSTER, new SpawnListEntry(EntityType.ZOMBIE_VILLAGER, 1, 1, 1));
         this.addSpawn(EnumCreatureType.MONSTER, new SpawnListEntry(EntityType.HUSK, 80, 4, 4));
+
+        // Time Travel Mod start
+        this.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, createCompositeFeature(Feature.MINABLE, new MinableConfig(MinableConfig.IS_ROCK, ModBlocks.timeCrystalOre.getDefaultState(), 4), COUNT_RANGE, new CountRangeConfig(1, 0, 0, 16)));
     }
 }

@@ -1,7 +1,6 @@
 package tk.rdvdev2.TimeTravelMod;
 
 import net.minecraft.item.ItemGroup;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -11,7 +10,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tk.rdvdev2.TimeTravelMod.client.itemgroup.ItemGroupTTM;
-import tk.rdvdev2.TimeTravelMod.common.dimension.oldwest.TimeLineOldWest;
+import tk.rdvdev2.TimeTravelMod.common.world.VanillaBiomesFeatures;
 import tk.rdvdev2.TimeTravelMod.proxy.ClientProxy;
 import tk.rdvdev2.TimeTravelMod.proxy.CommonProxy;
 import tk.rdvdev2.TimeTravelMod.proxy.IProxy;
@@ -42,14 +41,8 @@ public class TimeTravelMod {
     private void commonSetup(FMLCommonSetupEvent event) {
         TimeTravelMod.logger.info("Time Travel Mod is in common setup state.");
         ModPacketHandler.init();
-        DimensionManager.registerDimension( ModTimeLines.OLD_WEST, TimeLineOldWest.modDimension, null);
-        /*ForgeRegistries.BIOMES.forEach((biome ->
-                biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createCompositeFeature(
-                        Feature.MINABLE,
-                        new MinableConfig(MinableConfig.IS_ROCK, ModBlocks.timeCrystalOre.getDefaultState(), 4),
-                        Biome.COUNT_RANGE,
-                        new CountRangeConfig(1, 0, 0, 16)
-                ))));*/
+        //DimensionManager.registerDimension( ModTimeLines.OLD_WEST, TimeLineOldWest.modDimension, null);
+        VanillaBiomesFeatures.register();
     }
 
     private void serverSetup(FMLDedicatedServerSetupEvent event) {
