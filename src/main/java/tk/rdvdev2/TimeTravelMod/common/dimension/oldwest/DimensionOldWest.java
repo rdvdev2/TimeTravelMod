@@ -28,7 +28,11 @@ import javax.annotation.Nullable;
 
 public class DimensionOldWest extends net.minecraft.world.dimension.Dimension {
 
-    public DimensionOldWest() {}
+    private DimensionType type;
+
+    public DimensionOldWest(DimensionType type) {
+        this.type = type;
+    }
 
     @Override
     public Biome getBiome(BlockPos pos) {
@@ -258,6 +262,6 @@ public class DimensionOldWest extends net.minecraft.world.dimension.Dimension {
 
     @Override
     public DimensionType getType() {
-        return TimeLineOldWest.type;
+        return this.type;
     }
 }

@@ -3,6 +3,7 @@ package tk.rdvdev2.TimeTravelMod.api.dimension;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
+import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 
@@ -15,7 +16,7 @@ import java.util.Iterator;
 public abstract class TimeLine implements IForgeRegistryEntry<TimeLine> {
 
     private int minTier;
-    private DimensionType dimension;
+    private ModDimension dimension;
     private TimeLine registeredInstance = null;
 
     /**
@@ -26,16 +27,15 @@ public abstract class TimeLine implements IForgeRegistryEntry<TimeLine> {
         return minTier;
     }
 
-    public DimensionType getDimension() {
+    public ModDimension getDimension() {
         return dimension;
     }
 
     /**
      * Constructor of the Time Line
-     * @param dimension The dimension
      * @param minTier The desired minimum tier
      */
-    public TimeLine(DimensionType dimension, int minTier) {
+    public TimeLine(ModDimension dimension, int minTier) {
         super();
         this.dimension = dimension;
         this.minTier = minTier;
@@ -97,7 +97,7 @@ public abstract class TimeLine implements IForgeRegistryEntry<TimeLine> {
         Iterator<TimeLine> iterator = ModRegistries.timeLinesRegistry.iterator();
         while (iterator.hasNext()) {
             TimeLine tl = iterator.next();
-            if (tl.getDimension() == world.getDimension().getType()) return true;
+            if (tl.getDimension() == world.getDimension().getType().getModType() || world.getDimension().getType() == DimensionType.OVERWORLD) return true;
         }
         return false;
     }

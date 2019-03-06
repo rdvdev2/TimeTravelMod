@@ -41,7 +41,6 @@ public class TimeTravelMod {
     private void commonSetup(FMLCommonSetupEvent event) {
         TimeTravelMod.logger.info("Time Travel Mod is in common setup state.");
         ModPacketHandler.init();
-        //DimensionManager.registerDimension( ModTimeLines.OLD_WEST, TimeLineOldWest.modDimension, null);
         VanillaBiomesFeatures.register();
     }
 

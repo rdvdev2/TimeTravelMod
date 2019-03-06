@@ -16,6 +16,7 @@ import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHookRunner;
 import tk.rdvdev2.TimeTravelMod.common.dimension.ITeleporterTimeMachine;
+import tk.rdvdev2.TimeTravelMod.common.dimension.TimeLinePresent;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineCreative;
 
 import java.util.function.Supplier;
@@ -66,7 +67,7 @@ public class DimensionTpPKT {
 
         public static void handle(DimensionTpPKT message, Supplier<NetworkEvent.Context> ctx) {
             EntityPlayerMP serverPlayer = ctx.get().getSender();
-            DimensionType dim = message.tl.getDimension();
+            DimensionType dim = message.tl instanceof TimeLinePresent ? DimensionType.OVERWORLD : DimensionType.byName(message.tl.getDimension().getRegistryName());
             BlockPos pos = message.pos;
             EnumFacing side = message.side;
             TimeMachine tm = message.tm.hook(serverPlayer.world, pos, side);
@@ -86,8 +87,9 @@ public class DimensionTpPKT {
                 if (!ItemStack.areItemsEqual(player.inventory.getCurrentItem(), new ItemStack(ModItems.creativeTimeMachine, 1)))
                     return false;
             }
+            if (dim == DimensionType.OVERWORLD) return true;
             for (TimeLine tl:ModRegistries.timeLinesRegistry.getSlaveMap(ModRegistries.TIERTOTIMELINE, TimeLine[][].class)[tm.getTier()]) {
-                if (tl.getDimension() == dim) {
+                if (tl.getDimension() == dim.getModType()) {
                     return true;
                 }
             }

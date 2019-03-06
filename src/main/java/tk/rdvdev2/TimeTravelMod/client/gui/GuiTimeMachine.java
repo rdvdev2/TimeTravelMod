@@ -81,7 +81,7 @@ public class GuiTimeMachine extends GuiScreen { // TODO: Fix GUI approaching cus
         @Override
         public void onClick(double p_194829_1_, double p_194829_3_) {
             mc.displayGuiScreen(null);
-            if (tl.getDimension() != player.dimension && TimeLine.isValidTimeLine(player.world)) {
+            if (tl.getDimension() != player.dimension.getModType() && TimeLine.isValidTimeLine(player.world)) {
                 ModPacketHandler.CHANNEL.sendToServer(new DimensionTpPKT(tl, tm, pos, side));
             } else {
                 player.sendMessage(new TextComponentTranslation("gui.tm.error.text"));
