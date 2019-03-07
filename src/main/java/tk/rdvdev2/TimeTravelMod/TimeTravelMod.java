@@ -33,6 +33,8 @@ public class TimeTravelMod {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
         // Register FMLDedicatedServerSetupEvent
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverSetup);
+        // Register RegisterDimensionsEvent
+        MinecraftForge.EVENT_BUS.addListener(ModTimeLines::registerDimension);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);

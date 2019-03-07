@@ -34,7 +34,6 @@ public class ModTimeLines {
         );
     }
 
-    @SubscribeEvent
     public static void registerDimension (RegisterDimensionsEvent event) {
         DimensionManager.registerDimension(OLD_WEST, TimeLineOldWest.modDimension, null);
     }

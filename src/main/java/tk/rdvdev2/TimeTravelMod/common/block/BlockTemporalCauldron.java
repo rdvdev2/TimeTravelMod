@@ -137,6 +137,14 @@ public class BlockTemporalCauldron extends Block {
         return new TileEntityTemporalCauldron();
     }
 
+    @Override
+    public void onReplaced(IBlockState state, World worldIn, BlockPos pos, IBlockState newState, boolean isMoving) {
+        if (state.getBlock() != newState.getBlock()) {
+            super.onReplaced(state, worldIn, pos, newState, isMoving);
+            worldIn.removeTileEntity(pos);
+        }
+    }
+
     static {
         INSIDE = Block.makeCuboidShape(2.0D, 4.0D, 2.0D, 14.0D, 16.0D, 14.0D);
         WALLS = VoxelShapes.combineAndSimplify(VoxelShapes.fullCube(), INSIDE, IBooleanFunction.ONLY_FIRST);
