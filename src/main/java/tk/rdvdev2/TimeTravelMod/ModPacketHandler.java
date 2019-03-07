@@ -7,7 +7,7 @@ import tk.rdvdev2.TimeTravelMod.common.networking.DimensionTpPKT;
 import tk.rdvdev2.TimeTravelMod.common.networking.OpenTmGuiPKT;
 
 public class ModPacketHandler {
-    private static final String PROTOCOL_VERSION = Integer.toString(1);
+    private static final String PROTOCOL_VERSION = "TTM" + 1;
     public static final SimpleChannel CHANNEL = NetworkRegistry.ChannelBuilder
             .named(new ResourceLocation(TimeTravelMod.MODID, "main_channel"))
             .clientAcceptedVersions(PROTOCOL_VERSION::equals)

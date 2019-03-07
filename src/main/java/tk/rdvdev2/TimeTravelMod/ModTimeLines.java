@@ -1,6 +1,7 @@
 package tk.rdvdev2.TimeTravelMod;
 
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.event.RegistryEvent;
@@ -35,6 +36,7 @@ public class ModTimeLines {
     }
 
     public static void registerDimension (RegisterDimensionsEvent event) {
-        DimensionManager.registerDimension(OLD_WEST, TimeLineOldWest.modDimension, null);
+        if (DimensionType.byName(OLD_WEST) == null)
+            DimensionManager.registerDimension(OLD_WEST, TimeLineOldWest.modDimension, null);
     }
 }
