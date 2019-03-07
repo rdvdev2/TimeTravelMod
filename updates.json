@@ -9,8 +9,13 @@
     "1.12.2-0.1.2.55": "Italian and lots of new features! Just kidding, only Italian. :c",
     "1.12.2-0.1.3.9":  "The new Temporal Cauldron and important bug fixes!"
   },
+  "1.13.2": {
+    "1.13.2-0.1.3.30": "Update to 1.13.2 and first beta release."
+  },
   "promos": {
     "1.12.2-latest":      "1.12.2-0.1.3.9",
-    "1.12.2-recommended": "1.12.2-0.1.3.9"
+    "1.12.2-recommended": "1.12.2-0.1.3.9",
+    "1.13.2-latest":      "1.13.2-0.1.3.30",
+    "1.13.2-recommended": "1.13.2-0.1.3.30"
   }
 }
