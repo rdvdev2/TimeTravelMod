@@ -69,9 +69,8 @@ public class TimeMachineCreative extends TimeMachine {
     }
 
     @Override
-    public void teleporterTasks(World worldIn, World worldOut, BlockPos controllerPos, EnumFacing side) { // TODO: Check if this actually loads the chunk
+    public void teleporterTasks(World worldIn, World worldOut, BlockPos controllerPos, EnumFacing side) {
         Chunk chunk = worldIn.getChunk(controllerPos);
-        //worldIn.getChunkProvider().getLoadedChunk(worldIn.getChunkFromBlockCoords(controllerPos).x, worldIn.getChunkFromBlockCoords(controllerPos).z);
         worldIn.getChunkProvider().provideChunk(chunk.x, chunk.z, true, false);
     }
 

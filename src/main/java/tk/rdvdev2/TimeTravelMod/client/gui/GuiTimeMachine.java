@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 @OnlyIn(Dist.CLIENT)
-public class GuiTimeMachine extends GuiScreen { // TODO: Fix GUI approaching custom GuiButton class
+public class GuiTimeMachine extends GuiScreen {
 
     private GuiButton[] buttons;
     private EntityPlayer player;

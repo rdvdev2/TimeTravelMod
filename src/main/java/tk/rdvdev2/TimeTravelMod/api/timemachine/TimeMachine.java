@@ -487,7 +487,6 @@ public abstract class TimeMachine implements IForgeRegistryEntry<TimeMachine> {
         BlockPos[] posData = getPosData(controllerPos, side);
         IBlockState[] blockData = getBlockData(worldOut, posData);
         destroyTM(worldOut, posData);
-        // worldIn.getChunkProvider().getLoadedChunk(worldIn.getChunkFromBlockCoords(controllerPos).x, worldIn.getChunkFromBlockCoords(controllerPos).z); TODO: Find a replacement
         buildTM(worldIn, posData, blockData);
         doCooldown(worldIn, controllerPos, side);
     }

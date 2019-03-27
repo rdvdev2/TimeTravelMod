@@ -36,10 +36,6 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable,
     private int crystal_usages = 0;
     private int tick_count = 0;
 
-    //@CapabilityInject(IItemHandler.class)
-    //static Capability<IItemHandler> ITEM_HANDLER_CAPABILITY = null;
-
-    //IItemHandler inventory;
     private LazyOptional<IItemHandlerModifiable> cauldronHandler;
 
     public TileEntityTemporalCauldron() {
@@ -90,19 +86,6 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable,
 
         return compound;
     }
-
-    /*@Override
-    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
-        if (
-                newSate == ModBlocks.temporalCauldron.getDefaultState().with(BlockTemporalCauldron.LEVEL, 0) ||
-                newSate == ModBlocks.temporalCauldron.getDefaultState().with(BlockTemporalCauldron.LEVEL, 1) ||
-                newSate == ModBlocks.temporalCauldron.getDefaultState().with(BlockTemporalCauldron.LEVEL, 2) ||
-                newSate == ModBlocks.temporalCauldron.getDefaultState().with(BlockTemporalCauldron.LEVEL, 3))
-            return false;
-        else
-            return true;
-    }*/
-
 
     @Override
     public void tick() {
@@ -304,22 +287,4 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable,
         if (cauldronHandler != null)
             cauldronHandler.invalidate();
     }
-
-    // TODO: Investigate new capabilty system
-    /*@Override
-    public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-        if (capability == ITEM_HANDLER_CAPABILITY) {
-            return true;
-        }
-        return super.hasCapability(capability, facing);
-    }
-
-    @Nullable
-    @Override
-    public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-        if (capability == ITEM_HANDLER_CAPABILITY) {
-            return (T) inventory;
-        }
-        return super.getCapability(capability, facing);
-    } */
 }
