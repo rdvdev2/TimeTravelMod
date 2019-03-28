@@ -104,6 +104,18 @@ dependencies {
 
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
+    manifest {
+        attributes(["Specification-Title": "Time Travel Mod",
+                    "Specification-Vendor": "rdvdev2",
+                    "Specification-Version": "24.0", // We are version 1 of the modlauncher specification
+                    "Implementation-Title": "Time Travel Mod",
+                    "Implementation-Version": "${project.version}",
+                    "Implementation-Vendor" :"rdvdev2",
+                    "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
+    }
+}
+
+processResources {
     def versionPropsFile = file('version.properties')
 
     if (versionPropsFile.canRead()) {
@@ -122,14 +134,17 @@ jar {
 
         project.version = "1.13.2-" + majormod + "." + majorapi + "." + minor + "." + patch.toString()
     }
+    
+    // replace stuff in mods.toml, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'META-INF/mods.toml'
 
-    manifest {
-        attributes(["Specification-Title": "Time Travel Mod",
-                    "Specification-Vendor": "rdvdev2",
-                    "Specification-Version": "24.0", // We are version 1 of the modlauncher specification
-                    "Implementation-Title": "Time Travel Mod",
-                    "Implementation-Version": "${project.version}",
-                    "Implementation-Vendor" :"rdvdev2",
-                    "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
+        // replace version and mcversion
+        expand 'version':project.version
+    }
+
+    // copy everything else except the mods.toml
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'META-INF/mods.toml'
     }
 }
