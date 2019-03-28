@@ -25,10 +25,12 @@ public class ModSounds {
     }
 
     public static void onPlaySound(PlaySoundEvent event) {
-        if (Minecraft.getInstance().player != null &&
-                Minecraft.getInstance().player.world.getDimension() instanceof DimensionOldWest &&
-                event.getSound().getCategory() == SoundCategory.MUSIC) {
-            event.setResultSound(SimpleSound.getMusicRecord(oldWestMusicEvent));
+        if (ModConfig.CLIENT.enableTimeLineMusic.get()) {
+            if (Minecraft.getInstance().player != null &&
+                    Minecraft.getInstance().player.world.getDimension() instanceof DimensionOldWest &&
+                    event.getSound().getCategory() == SoundCategory.MUSIC) {
+                event.setResultSound(SimpleSound.getMusicRecord(oldWestMusicEvent));
+            }
         }
     }
 }
