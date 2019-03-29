@@ -87,7 +87,8 @@ public class GuiEngineerBook extends GuiScreen {
         }
     }
 
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    @Override
+    public void render(int mouseX, int mouseY, float partialTicks) {
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(BOOK_GUI_TEXTURES);
         int i = (this.width - 192) / 2;
