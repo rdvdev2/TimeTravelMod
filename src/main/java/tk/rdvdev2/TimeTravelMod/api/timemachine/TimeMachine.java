@@ -8,6 +8,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
@@ -86,6 +87,16 @@ public abstract class TimeMachine implements IForgeRegistryEntry<TimeMachine> {
     }
 
     // FORGE REGISTRY END
+
+    /**
+     * Gets the name of the Time Machine. Used for the Engineer's book.
+     * @return The Time Machine name
+     */
+    abstract public TextComponentTranslation getName();
+
+    public TextComponentTranslation getDescription() {
+        return new TextComponentTranslation("tm.default.description", getTier());
+    }
 
     /**
      * Gets the cooldown time of the core
@@ -580,7 +591,7 @@ public abstract class TimeMachine implements IForgeRegistryEntry<TimeMachine> {
         return ModRegistries.timeMachinesRegistry.getValue(new ResourceLocation(s));
     }
 
-    private enum TMComponentType {
+    public enum TMComponentType {
         BASIC, CORE, CONTROLPANEL, UPGRADE
     }
 }

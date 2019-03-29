@@ -5,6 +5,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
@@ -15,6 +16,11 @@ import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 
 public class CreativeTimeMachine extends TimeMachine {
+
+    @Override
+    public TextComponentTranslation getName() {
+        return new TextComponentTranslation("item.creativetimemachine.name");
+    }
 
     @Override
     public int getCooldownTime() {

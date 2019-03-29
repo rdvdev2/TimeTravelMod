@@ -6,6 +6,7 @@
     "gui.tm.present.text": "Present",
     "item.timetravelmod.controllercircuit": "Controller circuit",
     "item.timetravelmod.creativetimemachine": "Creative time machine",
+    "item.timetravelmod.engineerbook": "Time machine engineer's book",
     "item.timetravelmod.heavyblock": "Heavy block",
     "item.timetravelmod.heavyingot": "Heavy ingot",
     "item.timetravelmod.reinforcedheavyblock": "Reinforced heavy block",
@@ -26,6 +27,9 @@
     "block.timetravelmod.timemachinecontrolpanel": "Time machine control panel",
     "block.timetravelmod.timemachinecore": "Time machine core",
     "config.timetravelmod.client.enabletimelinemusic": "When this is enabled the Time Lines have their own music",
+    "config.timetravelmod.common.enableexperimentalfeatrues": "When this is enabled experimental features of the mod are activated",
+    "tm.default.description": "A time machine of tier %s. It can time travel and that sort of things.",
+    "tm.tmtier1.name": "Tier 1 Time Machine",
     "config.timetravelmod.common.enableexperimentalfeatrues": "When this is enabled experimental features of the mod are activated",
     "config.timetravelmod.common.enableupdatepromos": "If this is disabled you won't be notiified of mod updates at world joining"
 }

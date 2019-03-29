@@ -1,10 +1,16 @@
 package tk.rdvdev2.TimeTravelMod.common.timemachine;
 
+import net.minecraft.util.text.TextComponentTranslation;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 
 public class Tier1TimeMachine extends TimeMachine {
 
     public Tier1TimeMachine() {};
+
+    @Override
+    public TextComponentTranslation getName() {
+        return new TextComponentTranslation("tm.tmtier1.name");
+    }
 
     @Override
     public int getCooldownTime() {
