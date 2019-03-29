@@ -15,13 +15,11 @@ import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHookRunner;
-import tk.rdvdev2.TimeTravelMod.common.dimension.ITeleporterTimeMachine;
-import tk.rdvdev2.TimeTravelMod.common.dimension.TimeLinePresent;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineCreative;
+import tk.rdvdev2.TimeTravelMod.common.world.dimension.ITeleporterTimeMachine;
+import tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLinePresent;
 
 import java.util.function.Supplier;
-
-import static tk.rdvdev2.TimeTravelMod.util.CastingHelper.intToEnumFacing;
 
 public class DimensionTpPKT {
     public DimensionTpPKT(){}
@@ -59,7 +57,7 @@ public class DimensionTpPKT {
         int size2 = buf.readInt();
         pkt.tm = TimeMachine.fromString(buf.readCharSequence(size2, Charsets.UTF_8).toString());
         pkt.pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-        pkt.side = intToEnumFacing(buf.readInt());
+        pkt.side = EnumFacing.byIndex(buf.readInt());
         return pkt;
     }
 

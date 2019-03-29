@@ -9,7 +9,7 @@ import net.minecraftforge.client.event.sound.PlaySoundEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import tk.rdvdev2.TimeTravelMod.common.dimension.oldwest.DimensionOldWest;
+import tk.rdvdev2.TimeTravelMod.common.world.dimension.oldwest.DimensionOldWest;
 
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModSounds {

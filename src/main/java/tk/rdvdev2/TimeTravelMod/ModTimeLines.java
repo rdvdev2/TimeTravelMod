@@ -9,8 +9,8 @@ import net.minecraftforge.event.world.RegisterDimensionsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
-import tk.rdvdev2.TimeTravelMod.common.dimension.TimeLinePresent;
-import tk.rdvdev2.TimeTravelMod.common.dimension.oldwest.TimeLineOldWest;
+import tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLinePresent;
+import tk.rdvdev2.TimeTravelMod.common.world.dimension.oldwest.TimeLineOldWest;
 
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModTimeLines {

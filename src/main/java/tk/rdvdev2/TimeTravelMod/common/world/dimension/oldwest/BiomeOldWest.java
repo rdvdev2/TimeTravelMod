@@ -1,4 +1,4 @@
-package tk.rdvdev2.TimeTravelMod.common.dimension.oldwest;
+package tk.rdvdev2.TimeTravelMod.common.world.dimension.oldwest;
 
 import com.google.common.collect.Lists;
 import net.minecraft.block.Block;

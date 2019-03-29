@@ -4,7 +4,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import tk.rdvdev2.TimeTravelMod.common.dimension.oldwest.BiomeOldWest;
+import tk.rdvdev2.TimeTravelMod.common.world.dimension.oldwest.BiomeOldWest;
 
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModBiomes {

@@ -1,4 +1,4 @@
-package tk.rdvdev2.TimeTravelMod.common.dimension.oldwest;
+package tk.rdvdev2.TimeTravelMod.common.world.dimension.oldwest;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.dimension.DimensionType;

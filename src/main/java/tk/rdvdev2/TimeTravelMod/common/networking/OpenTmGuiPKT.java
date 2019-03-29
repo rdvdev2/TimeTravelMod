@@ -10,7 +10,6 @@ import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHookRunner;
-import tk.rdvdev2.TimeTravelMod.util.CastingHelper;
 
 import java.util.function.Supplier;
 
@@ -32,7 +31,7 @@ public class OpenTmGuiPKT {
         int size = buf.readInt();
         pkt.tm = TimeMachine.fromString(buf.readCharSequence(size, Charsets.UTF_8).toString());
         pkt.pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-        pkt.side = CastingHelper.intToEnumFacing(buf.readInt());
+        pkt.side = EnumFacing.byIndex(buf.readInt());
         return pkt;
     }
 

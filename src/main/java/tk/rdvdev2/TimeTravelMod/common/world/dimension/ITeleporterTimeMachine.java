@@ -1,4 +1,4 @@
-package tk.rdvdev2.TimeTravelMod.common.dimension;
+package tk.rdvdev2.TimeTravelMod.common.world.dimension;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumFacing;
