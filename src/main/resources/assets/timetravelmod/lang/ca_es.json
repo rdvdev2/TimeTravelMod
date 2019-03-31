@@ -25,6 +25,6 @@
     "block.timetravelmod.timemachinebasicblock": "Bloc bàsic de màquina del temps",
     "block.timetravelmod.timemachinecontrolpanel": "Tauler de control de màquina del temps",
     "block.timetravelmod.timemachinecore": "Nucli de màquina del temps",
-    "config.timetravelmod.client.enabletimelinemusic": "Quan s'habilita, les Linies Temporals tenen la seva propia música",
-    "config.timetravelmod.common.enableexperimentalfeatrues": "Quan s'habilita, les funcions experimentals del mod s'activen"
+    "config.timetravelmod.client.enabletimelinemusic": "",
+    "config.timetravelmod.common.enableexperimentalfeatrues": ""
 }
