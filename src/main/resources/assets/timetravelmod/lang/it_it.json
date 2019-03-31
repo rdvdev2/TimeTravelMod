@@ -25,6 +25,6 @@
     "block.timetravelmod.timemachinebasicblock": "Blocco base di macchina del tempo",
     "block.timetravelmod.timemachinecontrolpanel": "Pannello di controllo della macchina",
     "block.timetravelmod.timemachinecore": "Nucleo della macchina",
-    "config.timetravelmod.client.enabletimelinemusic": "When this is enabled the Time Lines have their own music",
-    "config.timetravelmod.common.enableexperimentalfeatrues": "When this is enabled experimental features of the mod are activated"
+    "config.timetravelmod.client.enabletimelinemusic": "",
+    "config.timetravelmod.common.enableexperimentalfeatrues": ""
 }
