@@ -24,5 +24,7 @@
     "block.timetravelmod.timecrystalore": "Minerale di Cristallo del tempo",
     "block.timetravelmod.timemachinebasicblock": "Blocco base di macchina del tempo",
     "block.timetravelmod.timemachinecontrolpanel": "Pannello di controllo della macchina",
-    "block.timetravelmod.timemachinecore": "Nucleo della macchina"
+    "block.timetravelmod.timemachinecore": "Nucleo della macchina",
+    "config.timetravelmod.client.enabletimelinemusic": "",
+    "config.timetravelmod.common.enableexperimentalfeatrues": ""
 }
