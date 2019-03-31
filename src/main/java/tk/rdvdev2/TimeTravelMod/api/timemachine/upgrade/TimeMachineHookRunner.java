@@ -1,6 +1,7 @@
 package tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -119,8 +120,8 @@ public class TimeMachineHookRunner extends TimeMachine {
     }
 
     @Override
-    public void teleporterTasks(World worldIn, World worldOut, BlockPos controllerPos, EnumFacing side) {
-        tm.teleporterTasks(worldIn, worldOut, controllerPos, side);
+    public void teleporterTasks(Entity entity, World worldIn, World worldOut, BlockPos controllerPos, EnumFacing side) {
+        tm.teleporterTasks(entity, worldIn, worldOut, controllerPos, side);
     }
 
     @Override

@@ -27,6 +27,6 @@ public class ITeleporterTimeMachine implements ITeleporter {
     @Override
     public void placeEntity(World world, Entity entity, float yaw)
     {
-        tm.teleporterTasks(worldIn, worldOut, controlPos, facing);
+        tm.teleporterTasks(entity, worldIn, worldOut, controlPos, facing);
     }
 }

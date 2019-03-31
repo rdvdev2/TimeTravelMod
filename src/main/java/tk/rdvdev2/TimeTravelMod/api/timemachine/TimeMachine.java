@@ -478,12 +478,13 @@ public abstract class TimeMachine implements IForgeRegistryEntry<TimeMachine> {
 
     /**
      * Does the tasks of the ITimeMachineTeleporter when a time travel starts
+     * @param entity
      * @param worldIn The source world
      * @param worldOut The target world
      * @param controllerPos The position of the TM Controller
      * @param side The facing of the time machine
      */
-    public void teleporterTasks(World worldIn, World worldOut, BlockPos controllerPos, EnumFacing side) {
+    public void teleporterTasks(Entity entity, World worldIn, World worldOut, BlockPos controllerPos, EnumFacing side) {
         BlockPos[] posData = getPosData(controllerPos, side);
         IBlockState[] blockData = getBlockData(worldOut, posData);
         destroyTM(worldOut, posData);

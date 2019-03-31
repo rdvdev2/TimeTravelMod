@@ -1,11 +1,13 @@
 package tk.rdvdev2.TimeTravelMod.common.timemachine;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.gen.Heightmap;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
@@ -69,9 +71,11 @@ public class TimeMachineCreative extends TimeMachine {
     }
 
     @Override
-    public void teleporterTasks(World worldIn, World worldOut, BlockPos controllerPos, EnumFacing side) {
+    public void teleporterTasks(Entity entity, World worldIn, World worldOut, BlockPos controllerPos, EnumFacing side) {
         Chunk chunk = worldIn.getChunk(controllerPos);
         worldIn.getChunkProvider().provideChunk(chunk.x, chunk.z, true, false);
+        int height = worldIn.getHeight(Heightmap.Type.MOTION_BLOCKING, (int) entity.posX, (int) entity.posZ);
+        entity.setPosition(entity.posX, height + 1, entity.posZ);
     }
 
     @Override
