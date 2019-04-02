@@ -9,6 +9,7 @@ public class ModConfig {
 
         public final ForgeConfigSpec.BooleanValue enableTimeLineMusic;
 
+
         Client(ForgeConfigSpec.Builder builder) {
 
             builder.comment("Time Travel Mod client settings")
@@ -34,6 +35,7 @@ public class ModConfig {
     public static class Common {
 
         public final ForgeConfigSpec.BooleanValue enableExperimentalFeatures;
+        public final ForgeConfigSpec.BooleanValue enableUpdatePromos;
 
         Common(ForgeConfigSpec.Builder builder) {
 
@@ -44,6 +46,11 @@ public class ModConfig {
                     .comment("When this is enabled experimental features of the mod are activated")
                     .translation("config.timetravelmod.common.enableexperimentalfeatrues")
                     .define("enableExperimentalFeatrues", false);
+
+            enableUpdatePromos = builder
+                    .comment("If this is disabled you won't be notiified of mod updates at world joining")
+                    .translation("config.timetravelmod.common.enableupdatepromos")
+                    .define("enableUpdatePromos", true);
 
             builder.pop();
         }
