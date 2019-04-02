@@ -27,5 +27,5 @@
     "block.timetravelmod.timemachinecore": "Nucli de màquina del temps",
     "config.timetravelmod.client.enabletimelinemusic": "Quan s'habilita, les Linies Temporals tenen la seva propia música",
     "config.timetravelmod.common.enableexperimentalfeatrues": "Quan s'habilita, les funcions experimentals del mod s'activen",
-    "config.timetravelmod.common.enableupdatepromos": ""
+    "config.timetravelmod.common.enableupdatepromos": "Quan es desactiva deixes de rebre notificacions sobre noves actualitzacions al unir-te a un món"
 }
