@@ -26,5 +26,6 @@
     "block.timetravelmod.timemachinecontrolpanel": "Zeitmaschinenbedienfeld",
     "block.timetravelmod.timemachinecore": "Kern der Zeitmaschine",
     "config.timetravelmod.client.enabletimelinemusic": "Wenn dies aktiviert ist, haben die Zeitachsen ihre eigene Musik",
-    "config.timetravelmod.common.enableexperimentalfeatrues": "Wenn dies aktiviert ist, werden experimentelle Features der Mod aktiviert"
+    "config.timetravelmod.common.enableexperimentalfeatrues": "Wenn dies aktiviert ist, werden experimentelle Features der Mod aktiviert",
+    "config.timetravelmod.common.enableupdatepromos": "Wenn dies deaktiviert ist, wirst du nicht mehr über Mod-Updates beim Weltbeitritt informiert"
 }
