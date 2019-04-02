@@ -26,5 +26,6 @@
     "block.timetravelmod.timemachinecontrolpanel": "Panel de control de máquina del tiempo",
     "block.timetravelmod.timemachinecore": "Núcleo de máquina del tiempo",
     "config.timetravelmod.client.enabletimelinemusic": "Cuando se habilita, las Lineas Temporales tienen su propia música",
-    "config.timetravelmod.common.enableexperimentalfeatrues": "Cuando se habilita, las funciones experimentales del mod se activan"
+    "config.timetravelmod.common.enableexperimentalfeatrues": "Cuando se habilita, las funciones experimentales del mod se activan",
+    "config.timetravelmod.common.enableupdatepromos": ""
 }
