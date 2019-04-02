@@ -26,5 +26,6 @@
     "block.timetravelmod.timemachinecontrolpanel": "",
     "block.timetravelmod.timemachinecore": "",
     "config.timetravelmod.client.enabletimelinemusic": "",
-    "config.timetravelmod.common.enableexperimentalfeatrues": ""
+    "config.timetravelmod.common.enableexperimentalfeatrues": "",
+    "config.timetravelmod.common.enableupdatepromos": ""
 }
