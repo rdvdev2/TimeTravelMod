@@ -24,5 +24,7 @@
     "block.timetravelmod.timecrystalore": "Zeit Kristall Erz",
     "block.timetravelmod.timemachinebasicblock": "Basisblock der Zeitmaschine",
     "block.timetravelmod.timemachinecontrolpanel": "Zeitmaschinenbedienfeld",
-    "block.timetravelmod.timemachinecore": "Kern der Zeitmaschine"
+    "block.timetravelmod.timemachinecore": "Kern der Zeitmaschine",
+    "config.timetravelmod.client.enabletimelinemusic": "Wenn dies aktiviert ist, haben die Zeitachsen ihre eigene Musik",
+    "config.timetravelmod.common.enableexperimentalfeatrues": "Wenn dies aktiviert ist, werden experimentelle Features der Mod aktiviert"
 }

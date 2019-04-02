@@ -1,5 +1,4 @@
 {
-    "chat.ttm.outdated": "",
     "death.attack.temporalerror": "%s Sta giocando troppo con il tempo",
     "gui.tm.error.text": "Non puoi viaggiare alla tua linea del tempo o dal nether o end!",
     "gui.tm.oldwest.text": "Vecchio West",
@@ -9,7 +8,6 @@
     "item.timetravelmod.heavyblock": "Blocco pesante",
     "item.timetravelmod.heavyingot": "Lingotto pesante",
     "item.timetravelmod.reinforcedheavyblock": "Blocco di metallo rinforzato",
-    "item.timetravelmod.temporalcauldron": "",
     "item.timetravelmod.temporalexplosion": "Esplosione temporale",
     "item.timetravelmod.timecrystal": "Cristallo del tempo",
     "item.timetravelmod.timecrystalore": "Minerale di Cristallo del tempo",
@@ -19,7 +17,6 @@
     "itemGroup.timetravelmod": "Time Travel Mod",
     "block.timetravelmod.heavyblock": "Blocco pesante",
     "block.timetravelmod.reinforcedheavyblock": "Blocco di metallo rinforzato",
-    "block.timetravelmod.temporalcauldron": "",
     "block.timetravelmod.temporalexplosion": "Esplosione temporale",
     "block.timetravelmod.timecrystalore": "Minerale di Cristallo del tempo",
     "block.timetravelmod.timemachinebasicblock": "Blocco base di macchina del tempo",
