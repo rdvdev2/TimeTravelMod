@@ -37,6 +37,8 @@ public class TimeTravelMod {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
         // Register FMLDedicatedServerSetupEvent
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverSetup);
+        // Register ColorHandlerEvent#Block
+        MinecraftForge.EVENT_BUS.addListener(ModBlocks::registerBlockColor);
         // Register RegisterDimensionsEvent
         MinecraftForge.EVENT_BUS.addListener(ModTimeLines::registerDimension);
         // Register PlaySoundEvent
