@@ -16,10 +16,12 @@ import net.minecraft.world.gen.feature.structure.VillagePieces;
 import net.minecraft.world.gen.placement.*;
 import net.minecraft.world.gen.surfacebuilders.CompositeSurfaceBuilder;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
+import tk.rdvdev2.TimeTravelMod.ModFeatures;
 
 public final class BiomeOldWest extends Biome {
     public BiomeOldWest() {
         super((new BiomeBuilder()).surfaceBuilder(new CompositeSurfaceBuilder(DEFAULT_SURFACE_BUILDER, SAND_SAND_GRAVEL_SURFACE)).precipitation(RainType.NONE).category(Category.DESERT).depth(0.125F).scale(0.05F).temperature(2.0F).downfall(0.0F).waterColor(4159204).waterFogColor(329011).parent((String)null));
+        this.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, createCompositeFeature(ModFeatures.GUNPOWDER, NoFeatureConfig.NO_FEATURE_CONFIG, AT_SURFACE_WITH_CHANCE, new ChanceConfig(100)));
         this.addStructure(Feature.VILLAGE, new VillageConfig(0, VillagePieces.Type.SANDSTONE)); // TODO: Make custom village
         this.addStructure(Feature.MINESHAFT, new MineshaftConfig(0.004D, net.minecraft.world.gen.feature.structure.MineshaftStructure.Type.NORMAL)); // TODO: Make custom mineshaft
         this.addStructure(Feature.STRONGHOLD, new StrongholdConfig());
