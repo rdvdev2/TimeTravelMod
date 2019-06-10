@@ -2,14 +2,12 @@ package tk.rdvdev2.TimeTravelMod.common.world;
 
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.feature.CompositeFeature;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.MinableConfig;
 import net.minecraft.world.gen.placement.CountRangeConfig;
 import net.minecraftforge.registries.ForgeRegistries;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
 
-public class VanillaBiomesFeatures {
+public class VanillaBiomesFeatures { // TODO: Worldgen rewritten
 
     public static void register() {
         // Time Crystal Ores

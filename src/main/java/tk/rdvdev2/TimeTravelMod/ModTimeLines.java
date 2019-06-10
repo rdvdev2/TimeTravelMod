@@ -37,6 +37,6 @@ public class ModTimeLines {
 
     public static void registerDimension (RegisterDimensionsEvent event) {
         if (DimensionType.byName(OLD_WEST) == null)
-            DimensionManager.registerDimension(OLD_WEST, TimeLineOldWest.modDimension, null);
+            DimensionManager.registerDimension(OLD_WEST, TimeLineOldWest.modDimension, null, true);
     }
 }

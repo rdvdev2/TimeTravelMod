@@ -1,7 +1,7 @@
 package tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -12,11 +12,11 @@ public interface TimeMachineHook {
 
         @Override
         default <T> T run(T original, TimeMachineHookRunner tm, Object... args) {
-            run(tm, (World) args[0], (EntityPlayer) args[1], (BlockPos) args[2], (EnumFacing) args[3]);
+            run(tm, (World) args[0], (PlayerEntity) args[1], (BlockPos) args[2], (Direction) args[3]);
             return null;
         }
 
-        void run(TimeMachineHookRunner tm, World world, EntityPlayer playerIn, BlockPos controllerPos, EnumFacing side);
+        void run(TimeMachineHookRunner tm, World world, PlayerEntity playerIn, BlockPos controllerPos, Direction side);
     }
 
     @SuppressWarnings("unchecked")

@@ -1,8 +1,8 @@
 package tk.rdvdev2.TimeTravelMod.common.timemachine;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -41,7 +41,7 @@ public class TimeMachineCreative extends TimeMachine {
     }
 
     @Override
-    public void run(World world, EntityPlayer playerIn, BlockPos controllerPos, EnumFacing side) {
+    public void run(World world, PlayerEntity playerIn, BlockPos controllerPos, Direction side) {
         if (isPlayerInside(world, controllerPos, side, playerIn) &&
                 !isOverloaded(world, controllerPos, side)) {
             TimeTravelMod.proxy.displayTMGuiScreen(playerIn, this, controllerPos, side);
@@ -49,12 +49,12 @@ public class TimeMachineCreative extends TimeMachine {
     }
 
     @Override
-    public boolean isBuilt(World world, BlockPos controllerPos, EnumFacing side) {
+    public boolean isBuilt(World world, BlockPos controllerPos, Direction side) {
         return true;
     }
 
     @Override
-    public AxisAlignedBB getAirSpace(BlockPos controllerPos, EnumFacing side) {
+    public AxisAlignedBB getAirSpace(BlockPos controllerPos, Direction side) {
         return new AxisAlignedBB(
                 controllerPos.getX() -1,
                 controllerPos.getY() -1,
@@ -66,20 +66,20 @@ public class TimeMachineCreative extends TimeMachine {
     }
 
     @Override
-    public boolean isPlayerInside(World world, BlockPos controllerPos, EnumFacing side, EntityPlayer player) {
+    public boolean isPlayerInside(World world, BlockPos controllerPos, Direction side, PlayerEntity player) {
         return true;
     }
 
     @Override
-    public void teleporterTasks(Entity entity, World worldIn, World worldOut, BlockPos controllerPos, EnumFacing side) {
+    public void teleporterTasks(Entity entity, World worldIn, World worldOut, BlockPos controllerPos, Direction side) {
         Chunk chunk = worldIn.getChunk(controllerPos);
-        worldIn.getChunkProvider().provideChunk(chunk.x, chunk.z, true, false);
+        worldIn.getChunkProvider().provideChunk(chunk.getPos().x, chunk.getPos().z, true, false); // TODO: Investigate chunk providing
         int height = worldIn.getHeight(Heightmap.Type.MOTION_BLOCKING, (int) entity.posX, (int) entity.posZ);
         entity.setPosition(entity.posX, height + 1, entity.posZ);
     }
 
     @Override
-    public boolean isOverloaded(World world, BlockPos controllerPos, EnumFacing side) {
+    public boolean isOverloaded(World world, BlockPos controllerPos, Direction side) {
         return false;
     }
 }

@@ -29,7 +29,7 @@ public class ModSounds {
             if (Minecraft.getInstance().player != null &&
                     Minecraft.getInstance().player.world.getDimension() instanceof DimensionOldWest &&
                     event.getSound().getCategory() == SoundCategory.MUSIC) {
-                event.setResultSound(SimpleSound.getMusicRecord(oldWestMusicEvent));
+                event.setResultSound(SimpleSound.music(oldWestMusicEvent));
             }
         }
     }

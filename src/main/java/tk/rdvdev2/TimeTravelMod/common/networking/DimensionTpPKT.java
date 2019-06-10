@@ -1,10 +1,10 @@
 package tk.rdvdev2.TimeTravelMod.common.networking;
 
 import com.google.common.base.Charsets;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.dimension.DimensionType;
@@ -27,9 +27,9 @@ public class DimensionTpPKT {
     private TimeLine tl;
     private TimeMachine tm;
     private BlockPos pos;
-    private EnumFacing side;
+    private Direction side;
 
-    public DimensionTpPKT(TimeLine tl, TimeMachine tm, BlockPos pos, EnumFacing side) {
+    public DimensionTpPKT(TimeLine tl, TimeMachine tm, BlockPos pos, Direction side) {
         this.tl = tl;
         this.tm = tm instanceof TimeMachineHookRunner ? ((TimeMachineHookRunner)tm).removeHooks() : tm;
         this.pos = pos;
@@ -57,17 +57,17 @@ public class DimensionTpPKT {
         int size2 = buf.readInt();
         pkt.tm = TimeMachine.fromString(buf.readCharSequence(size2, Charsets.UTF_8).toString());
         pkt.pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-        pkt.side = EnumFacing.byIndex(buf.readInt());
+        pkt.side = Direction.byIndex(buf.readInt());
         return pkt;
     }
 
     public static class Handler {
 
         public static void handle(DimensionTpPKT message, Supplier<NetworkEvent.Context> ctx) {
-            EntityPlayerMP serverPlayer = ctx.get().getSender();
+            ServerPlayerEntity serverPlayer = ctx.get().getSender();
             DimensionType dim = message.tl instanceof TimeLinePresent ? DimensionType.OVERWORLD : DimensionType.byName(message.tl.getDimension().getRegistryName());
             BlockPos pos = message.pos;
-            EnumFacing side = message.side;
+            Direction side = message.side;
             TimeMachine tm = message.tm.hook(serverPlayer.world, pos, side);
             ctx.get().enqueueWork(() -> {
                 if (serverPlayer.world.isBlockLoaded(pos) &&
@@ -75,12 +75,12 @@ public class DimensionTpPKT {
                     tm.isPlayerInside(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side, serverPlayer) &&
                     !tm.isOverloaded(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
                     canTravel(tm, dim, serverPlayer)){
-                        serverPlayer.getServer().getPlayerList().changePlayerDimension(serverPlayer, dim, new ITeleporterTimeMachine(serverPlayer.getServer().getWorld(dim), serverPlayer.getServer().getWorld(serverPlayer.dimension), tm, pos, side));
+                        serverPlayer.getServer().getPlayerList().changePlayerDimension(serverPlayer, dim, new ITeleporterTimeMachine(serverPlayer.getServer().getWorld(dim), serverPlayer.getServer().getWorld(serverPlayer.dimension), tm, pos, side)); // TODO: Dimension system rewritten again?
                 } else TimeTravelMod.logger.error("Time Travel canceled due to incorrect conditions");
             });
         }
 
-        private static boolean canTravel(TimeMachine tm, DimensionType dim, EntityPlayerMP player) {
+        private static boolean canTravel(TimeMachine tm, DimensionType dim, ServerPlayerEntity player) {
             if (tm instanceof TimeMachineCreative) {
                 if (!ItemStack.areItemsEqual(player.inventory.getCurrentItem(), new ItemStack(ModItems.creativeTimeMachine, 1)))
                     return false;

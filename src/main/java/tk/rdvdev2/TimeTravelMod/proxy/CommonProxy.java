@@ -1,8 +1,8 @@
 package tk.rdvdev2.TimeTravelMod.proxy;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -14,8 +14,8 @@ import tk.rdvdev2.TimeTravelMod.common.networking.OpenTmGuiPKT;
 public class CommonProxy implements IProxy {
 
     @Override
-    public void displayTMGuiScreen(EntityPlayer player, TimeMachine tm, BlockPos pos, EnumFacing side) {
-        ModPacketHandler.CHANNEL.sendTo(new OpenTmGuiPKT(tm, pos, side), ((EntityPlayerMP)player).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+    public void displayTMGuiScreen(PlayerEntity player, TimeMachine tm, BlockPos pos, Direction side) {
+        ModPacketHandler.CHANNEL.sendTo(new OpenTmGuiPKT(tm, pos, side), ((ServerPlayerEntity)player).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
     }
 
     @Override

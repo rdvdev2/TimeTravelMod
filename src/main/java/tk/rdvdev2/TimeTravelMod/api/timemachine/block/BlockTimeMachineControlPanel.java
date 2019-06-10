@@ -1,10 +1,11 @@
 package tk.rdvdev2.TimeTravelMod.api.timemachine.block;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHookRunner;
 
@@ -18,16 +19,14 @@ public abstract class BlockTimeMachineControlPanel extends BlockTimeMachineCompo
 
     @OverridingMethodsMustInvokeSuper
     @Override
-    public boolean onBlockActivated(IBlockState state,
+    public boolean onBlockActivated(BlockState state,
                                     World worldIn,
                                     BlockPos pos,
-                                    EntityPlayer playerIn,
-                                    EnumHand hand,
-                                    EnumFacing side,
-                                    float hitX,
-                                    float hitY,
-                                    float hitZ) {
-        if (!worldIn.isRemote && !(side == EnumFacing.UP || side == EnumFacing.DOWN)) {
+                                    PlayerEntity playerIn,
+                                    Hand hand,
+                                    BlockRayTraceResult blockRayTraceResult) {
+        Direction side = blockRayTraceResult.getFace();
+        if (!worldIn.isRemote && !(side == Direction.UP || side == Direction.DOWN)) {
             TimeMachineHookRunner hookRunner = super.getTimeMachine().hook(worldIn, pos, side);
             hookRunner.run(worldIn, playerIn, pos, side);
             return true;

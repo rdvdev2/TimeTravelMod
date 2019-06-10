@@ -5,14 +5,14 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockTNT;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.TNTBlock;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.Items;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
@@ -20,11 +20,13 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.RedstoneSide;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReaderBase;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -32,10 +34,9 @@ import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
-public class BlockGunpowderWire extends Block {
+public class BlockGunpowderWire extends Block { // TODO: Highly test to ensure nothing is broken (Will break anyway)
 
     protected static final VoxelShape[] SHAPES = new VoxelShape[]{Block.makeCuboidShape(3.0D, 0.0D, 3.0D, 13.0D, 1.0D, 13.0D), Block.makeCuboidShape(3.0D, 0.0D, 3.0D, 13.0D, 1.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 3.0D, 13.0D, 1.0D, 13.0D), Block.makeCuboidShape(0.0D, 0.0D, 3.0D, 13.0D, 1.0D, 16.0D), Block.makeCuboidShape(3.0D, 0.0D, 0.0D, 13.0D, 1.0D, 13.0D), Block.makeCuboidShape(3.0D, 0.0D, 0.0D, 13.0D, 1.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 13.0D, 1.0D, 13.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 13.0D, 1.0D, 16.0D), Block.makeCuboidShape(3.0D, 0.0D, 3.0D, 16.0D, 1.0D, 13.0D), Block.makeCuboidShape(3.0D, 0.0D, 3.0D, 16.0D, 1.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 3.0D, 16.0D, 1.0D, 13.0D), Block.makeCuboidShape(0.0D, 0.0D, 3.0D, 16.0D, 1.0D, 16.0D), Block.makeCuboidShape(3.0D, 0.0D, 0.0D, 16.0D, 1.0D, 13.0D), Block.makeCuboidShape(3.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 13.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D)};
     public static final EnumProperty<RedstoneSide> NORTH = BlockStateProperties.REDSTONE_NORTH;
@@ -43,77 +44,77 @@ public class BlockGunpowderWire extends Block {
     public static final EnumProperty<RedstoneSide> SOUTH = BlockStateProperties.REDSTONE_SOUTH;
     public static final EnumProperty<RedstoneSide> WEST = BlockStateProperties.REDSTONE_WEST;
     public static final BooleanProperty BURNED = BooleanProperty.create("burned");
-    public static final Map<EnumFacing, EnumProperty<RedstoneSide>> FACING_PROPERTY_MAP = Maps.newEnumMap(ImmutableMap.of(EnumFacing.NORTH, NORTH, EnumFacing.EAST, EAST, EnumFacing.SOUTH, SOUTH, EnumFacing.WEST, WEST));
+    public static final Map<Direction, EnumProperty<RedstoneSide>> FACING_PROPERTY_MAP = Maps.newEnumMap(ImmutableMap.of(Direction.NORTH, NORTH, Direction.EAST, EAST, Direction.SOUTH, SOUTH, Direction.WEST, WEST));
     private final Set<BlockPos> blocksNeedingUpdate = Sets.newHashSet();
 
     public BlockGunpowderWire() {
-        super(Properties.create(Material.CIRCUITS).doesNotBlockMovement().hardnessAndResistance(0));
+        super(Properties.create(Material.MISCELLANEOUS).doesNotBlockMovement().hardnessAndResistance(0));
         this.setDefaultState(this.getStateContainer().getBaseState().with(NORTH, RedstoneSide.NONE).with(EAST, RedstoneSide.NONE).with(SOUTH, RedstoneSide.NONE).with(WEST, RedstoneSide.NONE).with(BURNED, false));
         this.setRegistryName(TimeTravelMod.MODID, "gunpowderwire");
     }
 
     @Override
-    public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return SHAPES[getAABBIndex(state)];
     }
 
-    private static int getAABBIndex(IBlockState state) {
+    private static int getAABBIndex(BlockState state) {
         int ret = 0;
         boolean north = state.get(NORTH) != RedstoneSide.NONE;
         boolean east = state.get(EAST) != RedstoneSide.NONE;
         boolean south = state.get(SOUTH) != RedstoneSide.NONE;
         boolean west = state.get(WEST) != RedstoneSide.NONE;
         if (north || south && !north && !east && !west) {
-            ret |= 1 << EnumFacing.NORTH.getHorizontalIndex();
+            ret |= 1 << Direction.NORTH.getHorizontalIndex();
         }
 
         if (east || west && !north && !east && !south) {
-            ret |= 1 << EnumFacing.EAST.getHorizontalIndex();
+            ret |= 1 << Direction.EAST.getHorizontalIndex();
         }
 
         if (south || north && !east && !south && !west) {
-            ret |= 1 << EnumFacing.SOUTH.getHorizontalIndex();
+            ret |= 1 << Direction.SOUTH.getHorizontalIndex();
         }
 
         if (west || east && !north && !south && !west) {
-            ret |= 1 << EnumFacing.WEST.getHorizontalIndex();
+            ret |= 1 << Direction.WEST.getHorizontalIndex();
         }
 
         return ret;
     }
 
-    public IBlockState getStateForPlacement(BlockItemUseContext context) {
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
         IBlockReader iblockreader = context.getWorld();
         BlockPos blockpos = context.getPos();
-        return this.getDefaultState().with(WEST, this.getSide(iblockreader, blockpos, EnumFacing.WEST)).with(EAST, this.getSide(iblockreader, blockpos, EnumFacing.EAST)).with(NORTH, this.getSide(iblockreader, blockpos, EnumFacing.NORTH)).with(SOUTH, this.getSide(iblockreader, blockpos, EnumFacing.SOUTH));
+        return this.getDefaultState().with(WEST, this.getSide(iblockreader, blockpos, Direction.WEST)).with(EAST, this.getSide(iblockreader, blockpos, Direction.EAST)).with(NORTH, this.getSide(iblockreader, blockpos, Direction.NORTH)).with(SOUTH, this.getSide(iblockreader, blockpos, Direction.SOUTH));
     }
 
-    public IBlockState updatePostPlacement(IBlockState stateIn, EnumFacing facing, IBlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-        if (facing == EnumFacing.DOWN || stateIn.get(BURNED)) {
+    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+        if (facing == Direction.DOWN || stateIn.get(BURNED)) {
             return stateIn;
         } else {
-            return facing == EnumFacing.UP ? stateIn.with(WEST, this.getSide(worldIn, currentPos, EnumFacing.WEST)).with(EAST, this.getSide(worldIn, currentPos, EnumFacing.EAST)).with(NORTH, this.getSide(worldIn, currentPos, EnumFacing.NORTH)).with(SOUTH, this.getSide(worldIn, currentPos, EnumFacing.SOUTH)) : stateIn.with(FACING_PROPERTY_MAP.get(facing), this.getSide(worldIn, currentPos, facing));
+            return facing == Direction.UP ? stateIn.with(WEST, this.getSide(worldIn, currentPos, Direction.WEST)).with(EAST, this.getSide(worldIn, currentPos, Direction.EAST)).with(NORTH, this.getSide(worldIn, currentPos, Direction.NORTH)).with(SOUTH, this.getSide(worldIn, currentPos, Direction.SOUTH)) : stateIn.with(FACING_PROPERTY_MAP.get(facing), this.getSide(worldIn, currentPos, facing));
         }
     }
 
-    public void updateDiagonalNeighbors(IBlockState state, IWorld worldIn, BlockPos pos, int flags) {
+    public void updateDiagonalNeighbors(BlockState state, IWorld worldIn, BlockPos pos, int flags) {
         try (BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos.retain()) {
-            for(EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) {
+            for(Direction enumfacing : Direction.Plane.HORIZONTAL) {
                 RedstoneSide redstoneside = state.get(FACING_PROPERTY_MAP.get(enumfacing));
                 if (redstoneside != RedstoneSide.NONE && worldIn.getBlockState(blockpos$pooledmutableblockpos.setPos(pos).move(enumfacing)).getBlock() != this) {
-                    blockpos$pooledmutableblockpos.move(EnumFacing.DOWN);
-                    IBlockState iblockstate = worldIn.getBlockState(blockpos$pooledmutableblockpos);
+                    blockpos$pooledmutableblockpos.move(Direction.DOWN);
+                    BlockState iblockstate = worldIn.getBlockState(blockpos$pooledmutableblockpos);
                     if (iblockstate.getBlock() != Blocks.OBSERVER) {
                         BlockPos blockpos = blockpos$pooledmutableblockpos.offset(enumfacing.getOpposite());
-                        IBlockState iblockstate1 = iblockstate.updatePostPlacement(enumfacing.getOpposite(), worldIn.getBlockState(blockpos), worldIn, blockpos$pooledmutableblockpos, blockpos);
+                        BlockState iblockstate1 = iblockstate.updatePostPlacement(enumfacing.getOpposite(), worldIn.getBlockState(blockpos), worldIn, blockpos$pooledmutableblockpos, blockpos);
                         replaceBlock(iblockstate, iblockstate1, worldIn, blockpos$pooledmutableblockpos, flags);
                     }
 
-                    blockpos$pooledmutableblockpos.setPos(pos).move(enumfacing).move(EnumFacing.UP);
-                    IBlockState iblockstate3 = worldIn.getBlockState(blockpos$pooledmutableblockpos);
+                    blockpos$pooledmutableblockpos.setPos(pos).move(enumfacing).move(Direction.UP);
+                    BlockState iblockstate3 = worldIn.getBlockState(blockpos$pooledmutableblockpos);
                     if (iblockstate3.getBlock() != Blocks.OBSERVER) {
                         BlockPos blockpos1 = blockpos$pooledmutableblockpos.offset(enumfacing.getOpposite());
-                        IBlockState iblockstate2 = iblockstate3.updatePostPlacement(enumfacing.getOpposite(), worldIn.getBlockState(blockpos1), worldIn, blockpos$pooledmutableblockpos, blockpos1);
+                        BlockState iblockstate2 = iblockstate3.updatePostPlacement(enumfacing.getOpposite(), worldIn.getBlockState(blockpos1), worldIn, blockpos$pooledmutableblockpos, blockpos1);
                         replaceBlock(iblockstate3, iblockstate2, worldIn, blockpos$pooledmutableblockpos, flags);
                     }
                 }
@@ -121,14 +122,15 @@ public class BlockGunpowderWire extends Block {
         }
     }
 
-    private RedstoneSide getSide(IBlockReader worldIn, BlockPos pos, EnumFacing face) {
+    private RedstoneSide getSide(IBlockReader worldIn, BlockPos pos, Direction face) {
         BlockPos blockpos = pos.offset(face);
-        IBlockState offsetState = worldIn.getBlockState(pos.offset(face));
-        IBlockState stateUp = worldIn.getBlockState(pos.up());
-        if (!stateUp.isNormalCube()) {
-            boolean flag = offsetState.getBlockFaceShape(worldIn, blockpos, EnumFacing.UP) == BlockFaceShape.SOLID || offsetState.getBlock() == Blocks.GLOWSTONE;
+        BlockState blockstate = worldIn.getBlockState(blockpos);
+        BlockState offsetState = worldIn.getBlockState(pos.offset(face));
+        BlockState stateUp = worldIn.getBlockState(pos.up());
+        if (!stateUp.func_215686_e(worldIn, pos.up())) {
+            boolean flag = Block.func_220056_d(blockstate, worldIn, blockpos, Direction.UP) || blockstate.getBlock() == Blocks.HOPPER;
             if (flag && canConnectTo(worldIn.getBlockState(blockpos.up()))) {
-                if (offsetState.isBlockNormalCube()) {
+                if (isOpaque(blockstate.getCollisionShape(worldIn, blockpos))) {
                     return RedstoneSide.UP;
                 }
 
@@ -136,20 +138,20 @@ public class BlockGunpowderWire extends Block {
             }
         }
 
-        return !canConnectTo(worldIn.getBlockState(blockpos)) && (offsetState.isNormalCube() || !canConnectTo(worldIn.getBlockState(blockpos.down()))) ? RedstoneSide.NONE : RedstoneSide.SIDE;
+        return !canConnectTo(blockstate) && (blockstate.func_215686_e(worldIn, blockpos) || !canConnectTo(worldIn.getBlockState(blockpos.down()))) ? RedstoneSide.NONE : RedstoneSide.SIDE;
     }
 
-    @Override
-    public boolean isFullCube(IBlockState state) {
+    /*@Override
+    public boolean isFullCube(BlockState state) {
         return false;
+    }*/
+
+    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos blockpos) {
+        BlockState blockstate = worldIn.getBlockState(blockpos.down());
+        return Block.func_220056_d(blockstate, worldIn, blockpos, Direction.UP) || blockstate.getBlock() == Blocks.HOPPER;
     }
 
-    public boolean isValidPosition(IBlockState state, IWorldReaderBase worldIn, BlockPos pos) {
-        IBlockState iblockstate = worldIn.getBlockState(pos.down());
-        return iblockstate.isTopSolid() || iblockstate.getBlock() == Blocks.GLOWSTONE || iblockstate.getBlockFaceShape(worldIn, pos.down(), EnumFacing.UP) == BlockFaceShape.SOLID;
-    }
-
-    private IBlockState updateSurroundingWires(World worldIn, BlockPos pos, IBlockState state) {
+    private BlockState updateSurroundingWires(World worldIn, BlockPos pos, BlockState state) {
         List<BlockPos> list = Lists.newArrayList(this.blocksNeedingUpdate);
         this.blocksNeedingUpdate.clear();
 
@@ -164,28 +166,29 @@ public class BlockGunpowderWire extends Block {
         if (worldIn.getBlockState(pos).getBlock() == this) {
             worldIn.notifyNeighborsOfStateChange(pos, this);
 
-            for(EnumFacing enumfacing : EnumFacing.values()) {
+            for(Direction enumfacing : Direction.values()) {
                 worldIn.notifyNeighborsOfStateChange(pos.offset(enumfacing), this);
             }
 
         }
     }
 
-    public void onBlockAdded(IBlockState state, World worldIn, BlockPos pos, IBlockState oldState) {
+    @Override
+    public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean mistery) {
         if (oldState.getBlock() != state.getBlock() && !worldIn.isRemote) {
             this.updateSurroundingWires(worldIn, pos, state);
 
-            for(EnumFacing facing : EnumFacing.Plane.VERTICAL) {
+            for(Direction facing : Direction.Plane.VERTICAL) {
                 worldIn.notifyNeighborsOfStateChange(pos.offset(facing), this);
             }
 
-            for(EnumFacing facing : EnumFacing.Plane.HORIZONTAL) {
+            for(Direction facing : Direction.Plane.HORIZONTAL) {
                 this.notifyWireNeighborsOfStateChange(worldIn, pos.offset(facing));
             }
 
-            for(EnumFacing facing : EnumFacing.Plane.HORIZONTAL) {
+            for(Direction facing : Direction.Plane.HORIZONTAL) {
                 BlockPos blockpos = pos.offset(facing);
-                if (worldIn.getBlockState(blockpos).isNormalCube()) {
+                if (worldIn.getBlockState(blockpos).func_215686_e(worldIn, blockpos)) {
                     this.notifyWireNeighborsOfStateChange(worldIn, blockpos.up());
                 } else {
                     this.notifyWireNeighborsOfStateChange(worldIn, blockpos.down());
@@ -195,23 +198,23 @@ public class BlockGunpowderWire extends Block {
         }
     }
 
-    public void onReplaced(IBlockState state, World worldIn, BlockPos pos, IBlockState newState, boolean isMoving) {
+    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
         if (!isMoving && state.getBlock() != newState.getBlock()) {
             super.onReplaced(state, worldIn, pos, newState, isMoving);
             if (!worldIn.isRemote) {
-                for(EnumFacing facing : EnumFacing.values()) {
+                for(Direction facing : Direction.values()) {
                     worldIn.notifyNeighborsOfStateChange(pos.offset(facing), this);
                 }
 
                 this.updateSurroundingWires(worldIn, pos, state);
 
-                for(EnumFacing facing : EnumFacing.Plane.HORIZONTAL) {
+                for(Direction facing : Direction.Plane.HORIZONTAL) {
                     this.notifyWireNeighborsOfStateChange(worldIn, pos.offset(facing));
                 }
 
-                for(EnumFacing facing : EnumFacing.Plane.HORIZONTAL) {
+                for(Direction facing : Direction.Plane.HORIZONTAL) {
                     BlockPos blockpos = pos.offset(facing);
-                    if (worldIn.getBlockState(blockpos).isNormalCube()) {
+                    if (worldIn.getBlockState(blockpos).func_215686_e(worldIn, blockpos)) {
                         this.notifyWireNeighborsOfStateChange(worldIn, blockpos.up());
                     } else {
                         this.notifyWireNeighborsOfStateChange(worldIn, blockpos.down());
@@ -222,18 +225,18 @@ public class BlockGunpowderWire extends Block {
         }
     }
 
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+    public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean misteryous) {
         if (!worldIn.isRemote) {
             if (state.isValidPosition(worldIn, pos)) {
                 this.updateSurroundingWires(worldIn, pos, state);
             } else {
-                state.dropBlockAsItem(worldIn, pos, 0);
-                worldIn.removeBlock(pos);
+                spawnDrops(state, worldIn, pos);
+                worldIn.removeBlock(pos, false);
             }
         }
     }
 
-    protected boolean canConnectTo(IBlockState state) {
+    protected boolean canConnectTo(BlockState state) {
         return state.getBlock() == this || state.getBlock() == Blocks.TNT;
     }
 
@@ -241,7 +244,7 @@ public class BlockGunpowderWire extends Block {
         return BlockRenderLayer.CUTOUT;
     }
 
-    public IBlockState rotate(IBlockState state, Rotation rot) {
+    public BlockState rotate(BlockState state, Rotation rot) {
         switch(rot) {
             case CLOCKWISE_180:
                 return state.with(NORTH, state.get(SOUTH)).with(EAST, state.get(WEST)).with(SOUTH, state.get(NORTH)).with(WEST, state.get(EAST));
@@ -254,7 +257,7 @@ public class BlockGunpowderWire extends Block {
         }
     }
 
-    public IBlockState mirror(IBlockState state, Mirror mirrorIn) {
+    public BlockState mirror(BlockState state, Mirror mirrorIn) {
         switch(mirrorIn) {
             case LEFT_RIGHT:
                 return state.with(NORTH, state.get(SOUTH)).with(SOUTH, state.get(NORTH));
@@ -265,13 +268,13 @@ public class BlockGunpowderWire extends Block {
         }
     }
 
-    protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder) {
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(NORTH, EAST, SOUTH, WEST, BURNED);
     }
 
-    public BlockFaceShape getBlockFaceShape(IBlockReader worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
+    /*public BlockFaceShape getBlockFaceShape(IBlockReader worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
         return BlockFaceShape.UNDEFINED;
-    }
+    }*/
 
     @OnlyIn(Dist.CLIENT)
     public static int colorMultiplier(boolean burned) {
@@ -293,22 +296,23 @@ public class BlockGunpowderWire extends Block {
         return -16777216 | i << 16 | j << 8 | k;
     }
 
-    @Override
-    public int getItemsToDropCount(IBlockState state, int fortune, World worldIn, BlockPos pos, Random random) {
+    /*@Override
+    public int getItemsToDropCount(BlockState state, int fortune, World worldIn, BlockPos pos, Random random) {
         if (!state.get(BURNED)) return 1;
         else return 0;
-    }
+    }*/
+
 
     public void setBurned(BlockPos pos, World world) {
-        IBlockState state = world.getBlockState(pos);
+        BlockState state = world.getBlockState(pos);
         world.setBlockState(pos, state.with(BURNED, true));
         if (world.getBlockState(pos.down()) == Blocks.TNT.getDefaultState()) {
             world.setBlockState(pos.down(), Blocks.AIR.getDefaultState());
             world.setBlockState(pos, Blocks.AIR.getDefaultState());
-            ((BlockTNT)Blocks.TNT).explode(world, pos.down());
+            ((TNTBlock)Blocks.TNT).explode(world, pos.down());
             return;
         }
-        for (EnumFacing facing: EnumFacing.Plane.HORIZONTAL) {
+        for (Direction facing: Direction.Plane.HORIZONTAL) {
             BlockPos neighboorPos = pos;
             switch (state.get(FACING_PROPERTY_MAP.get(facing))) {
                 case UP:
@@ -323,16 +327,17 @@ public class BlockGunpowderWire extends Block {
                         setBurned(neighboorPos, world);
                     else if (world.getBlockState(neighboorPos).getBlock() == Blocks.TNT) {
                         world.setBlockState(neighboorPos, Blocks.AIR.getDefaultState());
-                        ((BlockTNT)Blocks.TNT).explode(world, neighboorPos);
+                        ((TNTBlock)Blocks.TNT).explode(world, neighboorPos);
                     }
             }
         }
     }
 
     @Override
-    public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult blockRayTraceResult) {
         if (player.getHeldItem(hand).getItem() == Items.FLINT_AND_STEEL && !state.get(BURNED)) {
-            player.getHeldItem(hand).damageItem(1, player);
+            if (player instanceof ServerPlayerEntity)
+            player.getHeldItem(hand).attemptDamageItem(1, worldIn.rand, (ServerPlayerEntity) player);
             setBurned(pos, worldIn);
             return true;
         } else return false;

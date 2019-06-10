@@ -3,7 +3,7 @@ package tk.rdvdev2.TimeTravelMod.common.networking;
 import com.google.common.base.Charsets;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
@@ -18,9 +18,9 @@ public class OpenTmGuiPKT {
 
     public TimeMachine tm;
     public BlockPos pos;
-    public EnumFacing side;
+    public Direction side;
 
-    public OpenTmGuiPKT(TimeMachine tm, BlockPos pos, EnumFacing side) {
+    public OpenTmGuiPKT(TimeMachine tm, BlockPos pos, Direction side) {
         this.tm = tm instanceof TimeMachineHookRunner ? ((TimeMachineHookRunner)tm).removeHooks() : tm;
         this.pos = pos;
         this.side = side;
@@ -31,7 +31,7 @@ public class OpenTmGuiPKT {
         int size = buf.readInt();
         pkt.tm = TimeMachine.fromString(buf.readCharSequence(size, Charsets.UTF_8).toString());
         pkt.pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-        pkt.side = EnumFacing.byIndex(buf.readInt());
+        pkt.side = Direction.byIndex(buf.readInt());
         return pkt;
     }
 

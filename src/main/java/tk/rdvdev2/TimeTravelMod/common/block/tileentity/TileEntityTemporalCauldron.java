@@ -1,17 +1,15 @@
 package tk.rdvdev2.TimeTravelMod.common.block.tileentity;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
+import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -25,7 +23,7 @@ import java.util.Random;
 
 import static net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
 
-public class TileEntityTemporalCauldron extends TileEntity implements ITickable, IInventory {
+public class TileEntityTemporalCauldron extends TileEntity implements ITickableTileEntity, IInventory {
     private NonNullList<ItemStack> cauldronContents = NonNullList.withSize(2, ItemStack.EMPTY);
 
     public static TileEntityType<TileEntityTemporalCauldron> type;
@@ -67,7 +65,7 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable,
     }
 
     @Override
-    public void read(NBTTagCompound compound) {
+    public void read(CompoundNBT compound) {
         super.read(compound);
         this.cauldronContents = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
         ItemStackHelper.loadAllItems(compound, this.cauldronContents);
@@ -77,12 +75,12 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable,
     }
 
     @Override
-    public NBTTagCompound write(NBTTagCompound compound) {
+    public CompoundNBT write(CompoundNBT compound) {
         compound = super.write(compound);
         ItemStackHelper.saveAllItems(compound, this.cauldronContents);
 
-        compound.setInt("crystal_usages", crystal_usages);
-        compound.setInt("tick_count", tick_count);
+        compound.putInt("crystal_usages", crystal_usages);
+        compound.putInt("tick_count", tick_count);
 
         return compound;
     }
@@ -202,17 +200,17 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable,
      * @param player
      */
     @Override
-    public boolean isUsableByPlayer(EntityPlayer player) {
+    public boolean isUsableByPlayer(PlayerEntity player) {
         return true;
     }
 
     @Override
-    public void openInventory(EntityPlayer player) {
+    public void openInventory(PlayerEntity player) {
 
     }
 
     @Override
-    public void closeInventory(EntityPlayer player) {
+    public void closeInventory(PlayerEntity player) {
 
     }
 
@@ -228,10 +226,11 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable,
         return false;
     }
 
-    @Override
+    /*@Override TODO: Check these are not used anymore
     public int getField(int id) {
         return 0;
     }
+
 
     @Override
     public void setField(int id, int value) {
@@ -241,7 +240,7 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable,
     @Override
     public int getFieldCount() {
         return 0;
-    }
+    }*/
 
     @Override
     public void clear() {
@@ -249,9 +248,9 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable,
         this.markDirty();
     }
 
-    @Override
+    /*@Override
     public ITextComponent getName() {
-        return new TextComponentTranslation("block.timetravelmod.temporalcauldron");
+        return new TranslationTextComponent("block.timetravelmod.temporalcauldron");
     }
 
     @Override
@@ -263,11 +262,11 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickable,
     @Override
     public ITextComponent getCustomName() {
         return null;
-    }
+    }*/
 
     @Nonnull
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable EnumFacing side) {
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if (!this.removed && cap == ITEM_HANDLER_CAPABILITY) {
             if (this.cauldronHandler == null) {
                 this.cauldronHandler = LazyOptional.of(this::createHandler);

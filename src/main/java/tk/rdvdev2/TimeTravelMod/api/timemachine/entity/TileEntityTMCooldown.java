@@ -1,15 +1,15 @@
 package tk.rdvdev2.TimeTravelMod.api.timemachine.entity;
 
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ITickable;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady;
 
 /**
  * This TileEntity is attached to non cooled down Time Machine cores and is used to calculate when they are ready
  */
-public class TileEntityTMCooldown extends TileEntity implements ITickable {
+public class TileEntityTMCooldown extends TileEntity implements ITickableTileEntity {
 
     public static TileEntityType<TileEntityTMCooldown> type;
 
@@ -32,14 +32,14 @@ public class TileEntityTMCooldown extends TileEntity implements ITickable {
     }
 
     @Override
-    public NBTTagCompound write(NBTTagCompound compound) {
+    public CompoundNBT write(CompoundNBT compound) {
         super.write(compound);
-        compound.setInt("ticks", remainingTicks);
+        compound.putInt("ticks", remainingTicks);
         return compound;
     }
 
     @Override
-    public void read(NBTTagCompound compound) {
+    public void read(CompoundNBT compound) {
         super.read(compound);
         this.remainingTicks = compound.getInt("ticks");
     }
@@ -67,12 +67,12 @@ public class TileEntityTMCooldown extends TileEntity implements ITickable {
     }
 
     @Override
-    public NBTTagCompound getUpdateTag() {
-        return this.write(new NBTTagCompound());
+    public CompoundNBT getUpdateTag() {
+        return this.write(new CompoundNBT());
     }
 
     @Override
-    public void handleUpdateTag(NBTTagCompound tag) {
+    public void handleUpdateTag(CompoundNBT tag) {
         this.read(tag);
     }
 }

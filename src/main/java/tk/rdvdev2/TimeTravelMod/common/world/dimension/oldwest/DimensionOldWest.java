@@ -5,9 +5,6 @@ import com.google.gson.JsonObject;
 import com.mojang.datafixers.Dynamic;
 import com.mojang.datafixers.types.JsonOps;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Biomes;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTDynamicOps;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ResourceLocation;
@@ -15,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.IRegistry;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.provider.*;
@@ -26,11 +23,14 @@ import tk.rdvdev2.TimeTravelMod.ModBiomes;
 
 import javax.annotation.Nullable;
 
-public class DimensionOldWest extends net.minecraft.world.dimension.Dimension {
+public class DimensionOldWest extends net.minecraft.world.dimension.Dimension { // TODO: Another massive rewrite
 
     private DimensionType type;
+    private World world;
 
-    public DimensionOldWest(DimensionType type) {
+    public DimensionOldWest(World world, DimensionType type) {
+        super(world, type);
+        this.world = world;
         this.type = type;
     }
 
@@ -47,12 +47,11 @@ public class DimensionOldWest extends net.minecraft.world.dimension.Dimension {
      */
     @Override
     protected void init() {
-        hasSkyLight = true;
         setAllowedSpawnTypes(true, true);
     }
 
     @Override
-    public IChunkGenerator<?> createChunkGenerator() {
+    public ChunkGenerator<?> createChunkGenerator() {
         WorldType worldtype = this.world.getWorldInfo().getTerrainType();
         ChunkGeneratorType<FlatGenSettings, ChunkGeneratorFlat> chunkgeneratortype = ChunkGeneratorType.FLAT;
         ChunkGeneratorType<DebugGenSettings, ChunkGeneratorDebug> chunkgeneratortype1 = ChunkGeneratorType.DEBUG;

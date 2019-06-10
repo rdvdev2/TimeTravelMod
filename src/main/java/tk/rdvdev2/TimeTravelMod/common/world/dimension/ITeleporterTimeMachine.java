@@ -1,22 +1,22 @@
 package tk.rdvdev2.TimeTravelMod.common.world.dimension;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.util.ITeleporter;
+import net.minecraft.world.ServerWorld;
+import net.minecraft.world.Teleporter;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 
-public class ITeleporterTimeMachine implements ITeleporter {
+public class ITeleporterTimeMachine extends Teleporter {
 
-    protected final WorldServer worldIn;
-    protected final WorldServer worldOut;
+    protected final ServerWorld worldIn;
+    protected final ServerWorld worldOut;
     private TimeMachine tm;
     private BlockPos controlPos;
-    private EnumFacing facing;
+    private Direction facing;
 
-    public ITeleporterTimeMachine(WorldServer worldIn, WorldServer worldOut, TimeMachine tm, BlockPos controlPos, EnumFacing facing) {
+    public ITeleporterTimeMachine(ServerWorld worldIn, ServerWorld worldOut, TimeMachine tm, BlockPos controlPos, Direction facing) {
+        super(worldOut);
         this.worldIn = worldIn;
         this.worldOut = worldOut;
         this.tm = tm.hook(worldIn, controlPos, facing);
@@ -25,8 +25,8 @@ public class ITeleporterTimeMachine implements ITeleporter {
     }
 
     @Override
-    public void placeEntity(World world, Entity entity, float yaw)
-    {
+    public boolean func_222268_a(Entity entity, float p_222268_2_) {
         tm.teleporterTasks(entity, worldIn, worldOut, controlPos, facing);
+        return true;
     }
 }

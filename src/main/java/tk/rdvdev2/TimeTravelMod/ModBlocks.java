@@ -1,9 +1,9 @@
 package tk.rdvdev2.TimeTravelMod;
 
 import net.minecraft.block.Block;
-import net.minecraft.init.Items;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.Items;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -42,9 +42,9 @@ public class ModBlocks {
     }
 
     @SubscribeEvent
-    public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event) {
-        TileEntityTemporalCauldron.type = TileEntityType.register("timetravelmod:temporalcauldron", TileEntityType.Builder.create(TileEntityTemporalCauldron::new));
-        TileEntityTMCooldown.type = TileEntityType.register("timetravelmod:tmcooldown", TileEntityType.Builder.create(TileEntityTMCooldown::new));
+    public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event) { // TODO: How is this registered?
+        TileEntityTemporalCauldron.type = TileEntityType.register("timetravelmod:temporalcauldron", TileEntityType.Builder.func_223042_a(TileEntityTemporalCauldron::new));
+        TileEntityTMCooldown.type = TileEntityType.register("timetravelmod:tmcooldown", TileEntityType.Builder.func_223042_a(TileEntityTMCooldown::new));
     }
 
     @SubscribeEvent
@@ -60,14 +60,14 @@ public class ModBlocks {
                 temporalCauldron
         );
         final String gunpowderTranslationKey = Items.GUNPOWDER.getTranslationKey();
-        event.getRegistry().register(new ItemBlock(gunpowderWire, new Item.Properties().maxStackSize(64).group(Items.GUNPOWDER.getGroup())){
+        event.getRegistry().register(new BlockItem(gunpowderWire, new Item.Properties().maxStackSize(64).group(Items.GUNPOWDER.getGroup())){
             @Override public String getTranslationKey() { return gunpowderTranslationKey; }
         }.setRegistryName(Items.GUNPOWDER.getRegistryName()));
     }
 
     private static void registerItemBlock(RegistryEvent.Register<Item> event, Block... blocks) {
         for (int i = 0; i < blocks.length; i++) {
-            event.getRegistry().register(new ItemBlock(blocks[i], new Item.Properties().maxStackSize(64).group(TimeTravelMod.tabTTM)).setRegistryName(blocks[i].getRegistryName()));
+            event.getRegistry().register(new BlockItem(blocks[i], new Item.Properties().maxStackSize(64).group(TimeTravelMod.tabTTM)).setRegistryName(blocks[i].getRegistryName()));
         }
     }
 

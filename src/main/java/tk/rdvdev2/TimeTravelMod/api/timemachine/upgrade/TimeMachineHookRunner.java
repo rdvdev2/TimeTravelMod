@@ -1,9 +1,9 @@
 package tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade;
 
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -49,32 +49,32 @@ public class TimeMachineHookRunner extends TimeMachine {
     }
 
     @Override
-    public IBlockState[] getControllerBlocks() {
+    public BlockState[] getControllerBlocks() {
         return tm.getControllerBlocks();
     }
 
     @Override
-    public IBlockState[] getCoreBlocks() {
+    public BlockState[] getCoreBlocks() {
         return tm.getCoreBlocks();
     }
 
     @Override
-    public IBlockState[] getBasicBlocks() {
+    public BlockState[] getBasicBlocks() {
         return tm.getBasicBlocks();
     }
 
     @Override
-    public BlockPos[] getCoreBlocksPos(EnumFacing side) {
+    public BlockPos[] getCoreBlocksPos(Direction side) {
         return tm.getCoreBlocksPos(side);
     }
 
     @Override
-    public BlockPos[] getBasicBlocksPos(EnumFacing side) {
+    public BlockPos[] getBasicBlocksPos(Direction side) {
         return tm.getBasicBlocksPos(side);
     }
 
     @Override
-    public BlockPos[] getAirBlocksPos(EnumFacing side) {
+    public BlockPos[] getAirBlocksPos(Direction side) {
         return tm.getAirBlocksPos(side);
     }
 
@@ -84,48 +84,48 @@ public class TimeMachineHookRunner extends TimeMachine {
     }
 
     @Override
-    public IBlockState[] getBlocks() {
+    public BlockState[] getBlocks() {
         return tm.getBlocks();
     }
 
     @Override
-    public void run(World world, EntityPlayer playerIn, BlockPos controllerPos, EnumFacing side) {
+    public void run(World world, PlayerEntity playerIn, BlockPos controllerPos, Direction side) {
         if (runVoidHooks(TimeMachineHook.RunHook.class, world, playerIn, controllerPos, side)) return;
         tm.run(world, playerIn, controllerPos, side);
     }
 
     @Override
-    public boolean triggerTemporalExplosion(World world, BlockPos controllerPos, EnumFacing side) {
+    public boolean triggerTemporalExplosion(World world, BlockPos controllerPos, Direction side) {
         return tm.triggerTemporalExplosion(world, controllerPos, side);
     }
 
     @Override
-    public boolean isBuilt(World world, BlockPos controllerPos, EnumFacing side) {
+    public boolean isBuilt(World world, BlockPos controllerPos, Direction side) {
         return tm.isBuilt(world, controllerPos, side);
     }
 
     @Override
-    public boolean isOverloaded(World world, BlockPos controllerPos, EnumFacing side) {
+    public boolean isOverloaded(World world, BlockPos controllerPos, Direction side) {
         return tm.isOverloaded(world, controllerPos, side);
     }
 
     @Override
-    public boolean isPlayerInside(World world, BlockPos controllerPos, EnumFacing side, EntityPlayer player) {
+    public boolean isPlayerInside(World world, BlockPos controllerPos, Direction side, PlayerEntity player) {
         return tm.isPlayerInside(world, controllerPos, side, player);
     }
 
     @Override
-    public AxisAlignedBB getAirSpace(BlockPos controllerPos, EnumFacing side) {
+    public AxisAlignedBB getAirSpace(BlockPos controllerPos, Direction side) {
         return tm.getAirSpace(controllerPos, side);
     }
 
     @Override
-    public void teleporterTasks(Entity entity, World worldIn, World worldOut, BlockPos controllerPos, EnumFacing side) {
+    public void teleporterTasks(Entity entity, World worldIn, World worldOut, BlockPos controllerPos, Direction side) {
         tm.teleporterTasks(entity, worldIn, worldOut, controllerPos, side);
     }
 
     @Override
-    public boolean isCooledDown(World world, BlockPos controllerPos, EnumFacing side) {
+    public boolean isCooledDown(World world, BlockPos controllerPos, Direction side) {
         return tm.isCooledDown(world, controllerPos, side);
     }
 

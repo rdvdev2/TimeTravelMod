@@ -1,7 +1,7 @@
 package tk.rdvdev2.TimeTravelMod;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -110,7 +110,7 @@ public class ModRegistries {
 
     public static class TimeMachinesCallbacks implements IForgeRegistry.CreateCallback<TimeMachine>, IForgeRegistry.AddCallback<TimeMachine>, IForgeRegistry.BakeCallback {
 
-        private HashMap<IBlockState, ResourceLocation> blockStateResourceLocationHashMap;
+        private HashMap<BlockState, ResourceLocation> blockStateResourceLocationHashMap;
 
         @Override
         public void onCreate(IForgeRegistryInternal<TimeMachine> owner, RegistryManager stage) {
@@ -121,10 +121,10 @@ public class ModRegistries {
         @SuppressWarnings("unchecked")
         @Override
         public void onAdd(IForgeRegistryInternal owner, RegistryManager stage, int id, TimeMachine obj, @Nullable TimeMachine oldObj) {
-            blockStateResourceLocationHashMap = (HashMap<IBlockState, ResourceLocation>)owner.getSlaveMap(BLOCKTOTM, HashMap.class);
+            blockStateResourceLocationHashMap = (HashMap<BlockState, ResourceLocation>)owner.getSlaveMap(BLOCKTOTM, HashMap.class);
             if (obj instanceof TimeMachineCreative) return; // Special rule for the creative Time Machine
             if (!blockStateResourceLocationHashMap.containsValue(obj.getRegistryName())) {
-                for(IBlockState block:obj.getBlocks()) {
+                for(BlockState block:obj.getBlocks()) {
                     if (block.getBlock() instanceof BlockTimeMachineUpgrade) continue; // Time Machine Upgrade blocks must be ignored
                     if (!blockStateResourceLocationHashMap.containsKey(block)) {
                         blockStateResourceLocationHashMap.put(block, obj.getRegistryName());

@@ -1,11 +1,11 @@
 package tk.rdvdev2.TimeTravelMod.common.world.generator;
 
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.gen.IChunkGenSettings;
-import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
@@ -15,11 +15,11 @@ import java.util.Random;
 public class FeatureGunpowder extends Feature<NoFeatureConfig> {
 
     public FeatureGunpowder() {
-        super(true);
+        super(null); // TODO: Check if no datafixers work
     }
 
     @Override
-    public boolean func_212245_a(IWorld world, IChunkGenerator<? extends IChunkGenSettings> generator, Random random, BlockPos pos, NoFeatureConfig config) {
+    public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> chunkGenerator, Random random, BlockPos pos, NoFeatureConfig noFeatureConfig) {
         if (world.hasWater(pos)) return false;
         for (int i = random.nextInt(8) + 2; i > 0; i--) {
             BlockPos thisPos = pos.add(random.nextInt(5)-2, 0, random.nextInt(5)-2);

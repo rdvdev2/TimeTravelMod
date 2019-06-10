@@ -1,6 +1,6 @@
 package tk.rdvdev2.TimeTravelMod.common.event;
 
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.eventbus.api.Event;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
@@ -12,8 +12,8 @@ import java.util.HashMap;
 
 public class EventConfigureTimeMachineBlocks extends Event {
 
-    public TimeMachine getTimeMachine(IBlockState state) {
-        return ModRegistries.timeMachinesRegistry.getValue(((HashMap<IBlockState, ResourceLocation>) ModRegistries.timeMachinesRegistry.getSlaveMap(ModRegistries.BLOCKTOTM, HashMap.class)).get(state));
+    public TimeMachine getTimeMachine(BlockState state) {
+        return ModRegistries.timeMachinesRegistry.getValue(((HashMap<BlockState, ResourceLocation>) ModRegistries.timeMachinesRegistry.getSlaveMap(ModRegistries.BLOCKTOTM, HashMap.class)).get(state));
     }
 
     public HashMap<TimeMachineUpgrade, BlockTimeMachineComponent[]> getUpgrades() {

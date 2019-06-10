@@ -1,8 +1,8 @@
 package tk.rdvdev2.TimeTravelMod.api.timemachine.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.state.IProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
@@ -35,17 +35,17 @@ public abstract class BlockTimeMachineCore extends BlockTimeMachineComponent {
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> stateBuilder) {
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> stateBuilder) {
         stateBuilder.add(new IProperty[]{ready});
     }
 
     @Override
-    public boolean hasTileEntity(IBlockState state) {
+    public boolean hasTileEntity(BlockState state) {
         return !state.get(ready);
     }
 
     @Override
-    public TileEntity createTileEntity(IBlockState state, IBlockReader world) {
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         if (!state.get(ready))
             return new TileEntityTMCooldown(super.getTimeMachine().getCooldownTime());
         else
@@ -90,7 +90,7 @@ public abstract class BlockTimeMachineCore extends BlockTimeMachineComponent {
     }
 
     @Override
-    public void onPlayerDestroy(IWorld worldIn, BlockPos pos, IBlockState state) {
+    public void onPlayerDestroy(IWorld worldIn, BlockPos pos, BlockState state) {
         if (!state.get(PropertyTMReady.ready)) {
             forceExplosion(worldIn.getWorld(), pos);
         }
