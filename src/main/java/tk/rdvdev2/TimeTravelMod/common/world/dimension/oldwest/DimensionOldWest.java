@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 import com.mojang.datafixers.Dynamic;
 import com.mojang.datafixers.types.JsonOps;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.nbt.NBTDynamicOps;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ResourceLocation;
@@ -12,9 +14,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.biome.provider.*;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.dimension.DimensionType;
@@ -23,8 +27,7 @@ import tk.rdvdev2.TimeTravelMod.ModBiomes;
 
 import javax.annotation.Nullable;
 
-public class DimensionOldWest extends net.minecraft.world.dimension.Dimension { // TODO: Another massive rewrite
-
+public class DimensionOldWest extends net.minecraft.world.dimension.Dimension { // TODO: Check all changes are working
     private DimensionType type;
     private World world;
 
@@ -45,25 +48,25 @@ public class DimensionOldWest extends net.minecraft.world.dimension.Dimension { 
      * <p>
      * Note that subclasses generally override this method without calling the parent version.
      */
-    @Override
+    /*@Override
     protected void init() {
         setAllowedSpawnTypes(true, true);
-    }
+    }*/
 
     @Override
     public ChunkGenerator<?> createChunkGenerator() {
-        WorldType worldtype = this.world.getWorldInfo().getTerrainType();
-        ChunkGeneratorType<FlatGenSettings, ChunkGeneratorFlat> chunkgeneratortype = ChunkGeneratorType.FLAT;
-        ChunkGeneratorType<DebugGenSettings, ChunkGeneratorDebug> chunkgeneratortype1 = ChunkGeneratorType.DEBUG;
-        ChunkGeneratorType<NetherGenSettings, ChunkGeneratorNether> chunkgeneratortype2 = ChunkGeneratorType.CAVES;
-        ChunkGeneratorType<EndGenSettings, ChunkGeneratorEnd> chunkgeneratortype3 = ChunkGeneratorType.FLOATING_ISLANDS;
-        ChunkGeneratorType<OverworldGenSettings, ChunkGeneratorOverworld> chunkgeneratortype4 = ChunkGeneratorType.SURFACE;
+        WorldType worldtype = this.world.getWorldInfo().getGenerator();
+        ChunkGeneratorType<FlatGenerationSettings, FlatChunkGenerator> chunkgeneratortype = ChunkGeneratorType.FLAT;
+        ChunkGeneratorType<DebugGenerationSettings, DebugChunkGenerator> chunkgeneratortype1 = ChunkGeneratorType.DEBUG;
+        ChunkGeneratorType<NetherGenSettings, NetherChunkGenerator> chunkgeneratortype2 = ChunkGeneratorType.CAVES;
+        ChunkGeneratorType<EndGenerationSettings, EndChunkGenerator> chunkgeneratortype3 = ChunkGeneratorType.FLOATING_ISLANDS;
+        ChunkGeneratorType<OverworldGenSettings, OverworldChunkGenerator> chunkgeneratortype4 = ChunkGeneratorType.SURFACE;
         BiomeProviderType<SingleBiomeProviderSettings, SingleBiomeProvider> biomeprovidertype = BiomeProviderType.FIXED;
         BiomeProviderType<OverworldBiomeProviderSettings, OverworldBiomeProvider> biomeprovidertype1 = BiomeProviderType.VANILLA_LAYERED;
         BiomeProviderType<CheckerboardBiomeProviderSettings, CheckerboardBiomeProvider> biomeprovidertype2 = BiomeProviderType.CHECKERBOARD;
         SingleBiomeProviderSettings singlebiomeprovidersettings = biomeprovidertype.createSettings().setBiome(ModBiomes.OLDWEST);
         if (worldtype == WorldType.FLAT) {
-            FlatGenSettings flatgensettings = FlatGenSettings.createFlatGenerator(new Dynamic<>(NBTDynamicOps.INSTANCE, this.world.getWorldInfo().getGeneratorOptions()));
+            FlatGenerationSettings flatgensettings = FlatGenerationSettings.createFlatGenerator(new Dynamic<>(NBTDynamicOps.INSTANCE, this.world.getWorldInfo().getGeneratorOptions()));
             return chunkgeneratortype.create(this.world, biomeprovidertype.create(singlebiomeprovidersettings), flatgensettings);
         } else if (worldtype == WorldType.DEBUG_ALL_BLOCK_STATES) {
 
@@ -80,15 +83,15 @@ public class DimensionOldWest extends net.minecraft.world.dimension.Dimension { 
                 ResourceLocation resourcelocation = new ResourceLocation(jsonobject.getAsJsonObject("biome_source").getAsJsonPrimitive("type").getAsString());
                 JsonObject jsonobject1 = jsonobject.getAsJsonObject("biome_source").getAsJsonObject("options");
 
-                if (BiomeProviderType.FIXED.getKey().equals(resourcelocation)) {
+                if (BiomeProviderType.FIXED.getRegistryName().equals(resourcelocation)) {
                     biomeprovider = biomeprovidertype.create(singlebiomeprovidersettings);
                 }
 
-                if (BiomeProviderType.CHECKERBOARD.getKey().equals(resourcelocation)) {
+                if (BiomeProviderType.CHECKERBOARD.getRegistryName().equals(resourcelocation)) {
                     biomeprovider = biomeprovidertype.create(singlebiomeprovidersettings);
                 }
 
-                if (BiomeProviderType.VANILLA_LAYERED.getKey().equals(resourcelocation)) {
+                if (BiomeProviderType.VANILLA_LAYERED.getRegistryName().equals(resourcelocation)) {
                     biomeprovider = biomeprovidertype.create(singlebiomeprovidersettings);
                 }
             }
@@ -97,12 +100,12 @@ public class DimensionOldWest extends net.minecraft.world.dimension.Dimension { 
                 biomeprovider = biomeprovidertype.create(biomeprovidertype.createSettings().setBiome(Biomes.OCEAN));
             }
 
-            IBlockState iblockstate = Blocks.STONE.getDefaultState();
-            IBlockState iblockstate1 = Blocks.WATER.getDefaultState();
+            BlockState iblockstate = Blocks.STONE.getDefaultState();
+            BlockState iblockstate1 = Blocks.WATER.getDefaultState();
             if (jsonobject.has("chunk_generator") && jsonobject.getAsJsonObject("chunk_generator").has("options")) {
                 if (jsonobject.getAsJsonObject("chunk_generator").getAsJsonObject("options").has("default_block")) {
                     String s = jsonobject.getAsJsonObject("chunk_generator").getAsJsonObject("options").getAsJsonPrimitive("default_block").getAsString();
-                    Block block = IRegistry.field_212618_g.get(new ResourceLocation(s));
+                    Block block = Registry.field_212618_g.getOrDefault(new ResourceLocation(s));
                     if (block != null) {
                         iblockstate = block.getDefaultState();
                     }
@@ -110,7 +113,7 @@ public class DimensionOldWest extends net.minecraft.world.dimension.Dimension { 
 
                 if (jsonobject.getAsJsonObject("chunk_generator").getAsJsonObject("options").has("default_fluid")) {
                     String s1 = jsonobject.getAsJsonObject("chunk_generator").getAsJsonObject("options").getAsJsonPrimitive("default_fluid").getAsString();
-                    Block block1 = IRegistry.field_212618_g.get(new ResourceLocation(s1));
+                    Block block1 = Registry.field_212618_g.getOrDefault(new ResourceLocation(s1));
                     if (block1 != null) {
                         iblockstate1 = block1.getDefaultState();
                     }
@@ -119,24 +122,24 @@ public class DimensionOldWest extends net.minecraft.world.dimension.Dimension { 
 
             if (jsonobject.has("chunk_generator") && jsonobject.getAsJsonObject("chunk_generator").has("type")) {
                 ResourceLocation resourcelocation1 = new ResourceLocation(jsonobject.getAsJsonObject("chunk_generator").getAsJsonPrimitive("type").getAsString());
-                if (ChunkGeneratorType.CAVES.getId().equals(resourcelocation1)) {
+                if (ChunkGeneratorType.CAVES.getRegistryName().equals(resourcelocation1)) {
                     NetherGenSettings nethergensettings = chunkgeneratortype2.createSettings();
-                    nethergensettings.setDefautBlock(iblockstate);
+                    nethergensettings.setDefaultBlock(iblockstate);
                     nethergensettings.setDefaultFluid(iblockstate1);
                     return chunkgeneratortype2.create(this.world, biomeprovider, nethergensettings);
                 }
 
-                if (ChunkGeneratorType.FLOATING_ISLANDS.getId().equals(resourcelocation1)) {
-                    EndGenSettings endgensettings = chunkgeneratortype3.createSettings();
+                if (ChunkGeneratorType.FLOATING_ISLANDS.getRegistryName().equals(resourcelocation1)) {
+                    EndGenerationSettings endgensettings = chunkgeneratortype3.createSettings();
                     endgensettings.setSpawnPos(new BlockPos(0, 64, 0));
-                    endgensettings.setDefautBlock(iblockstate);
+                    endgensettings.setDefaultBlock(iblockstate);
                     endgensettings.setDefaultFluid(iblockstate1);
                     return chunkgeneratortype3.create(this.world, biomeprovider, endgensettings);
                 }
             }
 
             OverworldGenSettings overworldgensettings1 = chunkgeneratortype4.createSettings();
-            overworldgensettings1.setDefautBlock(iblockstate);
+            overworldgensettings1.setDefaultBlock(iblockstate);
             overworldgensettings1.setDefaultFluid(iblockstate1);
             return chunkgeneratortype4.create(this.world, biomeprovider, overworldgensettings1);
         }
@@ -162,7 +165,7 @@ public class DimensionOldWest extends net.minecraft.world.dimension.Dimension { 
     public BlockPos findSpawn(int p_206921_1_, int p_206921_2_, boolean checkValid) {
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_206921_1_, 0, p_206921_2_);
         Biome biome = this.world.getBiome(blockpos$mutableblockpos);
-        IBlockState iblockstate = biome.getSurfaceBuilderConfig().getTop();
+        BlockState iblockstate = biome.getSurfaceBuilderConfig().getTopMaterial();
         if (checkValid && !iblockstate.getBlock().isIn(BlockTags.VALID_SPAWN)) {
             return null;
         } else {
@@ -175,7 +178,7 @@ public class DimensionOldWest extends net.minecraft.world.dimension.Dimension { 
             } else {
                 for(int j = i + 1; j >= 0; --j) {
                     blockpos$mutableblockpos.setPos(p_206921_1_, j, p_206921_2_);
-                    IBlockState iblockstate1 = this.world.getBlockState(blockpos$mutableblockpos);
+                    BlockState iblockstate1 = this.world.getBlockState(blockpos$mutableblockpos);
                     if (!iblockstate1.getFluidState().isEmpty()) {
                         break;
                     }

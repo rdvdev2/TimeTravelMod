@@ -16,7 +16,6 @@ import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHookRunner;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineCreative;
-import tk.rdvdev2.TimeTravelMod.common.world.dimension.ITeleporterTimeMachine;
 import tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLinePresent;
 
 import java.util.function.Supplier;
@@ -75,7 +74,8 @@ public class DimensionTpPKT {
                     tm.isPlayerInside(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side, serverPlayer) &&
                     !tm.isOverloaded(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
                     canTravel(tm, dim, serverPlayer)){
-                        serverPlayer.getServer().getPlayerList().changePlayerDimension(serverPlayer, dim, new ITeleporterTimeMachine(serverPlayer.getServer().getWorld(dim), serverPlayer.getServer().getWorld(serverPlayer.dimension), tm, pos, side)); // TODO: Dimension system rewritten again?
+                        tm.teleporterTasks(serverPlayer, serverPlayer.getServer().getWorld(dim), serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side);
+                        serverPlayer.changeDimension(dim); // TODO: Check that works
                 } else TimeTravelMod.logger.error("Time Travel canceled due to incorrect conditions");
             });
         }
