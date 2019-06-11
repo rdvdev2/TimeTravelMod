@@ -2,6 +2,7 @@ package tk.rdvdev2.TimeTravelMod.client.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.AbstractButton;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
@@ -20,18 +21,18 @@ import tk.rdvdev2.TimeTravelMod.common.networking.DimensionTpPKT;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 
 @OnlyIn(Dist.CLIENT)
-public class GuiTimeMachine extends Screen {
+public class TimeMachineScreen extends Screen {
 
-    private Button[] buttons;
     private PlayerEntity player;
     private TimeMachine tm;
     private BlockPos pos;
     private Direction side;
 
-    public GuiTimeMachine(PlayerEntity player, TimeMachine tm, BlockPos pos, Direction side){
+    public TimeMachineScreen(PlayerEntity player, TimeMachine tm, BlockPos pos, Direction side){
         super(new StringTextComponent("TITLE PLACEHOLDER"));
         this.player = player;
         this.tm = tm.hook(player.world, pos, side);
@@ -42,11 +43,10 @@ public class GuiTimeMachine extends Screen {
     @Override
     public void init() {
         TimeLine[] tls = iteratorToArray(ModRegistries.timeLinesRegistry.iterator(), TimeLine.class);
-        Arrays.sort(tls, (o1, o2) -> o1.getMinTier() - o2.getMinTier());
+        Arrays.sort(tls, Comparator.comparingInt(TimeLine::getMinTier));
         int buttoncount = tls.length;
-        buttons = new Button[buttoncount];
         for(int id = 0; id < tls.length; id++) {
-            addButton(new TimeLineButton(id, this.width / 2 -100, (this.height / (buttoncount+1))*(id+1), tls[id]));
+            addButton(new TimeLineButton(this.width / 2 -100, (this.height / (buttoncount+1))*(id+1), tls[id], this));
         }
     }
 
@@ -73,29 +73,26 @@ public class GuiTimeMachine extends Screen {
         return array;
     }
 
-    protected class TimeLineButton extends AbstractButton { // TODO: Rewrite with AbstractButton
+    protected class TimeLineButton extends Button { // TODO: Test new implementation
 
         TimeLine tl;
+        TimeMachineScreen screen;
 
-        TimeLineButton(int id, int x, int y, TimeLine tl) {
-            super(id, x, y, I18n.format("gui.tm."+tl.getRegistryName().getPath()+".text"));
+        TimeLineButton(int x, int y, TimeLine tl, TimeMachineScreen screen) {
+            super(x, y, 200, 10, I18n.format("gui.tm."+tl.getRegistryName().getPath()+".text"), TimeMachineScreen::clickHandler);
+            this.screen = screen;
             this.tl = tl;
             this.active = tl.getMinTier() <= tm.getTier();
         }
+    }
 
-        @Override
-        public void onClick(double p_194829_1_, double p_194829_3_) {
-            Minecraft.getInstance().displayGuiScreen(null);
-            if (tl.getDimension() != player.dimension.getModType() && TimeLine.isValidTimeLine(player.world)) {
-                ModPacketHandler.CHANNEL.sendToServer(new DimensionTpPKT(tl, tm, pos, side));
-            } else {
-                player.sendMessage(new TranslationTextComponent("gui.tm.error.text"));
-            }
-        }
-
-        @Override
-        public void onPress() {
-
+    private static void clickHandler(Button button) {
+        TimeLineButton b = (TimeLineButton) button;
+        Minecraft.getInstance().displayGuiScreen(null);
+        if (b.tl.getDimension() != b.screen.player.dimension.getModType() && TimeLine.isValidTimeLine(b.screen.player.world)) {
+            ModPacketHandler.CHANNEL.sendToServer(new DimensionTpPKT(b.tl, b.screen.tm, b.screen.pos, b.screen.side));
+        } else {
+            b.screen.player.sendMessage(new TranslationTextComponent("gui.tm.error.text"));
         }
     }
 }
