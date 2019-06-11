@@ -68,7 +68,7 @@ public class BlockTemporalCauldron extends Block {
             }
         } else if (te.containsItem()) {
             if(!worldIn.isRemote) {
-                worldIn.spawnEntity(new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), te.removeItem())); // TODO: How I'm suposed to do that?
+                worldIn.func_217376_c(new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), te.removeItem())); // TODO: Check that
             }
         } else return false; return true;
     }
@@ -77,7 +77,7 @@ public class BlockTemporalCauldron extends Block {
     public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
         super.onBlockHarvested(worldIn, pos, state, player);
         if (!worldIn.isRemote) {
-            worldIn.spawnEntity(new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), ((TileEntityTemporalCauldron)(worldIn.getTileEntity(pos))).removeItem()));
+            worldIn.func_217376_c(new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), ((TileEntityTemporalCauldron)(worldIn.getTileEntity(pos))).removeItem()));
         }
     }
 
