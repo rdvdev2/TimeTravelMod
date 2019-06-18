@@ -2,8 +2,6 @@ package tk.rdvdev2.TimeTravelMod.client.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.client.gui.widget.button.AbstractButton;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerEntity;
@@ -79,7 +77,7 @@ public class TimeMachineScreen extends Screen {
         TimeMachineScreen screen;
 
         TimeLineButton(int x, int y, TimeLine tl, TimeMachineScreen screen) {
-            super(x, y, 200, 10, I18n.format("gui.tm."+tl.getRegistryName().getPath()+".text"), TimeMachineScreen::clickHandler);
+            super(x, y, 200, 20, I18n.format("gui.tm."+tl.getRegistryName().getPath()+".text"), TimeMachineScreen::clickHandler);
             this.screen = screen;
             this.tl = tl;
             this.active = tl.getMinTier() <= tm.getTier();

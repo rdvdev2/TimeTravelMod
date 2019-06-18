@@ -12,7 +12,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tk.rdvdev2.TimeTravelMod.client.itemgroup.ItemGroupTTM;
-import tk.rdvdev2.TimeTravelMod.common.world.VanillaBiomesFeatures;
 import tk.rdvdev2.TimeTravelMod.proxy.ClientProxy;
 import tk.rdvdev2.TimeTravelMod.proxy.CommonProxy;
 import tk.rdvdev2.TimeTravelMod.proxy.IProxy;
@@ -56,7 +55,7 @@ public class TimeTravelMod {
     private void commonSetup(FMLCommonSetupEvent event) {
         TimeTravelMod.logger.info("Time Travel Mod is in common setup state.");
         ModPacketHandler.init();
-        VanillaBiomesFeatures.register();
+        //VanillaBiomesFeatures.register();
     }
 
     private void serverSetup(FMLDedicatedServerSetupEvent event) {
