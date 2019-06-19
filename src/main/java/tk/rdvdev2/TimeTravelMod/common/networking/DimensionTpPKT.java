@@ -83,7 +83,7 @@ public class DimensionTpPKT {
                     tm.isPlayerInside(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side, serverPlayer) &&
                     !tm.isOverloaded(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
                     canTravel(tm, dim, serverPlayer)) {
-                        changeDim(serverPlayer, pos, dim, tm, side); // FIXME: Lighting isn't rendered first time visiting TimeLines
+                        changeDim(serverPlayer, pos, dim, tm, side);
                 } else TimeTravelMod.logger.error("Time Travel canceled due to incorrect conditions");
             });
         }

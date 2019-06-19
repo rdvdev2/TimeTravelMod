@@ -53,6 +53,6 @@ public class TimeTravelMod {
     private void commonSetup(FMLCommonSetupEvent event) {
         TimeTravelMod.logger.info("Time Travel Mod is in common setup state.");
         ModPacketHandler.init();
-        VanillaBiomesFeatures.register(); // TODO: Check if it's really generating
+        VanillaBiomesFeatures.register();
     }
 }

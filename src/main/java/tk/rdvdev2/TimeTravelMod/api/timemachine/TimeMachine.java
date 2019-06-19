@@ -9,6 +9,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.apache.commons.lang3.ArrayUtils;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
@@ -485,6 +487,8 @@ public abstract class TimeMachine implements IForgeRegistryEntry<TimeMachine> {
      * @param side The facing of the time machine
      */
     public void teleporterTasks(Entity entity, World worldIn, World worldOut, BlockPos controllerPos, Direction side) {
+        Chunk chunk = worldIn.getChunk(controllerPos);
+        worldIn.getChunkProvider().getChunk(chunk.getPos().x, chunk.getPos().z, ChunkStatus.FULL, false);
         BlockPos[] posData = getPosData(controllerPos, side);
         BlockState[] blockData = getBlockData(worldOut, posData);
         destroyTM(worldOut, posData);
