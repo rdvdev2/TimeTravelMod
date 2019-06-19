@@ -3,11 +3,11 @@ package tk.rdvdev2.TimeTravelMod.common.item;
 import net.minecraft.item.Item;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 
-public class ItemControllerCircuit extends Item {
+public class TimeCrystalItem extends Item {
 
-    private String name = "controllercircuit";
+    String name = "timecrystal";
 
-    public ItemControllerCircuit() {
+    public TimeCrystalItem() {
         super(new Properties()
                 .maxStackSize(64)
                 .group(TimeTravelMod.tabTTM)

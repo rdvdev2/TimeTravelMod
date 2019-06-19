@@ -10,18 +10,18 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.entity.TileEntityTMCooldown;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.block.tileentity.TMCooldownTileEntity;
 import tk.rdvdev2.TimeTravelMod.common.world.TemporalExplosion;
 
 import java.util.Random;
 
-import static tk.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady.ready;
+import static tk.rdvdev2.TimeTravelMod.api.timemachine.block.TMReadyProperty.ready;
 
-public abstract class BlockTimeMachineCore extends BlockTimeMachineComponent {
+public abstract class AbstractTimeMachineCoreBlock extends AbstractTimeMachineComponentBlock {
 
     private float randomExplosionChance = 0.001F;
 
-    public BlockTimeMachineCore(Properties properties) {
+    public AbstractTimeMachineCoreBlock(Properties properties) {
         super(properties);
         setDefaultState(getStateContainer().getBaseState().with(ready, true));
     }
@@ -47,9 +47,9 @@ public abstract class BlockTimeMachineCore extends BlockTimeMachineComponent {
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         if (!state.get(ready))
-            return new TileEntityTMCooldown(super.getTimeMachine().getCooldownTime());
+            return new TMCooldownTileEntity(super.getTimeMachine().getCooldownTime());
         else
-            throw new RuntimeException("TileEntityTMCooldown can't be created in a ready TM");
+            throw new RuntimeException("TMCooldownTileEntity can't be created in a ready TM");
     }
 
     /**
@@ -91,7 +91,7 @@ public abstract class BlockTimeMachineCore extends BlockTimeMachineComponent {
 
     @Override
     public void onPlayerDestroy(IWorld worldIn, BlockPos pos, BlockState state) {
-        if (!state.get(PropertyTMReady.ready)) {
+        if (!state.get(TMReadyProperty.ready)) {
             forceExplosion(worldIn.getWorld(), pos);
         }
     }

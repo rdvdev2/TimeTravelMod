@@ -1,14 +1,14 @@
 package tk.rdvdev2.TimeTravelMod.api.timemachine.block;
 
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
-import tk.rdvdev2.TimeTravelMod.common.event.EventConfigureTimeMachineBlocks;
+import tk.rdvdev2.TimeTravelMod.common.event.ConfigureTimeMachineBlocksEvent;
 
 import java.util.Arrays;
 import java.util.HashMap;
 
-public abstract class BlockTimeMachineUpgrade extends BlockTimeMachineComponent {
+public abstract class AbstractTimeMachineUpgradeBlock extends AbstractTimeMachineComponentBlock {
 
-    public BlockTimeMachineUpgrade(Properties properties) {
+    public AbstractTimeMachineUpgradeBlock(Properties properties) {
         super(properties);
     }
 
@@ -18,16 +18,16 @@ public abstract class BlockTimeMachineUpgrade extends BlockTimeMachineComponent 
      * @param event The linking event
      */
     @Override
-    public void setTimeMachine(EventConfigureTimeMachineBlocks event) {
-        HashMap<TimeMachineUpgrade, BlockTimeMachineComponent[]> hm = event.getUpgrades();
+    public void setTimeMachine(ConfigureTimeMachineBlocksEvent event) {
+        HashMap<TimeMachineUpgrade, AbstractTimeMachineComponentBlock[]> hm = event.getUpgrades();
         if (hm.containsKey(getUpgrade())) {
-            BlockTimeMachineComponent[] blocks = hm.get(getUpgrade());
+            AbstractTimeMachineComponentBlock[] blocks = hm.get(getUpgrade());
             int index = blocks.length;
             blocks = Arrays.copyOf(blocks, index+1);
             blocks[index] = this;
             hm.put(getUpgrade(), blocks);
         } else {
-            hm.put(getUpgrade(), new BlockTimeMachineComponent[]{this});
+            hm.put(getUpgrade(), new AbstractTimeMachineComponentBlock[]{this});
         }
     }
 

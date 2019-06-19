@@ -11,9 +11,9 @@ import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHookRunner;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
-public abstract class BlockTimeMachineControlPanel extends BlockTimeMachineComponent {
+public abstract class AbstractTimeMachineControlPanelBlock extends AbstractTimeMachineComponentBlock {
 
-    public BlockTimeMachineControlPanel(Properties properties) {
+    public AbstractTimeMachineControlPanelBlock(Properties properties) {
         super(properties);
     }
 

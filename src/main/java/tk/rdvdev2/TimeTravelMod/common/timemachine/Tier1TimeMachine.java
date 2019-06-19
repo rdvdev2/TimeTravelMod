@@ -2,9 +2,9 @@ package tk.rdvdev2.TimeTravelMod.common.timemachine;
 
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 
-public class TimeMachineTier1 extends TimeMachine {
+public class Tier1TimeMachine extends TimeMachine {
 
-    public TimeMachineTier1() {};
+    public Tier1TimeMachine() {};
 
     @Override
     public int getCooldownTime() {

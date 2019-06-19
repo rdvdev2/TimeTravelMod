@@ -4,15 +4,15 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.common.ToolType;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineBasic;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineBasicBlock;
 
 import javax.annotation.Nullable;
 
-public class BlockTimeMachineBasicBlock extends BlockTimeMachineBasic {
+public class TimeMachineBasicBlock extends AbstractTimeMachineBasicBlock {
 
     String name = "timemachinebasicblock";
 
-    public BlockTimeMachineBasicBlock() {
+    public TimeMachineBasicBlock() {
         super(Properties.create(Material.IRON)
                 .sound(SoundType.METAL)
                 .hardnessAndResistance(3f)

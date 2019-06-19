@@ -16,10 +16,10 @@ import org.apache.commons.lang3.ArrayUtils;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineComponent;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineCore;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineUpgrade;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineComponentBlock;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineCoreBlock;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineUpgradeBlock;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TMReadyProperty;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHookRunner;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 
@@ -147,14 +147,14 @@ public abstract class TimeMachine implements IForgeRegistryEntry<TimeMachine> {
      */
     @SuppressWarnings("unchecked")
     public final BlockState[] getUpgradeBlocks() {
-        BlockTimeMachineComponent[] blocks = new BlockTimeMachineComponent[0];
+        AbstractTimeMachineComponentBlock[] blocks = new AbstractTimeMachineComponentBlock[0];
         try {
             for (TimeMachineUpgrade upgrade : getCompatibleUpgrades()) {
-                HashMap<TimeMachineUpgrade, BlockTimeMachineComponent[]> hm = (HashMap<TimeMachineUpgrade, BlockTimeMachineComponent[]>) ModRegistries.upgradesRegistry.getSlaveMap(ModRegistries.UPGRADETOBLOCK, HashMap.class);
+                HashMap<TimeMachineUpgrade, AbstractTimeMachineComponentBlock[]> hm = (HashMap<TimeMachineUpgrade, AbstractTimeMachineComponentBlock[]>) ModRegistries.upgradesRegistry.getSlaveMap(ModRegistries.UPGRADETOBLOCK, HashMap.class);
                 blocks = blocks == null ? hm.get(upgrade) : ArrayUtils.addAll(blocks, hm.get(upgrade));
             }
             BlockState[] states = new BlockState[0];
-            for (BlockTimeMachineComponent block : blocks) {
+            for (AbstractTimeMachineComponentBlock block : blocks) {
                 states = states == null ? new BlockState[]{block.getDefaultState()} : ArrayUtils.addAll(states, new BlockState[]{block.getDefaultState()});
             }
             return states;
@@ -266,9 +266,9 @@ public abstract class TimeMachine implements IForgeRegistryEntry<TimeMachine> {
                     try {
                         int id = upgrades.length;
                         upgrades = Arrays.copyOf(upgrades, id + 1);
-                        upgrades[id] = ((BlockTimeMachineUpgrade)state.getBlock()).getUpgrade();
+                        upgrades[id] = ((AbstractTimeMachineUpgradeBlock)state.getBlock()).getUpgrade();
                     } catch (NullPointerException e) {
-                        upgrades = new TimeMachineUpgrade[]{((BlockTimeMachineUpgrade)state.getBlock()).getUpgrade()};
+                        upgrades = new TimeMachineUpgrade[]{((AbstractTimeMachineUpgradeBlock)state.getBlock()).getUpgrade()};
                     }
                     break;
                 }
@@ -302,8 +302,8 @@ public abstract class TimeMachine implements IForgeRegistryEntry<TimeMachine> {
      */
     public boolean triggerTemporalExplosion(World world, BlockPos controllerPos, Direction side) {
         for (BlockPos pos:getCoreBlocksPos(side)) {
-            BlockTimeMachineComponent core = (BlockTimeMachineComponent)world.getBlockState(controllerPos.add(pos)).getBlock();
-            if (((BlockTimeMachineCore)core).randomExplosion(world, controllerPos.add(pos)))
+            AbstractTimeMachineComponentBlock core = (AbstractTimeMachineComponentBlock)world.getBlockState(controllerPos.add(pos)).getBlock();
+            if (((AbstractTimeMachineCoreBlock)core).randomExplosion(world, controllerPos.add(pos)))
                 return true;
         }
         return false;
@@ -364,7 +364,7 @@ public abstract class TimeMachine implements IForgeRegistryEntry<TimeMachine> {
             boolean coincidence = false;
             for (BlockState state:states) {
                 if (type == TMComponentType.CORE ?
-                        world.getBlockState(controllerPos.add(pos)).with(PropertyTMReady.ready, true) == state.with(PropertyTMReady.ready, true) :
+                        world.getBlockState(controllerPos.add(pos)).with(TMReadyProperty.ready, true) == state.with(TMReadyProperty.ready, true) :
                         world.getBlockState(controllerPos.add(pos)) == state) {
                     coincidence = true;
                     break;
@@ -386,7 +386,7 @@ public abstract class TimeMachine implements IForgeRegistryEntry<TimeMachine> {
         for(BlockPos pos:getCoreBlocksPos(side)) {
             boolean coincidence = false;
             for(BlockState state:getCoreBlocks()) {
-                if(world.getBlockState(controllerPos.add(pos)) == state.with(PropertyTMReady.ready, true)) {
+                if(world.getBlockState(controllerPos.add(pos)) == state.with(TMReadyProperty.ready, true)) {
                     coincidence = true;
                     break;
                 }
@@ -552,14 +552,14 @@ public abstract class TimeMachine implements IForgeRegistryEntry<TimeMachine> {
     }
 
     /**
-     * Attaches TileEntityTMCooldown to all Time Machine cores in the Time Machine to start the cooling down phase
+     * Attaches TMCooldownTileEntity to all Time Machine cores in the Time Machine to start the cooling down phase
      * @param worldIn The world of the new Time Machine
      * @param controllerPos The position of the new Time Machine controller block
      * @param side The facing of the Time Machine
      */
     public final void doCooldown(World worldIn, BlockPos controllerPos, Direction side) {
         for (BlockPos block:getCoreBlocksPos(side)) {
-            worldIn.setBlockState(controllerPos.add(block), worldIn.getBlockState(controllerPos.add(block)).with(PropertyTMReady.ready, false));
+            worldIn.setBlockState(controllerPos.add(block), worldIn.getBlockState(controllerPos.add(block)).with(TMReadyProperty.ready, false));
         }
     }
 

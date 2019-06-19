@@ -8,11 +8,11 @@ import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
 
-public class BlockHeavyBlock extends Block {
+public class HeavyBlock extends Block {
 
     private String name = "heavyblock";
 
-    public BlockHeavyBlock() {
+    public HeavyBlock() {
         super(Properties
                 .create(Material.IRON)
                 .sound(SoundType.METAL)

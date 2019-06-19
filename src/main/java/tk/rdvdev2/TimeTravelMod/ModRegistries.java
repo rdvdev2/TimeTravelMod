@@ -13,11 +13,11 @@ import net.minecraftforge.registries.RegistryBuilder;
 import net.minecraftforge.registries.RegistryManager;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineComponent;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineUpgrade;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineComponentBlock;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineUpgradeBlock;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
-import tk.rdvdev2.TimeTravelMod.common.event.EventConfigureTimeMachineBlocks;
-import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineCreative;
+import tk.rdvdev2.TimeTravelMod.common.event.ConfigureTimeMachineBlocksEvent;
+import tk.rdvdev2.TimeTravelMod.common.timemachine.CreativeTimeMachine;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -122,10 +122,10 @@ public class ModRegistries {
         @Override
         public void onAdd(IForgeRegistryInternal owner, RegistryManager stage, int id, TimeMachine obj, @Nullable TimeMachine oldObj) {
             blockStateResourceLocationHashMap = (HashMap<BlockState, ResourceLocation>)owner.getSlaveMap(BLOCKTOTM, HashMap.class);
-            if (obj instanceof TimeMachineCreative) return; // Special rule for the creative Time Machine
+            if (obj instanceof CreativeTimeMachine) return; // Special rule for the creative Time Machine
             if (!blockStateResourceLocationHashMap.containsValue(obj.getRegistryName())) {
                 for(BlockState block:obj.getBlocks()) {
-                    if (block.getBlock() instanceof BlockTimeMachineUpgrade) continue; // Time Machine Upgrade blocks must be ignored
+                    if (block.getBlock() instanceof AbstractTimeMachineUpgradeBlock) continue; // Time Machine Upgrade blocks must be ignored
                     if (!blockStateResourceLocationHashMap.containsKey(block)) {
                         blockStateResourceLocationHashMap.put(block, obj.getRegistryName());
                     } else {
@@ -137,14 +137,14 @@ public class ModRegistries {
 
         @Override
         public void onBake(IForgeRegistryInternal owner, RegistryManager stage) {
-            EVENT_BUS.post(new EventConfigureTimeMachineBlocks());
+            EVENT_BUS.post(new ConfigureTimeMachineBlocksEvent());
         }
     }
 
     public static class TimeMachineUpgradesCallbacks implements IForgeRegistry.CreateCallback<TimeMachineUpgrade>, IForgeRegistry.AddCallback<TimeMachineUpgrade> {
 
         private HashMap<TimeMachine, TimeMachineUpgrade[]> tmtoupgradehm;
-        private HashMap<TimeMachineUpgrade, BlockTimeMachineComponent[]> upgradetoblockhm;
+        private HashMap<TimeMachineUpgrade, AbstractTimeMachineComponentBlock[]> upgradetoblockhm;
 
         @Override
         public void onCreate(IForgeRegistryInternal<TimeMachineUpgrade> owner, RegistryManager stage) {

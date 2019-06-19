@@ -4,14 +4,15 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.common.ToolType;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineControlPanelBlock;
 
 import javax.annotation.Nullable;
 
-public class BlockTimeMachineControlPanel extends tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineControlPanel {
+public class TimeMachineControlPanelBlock extends AbstractTimeMachineControlPanelBlock {
 
     private String name = "timemachinecontrolpanel";
 
-    public BlockTimeMachineControlPanel() {
+    public TimeMachineControlPanelBlock() {
         super(Properties.create(Material.IRON)
                 .sound(SoundType.METAL)
                 .hardnessAndResistance(3f)

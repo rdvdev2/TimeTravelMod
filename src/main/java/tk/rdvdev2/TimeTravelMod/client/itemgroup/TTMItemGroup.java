@@ -6,9 +6,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tk.rdvdev2.TimeTravelMod.ModItems;
 
-public class ItemGroupTTM extends ItemGroup {
+public class TTMItemGroup extends ItemGroup {
 
-    public ItemGroupTTM(){
+    public TTMItemGroup(){
         super("timetravelmod");
     }
 

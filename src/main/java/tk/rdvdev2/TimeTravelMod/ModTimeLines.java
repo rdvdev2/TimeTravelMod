@@ -9,15 +9,15 @@ import net.minecraftforge.event.world.RegisterDimensionsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
-import tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLinePresent;
-import tk.rdvdev2.TimeTravelMod.common.world.dimension.oldwest.TimeLineOldWest;
+import tk.rdvdev2.TimeTravelMod.common.world.dimension.PresentTimeLine;
+import tk.rdvdev2.TimeTravelMod.common.world.dimension.oldwest.OldWestTimeLine;
 
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModTimeLines {
 
-    public static TimeLine present = new TimeLinePresent();
+    public static TimeLine present = new PresentTimeLine();
     public static final ResourceLocation PRESENT = new ResourceLocation("timetravelmod:present");
-    public static TimeLine oldWest = new TimeLineOldWest();
+    public static TimeLine oldWest = new OldWestTimeLine();
     public static final ResourceLocation OLD_WEST = new ResourceLocation("timetravelmod:oldwest");
 
     @SubscribeEvent
@@ -31,12 +31,12 @@ public class ModTimeLines {
     @SubscribeEvent
     public static void registerModDimensions(RegistryEvent.Register<ModDimension> event) {
         event.getRegistry().registerAll(
-                TimeLineOldWest.modDimension
+                OldWestTimeLine.modDimension
         );
     }
 
     public static void registerDimension (RegisterDimensionsEvent event) {
         if (DimensionType.byName(OLD_WEST) == null)
-            DimensionManager.registerDimension(OLD_WEST, TimeLineOldWest.modDimension, null, true);
+            DimensionManager.registerDimension(OLD_WEST, OldWestTimeLine.modDimension, null, true);
     }
 }

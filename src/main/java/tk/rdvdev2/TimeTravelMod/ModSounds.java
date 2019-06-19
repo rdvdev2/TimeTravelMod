@@ -9,7 +9,7 @@ import net.minecraftforge.client.event.sound.PlaySoundEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import tk.rdvdev2.TimeTravelMod.common.world.dimension.oldwest.DimensionOldWest;
+import tk.rdvdev2.TimeTravelMod.common.world.dimension.oldwest.OldWestDimension;
 
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModSounds {
@@ -27,7 +27,7 @@ public class ModSounds {
     public static void onPlaySound(PlaySoundEvent event) {
         if (ModConfig.CLIENT.enableTimeLineMusic.get()) {
             if (Minecraft.getInstance().player != null &&
-                    Minecraft.getInstance().player.world.getDimension() instanceof DimensionOldWest &&
+                    Minecraft.getInstance().player.world.getDimension() instanceof OldWestDimension &&
                     event.getSound().getCategory() == SoundCategory.MUSIC) {
                 event.setResultSound(SimpleSound.music(oldWestMusicEvent));
             }

@@ -4,16 +4,16 @@ import net.minecraft.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
-import tk.rdvdev2.TimeTravelMod.common.event.EventConfigureTimeMachineBlocks;
+import tk.rdvdev2.TimeTravelMod.common.event.ConfigureTimeMachineBlocksEvent;
 
 /**
  * A generic Block instance that works with the TimeMachine mechanics
  */
-public abstract class BlockTimeMachineComponent extends Block {
+public abstract class AbstractTimeMachineComponentBlock extends Block {
 
     private TimeMachine timeMachine = null;
 
-    BlockTimeMachineComponent(Properties properties) {
+    AbstractTimeMachineComponentBlock(Properties properties) {
         super(properties);
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -24,7 +24,7 @@ public abstract class BlockTimeMachineComponent extends Block {
      */
     @SuppressWarnings("unchecked")
     @SubscribeEvent
-    public void setTimeMachine(EventConfigureTimeMachineBlocks event) {
+    public void setTimeMachine(ConfigureTimeMachineBlocksEvent event) {
         this.timeMachine = event.getTimeMachine(getDefaultState());
         if (this.timeMachine == null)
             throw new IllegalArgumentException("This block (" + getDefaultState().toString() + ") is not registered in any Time Machine");

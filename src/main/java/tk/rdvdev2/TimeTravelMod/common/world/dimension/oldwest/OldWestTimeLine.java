@@ -9,16 +9,16 @@ import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 
 import java.util.function.BiFunction;
 
-public class TimeLineOldWest extends TimeLine {
+public class OldWestTimeLine extends TimeLine {
 
     public static ModDimension modDimension = new ModDimension() {
         @Override
         public BiFunction<World, DimensionType, ? extends Dimension> getFactory() {
-            return DimensionOldWest::new;
+            return OldWestDimension::new;
         }
     }.setRegistryName(new ResourceLocation("timetravelmod:oldwest"));
 
-    public TimeLineOldWest() {
+    public OldWestTimeLine() {
         super(modDimension, 1);
     }
 }

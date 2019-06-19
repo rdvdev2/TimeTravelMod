@@ -14,7 +14,7 @@ import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 
-public class TimeMachineCreative extends TimeMachine {
+public class CreativeTimeMachine extends TimeMachine {
 
     @Override
     public int getCooldownTime() {

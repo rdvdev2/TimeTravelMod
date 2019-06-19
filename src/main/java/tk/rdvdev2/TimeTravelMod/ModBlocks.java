@@ -10,9 +10,10 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.entity.TileEntityTMCooldown;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineCoreBlock;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.block.tileentity.TMCooldownTileEntity;
 import tk.rdvdev2.TimeTravelMod.common.block.*;
-import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TileEntityTemporalCauldron;
+import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TemporalCauldronTileEntity;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -20,15 +21,15 @@ import java.util.Iterator;
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModBlocks {
 
-    public static Block timeCrystalOre = new BlockTimeCrystalOre();
-    public static Block timeMachineBasicBlock = new BlockTimeMachineBasicBlock();
-    public static Block timeMachineCore = new BlockTimeMachineCore();
-    public static Block timeMachineControlPanel = new BlockTimeMachineControlPanel();
-    public static Block heavyBlock = new BlockHeavyBlock();
-    public static Block reinforcedHeavyBlock = new BlockReinforcedHeavyBlock();
-    public static Block temporalExplosion = new BlockTemporalExplosion();
-    public static Block temporalCauldron = new BlockTemporalCauldron();
-    public static Block gunpowderWire = new BlockGunpowderWire();
+    public static Block timeCrystalOre = new TimeCrystalOreBlock();
+    public static Block timeMachineBasicBlock = new TimeMachineBasicBlock();
+    public static Block timeMachineCore = new tk.rdvdev2.TimeTravelMod.common.block.TimeMachineCoreBlock();
+    public static Block timeMachineControlPanel = new TimeMachineControlPanelBlock();
+    public static Block heavyBlock = new HeavyBlock();
+    public static Block reinforcedHeavyBlock = new ReinforcedHeavyBlock();
+    public static Block temporalExplosion = new TemporalExplosionBlock();
+    public static Block temporalCauldron = new TemporalCauldronBlock();
+    public static Block gunpowderWire = new GunpowderWireBlock();
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
@@ -47,13 +48,13 @@ public class ModBlocks {
 
     @SubscribeEvent
     public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event) {
-        TileEntityTemporalCauldron.type = TileEntityType.Builder.func_223042_a(TileEntityTemporalCauldron::new, ModBlocks.temporalCauldron).build(null);
-        TileEntityTemporalCauldron.type.setRegistryName("timetravelmod", "temporalcauldron");
-        TileEntityTMCooldown.type = TileEntityType.Builder.func_223042_a(TileEntityTMCooldown::new, getAllCoreBlocks()).build(null);
-        TileEntityTMCooldown.type.setRegistryName("timetravelmod", "tmcooldown");
+        TemporalCauldronTileEntity.type = TileEntityType.Builder.func_223042_a(TemporalCauldronTileEntity::new, ModBlocks.temporalCauldron).build(null);
+        TemporalCauldronTileEntity.type.setRegistryName("timetravelmod", "temporalcauldron");
+        TMCooldownTileEntity.type = TileEntityType.Builder.func_223042_a(TMCooldownTileEntity::new, getAllCoreBlocks()).build(null);
+        TMCooldownTileEntity.type.setRegistryName("timetravelmod", "tmcooldown");
         event.getRegistry().registerAll(
-                TileEntityTemporalCauldron.type,
-                TileEntityTMCooldown.type
+                TemporalCauldronTileEntity.type,
+                TMCooldownTileEntity.type
         );
     }
 
@@ -62,7 +63,7 @@ public class ModBlocks {
         Iterator<Block> blockIterator = ForgeRegistries.BLOCKS.getValues().iterator();
         while (blockIterator.hasNext()) {
             Block block = blockIterator.next();
-            if (block instanceof tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineCore) blocks.add(block);
+            if (block instanceof AbstractTimeMachineCoreBlock) blocks.add(block);
         }
         return blocks.toArray(new Block[]{});
     }
@@ -92,6 +93,6 @@ public class ModBlocks {
     }
 
     public static void registerBlockColor(ColorHandlerEvent.Block event) {
-        event.getBlockColors().register((state, world, pos, num) -> BlockGunpowderWire.colorMultiplier(state.get(BlockGunpowderWire.BURNED)), ModBlocks.gunpowderWire);
+        event.getBlockColors().register((state, world, pos, num) -> GunpowderWireBlock.colorMultiplier(state.get(GunpowderWireBlock.BURNED)), ModBlocks.gunpowderWire);
     }
 }

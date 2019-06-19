@@ -12,13 +12,13 @@ import net.minecraftforge.common.MinecraftForge;
 import tk.rdvdev2.TimeTravelMod.ModTimeMachines;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
-import tk.rdvdev2.TimeTravelMod.common.event.EventConfigureTimeMachineBlocks;
+import tk.rdvdev2.TimeTravelMod.common.event.ConfigureTimeMachineBlocksEvent;
 
-public class ItemCreativeTimeMachine extends Item {
+public class CreativeTimeMachineItem extends Item {
     private String name = "creativetimemachine";
     private TimeMachine timeMachine;
 
-    public ItemCreativeTimeMachine() {
+    public CreativeTimeMachineItem() {
         super(new Properties()
                 .maxStackSize(1)
                 .group(TimeTravelMod.tabTTM)
@@ -27,7 +27,7 @@ public class ItemCreativeTimeMachine extends Item {
         MinecraftForge.EVENT_BUS.addListener(this::setTimeMachine);
     }
 
-    public void setTimeMachine(EventConfigureTimeMachineBlocks event) {
+    public void setTimeMachine(ConfigureTimeMachineBlocksEvent event) {
         this.timeMachine = ModTimeMachines.timeMachineCreative;
     }
 

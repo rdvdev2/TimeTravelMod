@@ -10,7 +10,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import tk.rdvdev2.TimeTravelMod.client.itemgroup.ItemGroupTTM;
+import tk.rdvdev2.TimeTravelMod.client.itemgroup.TTMItemGroup;
 import tk.rdvdev2.TimeTravelMod.common.world.VanillaBiomesFeatures;
 import tk.rdvdev2.TimeTravelMod.proxy.ClientProxy;
 import tk.rdvdev2.TimeTravelMod.proxy.CommonProxy;
@@ -29,7 +29,7 @@ public class TimeTravelMod {
 
     public static final Logger logger = LogManager.getLogger();
 
-    public static ItemGroup tabTTM = new ItemGroupTTM();
+    public static ItemGroup tabTTM = new TTMItemGroup();
 
     public TimeTravelMod() {
         // Register FMLCommonSetupEvent

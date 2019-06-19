@@ -1,17 +1,17 @@
-package tk.rdvdev2.TimeTravelMod.api.timemachine.entity;
+package tk.rdvdev2.TimeTravelMod.api.timemachine.block.tileentity;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.PropertyTMReady;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TMReadyProperty;
 
 /**
  * This TileEntity is attached to non cooled down Time Machine cores and is used to calculate when they are ready
  */
-public class TileEntityTMCooldown extends TileEntity implements ITickableTileEntity {
+public class TMCooldownTileEntity extends TileEntity implements ITickableTileEntity {
 
-    public static TileEntityType<TileEntityTMCooldown> type;
+    public static TileEntityType<TMCooldownTileEntity> type;
 
     int remainingTicks;
 
@@ -19,7 +19,7 @@ public class TileEntityTMCooldown extends TileEntity implements ITickableTileEnt
      * Constructor of the TileEntity
      * @param ticks How many ticks needs this Time Machine core to cool down
      */
-    public TileEntityTMCooldown(int ticks) {
+    public TMCooldownTileEntity(int ticks) {
         super(type);
         this.remainingTicks = ticks;
     }
@@ -27,7 +27,7 @@ public class TileEntityTMCooldown extends TileEntity implements ITickableTileEnt
     /**
      * Default constructor of the TileEntity (20 seconds cool down time)
      */
-    public TileEntityTMCooldown() {
+    public TMCooldownTileEntity() {
         this(20*20);
     }
 
@@ -47,7 +47,7 @@ public class TileEntityTMCooldown extends TileEntity implements ITickableTileEnt
     /*@Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
         try {
-            if (newSate.get(PropertyTMReady.ready)) {
+            if (newSate.get(TMReadyProperty.ready)) {
                 return true;
             } else {
                 return false;
@@ -61,7 +61,7 @@ public class TileEntityTMCooldown extends TileEntity implements ITickableTileEnt
     public void tick() {
         this.remainingTicks -= 1;
         if (this.remainingTicks == 0) {
-            this.world.setBlockState(this.pos, this.world.getBlockState(this.pos).getBlock().getDefaultState().with(PropertyTMReady.ready, true));
+            this.world.setBlockState(this.pos, this.world.getBlockState(this.pos).getBlock().getDefaultState().with(TMReadyProperty.ready, true));
         }
         this.markDirty();
     }

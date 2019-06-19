@@ -15,7 +15,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import tk.rdvdev2.TimeTravelMod.ModItems;
-import tk.rdvdev2.TimeTravelMod.common.block.BlockTemporalCauldron;
+import tk.rdvdev2.TimeTravelMod.common.block.TemporalCauldronBlock;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -23,10 +23,10 @@ import java.util.Random;
 
 import static net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
 
-public class TileEntityTemporalCauldron extends TileEntity implements ITickableTileEntity, IInventory { // TODO: Migrate to ItemHandler
+public class TemporalCauldronTileEntity extends TileEntity implements ITickableTileEntity, IInventory { // TODO: Migrate to ItemHandler
     private NonNullList<ItemStack> cauldronContents = NonNullList.withSize(2, ItemStack.EMPTY);
 
-    public static TileEntityType<TileEntityTemporalCauldron> type;
+    public static TileEntityType<TemporalCauldronTileEntity> type;
 
     private final static int CRYSTAL_SLOT = 0;
     private final static int ITEM_SLOT = 1;
@@ -36,7 +36,7 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickableT
 
     private LazyOptional<IItemHandlerModifiable> cauldronHandler;
 
-    public TileEntityTemporalCauldron() {
+    public TemporalCauldronTileEntity() {
         super(type);
     }
 
@@ -60,7 +60,7 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickableT
         if (item.getItem() == ModItems.timeCrystal) {
             setInventorySlotContents(CRYSTAL_SLOT, item);
             crystal_usages = 2000;
-            this.world.setBlockState(this.pos, this.world.getBlockState(pos).with(BlockTemporalCauldron.LEVEL, 3));
+            this.world.setBlockState(this.pos, this.world.getBlockState(pos).with(TemporalCauldronBlock.LEVEL, 3));
         }
     }
 
@@ -88,10 +88,10 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickableT
     @Override
     public void tick() {
         if (!world.isRemote && !getStackInSlot(ITEM_SLOT).isEmpty() && !getStackInSlot(CRYSTAL_SLOT).isEmpty()) {
-            if (crystal_usages == 1300) this.world.setBlockState(this.pos, this.world.getBlockState(pos).with(BlockTemporalCauldron.LEVEL, 2));
-            if (crystal_usages == 600) this.world.setBlockState(this.pos, this.world.getBlockState(pos).with(BlockTemporalCauldron.LEVEL, 1));
+            if (crystal_usages == 1300) this.world.setBlockState(this.pos, this.world.getBlockState(pos).with(TemporalCauldronBlock.LEVEL, 2));
+            if (crystal_usages == 600) this.world.setBlockState(this.pos, this.world.getBlockState(pos).with(TemporalCauldronBlock.LEVEL, 1));
             if (crystal_usages == 0) {
-                this.world.setBlockState(this.pos, this.world.getBlockState(pos).with(BlockTemporalCauldron.LEVEL, 0));
+                this.world.setBlockState(this.pos, this.world.getBlockState(pos).with(TemporalCauldronBlock.LEVEL, 0));
                 removeStackFromSlot(CRYSTAL_SLOT);
             }
 

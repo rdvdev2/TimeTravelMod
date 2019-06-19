@@ -3,11 +3,11 @@ package tk.rdvdev2.TimeTravelMod.common.item;
 import net.minecraft.item.Item;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 
-public class ItemHeavyIngot extends Item {
+public class HeavyIngotItem extends Item {
 
     private String name = "heavyingot";
 
-    public ItemHeavyIngot() {
+    public HeavyIngotItem() {
         super(new Properties()
                 .maxStackSize(64)
                 .group(TimeTravelMod.tabTTM)

@@ -27,11 +27,11 @@ import tk.rdvdev2.TimeTravelMod.ModBiomes;
 
 import javax.annotation.Nullable;
 
-public class DimensionOldWest extends net.minecraft.world.dimension.Dimension {
+public class OldWestDimension extends net.minecraft.world.dimension.Dimension {
     private DimensionType type;
     private World world;
 
-    public DimensionOldWest(World world, DimensionType type) {
+    public OldWestDimension(World world, DimensionType type) {
         super(world, type);
         this.world = world;
         this.type = type;

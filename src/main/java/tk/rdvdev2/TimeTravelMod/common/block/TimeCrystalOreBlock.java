@@ -8,15 +8,15 @@ import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
 
-public class BlockReinforcedHeavyBlock extends Block {
+public class TimeCrystalOreBlock extends Block {
 
-    private String name = "reinforcedheavyblock";
+    String name = "timecrystalore";
 
-    public BlockReinforcedHeavyBlock() {
-        super(Properties.create(Material.IRON)
-                .sound(SoundType.METAL)
-                .hardnessAndResistance(10f)
-                .lightValue(10)
+    public TimeCrystalOreBlock() {
+        super(Properties.create(Material.ROCK)
+                .sound(SoundType.STONE)
+                .hardnessAndResistance(5f)
+                .lightValue(5/16)
                 .variableOpacity()
         );
         setRegistryName(name);

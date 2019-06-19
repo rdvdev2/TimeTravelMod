@@ -12,9 +12,9 @@ import tk.rdvdev2.TimeTravelMod.ModBlocks;
 
 import java.util.Random;
 
-public class FeatureGunpowder extends Feature<NoFeatureConfig> {
+public class GunpowderFeature extends Feature<NoFeatureConfig> {
 
-    public FeatureGunpowder() {
+    public GunpowderFeature() {
         super(null);
     }
 

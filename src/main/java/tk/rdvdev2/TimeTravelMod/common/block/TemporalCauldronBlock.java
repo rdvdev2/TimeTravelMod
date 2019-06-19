@@ -26,20 +26,20 @@ import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootContext;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
 import tk.rdvdev2.TimeTravelMod.ModItems;
-import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TileEntityTemporalCauldron;
+import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TemporalCauldronTileEntity;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockTemporalCauldron extends Block {
+public class TemporalCauldronBlock extends Block {
     private String name = "temporalcauldron";
 
     public static final IntegerProperty LEVEL = IntegerProperty.create("level", 0, 3);
     protected static final VoxelShape INSIDE;
     protected static final VoxelShape WALLS;
 
-    public BlockTemporalCauldron() {
+    public TemporalCauldronBlock() {
         super(Properties.create(Material.IRON, MaterialColor.STONE));
         this.setDefaultState(this.getStateContainer().getBaseState().with(LEVEL, Integer.valueOf(0)));
         this.setRegistryName(name);
@@ -48,7 +48,7 @@ public class BlockTemporalCauldron extends Block {
     @Override
     public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn, Hand hand, BlockRayTraceResult blockRayTraceResult) {
         super.onBlockActivated(state, worldIn, pos, playerIn, hand, blockRayTraceResult);
-        TileEntityTemporalCauldron te = (TileEntityTemporalCauldron) worldIn.getTileEntity(pos);
+        TemporalCauldronTileEntity te = (TemporalCauldronTileEntity) worldIn.getTileEntity(pos);
         ItemStack playerItemStack = playerIn.getHeldItem(hand);
         if (te == null) {
             return false;
@@ -77,7 +77,7 @@ public class BlockTemporalCauldron extends Block {
     public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
         super.onBlockHarvested(worldIn, pos, state, player);
         if (!worldIn.isRemote) {
-            worldIn.func_217376_c(new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), ((TileEntityTemporalCauldron)(worldIn.getTileEntity(pos))).removeItem()));
+            worldIn.func_217376_c(new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), ((TemporalCauldronTileEntity)(worldIn.getTileEntity(pos))).removeItem()));
         }
     }
 
@@ -126,7 +126,7 @@ public class BlockTemporalCauldron extends Block {
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new TileEntityTemporalCauldron();
+        return new TemporalCauldronTileEntity();
     }
 
     @Override

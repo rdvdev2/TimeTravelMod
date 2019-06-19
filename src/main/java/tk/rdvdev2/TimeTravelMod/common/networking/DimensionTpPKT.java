@@ -23,8 +23,8 @@ import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHookRunner;
-import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineCreative;
-import tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLinePresent;
+import tk.rdvdev2.TimeTravelMod.common.timemachine.CreativeTimeMachine;
+import tk.rdvdev2.TimeTravelMod.common.world.dimension.PresentTimeLine;
 
 import java.util.function.Supplier;
 
@@ -73,7 +73,7 @@ public class DimensionTpPKT {
 
         public static void handle(DimensionTpPKT message, Supplier<NetworkEvent.Context> ctx) {
             ServerPlayerEntity serverPlayer = ctx.get().getSender();
-            DimensionType dim = message.tl instanceof TimeLinePresent ? DimensionType.OVERWORLD : DimensionType.byName(message.tl.getDimension().getRegistryName());
+            DimensionType dim = message.tl instanceof PresentTimeLine ? DimensionType.OVERWORLD : DimensionType.byName(message.tl.getDimension().getRegistryName());
             BlockPos pos = message.pos;
             Direction side = message.side;
             TimeMachine tm = message.tm.hook(serverPlayer.world, pos, side);
@@ -89,7 +89,7 @@ public class DimensionTpPKT {
         }
 
         private static boolean canTravel(TimeMachine tm, DimensionType dim, ServerPlayerEntity player) {
-            if (tm instanceof TimeMachineCreative) {
+            if (tm instanceof CreativeTimeMachine) {
                 if (!ItemStack.areItemsEqual(player.inventory.getCurrentItem(), new ItemStack(ModItems.creativeTimeMachine, 1)))
                     return false;
             }

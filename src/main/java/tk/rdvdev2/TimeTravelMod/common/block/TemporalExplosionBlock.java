@@ -24,11 +24,11 @@ import tk.rdvdev2.TimeTravelMod.ModBlocks;
 import java.util.Collections;
 import java.util.List;
 
-public class BlockTemporalExplosion extends Block {
+public class TemporalExplosionBlock extends Block {
     private String name = "temporalexplosion";
     public static DamageSource damage = new DamageSource("temporalerror").setDamageIsAbsolute();
 
-    public BlockTemporalExplosion() {
+    public TemporalExplosionBlock() {
         super(Properties.create(Material.PORTAL)
                 .sound(SoundType.METAL)
                 .hardnessAndResistance(-1)
