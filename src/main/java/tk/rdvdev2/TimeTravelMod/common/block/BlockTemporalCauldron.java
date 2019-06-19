@@ -68,7 +68,7 @@ public class BlockTemporalCauldron extends Block {
             }
         } else if (te.containsItem()) {
             if(!worldIn.isRemote) {
-                worldIn.func_217376_c(new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), te.removeItem())); // TODO: Check that
+                worldIn.func_217376_c(new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), te.removeItem()));
             }
         } else return false; return true;
     }
@@ -93,10 +93,6 @@ public class BlockTemporalCauldron extends Block {
         return INSIDE;
     }
 
-    /*public boolean isFullCube(BlockState p_149686_1_) { TODO: Check if there's a replacement
-        return false;
-    }*/
-
     public void setTimeFluidLevel(World worldIn, BlockPos pos, BlockState state, int level)
     {
         worldIn.setBlockState(pos, state.with(LEVEL, Integer.valueOf(MathHelper.clamp(level, 0, 3))), 2);
@@ -105,15 +101,6 @@ public class BlockTemporalCauldron extends Block {
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> p_206840_1_) {
         p_206840_1_.add(new IProperty[]{LEVEL});
     }
-
-    /* TODO: Check for replacement
-    public BlockFaceShape getBlockFaceShape(IBlockReader p_193383_1_, IBlockState p_193383_2_, BlockPos p_193383_3_, EnumFacing p_193383_4_) {
-        if (p_193383_4_ == EnumFacing.UP) {
-            return BlockFaceShape.BOWL;
-        } else {
-            return p_193383_4_ == EnumFacing.DOWN ? BlockFaceShape.UNDEFINED : BlockFaceShape.SOLID;
-        }
-    }*/
 
     public boolean allowsMovement(BlockState p_196266_1_, IBlockReader p_196266_2_, BlockPos p_196266_3_, PathType p_196266_4_) {
         return false;

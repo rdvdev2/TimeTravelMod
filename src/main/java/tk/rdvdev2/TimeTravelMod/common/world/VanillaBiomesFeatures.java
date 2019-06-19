@@ -10,7 +10,7 @@ import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.registries.ForgeRegistries;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
 
-public class VanillaBiomesFeatures { // TODO: Worldgen rewritten
+public class VanillaBiomesFeatures {
 
     public static void register() {
         // Time Crystal Ores

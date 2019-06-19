@@ -15,7 +15,7 @@ import java.util.Random;
 public class FeatureGunpowder extends Feature<NoFeatureConfig> {
 
     public FeatureGunpowder() {
-        super(null); // TODO: Check if no datafixers work
+        super(null);
     }
 
     @Override

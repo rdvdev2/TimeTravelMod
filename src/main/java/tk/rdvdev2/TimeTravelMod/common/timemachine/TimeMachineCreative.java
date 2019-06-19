@@ -74,7 +74,7 @@ public class TimeMachineCreative extends TimeMachine {
     @Override
     public void teleporterTasks(Entity entity, World worldIn, World worldOut, BlockPos controllerPos, Direction side) {
         Chunk chunk = worldIn.getChunk(controllerPos);
-        worldIn.getChunkProvider().getChunk(chunk.getPos().x, chunk.getPos().z, ChunkStatus.FULL, false); // TODO: Check this works
+        worldIn.getChunkProvider().getChunk(chunk.getPos().x, chunk.getPos().z, ChunkStatus.FULL, false);
         int height = worldIn.getHeight(Heightmap.Type.MOTION_BLOCKING, (int) entity.posX, (int) entity.posZ);
         entity.setPosition(entity.posX, height + 1, entity.posZ);
     }

@@ -71,7 +71,7 @@ public class TimeMachineScreen extends Screen {
         return array;
     }
 
-    protected class TimeLineButton extends Button { // TODO: Test new implementation
+    protected class TimeLineButton extends Button {
 
         TimeLine tl;
         TimeMachineScreen screen;

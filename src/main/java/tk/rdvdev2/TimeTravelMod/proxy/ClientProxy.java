@@ -17,8 +17,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void displayTMGuiScreen(PlayerEntity player, TimeMachine tm, BlockPos pos, Direction side) {
-        LogicalSidedProvider.WORKQUEUE.<ThreadTaskExecutor<?>>get(LogicalSide.CLIENT).func_213165_a(()->Minecraft.getInstance().displayGuiScreen(new TimeMachineScreen(player, tm, pos, side))); // TODO: Check if this works
-        //Minecraft.getInstance().addScheduledTask(()->Minecraft.getInstance().displayGuiScreen(new TimeMachineScreen(player, tm, pos, side)));
+        LogicalSidedProvider.WORKQUEUE.<ThreadTaskExecutor<?>>get(LogicalSide.CLIENT).func_213165_a(()->Minecraft.getInstance().displayGuiScreen(new TimeMachineScreen(player, tm, pos, side)));
     }
 
     @Override

@@ -79,12 +79,11 @@ public class DimensionTpPKT {
             TimeMachine tm = message.tm.hook(serverPlayer.world, pos, side);
             ctx.get().enqueueWork(() -> {
                 if (serverPlayer.world.isBlockLoaded(pos) &&
-                        tm.isBuilt(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
-                        tm.isPlayerInside(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side, serverPlayer) &&
-                        !tm.isOverloaded(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
-                        canTravel(tm, dim, serverPlayer)) {
-                    //tm.teleporterTasks(serverPlayer, serverPlayer.getServer().getWorld(dim), serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side);
-                    changeDim(serverPlayer, pos, dim, tm, side); // TODO: Check that works
+                    tm.isBuilt(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
+                    tm.isPlayerInside(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side, serverPlayer) &&
+                    !tm.isOverloaded(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
+                    canTravel(tm, dim, serverPlayer)) {
+                        changeDim(serverPlayer, pos, dim, tm, side); // FIXME: Lighting isn't rendered first time visiting TimeLines
                 } else TimeTravelMod.logger.error("Time Travel canceled due to incorrect conditions");
             });
         }

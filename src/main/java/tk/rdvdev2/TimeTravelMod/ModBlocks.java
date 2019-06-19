@@ -9,9 +9,13 @@ import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.entity.TileEntityTMCooldown;
 import tk.rdvdev2.TimeTravelMod.common.block.*;
 import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TileEntityTemporalCauldron;
+
+import java.util.HashSet;
+import java.util.Iterator;
 
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModBlocks {
@@ -42,15 +46,25 @@ public class ModBlocks {
     }
 
     @SubscribeEvent
-    public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event) { // TODO: Check all this works
-        TileEntityTemporalCauldron.type = TileEntityType.Builder.func_223042_a(TileEntityTemporalCauldron::new).build(null);
+    public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event) {
+        TileEntityTemporalCauldron.type = TileEntityType.Builder.func_223042_a(TileEntityTemporalCauldron::new, ModBlocks.temporalCauldron).build(null);
         TileEntityTemporalCauldron.type.setRegistryName("timetravelmod", "temporalcauldron");
-        TileEntityTMCooldown.type = TileEntityType.Builder.func_223042_a(TileEntityTMCooldown::new).build(null);
+        TileEntityTMCooldown.type = TileEntityType.Builder.func_223042_a(TileEntityTMCooldown::new, getAllCoreBlocks()).build(null);
         TileEntityTMCooldown.type.setRegistryName("timetravelmod", "tmcooldown");
         event.getRegistry().registerAll(
                 TileEntityTemporalCauldron.type,
                 TileEntityTMCooldown.type
         );
+    }
+
+    private static Block[] getAllCoreBlocks() {
+        HashSet<Block> blocks = new HashSet<Block>();
+        Iterator<Block> blockIterator = ForgeRegistries.BLOCKS.getValues().iterator();
+        while (blockIterator.hasNext()) {
+            Block block = blockIterator.next();
+            if (block instanceof tk.rdvdev2.TimeTravelMod.api.timemachine.block.BlockTimeMachineCore) blocks.add(block);
+        }
+        return blocks.toArray(new Block[]{});
     }
 
     @SubscribeEvent

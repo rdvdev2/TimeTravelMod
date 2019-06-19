@@ -25,7 +25,7 @@ public class TemporalExplosion {
     }
 
     public void explode() {
-        Explosion explosion = new Explosion(world, entity, pos.getX(), pos.getY(), pos.getZ(), strength, false, Explosion.Mode.NONE); // TODO: Check if NONE works
+        Explosion explosion = new Explosion(world, entity, pos.getX(), pos.getY(), pos.getZ(), strength, false, Explosion.Mode.NONE);
         explosion.doExplosionA();
         world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 6.0F, (1.0F + (this.world.rand.nextFloat() - this.world.rand.nextFloat()) * 0.2F) * 0.7F);
         for(BlockPos block:explosion.getAffectedBlockPositions()) {

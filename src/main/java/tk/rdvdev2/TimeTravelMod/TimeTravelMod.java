@@ -7,11 +7,11 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tk.rdvdev2.TimeTravelMod.client.itemgroup.ItemGroupTTM;
+import tk.rdvdev2.TimeTravelMod.common.world.VanillaBiomesFeatures;
 import tk.rdvdev2.TimeTravelMod.proxy.ClientProxy;
 import tk.rdvdev2.TimeTravelMod.proxy.CommonProxy;
 import tk.rdvdev2.TimeTravelMod.proxy.IProxy;
@@ -34,8 +34,6 @@ public class TimeTravelMod {
     public TimeTravelMod() {
         // Register FMLCommonSetupEvent
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
-        // Register FMLDedicatedServerSetupEvent
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverSetup);
         // Register ColorHandlerEvent#Block
         MinecraftForge.EVENT_BUS.addListener(ModBlocks::registerBlockColor);
         // Register RegisterDimensionsEvent
@@ -55,10 +53,6 @@ public class TimeTravelMod {
     private void commonSetup(FMLCommonSetupEvent event) {
         TimeTravelMod.logger.info("Time Travel Mod is in common setup state.");
         ModPacketHandler.init();
-        //VanillaBiomesFeatures.register();
-    }
-
-    private void serverSetup(FMLDedicatedServerSetupEvent event) {
-
+        VanillaBiomesFeatures.register(); // TODO: Check if it's really generating
     }
 }

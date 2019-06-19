@@ -23,7 +23,7 @@ import java.util.Random;
 
 import static net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
 
-public class TileEntityTemporalCauldron extends TileEntity implements ITickableTileEntity, IInventory {
+public class TileEntityTemporalCauldron extends TileEntity implements ITickableTileEntity, IInventory { // TODO: Migrate to ItemHandler
     private NonNullList<ItemStack> cauldronContents = NonNullList.withSize(2, ItemStack.EMPTY);
 
     public static TileEntityType<TileEntityTemporalCauldron> type;
@@ -226,43 +226,11 @@ public class TileEntityTemporalCauldron extends TileEntity implements ITickableT
         return false;
     }
 
-    /*@Override TODO: Check these are not used anymore
-    public int getField(int id) {
-        return 0;
-    }
-
-
-    @Override
-    public void setField(int id, int value) {
-
-    }
-
-    @Override
-    public int getFieldCount() {
-        return 0;
-    }*/
-
     @Override
     public void clear() {
         cauldronContents.clear();
         this.markDirty();
     }
-
-    /*@Override
-    public ITextComponent getName() {
-        return new TranslationTextComponent("block.timetravelmod.temporalcauldron");
-    }
-
-    @Override
-    public boolean hasCustomName() {
-        return false;
-    }
-
-    @Nullable
-    @Override
-    public ITextComponent getCustomName() {
-        return null;
-    }*/
 
     @Nonnull
     @Override
