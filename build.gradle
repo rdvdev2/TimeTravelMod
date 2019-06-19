@@ -134,7 +134,7 @@ processResources {
         versionProps.store(versionPropsFile.newWriter(), null)
         apiVersion = "1.13.2-" + majormod + "." + majorapi
 
-        project.version = "1.13.2-" + majormod + "." + majorapi + "." + minor + "." + patch.toString()
+        project.version = "1.14.2-" + majormod + "." + majorapi + "." + minor + "." + patch.toString()
     }
     
     // replace stuff in mods.toml, nothing else

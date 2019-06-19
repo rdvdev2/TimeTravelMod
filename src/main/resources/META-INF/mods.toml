@@ -16,7 +16,7 @@ loaderVersion="[26,)" #mandatory (24 is current forge version)
     # A display name for the mod
     displayName="Time Travel Mod" #mandatory
     # A URL to query for updates for this mod. See the JSON tick specification <here>
-    updateJSONURL="https://raw.githubusercontent.com/rdvdev2/TimeTravelMod/1.13.2/updates.json" #optional
+    updateJSONURL="https://raw.githubusercontent.com/rdvdev2/TimeTravelMod/1.14.2/updates.json" #optional
     # A URL to refer people to when problems occur with this mod
     issueTrackerURL="https://github.com/rdvdev2/TimeTravelMod/issues" #optional
     # A URL for the "homepage" for this mod, displayed in the mod UI
