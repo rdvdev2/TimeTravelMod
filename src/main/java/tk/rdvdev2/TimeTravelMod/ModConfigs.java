@@ -13,4 +13,9 @@ public class ModConfigs {
     @Config.Comment("If changed to true, the cauldron will show up the vanilla texture in the inventory. If disabled, the cauldron won't be afected by Resource Packs.")
     @Config.RequiresMcRestart
     public static boolean vanillaCauldronTexture = false;
+
+    @Config.Name("Enable Time Line music")
+    @Config.Comment("When this is enabled the Time Lines have their own music")
+    @Config.RequiresMcRestart
+    public static boolean enableTimeLineMusic = true;
 }

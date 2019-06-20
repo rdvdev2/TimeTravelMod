@@ -25,7 +25,8 @@ public class ModSounds {
 
     @SubscribeEvent
     public static void onPlaySound(PlaySoundEvent event) {
-        if (Minecraft.getMinecraft().player != null &&
+        if (ModConfigs.enableTimeLineMusic &&
+                Minecraft.getMinecraft().player != null &&
                 Minecraft.getMinecraft().player.dimension == ModTimeLines.oldWest.getDimId() &&
                 event.getSound().getCategory() == SoundCategory.MUSIC) {
             event.setResultSound(PositionedSoundRecord.getMusicRecord(oldWestMusicEvent));
