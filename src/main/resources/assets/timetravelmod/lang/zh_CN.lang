@@ -1,5 +1,6 @@
 #X-Generator: crowdin.com
 chat.ttm.outdated=新的 Time Travel Mod 版本可用！请在 CourseForge 页面查看！
+death.attack.temporalerror=%s 太浪费时间了
 gui.tm.oldwest.text=旧西部
 gui.tm.present.text=现代
 item.controllercircuit.name=控制器电路
