@@ -83,4 +83,9 @@ public class CreativeTimeMachine extends TimeMachine {
     public boolean isOverloaded(World world, BlockPos controllerPos, Direction side) {
         return false;
     }
+
+    @Override
+    public int getCorruptionMultiplier() {
+        return 0;
+    }
 }

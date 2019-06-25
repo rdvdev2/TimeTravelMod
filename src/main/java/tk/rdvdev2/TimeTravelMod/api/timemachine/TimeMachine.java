@@ -563,6 +563,14 @@ public abstract class TimeMachine implements IForgeRegistryEntry<TimeMachine> {
         }
     }
 
+    /**
+     * When higher, more corruption will be caused by the time machine
+     * @return The corruption multiplier
+     */
+    public int getCorruptionMultiplier() {
+        return 1;
+    }
+
     @Override
     public String toString() {
         return ModRegistries.timeMachinesRegistry.getKey(this).toString();

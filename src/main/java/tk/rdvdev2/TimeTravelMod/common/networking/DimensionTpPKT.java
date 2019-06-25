@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.*;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -15,6 +16,8 @@ import net.minecraft.world.ServerWorld;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.fml.hooks.BasicEventHooks;
 import net.minecraftforge.fml.network.NetworkEvent;
 import tk.rdvdev2.TimeTravelMod.ModItems;
@@ -24,11 +27,17 @@ import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHookRunner;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.CreativeTimeMachine;
+import tk.rdvdev2.TimeTravelMod.common.world.corruption.ICorruption;
 import tk.rdvdev2.TimeTravelMod.common.world.dimension.PresentTimeLine;
 
+import java.util.Iterator;
 import java.util.function.Supplier;
 
 public class DimensionTpPKT {
+
+    @CapabilityInject(ICorruption.class)
+    static Capability<ICorruption> CORRUPTION_CAPABILITY = null;
+
     public DimensionTpPKT() {
     }
 
@@ -83,9 +92,27 @@ public class DimensionTpPKT {
                     tm.isPlayerInside(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side, serverPlayer) &&
                     !tm.isOverloaded(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
                     canTravel(tm, dim, serverPlayer)) {
+                        applyCorruption(tm, serverPlayer.dimension, dim, serverPlayer.server);
                         changeDim(serverPlayer, pos, dim, tm, side);
                 } else TimeTravelMod.logger.error("Time Travel canceled due to incorrect conditions");
             });
+        }
+
+        private static void applyCorruption(TimeMachine tm, DimensionType origDim, DimensionType destDim, MinecraftServer server) {
+            int origTier = -1, destTier = -1;
+            Iterator<TimeLine> iterator = ModRegistries.timeLinesRegistry.iterator();
+            while (iterator.hasNext()) {
+                TimeLine current = iterator.next();
+                if (current.getDimension() == origDim.getModType()) {
+                    origTier = current.getMinTier();
+                } else if (current.getDimension() == destDim.getModType()) {
+                    destTier = current.getMinTier();
+                }
+            }
+            if (destTier == -1 || origTier == -1) throw new RuntimeException();
+            int amount = Math.abs(destTier - origTier) * tm.getCorruptionMultiplier();
+            server.getWorld(origDim).getCapability(CORRUPTION_CAPABILITY).orElseThrow(RuntimeException::new).increaseCorruptionLevel(amount);
+            server.getWorld(destDim).getCapability(CORRUPTION_CAPABILITY).orElseThrow(RuntimeException::new).increaseCorruptionLevel(amount);
         }
 
         private static boolean canTravel(TimeMachine tm, DimensionType dim, ServerPlayerEntity player) {

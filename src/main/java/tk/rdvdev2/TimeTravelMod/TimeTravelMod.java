@@ -54,5 +54,6 @@ public class TimeTravelMod {
         TimeTravelMod.logger.info("Time Travel Mod is in common setup state.");
         ModPacketHandler.init();
         VanillaBiomesFeatures.register();
+        ModCapabilities.register();
     }
 }
