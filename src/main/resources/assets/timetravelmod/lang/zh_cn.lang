@@ -1,0 +1,27 @@
+#X-Generator: crowdin.com
+chat.ttm.outdated=新的 Time Travel Mod 版本可用！请在 CourseForge 页面查看！
+death.attack.temporalerror=%s 太浪费时间了
+gui.tm.error.text=你不能从下届或者末地旅行到你的时间线
+gui.tm.oldwest.text=旧西部
+gui.tm.present.text=现代
+item.controllercircuit.name=控制器电路
+item.creativetimemachine.name=创造时间机器
+item.heavyblock.name=重块
+item.heavyingot.name=重锭
+item.reinforcedheavyblock.name=强化重块
+item.temporalcauldron.name=时空坩埚
+item.temporalexplosion.name=时间爆炸
+item.timecrystal.name=时间水晶
+item.timecrystalore.name=时间水晶矿石
+item.timemachinebasicblock.name=时间机器基础方块
+item.timemachinecontrolpanel.name=时间机器控制面板
+item.timemachinecore.name=时间机器核心
+tile.heavyblock.name=重块
+tile.reinforcedheavyblock.name=强化重块
+tile.temporalcauldron.name=时空坩埚
+tile.temporalexplosion.name=时间爆炸
+tile.timecrystalore.name=时间水晶矿石
+tile.timemachinebasicblock.name=时间机器基础方块
+tile.timemachinecontrolpanel.name=时间机器控制面板
+tile.timemachinecore.name=时间机器核心
+
