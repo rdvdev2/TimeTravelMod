@@ -23,7 +23,7 @@ public final class OldWestBiome extends Biome {
     public OldWestBiome() {
         // Vanilla desert start
         super((new Biome.Builder()).func_222351_a(SurfaceBuilder.field_215396_G, SurfaceBuilder.field_215429_z).precipitation(Biome.RainType.NONE).category(Biome.Category.DESERT).depth(0.125F).scale(0.05F).temperature(2.0F).downfall(0.0F).waterColor(4159204).waterFogColor(329011).parent((String)null));
-        this.addStructure(Feature.field_214550_p, new VillageConfig("village/desert/town_centers", 6)); // TODO: Custom village
+        this.addStructure(Feature.field_214550_p, new VillageConfig("minecraft:village/oldwest/town_centers", 6));
         this.addStructure(Feature.field_214536_b, new PillagerOutpostConfig(0.004D));
         //this.addStructure(Feature.DESERT_PYRAMID, IFeatureConfig.NO_FEATURE_CONFIG);
         this.addStructure(Feature.MINESHAFT, new MineshaftConfig(0.004D, MineshaftStructure.Type.NORMAL)); // TODO: Custom mineshaft
