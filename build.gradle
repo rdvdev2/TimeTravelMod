@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = "1.13.2-0.0.1.0"
+version = "1.14.2-0.0.1.0"
 def apiVersion = version
 group = "tk.rdvdev2.TimeTravelMod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "TimeTravelMod"
@@ -128,13 +128,11 @@ processResources {
         def majormod = versionProps['MAJORMOD']
         def majorapi = versionProps['MAJORAPI']
         def minor = versionProps['MINOR']
-        def patch = versionProps['PATCH'].toInteger() + 1
+        def patch = versionProps['PATCH']
+        
+        apiVersion = "1.14.2-" + majormod + "." + majorapi
 
-        versionProps['PATCH'] = patch.toString()
-        versionProps.store(versionPropsFile.newWriter(), null)
-        apiVersion = "1.13.2-" + majormod + "." + majorapi
-
-        project.version = "1.14.2-" + majormod + "." + majorapi + "." + minor + "." + patch.toString()
+        project.version = "1.14.2-" + majormod + "." + majorapi + "." + minor + "." + patch
     }
     
     // replace stuff in mods.toml, nothing else
