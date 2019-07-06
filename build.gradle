@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = "1.14.3-0.0.1.0"
+version = "1.14.2-0.0.1.0"
 def apiVersion = version
 group = "tk.rdvdev2.TimeTravelMod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "TimeTravelMod"
@@ -35,7 +35,7 @@ minecraft {
     // stable_#            stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not always work.
     // simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'snapshot', version: '20190621-1.14.2'
+    mappings channel: 'snapshot', version: '20190608-1.14.2'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -81,7 +81,8 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.14.3-27.0.25'
+    minecraft 'net.minecraftforge:forge:1.14.2-26.0.33'
+
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
@@ -129,9 +130,9 @@ processResources {
         def minor = versionProps['MINOR']
         def patch = versionProps['PATCH']
         
-        apiVersion = "1.14.3-" + majormod + "." + majorapi
+        apiVersion = "1.14.2-" + majormod + "." + majorapi
 
-        project.version = "1.14.3-" + majormod + "." + majorapi + "." + minor + "." + patch
+        project.version = "1.14.2-" + majormod + "." + majorapi + "." + minor + "." + patch
     }
     
     // replace stuff in mods.toml, nothing else

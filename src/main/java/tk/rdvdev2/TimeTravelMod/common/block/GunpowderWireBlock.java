@@ -127,8 +127,8 @@ public class GunpowderWireBlock extends Block {
         BlockState blockstate = worldIn.getBlockState(blockpos);
         BlockState offsetState = worldIn.getBlockState(pos.offset(face));
         BlockState stateUp = worldIn.getBlockState(pos.up());
-        if (!stateUp.isNormalCube(worldIn, pos.up())) {
-            boolean flag = Block.hasSolidSide(blockstate, worldIn, blockpos, Direction.UP) || blockstate.getBlock() == Blocks.HOPPER;
+        if (!stateUp.func_215686_e(worldIn, pos.up())) {
+            boolean flag = Block.func_220056_d(blockstate, worldIn, blockpos, Direction.UP) || blockstate.getBlock() == Blocks.HOPPER;
             if (flag && canConnectTo(worldIn.getBlockState(blockpos.up()))) {
                 if (isOpaque(blockstate.getCollisionShape(worldIn, blockpos))) {
                     return RedstoneSide.UP;
@@ -138,7 +138,7 @@ public class GunpowderWireBlock extends Block {
             }
         }
 
-        return !canConnectTo(blockstate) && (blockstate.isNormalCube(worldIn, blockpos) || !canConnectTo(worldIn.getBlockState(blockpos.down()))) ? RedstoneSide.NONE : RedstoneSide.SIDE;
+        return !canConnectTo(blockstate) && (blockstate.func_215686_e(worldIn, blockpos) || !canConnectTo(worldIn.getBlockState(blockpos.down()))) ? RedstoneSide.NONE : RedstoneSide.SIDE;
     }
 
     /*@Override
@@ -148,7 +148,7 @@ public class GunpowderWireBlock extends Block {
 
     public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos blockpos) {
         BlockState blockstate = worldIn.getBlockState(blockpos.down());
-        return Block.hasSolidSide(blockstate, worldIn, blockpos, Direction.UP) || blockstate.getBlock() == Blocks.HOPPER;
+        return Block.func_220056_d(blockstate, worldIn, blockpos, Direction.UP) || blockstate.getBlock() == Blocks.HOPPER;
     }
 
     private BlockState updateSurroundingWires(World worldIn, BlockPos pos, BlockState state) {
@@ -188,7 +188,7 @@ public class GunpowderWireBlock extends Block {
 
             for(Direction facing : Direction.Plane.HORIZONTAL) {
                 BlockPos blockpos = pos.offset(facing);
-                if (worldIn.getBlockState(blockpos).isNormalCube(worldIn, blockpos)) {
+                if (worldIn.getBlockState(blockpos).func_215686_e(worldIn, blockpos)) {
                     this.notifyWireNeighborsOfStateChange(worldIn, blockpos.up());
                 } else {
                     this.notifyWireNeighborsOfStateChange(worldIn, blockpos.down());
@@ -214,7 +214,7 @@ public class GunpowderWireBlock extends Block {
 
                 for(Direction facing : Direction.Plane.HORIZONTAL) {
                     BlockPos blockpos = pos.offset(facing);
-                    if (worldIn.getBlockState(blockpos).isNormalCube(worldIn, blockpos)) {
+                    if (worldIn.getBlockState(blockpos).func_215686_e(worldIn, blockpos)) {
                         this.notifyWireNeighborsOfStateChange(worldIn, blockpos.up());
                     } else {
                         this.notifyWireNeighborsOfStateChange(worldIn, blockpos.down());

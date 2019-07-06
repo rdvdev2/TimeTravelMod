@@ -68,7 +68,7 @@ public class TemporalCauldronBlock extends Block {
             }
         } else if (te.containsItem()) {
             if(!worldIn.isRemote) {
-                worldIn.addEntity(new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), te.removeItem()));
+                worldIn.func_217376_c(new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), te.removeItem()));
             }
         } else return false; return true;
     }
@@ -77,7 +77,7 @@ public class TemporalCauldronBlock extends Block {
     public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
         super.onBlockHarvested(worldIn, pos, state, player);
         if (!worldIn.isRemote) {
-            worldIn.addEntity(new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), ((TemporalCauldronTileEntity)(worldIn.getTileEntity(pos))).removeItem()));
+            worldIn.func_217376_c(new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), ((TemporalCauldronTileEntity)(worldIn.getTileEntity(pos))).removeItem()));
         }
     }
 
@@ -139,6 +139,6 @@ public class TemporalCauldronBlock extends Block {
 
     static {
         INSIDE = Block.makeCuboidShape(2.0D, 4.0D, 2.0D, 14.0D, 16.0D, 14.0D);
-        WALLS = VoxelShapes.combineAndSimplify(VoxelShapes.fullCube(), INSIDE, IBooleanFunction.field_223234_e_);
+        WALLS = VoxelShapes.combineAndSimplify(VoxelShapes.fullCube(), INSIDE, IBooleanFunction.ONLY_FIRST);
     }
 }
