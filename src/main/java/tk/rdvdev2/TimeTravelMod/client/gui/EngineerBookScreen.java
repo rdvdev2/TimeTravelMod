@@ -1,36 +1,38 @@
 package tk.rdvdev2.TimeTravelMod.client.gui;
 
-import net.minecraft.block.state.IBlockState;
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import tk.rdvdev2.TimeTravelMod.ModItems;
 import tk.rdvdev2.TimeTravelMod.ModPacketHandler;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import tk.rdvdev2.TimeTravelMod.common.networking.SyncBookData;
-import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineCreative;
+import tk.rdvdev2.TimeTravelMod.common.timemachine.CreativeTimeMachine;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class GuiEngineerBook extends GuiScreen {
+public class EngineerBookScreen extends Screen {
 
     private TimeMachineData[] timeMachineData;
-    private NBTTagCompound bookData;
+    private CompoundNBT bookData;
     private static final ResourceLocation BOOK_GUI_TEXTURES = new ResourceLocation("textures/gui/book.png");
     private HashMap<Integer, String> pages = new HashMap<Integer, String>();
 
-    public GuiEngineerBook(Collection<TimeMachine> timeMachines) {
+    public EngineerBookScreen(Collection<TimeMachine> timeMachines) {
+        super(new StringTextComponent("TITLE PLACEHOLDER"));
 
         timeMachineData = new TimeMachineData[timeMachines.size()];
 
@@ -43,14 +45,14 @@ public class GuiEngineerBook extends GuiScreen {
             d.description = tm.getDescription();
             d.tier = tm.getTier();
             d.cooldown = tm.getCooldownTime() / 20;
-            if (tm instanceof TimeMachineCreative) {
+            if (tm instanceof CreativeTimeMachine) {
                 d.controllerBlockPos = null; // Flag to indicate the Time Machine has no building
                 timeMachineData[i++] = d;
                 continue;
             }
-            d.basicBlocksPos = tm.getBasicBlocksPos(EnumFacing.NORTH);
+            d.basicBlocksPos = tm.getBasicBlocksPos(Direction.NORTH);
             d.basicBlocks = tm.getBasicBlocks();
-            d.coreBlocksPos = tm.getCoreBlocksPos(EnumFacing.NORTH);
+            d.coreBlocksPos = tm.getCoreBlocksPos(Direction.NORTH);
             d.coreBlocks = tm.getCoreBlocks();
             d.controllerBlockPos = new BlockPos(0, 0, 0);
             d.controllerBlocks = tm.getControllerBlocks();
@@ -71,13 +73,13 @@ public class GuiEngineerBook extends GuiScreen {
     }
 
     @Override
-    public boolean doesGuiPauseGame() {
+    public boolean isPauseScreen() {
         return false;
     }
 
     @Override
-    public void initGui() {
-        Iterator<ItemStack> i = mc.player.getHeldEquipment().iterator();
+    public void init() {
+        Iterator<ItemStack> i = minecraft.player.getHeldEquipment().iterator();
         while(i.hasNext()) {
             ItemStack item = i.next();
             if (item.isItemEqual(new ItemStack(ModItems.engineerBook))) {
@@ -85,26 +87,49 @@ public class GuiEngineerBook extends GuiScreen {
                 break;
             }
         }
+
+        if (!bookData.contains("page")) bookData.putInt("page", 0);
+        String page = pages.get(bookData.getInt("page"));
+        if (page.equals("welcome")) {
+
+            // Draw welcome screen
+            addButton(new TextWidget(width / 2, height / 2 - 192 + 2, "Time Machine Engineer's Book", true));
+
+        } else if (page.startsWith("index")) {
+
+            int n = Integer.parseInt(page.substring(5));
+            // Draw index page
+
+        } else if (page.startsWith("tm")) {
+
+            int n = Integer.parseInt(page.substring(2));
+            TimeMachineData data = timeMachineData[n];
+            // Draw time machine page
+
+        }
+        super.init();
     }
 
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
+        renderBackground();
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(BOOK_GUI_TEXTURES);
+        this.minecraft.getTextureManager().bindTexture(BOOK_GUI_TEXTURES);
         int i = (this.width - 192) / 2;
         int j = (this.height - 192) / 2;
-        this.drawTexturedModalRect(i, j, 0, 0, 192, 192);
+        this.blit(i, j, 0, 0, 192, 192);
+        super.render(mouseX, mouseY, partialTicks);
     }
 
     @Override
-    public void onGuiClosed() {
+    public void onClose() {
         // Set data on client
-        Minecraft.getInstance().addScheduledTask(()->{
+        Minecraft.getInstance().deferTask(()->{
             ItemStack item = Minecraft.getInstance().player.inventory.getCurrentItem();
             int slot = Minecraft.getInstance().player.inventory.currentItem;
             if (item.isItemEqual(new ItemStack(ModItems.engineerBook))) {
-                NBTTagCompound tag = item.getTag();
-                tag.setTag("data", this.bookData);
+                CompoundNBT tag = item.getTag();
+                tag.put("data", this.bookData);
                 item.setTag(tag);
                 Minecraft.getInstance().player.inventory.setInventorySlotContents(slot, item);
             } else {
@@ -117,16 +142,16 @@ public class GuiEngineerBook extends GuiScreen {
 
     private class TimeMachineData {
 
-        public TextComponentTranslation name;
-        public TextComponentTranslation description;
+        public TranslationTextComponent name;
+        public TranslationTextComponent description;
         public int tier;
         public int cooldown; // in seconds
         public BlockPos[] basicBlocksPos;
-        public IBlockState[] basicBlocks;
+        public BlockState[] basicBlocks;
         public BlockPos[] coreBlocksPos;
-        public IBlockState[] coreBlocks;
+        public BlockState[] coreBlocks;
         public BlockPos controllerBlockPos;
-        public IBlockState[] controllerBlocks;
+        public BlockState[] controllerBlocks;
         public TimeMachineUpgrade[] upgrades;
 
         public TimeMachine.TMComponentType[][][] blockTypeMap;

@@ -6,7 +6,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 
@@ -25,12 +25,12 @@ public class TimeMachineHookRunner extends TimeMachine {
     }
 
     @Override
-    public TextComponentTranslation getName() {
+    public TranslationTextComponent getName() {
         return tm.getName();
     }
 
     @Override
-    public TextComponentTranslation getDescription() {return tm.getDescription();}
+    public TranslationTextComponent getDescription() {return tm.getDescription();}
 
     @Override
     public int getCooldownTime() {

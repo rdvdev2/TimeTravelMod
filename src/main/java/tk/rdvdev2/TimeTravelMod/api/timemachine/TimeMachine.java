@@ -8,7 +8,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
@@ -92,10 +92,10 @@ public abstract class TimeMachine implements IForgeRegistryEntry<TimeMachine> {
      * Gets the name of the Time Machine. Used for the Engineer's book.
      * @return The Time Machine name
      */
-    abstract public TextComponentTranslation getName();
+    abstract public TranslationTextComponent getName();
 
-    public TextComponentTranslation getDescription() {
-        return new TextComponentTranslation("tm.default.description", getTier());
+    public TranslationTextComponent getDescription() {
+        return new TranslationTextComponent("tm.default.description", getTier());
     }
 
     /**

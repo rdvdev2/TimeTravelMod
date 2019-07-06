@@ -19,7 +19,7 @@ public class CommonProxy implements IProxy {
     }
 
     @Override
-    public void displayEngineerBookGuiScreen(EntityPlayer player) {
+    public void displayEngineerBookGuiScreen(PlayerEntity player) {
         TimeTravelMod.logger.warn("Server is trying to display the Engineer's Book GUI");
     }
 

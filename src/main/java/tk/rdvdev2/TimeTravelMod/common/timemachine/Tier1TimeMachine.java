@@ -1,6 +1,6 @@
 package tk.rdvdev2.TimeTravelMod.common.timemachine;
 
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 
 public class Tier1TimeMachine extends TimeMachine {
@@ -8,8 +8,8 @@ public class Tier1TimeMachine extends TimeMachine {
     public Tier1TimeMachine() {};
 
     @Override
-    public TextComponentTranslation getName() {
-        return new TextComponentTranslation("tm.tmtier1.name");
+    public TranslationTextComponent getName() {
+        return new TranslationTextComponent("tm.tmtier1.name");
     }
 
     @Override

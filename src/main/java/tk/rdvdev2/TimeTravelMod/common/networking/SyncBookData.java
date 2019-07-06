@@ -1,7 +1,7 @@
 package tk.rdvdev2.TimeTravelMod.common.networking;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import tk.rdvdev2.TimeTravelMod.ModItems;
@@ -12,9 +12,9 @@ import java.util.function.Supplier;
 public class SyncBookData {
     public SyncBookData() {}
 
-    private NBTTagCompound data;
+    private CompoundNBT data;
 
-    public SyncBookData(NBTTagCompound data) {
+    public SyncBookData(CompoundNBT data) {
         this.data = data;
     }
 
@@ -24,9 +24,9 @@ public class SyncBookData {
     }
 
     public static SyncBookData decode(PacketBuffer buf) {
-        NBTTagCompound data = new NBTTagCompound();
-        data.setInt("page", buf.readInt());
-        data.setInt("y", buf.readInt());
+        CompoundNBT data = new CompoundNBT();
+        data.putInt("page", buf.readInt());
+        data.putInt("y", buf.readInt());
         return new SyncBookData(data);
     }
 
@@ -36,8 +36,8 @@ public class SyncBookData {
                 ItemStack item = ctx.get().getSender().inventory.getCurrentItem();
                 int slot = ctx.get().getSender().inventory.currentItem;
                 if (item.isItemEqual(new ItemStack(ModItems.engineerBook))) {
-                    NBTTagCompound tag = item.getTag();
-                    tag.setTag("data", message.data);
+                    CompoundNBT tag = item.getTag();
+                    tag.put("data", message.data);
                     item.setTag(tag);
                     ctx.get().getSender().inventory.setInventorySlotContents(slot, item);
                 } else {
