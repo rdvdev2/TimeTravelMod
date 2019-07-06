@@ -41,7 +41,7 @@ public class ModCapabilities {
 
     @SubscribeEvent
     public static void attachToWorld(AttachCapabilitiesEvent<World> event) {
-        if (event.getObject().getDimension().getType() == DimensionType.NETHER || event.getObject().getDimension().getType() == DimensionType.THE_END) return;
+        if (event.getObject().getDimension().getType() == DimensionType.field_223228_b_ || event.getObject().getDimension().getType() == DimensionType.field_223229_c_) return;
         event.addCapability(new ResourceLocation(MODID, "corruption"), new ICapabilityProvider() {
             @Nonnull
             @Override

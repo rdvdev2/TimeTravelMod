@@ -82,7 +82,7 @@ public class DimensionTpPKT {
 
         public static void handle(DimensionTpPKT message, Supplier<NetworkEvent.Context> ctx) {
             ServerPlayerEntity serverPlayer = ctx.get().getSender();
-            DimensionType dim = message.tl instanceof PresentTimeLine ? DimensionType.OVERWORLD : DimensionType.byName(message.tl.getDimension().getRegistryName());
+            DimensionType dim = message.tl instanceof PresentTimeLine ? DimensionType.field_223227_a_ : DimensionType.byName(message.tl.getDimension().getRegistryName());
             BlockPos pos = message.pos;
             Direction side = message.side;
             TimeMachine tm = message.tm.hook(serverPlayer.world, pos, side);
@@ -120,7 +120,7 @@ public class DimensionTpPKT {
                 if (!ItemStack.areItemsEqual(player.inventory.getCurrentItem(), new ItemStack(ModItems.creativeTimeMachine, 1)))
                     return false;
             }
-            if (dim == DimensionType.OVERWORLD) return true;
+            if (dim == DimensionType.field_223227_a_) return true;
             for (TimeLine tl : ModRegistries.timeLinesRegistry.getSlaveMap(ModRegistries.TIERTOTIMELINE, TimeLine[][].class)[tm.getTier()]) {
                 if (tl.getDimension() == dim.getModType()) {
                     return true;
@@ -172,7 +172,7 @@ public class DimensionTpPKT {
             serverworld1.func_217447_b(player);
             player.connection.setPlayerLocation(player.posX, player.posY, player.posZ, f1, f);
             player.interactionManager.setWorld(serverworld1);
-            player.connection.sendPacket(new SPlayerAbilitiesPacket(player.playerAbilities));
+            player.connection.sendPacket(new SPlayerAbilitiesPacket(player.abilities));
             playerlist.sendWorldInfo(player, serverworld1);
             playerlist.sendInventory(player);
 

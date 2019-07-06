@@ -22,25 +22,25 @@ import tk.rdvdev2.TimeTravelMod.ModFeatures;
 public final class OldWestBiome extends Biome {
     public OldWestBiome() {
         // Vanilla desert start
-        super((new Biome.Builder()).func_222351_a(SurfaceBuilder.field_215396_G, SurfaceBuilder.field_215429_z).precipitation(Biome.RainType.NONE).category(Biome.Category.DESERT).depth(0.125F).scale(0.05F).temperature(2.0F).downfall(0.0F).waterColor(4159204).waterFogColor(329011).parent((String)null));
-        this.addStructure(Feature.field_214550_p, new VillageConfig("minecraft:village/oldwest/town_centers", 6));
-        this.addStructure(Feature.field_214536_b, new PillagerOutpostConfig(0.004D));
+        super((new Biome.Builder()).surfaceBuilder(SurfaceBuilder.DEFAULT, SurfaceBuilder.SAND_SAND_GRAVEL_CONFIG).precipitation(Biome.RainType.NONE).category(Biome.Category.DESERT).depth(0.125F).scale(0.05F).temperature(2.0F).downfall(0.0F).waterColor(4159204).waterFogColor(329011).parent((String)null));
+        this.addStructure(Feature.VILLAGE, new VillageConfig("minecraft:village/oldwest/town_centers", 6)); // Custom village
+        this.addStructure(Feature.PILLAGER_OUTPOST, new PillagerOutpostConfig(0.004D));
         //this.addStructure(Feature.DESERT_PYRAMID, IFeatureConfig.NO_FEATURE_CONFIG);
         this.addStructure(Feature.MINESHAFT, new MineshaftConfig(0.004D, MineshaftStructure.Type.NORMAL)); // TODO: Custom mineshaft
         //this.addStructure(Feature.STRONGHOLD, IFeatureConfig.NO_FEATURE_CONFIG);
-        DefaultBiomeFeatures.func_222300_a(this);
-        DefaultBiomeFeatures.func_222295_c(this);
-        DefaultBiomeFeatures.func_222301_e(this);
-        DefaultBiomeFeatures.func_222335_f(this);
-        DefaultBiomeFeatures.func_222326_g(this);
-        DefaultBiomeFeatures.func_222288_h(this);
+        DefaultBiomeFeatures.addCarvers(this);
+        DefaultBiomeFeatures.addStructures(this);
+        DefaultBiomeFeatures.addDesertLakes(this);
+        DefaultBiomeFeatures.addMonsterRooms(this);
+        DefaultBiomeFeatures.addStoneVariants(this);
+        DefaultBiomeFeatures.addOres(this);
         DefaultBiomeFeatures.func_222282_l(this);
         DefaultBiomeFeatures.func_222342_U(this);
         DefaultBiomeFeatures.func_222348_W(this);
         DefaultBiomeFeatures.func_222334_S(this);
         DefaultBiomeFeatures.func_222315_Z(this);
         DefaultBiomeFeatures.func_222292_ad(this);
-        DefaultBiomeFeatures.func_222337_am(this);
+        DefaultBiomeFeatures.addSprings(this);
         DefaultBiomeFeatures.func_222281_af(this);
         DefaultBiomeFeatures.func_222297_ap(this);
         this.addSpawn(EntityClassification.CREATURE, new Biome.SpawnListEntry(EntityType.RABBIT, 4, 2, 3));
@@ -56,7 +56,7 @@ public final class OldWestBiome extends Biome {
         this.addSpawn(EntityClassification.MONSTER, new Biome.SpawnListEntry(EntityType.HUSK, 80, 4, 4));
 
         // Time Travel Mod start
-        this.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.func_222280_a(Feature.MINABLE, new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.timeCrystalOre.getDefaultState(), 4), Placement.field_215028_n, new CountRangeConfig(1, 0, 0, 16)));
-        this.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, Biome.func_222280_a(ModFeatures.GUNPOWDER, NoFeatureConfig.NO_FEATURE_CONFIG, Placement.field_215023_i, new ChanceConfig(100)));
+        this.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(Feature.ORE, new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.timeCrystalOre.getDefaultState(), 4), Placement.COUNT_RANGE, new CountRangeConfig(1, 0, 0, 16)));
+        this.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, Biome.createDecoratedFeature(ModFeatures.GUNPOWDER, NoFeatureConfig.NO_FEATURE_CONFIG, Placement.CHANCE_TOP_SOLID_HEIGHTMAP, new ChanceConfig(100)));
     }
 }

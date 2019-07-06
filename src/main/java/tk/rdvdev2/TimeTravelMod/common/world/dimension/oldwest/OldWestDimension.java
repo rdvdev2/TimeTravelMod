@@ -105,7 +105,7 @@ public class OldWestDimension extends net.minecraft.world.dimension.Dimension {
             if (jsonobject.has("chunk_generator") && jsonobject.getAsJsonObject("chunk_generator").has("options")) {
                 if (jsonobject.getAsJsonObject("chunk_generator").getAsJsonObject("options").has("default_block")) {
                     String s = jsonobject.getAsJsonObject("chunk_generator").getAsJsonObject("options").getAsJsonPrimitive("default_block").getAsString();
-                    Block block = Registry.field_212618_g.getOrDefault(new ResourceLocation(s));
+                    Block block = Registry.BLOCK.getOrDefault(new ResourceLocation(s));
                     if (block != null) {
                         iblockstate = block.getDefaultState();
                     }
@@ -113,7 +113,7 @@ public class OldWestDimension extends net.minecraft.world.dimension.Dimension {
 
                 if (jsonobject.getAsJsonObject("chunk_generator").getAsJsonObject("options").has("default_fluid")) {
                     String s1 = jsonobject.getAsJsonObject("chunk_generator").getAsJsonObject("options").getAsJsonPrimitive("default_fluid").getAsString();
-                    Block block1 = Registry.field_212618_g.getOrDefault(new ResourceLocation(s1));
+                    Block block1 = Registry.BLOCK.getOrDefault(new ResourceLocation(s1));
                     if (block1 != null) {
                         iblockstate1 = block1.getDefaultState();
                     }
@@ -165,7 +165,7 @@ public class OldWestDimension extends net.minecraft.world.dimension.Dimension {
     public BlockPos findSpawn(int p_206921_1_, int p_206921_2_, boolean checkValid) {
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_206921_1_, 0, p_206921_2_);
         Biome biome = this.world.getBiome(blockpos$mutableblockpos);
-        BlockState iblockstate = biome.getSurfaceBuilderConfig().getTopMaterial();
+        BlockState iblockstate = biome.getSurfaceBuilderConfig().getTop();
         if (checkValid && !iblockstate.getBlock().isIn(BlockTags.VALID_SPAWN)) {
             return null;
         } else {

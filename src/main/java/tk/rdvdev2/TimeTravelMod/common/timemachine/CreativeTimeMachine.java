@@ -6,8 +6,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkStatus;
+import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.Heightmap;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
@@ -73,7 +73,7 @@ public class CreativeTimeMachine extends TimeMachine {
 
     @Override
     public void teleporterTasks(Entity entity, World worldIn, World worldOut, BlockPos controllerPos, Direction side) {
-        Chunk chunk = worldIn.getChunk(controllerPos);
+        IChunk chunk = worldIn.getChunk(controllerPos);
         worldIn.getChunkProvider().getChunk(chunk.getPos().x, chunk.getPos().z, ChunkStatus.FULL, false);
         int height = worldIn.getHeight(Heightmap.Type.MOTION_BLOCKING, (int) entity.posX, (int) entity.posZ);
         entity.setPosition(entity.posX, height + 1, entity.posZ);

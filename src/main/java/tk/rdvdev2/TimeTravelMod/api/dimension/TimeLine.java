@@ -97,7 +97,7 @@ public abstract class TimeLine implements IForgeRegistryEntry<TimeLine> {
         Iterator<TimeLine> iterator = ModRegistries.timeLinesRegistry.iterator();
         while (iterator.hasNext()) {
             TimeLine tl = iterator.next();
-            if (tl.getDimension() == world.getDimension().getType().getModType() || world.getDimension().getType() == DimensionType.OVERWORLD) return true;
+            if (tl.getDimension() == world.getDimension().getType().getModType() || world.getDimension().getType() == DimensionType.field_223227_a_) return true;
         }
         return false;
     }

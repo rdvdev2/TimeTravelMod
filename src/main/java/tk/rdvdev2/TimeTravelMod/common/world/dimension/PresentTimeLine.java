@@ -5,6 +5,6 @@ import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 
 public class PresentTimeLine extends TimeLine {
     public PresentTimeLine() {
-        super(DimensionType.OVERWORLD.getModType(), 0);
+        super(DimensionType.field_223227_a_.getModType(), 0);
     }
 }
