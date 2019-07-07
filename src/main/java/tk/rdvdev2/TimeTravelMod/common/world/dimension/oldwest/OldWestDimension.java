@@ -42,6 +42,11 @@ public class OldWestDimension extends net.minecraft.world.dimension.Dimension {
         return ModBiomes.OLDWEST;
     }
 
+    @Override
+    public boolean hasSkyLight() {
+        return true;
+    }
+
     /**
      * Creates a new {@link BiomeProvider} for the WorldProvider, and also sets the values of #hasSkylight and
      * #hasNoSky appropriately.
