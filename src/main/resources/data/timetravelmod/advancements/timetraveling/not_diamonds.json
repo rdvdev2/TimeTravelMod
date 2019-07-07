@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "item": "timetravelmod:timecrystalore"
+    },
+    "title": {
+      "translate": "advancements.timetraveling.not_diamonds.title"
+    },
+    "description": {
+      "translate": "advancements.timetraveling.not_diamonds.description"
+    }
+  },
+  "parent": "timetravelmod:timetraveling/root",
+  "criteria": {
+    "smeltcrystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "timetravelmod:timecrystalore"
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "recipes": [
+      "timetravelmod:timecrystal",
+      "timetravelmod:timemachinebasicblock",
+      "timetravelmod:timemachinecontrolpanel",
+      "timetravelmod:timemachinecore",
+      "timetravelmod:controllercircuit",
+      "timetravelmod:controllercircuit_b",
+      "timetravelmod:temporalcauldron",
+      "timetravelmod:temporalcauldron_b"
+    ]
+  }
+}

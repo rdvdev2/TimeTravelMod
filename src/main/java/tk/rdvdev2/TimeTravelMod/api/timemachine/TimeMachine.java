@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -15,6 +16,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.apache.commons.lang3.ArrayUtils;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
+import tk.rdvdev2.TimeTravelMod.ModTriggers;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineComponentBlock;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineCoreBlock;
@@ -289,6 +291,9 @@ public abstract class TimeMachine implements IForgeRegistryEntry<TimeMachine> {
             !isOverloaded(world, controllerPos, side) &&
             !world.isRemote) {
             if (!triggerTemporalExplosion(world, controllerPos, side))
+                if (playerIn instanceof ServerPlayerEntity) {
+                    ModTriggers.ACCESS_TIME_MACHINE.trigger((ServerPlayerEntity) playerIn);
+                }
                 TimeTravelMod.proxy.displayTMGuiScreen(playerIn, this, controllerPos, side);
         }
     }
