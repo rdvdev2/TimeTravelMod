@@ -1,0 +1,21 @@
+{
+  "display": {
+    "icon": {
+      "item": "timetravelmod:temporalexplosion"
+    },
+    "title": {
+      "translate": "advancements.timetraveling.doesnt_look_good.title"
+    },
+    "description": {
+      "translate": "advancements.timetraveling.doesnt_look_good.description"
+    },
+    "hidden": true
+  },
+  "parent": "timetravelmod:timetraveling/timemachine",
+  "criteria": {
+    "explode": {
+      "trigger": "timetravelmod:temporal_explosion",
+      "conditions": {}
+    }
+  }
+}

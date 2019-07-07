@@ -6,6 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathType;
@@ -26,6 +27,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootContext;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
 import tk.rdvdev2.TimeTravelMod.ModItems;
+import tk.rdvdev2.TimeTravelMod.ModTriggers;
 import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TemporalCauldronTileEntity;
 
 import javax.annotation.Nullable;
@@ -53,7 +55,7 @@ public class TemporalCauldronBlock extends Block {
         if (te == null) {
             return false;
         }
-        if (!playerItemStack.isEmpty() && !playerItemStack.isItemEqual(new ItemStack(ModItems.timeCrystal)) && playerItemStack.isDamageable() && !te.containsItem()) {
+        if (!playerItemStack.isEmpty() && !playerItemStack.isItemEqual(new ItemStack(ModItems.timeCrystal)) && playerItemStack.isDamaged() && !te.containsItem()) {
             if (!worldIn.isRemote) {
                 ItemStack copy = playerItemStack.copy();
                 playerItemStack.grow(-1);
@@ -68,7 +70,9 @@ public class TemporalCauldronBlock extends Block {
             }
         } else if (te.containsItem()) {
             if(!worldIn.isRemote) {
-                worldIn.addEntity(new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), te.removeItem()));
+                ItemStack item = te.removeItem();
+                if (!item.isDamaged() && playerIn instanceof ServerPlayerEntity) ModTriggers.BETTER_THAN_MENDING.trigger((ServerPlayerEntity) playerIn);
+                worldIn.addEntity(new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), item));
             }
         } else return false; return true;
     }
@@ -77,7 +81,9 @@ public class TemporalCauldronBlock extends Block {
     public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
         super.onBlockHarvested(worldIn, pos, state, player);
         if (!worldIn.isRemote) {
-            worldIn.addEntity(new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), ((TemporalCauldronTileEntity)(worldIn.getTileEntity(pos))).removeItem()));
+            ItemStack item = ((TemporalCauldronTileEntity)(worldIn.getTileEntity(pos))).removeItem();
+            if (!item.isDamaged() && player instanceof ServerPlayerEntity) ModTriggers.BETTER_THAN_MENDING.trigger((ServerPlayerEntity) player);
+            worldIn.addEntity(new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), item));
         }
     }
 

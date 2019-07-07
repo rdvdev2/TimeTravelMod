@@ -57,5 +57,6 @@ public class TimeTravelMod {
         VanillaBiomesFeatures.register();
         ModCapabilities.register();
         OldWestVillagePools.init();
+        ModTriggers.register();
     }
 }

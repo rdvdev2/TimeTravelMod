@@ -1,6 +1,7 @@
 package tk.rdvdev2.TimeTravelMod.common.world;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -8,6 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
+import tk.rdvdev2.TimeTravelMod.ModTriggers;
 import tk.rdvdev2.TimeTravelMod.common.block.TemporalExplosionBlock;
 
 public class TemporalExplosion {
@@ -31,6 +33,7 @@ public class TemporalExplosion {
         for(BlockPos block:explosion.getAffectedBlockPositions()) {
             for (Entity entity:world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(block))) {
                 entity.attackEntityFrom(TemporalExplosionBlock.damage, 1000000);
+                if (entity instanceof ServerPlayerEntity) ModTriggers.TEMPORAL_EXPLOSION.trigger((ServerPlayerEntity) entity);
             }
             world.setBlockState(block, ModBlocks.temporalExplosion.getDefaultState());
         }

@@ -1,0 +1,20 @@
+{
+  "display": {
+    "icon": {
+      "item": "timetravelmod:temporalcauldron"
+    },
+    "title": {
+      "translate": "advancements.timetraveling.better_than_mending.title"
+    },
+    "description": {
+      "translate": "advancements.timetraveling.better_than_mending.description"
+    }
+  },
+  "parent": "timetravelmod:timetraveling/not_diamonds",
+  "criteria": {
+    "use": {
+      "trigger": "timetravelmod:better_than_mending",
+      "conditions": {}
+    }
+  }
+}

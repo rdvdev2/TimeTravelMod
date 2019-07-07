@@ -1,0 +1,28 @@
+{
+  "display": {
+    "icon": {
+      "item": "timetravelmod:timecrystal"
+    },
+    "title": {
+      "translate": "advancements.timetraveling.root.title"
+    },
+    "description": {
+      "translate": "advancements.timetraveling.root.description"
+    },
+    "background": "timetravelmod:textures/blocks/timemachine.png",
+    "show_toast": false,
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "smeltcrystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "timetravelmod:timecrystalore"
+          }
+        ]
+      }
+    }
+  }
+}

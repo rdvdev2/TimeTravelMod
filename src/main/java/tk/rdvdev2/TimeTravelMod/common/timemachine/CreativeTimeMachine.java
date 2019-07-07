@@ -2,6 +2,7 @@ package tk.rdvdev2.TimeTravelMod.common.timemachine;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -11,6 +12,7 @@ import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.Heightmap;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
+import tk.rdvdev2.TimeTravelMod.ModTriggers;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
@@ -51,6 +53,9 @@ public class CreativeTimeMachine extends TimeMachine {
     public void run(World world, PlayerEntity playerIn, BlockPos controllerPos, Direction side) {
         if (isPlayerInside(world, controllerPos, side, playerIn) &&
                 !isOverloaded(world, controllerPos, side)) {
+            if (playerIn instanceof ServerPlayerEntity) {
+                ModTriggers.ACCESS_TIME_MACHINE.trigger((ServerPlayerEntity) playerIn);
+            }
             TimeTravelMod.proxy.displayTMGuiScreen(playerIn, this, controllerPos, side);
         }
     }
