@@ -3,24 +3,19 @@ package tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public abstract class TimeMachineUpgrade implements IForgeRegistryEntry<TimeMachineUpgrade> {
 
-    private TimeMachineHook[] hooks;
+    private ArrayList<TimeMachineHook> hooks;
     private TimeMachine[] compatibleTMs;
 
     public TimeMachineUpgrade() {
+        this.hooks = new ArrayList<TimeMachineHook>(0);
     }
 
     public void addHook(TimeMachineHook hook) {
-        try {
-            int id = this.hooks.length;
-            this.hooks = Arrays.copyOf(this.hooks, id + 1);
-            this.hooks[id] = hook;
-        } catch (NullPointerException e) {
-            this.hooks = new TimeMachineHook[]{hook};
-        }
+        this.hooks.add(hook);
     }
 
     public void addAllHooks(TimeMachineHook... hooks) {
