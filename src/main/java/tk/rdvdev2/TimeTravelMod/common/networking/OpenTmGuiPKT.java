@@ -9,7 +9,7 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHookRunner;
+import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
 
 import java.util.function.Supplier;
 

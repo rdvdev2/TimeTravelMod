@@ -15,6 +15,7 @@ import tk.rdvdev2.TimeTravelMod.ModPacketHandler;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineHooksException;
 import tk.rdvdev2.TimeTravelMod.common.networking.DimensionTpPKT;
 
 import java.lang.reflect.Array;
@@ -33,7 +34,11 @@ public class TimeMachineScreen extends Screen {
     public TimeMachineScreen(PlayerEntity player, TimeMachine tm, BlockPos pos, Direction side){
         super(new StringTextComponent("TITLE PLACEHOLDER"));
         this.player = player;
-        this.tm = tm.hook(player.world, pos, side);
+        try {
+            this.tm = tm.hook(player.world, pos, side);
+        } catch (IncompatibleTimeMachineHooksException e) {
+            throw new RuntimeException("Time Machine GUI opened with invalid upgrade configuration");
+        }
         this.pos = pos;
         this.side = side;
     }

@@ -4,14 +4,24 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
 
-public interface TimeMachineHook {
-    <T> T run(T original, TimeMachineHookRunner tm, Object... args);
+import java.util.Optional;
 
-    interface RunHook extends TimeMachineHook {
+public interface TimeMachineHook<R> {
+
+    static final Class[] HOOK_TYPES = new Class[]{
+            RunHook.class,
+            TierHook.class,
+            EntityMaxLoadHook.class
+    };
+
+    R run(Optional<R> original, TimeMachineHookRunner tm, Object... args);
+
+    interface RunHook extends TimeMachineHook<Void> {
 
         @Override
-        default <T> T run(T original, TimeMachineHookRunner tm, Object... args) {
+        default Void run(Optional<Void> original, TimeMachineHookRunner tm, Object... args) {
             run(tm, (World) args[0], (PlayerEntity) args[1], (BlockPos) args[2], (Direction) args[3]);
             return null;
         }
@@ -20,26 +30,24 @@ public interface TimeMachineHook {
     }
 
     @SuppressWarnings("unchecked")
-    interface TierHook extends TimeMachineHook {
+    interface TierHook extends TimeMachineHook<Integer> {
 
         @Override
-        default <T> T run(T original, TimeMachineHookRunner tm, Object... args) {
-            if (original instanceof Integer) return (T)(Integer)run((Integer) original, tm);
-            else throw new IllegalArgumentException("TierHook takes an int value");
+        default Integer run(Optional<Integer> original, TimeMachineHookRunner tm, Object... args) {
+            return run(original, tm);
         }
 
-        int run(int original, TimeMachineHookRunner tm);
+        int run(Optional<Integer> original, TimeMachineHookRunner tm);
     }
 
     @SuppressWarnings("unchecked")
-    interface EntityMaxLoadHook extends TimeMachineHook {
+    interface EntityMaxLoadHook extends TimeMachineHook<Integer> {
 
         @Override
-        default <T> T run(T original, TimeMachineHookRunner tm, Object... args) {
-            if (original instanceof Integer) return (T) (Integer)run((Integer) original, tm);
-            else throw new IllegalArgumentException("EntityMaxLoadHook takes an int value");
+        default Integer run(Optional<Integer> original, TimeMachineHookRunner tm, Object... args) {
+            return run(original, tm);
         }
 
-        int run(int original, TimeMachineHookRunner tm);
+        int run(Optional<Integer> original, TimeMachineHookRunner tm);
     }
 }
