@@ -18,10 +18,9 @@ import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineHooksException;
 import tk.rdvdev2.TimeTravelMod.common.networking.DimensionTpPKT;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 
 @OnlyIn(Dist.CLIENT)
 public class TimeMachineScreen extends Screen {
@@ -45,11 +44,11 @@ public class TimeMachineScreen extends Screen {
 
     @Override
     public void init() {
-        TimeLine[] tls = iteratorToArray(ModRegistries.timeLinesRegistry.iterator(), TimeLine.class);
-        Arrays.sort(tls, Comparator.comparingInt(TimeLine::getMinTier));
-        int buttoncount = tls.length;
-        for(int id = 0; id < tls.length; id++) {
-            addButton(new TimeLineButton(this.width / 2 -100, (this.height / (buttoncount+1))*(id+1), tls[id], this));
+        ArrayList<TimeLine> tls = new ArrayList(ModRegistries.timeLinesRegistry.getValues());
+        Collections.sort(tls, Comparator.comparingInt(TimeLine::getMinTier));
+        int buttoncount = tls.size();
+        for(int id = 0; id < tls.size(); id++) {
+            addButton(new TimeLineButton(this.width / 2 -100, (this.height / (buttoncount+1))*(id+1), tls.get(id), this));
         }
     }
 
@@ -64,17 +63,6 @@ public class TimeMachineScreen extends Screen {
         return false;
     }
 
-
-    @SuppressWarnings("unchecked")
-    private <T> T[] iteratorToArray(Iterator<T> iterator, Class<T> clazz) {
-        T[] array = (T[]) Array.newInstance(clazz, 0);
-        while (iterator.hasNext()) {
-            int i = array.length;
-            array = Arrays.copyOf(array, i+1);
-            array[i] = iterator.next();
-        }
-        return array;
-    }
 
     protected class TimeLineButton extends Button {
 
