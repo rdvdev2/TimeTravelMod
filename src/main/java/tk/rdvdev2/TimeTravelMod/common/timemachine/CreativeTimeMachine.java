@@ -13,8 +13,9 @@ import net.minecraft.world.gen.Heightmap;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.ModTriggers;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
-import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
+
+import java.util.ArrayList;
 
 public class CreativeTimeMachine extends TimeMachine {
 
@@ -25,7 +26,7 @@ public class CreativeTimeMachine extends TimeMachine {
 
     @Override
     public int getTier() {
-        return ModRegistries.timeLinesRegistry.getSlaveMap(ModRegistries.TIERTOTIMELINE, TimeLine[][].class).length -1;
+        return ModRegistries.timeLinesRegistry.getSlaveMap(ModRegistries.TIERTOTIMELINE, ArrayList.class).size() -1;
     }
 
     @Override
