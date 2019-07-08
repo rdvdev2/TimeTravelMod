@@ -23,12 +23,14 @@ import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineCompone
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineCoreBlock;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineUpgradeBlock;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TMReadyProperty;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHookRunner;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineHooksException;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
+import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -257,9 +259,17 @@ public abstract class TimeMachine implements IForgeRegistryEntry<TimeMachine> {
      * @param side The facing of the Time Machine
      * @return A TimeMachineHookRunner with all the upgrades
      */
-    public final TimeMachineHookRunner hook(World world, BlockPos controllerPos, Direction side) {
-        if (!(this instanceof TimeMachineHookRunner))
-            return new TimeMachineHookRunner(this, getUpgrades(world, controllerPos, side));
+    public final TimeMachineHookRunner hook(World world, BlockPos controllerPos, Direction side) throws IncompatibleTimeMachineHooksException {
+        TimeMachineHookRunner generated;
+        if (!(this instanceof TimeMachineHookRunner)) {
+            generated = new TimeMachineHookRunner(this, getUpgrades(world, controllerPos, side));
+            HashSet<TimeMachineUpgrade> incompatibilities = generated.checkIncompatibilities();
+            if (incompatibilities.isEmpty()) {
+                return generated;
+            } else {
+                throw new IncompatibleTimeMachineHooksException(incompatibilities);
+            }
+        }
         else
             return (TimeMachineHookRunner)this;
     }

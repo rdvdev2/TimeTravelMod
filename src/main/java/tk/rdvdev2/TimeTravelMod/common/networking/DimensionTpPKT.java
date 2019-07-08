@@ -25,8 +25,9 @@ import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHookRunner;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineHooksException;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.CreativeTimeMachine;
+import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
 import tk.rdvdev2.TimeTravelMod.common.world.corruption.ICorruption;
 import tk.rdvdev2.TimeTravelMod.common.world.dimension.PresentTimeLine;
 
@@ -87,15 +88,21 @@ public class DimensionTpPKT {
             DimensionType dim = message.tl instanceof PresentTimeLine ? DimensionType.field_223227_a_ : DimensionType.byName(message.tl.getDimension().getRegistryName());
             BlockPos pos = message.pos;
             Direction side = message.side;
-            TimeMachine tm = message.tm.hook(serverPlayer.world, pos, side);
+            TimeMachine tm = null;
+            try {
+                tm = message.tm.hook(serverPlayer.world, pos, side);
+            } catch (IncompatibleTimeMachineHooksException e) {
+                throw new RuntimeException("Time travel was triggered with invalid upgrade configuration");
+            }
+            TimeMachine finalTm = tm;
             ctx.get().enqueueWork(() -> {
                 if (serverPlayer.world.isBlockLoaded(pos) &&
-                    tm.isBuilt(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
-                    tm.isPlayerInside(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side, serverPlayer) &&
-                    !tm.isOverloaded(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
-                    canTravel(tm, dim, serverPlayer)) {
-                        applyCorruption(tm, serverPlayer.dimension, dim, serverPlayer.server);
-                        changeDim(serverPlayer, pos, dim, tm, side);
+                    finalTm.isBuilt(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
+                    finalTm.isPlayerInside(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side, serverPlayer) &&
+                    !finalTm.isOverloaded(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
+                    canTravel(finalTm, dim, serverPlayer)) {
+                        applyCorruption(finalTm, serverPlayer.dimension, dim, serverPlayer.server);
+                        changeDim(serverPlayer, pos, dim, finalTm, side);
                 } else TimeTravelMod.logger.error("Time Travel canceled due to incorrect conditions");
             });
         }

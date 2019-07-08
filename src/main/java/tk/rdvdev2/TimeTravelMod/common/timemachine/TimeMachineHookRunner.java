@@ -1,4 +1,4 @@
-package tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade;
+package tk.rdvdev2.TimeTravelMod.common.timemachine;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -9,6 +9,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHook;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
+
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 public class TimeMachineHookRunner extends TimeMachine {
 
@@ -22,6 +28,18 @@ public class TimeMachineHookRunner extends TimeMachine {
 
     public TimeMachine removeHooks() {
         return this.tm;
+    }
+
+    public HashSet<TimeMachineUpgrade> checkIncompatibilities() {
+        HashSet<TimeMachineUpgrade> incompatibilities = new HashSet<>(0);
+        for(Class hook: TimeMachineHook.HOOK_TYPES) {
+            HashSet<TimeMachineUpgrade> found = new HashSet<>(0);
+            for (TimeMachineUpgrade upgrade: this.upgrades) {
+                if (upgrade.isExclusiveHook(hook)) found.add(upgrade);
+            }
+            if (found.size() > 1) incompatibilities.addAll(found);
+        }
+        return incompatibilities;
     }
 
     @Override
@@ -39,7 +57,7 @@ public class TimeMachineHookRunner extends TimeMachine {
 
     @Override
     public int getTier() {
-        return runHooks(tm.getTier(), TimeMachineHook.TierHook.class);
+        return runHooks(tm::getTier, TimeMachineHook.TierHook.class);
     }
 
     @Override
@@ -89,7 +107,7 @@ public class TimeMachineHookRunner extends TimeMachine {
 
     @Override
     public int getEntityMaxLoad() {
-        return runHooks(tm.getEntityMaxLoad(), TimeMachineHook.EntityMaxLoadHook.class);
+        return runHooks(tm::getEntityMaxLoad, TimeMachineHook.EntityMaxLoadHook.class);
     }
 
     @Override
@@ -99,8 +117,7 @@ public class TimeMachineHookRunner extends TimeMachine {
 
     @Override
     public void run(World world, PlayerEntity playerIn, BlockPos controllerPos, Direction side) {
-        if (runVoidHooks(TimeMachineHook.RunHook.class, world, playerIn, controllerPos, side)) return;
-        tm.run(world, playerIn, controllerPos, side);
+        runVoidHooks(() -> tm.run(world, playerIn, controllerPos, side), TimeMachineHook.RunHook.class, world, playerIn, controllerPos, side);
     }
 
     @Override
@@ -138,19 +155,31 @@ public class TimeMachineHookRunner extends TimeMachine {
         return tm.isCooledDown(world, controllerPos, side);
     }
 
-    private <T> T runHooks(T original, Class<? extends TimeMachineHook> clazz, Object... args) {
-        T result = original;
+    private <T> T runHooks(Supplier<T> original, Class<? extends TimeMachineHook> clazz, Object... args) {
+        for(TimeMachineUpgrade upgrade:upgrades) {
+            if (upgrade.isExclusiveHook(clazz)) {
+                return upgrade.runHook(Optional.empty(), clazz, this, args);
+            }
+        }
+        T result = original.get();
         for (TimeMachineUpgrade upgrade:upgrades) {
-            result = upgrade.runHook(result, clazz, this, args);
+            result = upgrade.runHook(Optional.of(result), clazz, this, args);
         }
         return result;
     }
 
-    private boolean runVoidHooks(Class<? extends TimeMachineHook> clazz, Object... args) {
+    private void runVoidHooks(Runnable original, Class<? extends TimeMachineHook> clazz, Object... args) {
+        for(TimeMachineUpgrade upgrade:upgrades) {
+            if (upgrade.isExclusiveHook(clazz)) {
+                upgrade.runVoidHook(clazz, this, args);
+                return;
+            }
+        }
+        boolean done = false;
         for(TimeMachineUpgrade upgrade:upgrades) {
             if (upgrade.runVoidHook(clazz, this, args))
-                return true;
+                done = true;
         }
-        return false;
+        if (!done) original.run();
     }
 }
