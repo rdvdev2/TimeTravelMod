@@ -30,6 +30,8 @@ import tk.rdvdev2.TimeTravelMod.common.timemachine.CreativeTimeMachine;
 import tk.rdvdev2.TimeTravelMod.common.world.corruption.ICorruption;
 import tk.rdvdev2.TimeTravelMod.common.world.dimension.PresentTimeLine;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.function.Supplier;
 
@@ -121,7 +123,7 @@ public class DimensionTpPKT {
                     return false;
             }
             if (dim == DimensionType.field_223227_a_) return true;
-            for (TimeLine tl : ModRegistries.timeLinesRegistry.getSlaveMap(ModRegistries.TIERTOTIMELINE, TimeLine[][].class)[tm.getTier()]) {
+            for (TimeLine tl : (HashSet<TimeLine>)ModRegistries.timeLinesRegistry.getSlaveMap(ModRegistries.TIERTOTIMELINE, ArrayList.class).get(tm.getTier())) {
                 if (tl.getDimension() == dim.getModType()) {
                     return true;
                 }

@@ -20,8 +20,10 @@ import tk.rdvdev2.TimeTravelMod.common.event.ConfigureTimeMachineBlocksEvent;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.CreativeTimeMachine;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
@@ -59,48 +61,29 @@ public class ModRegistries {
 
     public static class TimeLinesCallbacks implements IForgeRegistry.AddCallback<TimeLine>, IForgeRegistry.CreateCallback<TimeLine> {
 
-        private TimeLine[][] tierToTimeLineArray;
+        private ArrayList<HashSet<TimeLine>> tierToTimeLineArray;
 
         @Override
         public void onCreate(IForgeRegistryInternal<TimeLine> owner, RegistryManager stage) {
-            tierToTimeLineArray = new TimeLine[0][];
+            tierToTimeLineArray = new ArrayList<HashSet<TimeLine>>(0);
             owner.setSlaveMap(TIERTOTIMELINE, tierToTimeLineArray);
         }
 
         @Override
         public void onAdd(IForgeRegistryInternal<TimeLine> owner, RegistryManager stage, int id, TimeLine obj, @Nullable TimeLine oldObj) {
 
-            // Get the tiers array
-            tierToTimeLineArray = owner.getSlaveMap(TIERTOTIMELINE, TimeLine[][].class);
+            // Get the tiers ArrayList
+            tierToTimeLineArray = owner.getSlaveMap(TIERTOTIMELINE, ArrayList.class);
 
-            // Expand the array if there is a new max tier
-            if (tierToTimeLineArray.length < obj.getMinTier()+1) {
-                int oldMax = tierToTimeLineArray.length - 1;
-                TimeLine[] oldMaxTLS = null;
-                if (oldMax != -1)
-                    oldMaxTLS = tierToTimeLineArray[oldMax];
-                tierToTimeLineArray = Arrays.copyOf(tierToTimeLineArray, obj.getMinTier() + 1);
-                if (oldMax != -1) {
-                    // Copy all the registered TimeLines to the new tiers
-                    for (; oldMax < tierToTimeLineArray.length; oldMax++)
-                        tierToTimeLineArray[oldMax] = oldMaxTLS;
-                } /*else {
-                    // Put empty arrays in the new indexes
-                    System.out.println("Creating empty arrays");
-                    for (TimeLine[] tl:tierToTimeLineArray)
-                        tl = new TimeLine[]{null};
-                }*/
+            // Expand the ArrayList if there is a new max tier
+            tierToTimeLineArray.ensureCapacity(obj.getMinTier()+1);
+            for (int i = tierToTimeLineArray.size(); i < obj.getMinTier()+1; i++) {
+                tierToTimeLineArray.add(new HashSet<TimeLine>());
             }
 
             // Add the new TimeLine to it's valid tiers
-            for (int i = obj.getMinTier(); i < tierToTimeLineArray.length; i++) {
-                try {
-                    int j = tierToTimeLineArray[i].length;
-                    tierToTimeLineArray[i] = Arrays.copyOf(tierToTimeLineArray[i], j + 1);
-                    tierToTimeLineArray[i][j] = obj;
-                } catch (NullPointerException e) {
-                    tierToTimeLineArray[i] = new TimeLine[]{obj};
-                }
+            for (int i = obj.getMinTier(); i < tierToTimeLineArray.size(); i++) {
+                tierToTimeLineArray.get(i).add(obj);
             }
 
             // Save the new data
