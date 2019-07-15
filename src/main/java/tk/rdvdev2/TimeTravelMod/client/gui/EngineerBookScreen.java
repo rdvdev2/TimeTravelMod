@@ -1,40 +1,36 @@
 package tk.rdvdev2.TimeTravelMod.client.gui;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.client.gui.ScrollPanel;
 import tk.rdvdev2.TimeTravelMod.ModItems;
-import tk.rdvdev2.TimeTravelMod.ModPacketHandler;
-import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
+import tk.rdvdev2.TimeTravelMod.ModTimeMachines;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
-import tk.rdvdev2.TimeTravelMod.common.networking.SyncBookData;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.CreativeTimeMachine;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Iterator;
 
 public class EngineerBookScreen extends Screen {
 
-    private TimeMachineData[] timeMachineData;
-    private CompoundNBT bookData;
-    private static final ResourceLocation BOOK_GUI_TEXTURES = new ResourceLocation("textures/gui/book.png");
-    private HashMap<Integer, String> pages = new HashMap<Integer, String>();
+    private ArrayList<TimeMachineData> timeMachineData;
+    private DocsPanel panel;
 
     public EngineerBookScreen(Collection<TimeMachine> timeMachines) {
         super(new StringTextComponent("TITLE PLACEHOLDER"));
 
-        timeMachineData = new TimeMachineData[timeMachines.size()];
+        timeMachineData = new ArrayList<>(timeMachines.size());
 
         Iterator<TimeMachine> iterator = timeMachines.iterator();
         int i = 0;
@@ -47,7 +43,8 @@ public class EngineerBookScreen extends Screen {
             d.cooldown = tm.getCooldownTime() / 20;
             if (tm instanceof CreativeTimeMachine) {
                 d.controllerBlockPos = null; // Flag to indicate the Time Machine has no building
-                timeMachineData[i++] = d;
+                d.tier++; // Ensure it's the last one in the list
+                timeMachineData.add(d);
                 continue;
             }
             d.basicBlocksPos = tm.getBasicBlocksPos(Direction.NORTH);
@@ -61,15 +58,9 @@ public class EngineerBookScreen extends Screen {
             d.relocateBlocks(); // Relocate blocks
             d.generateBoundingBox(); // Regenerate for the blockTypeMap generator
             d.generateBlockTypeMap(); // Generate the blockTypeMap
-            timeMachineData[i++] = d;
+            timeMachineData.add(d);
         }
-
-        // Generation of the page list                                           | Specification                |
-        pages.put(0, "welcome"); //                                              | welcome -> Welcome page      |
-        int indexpages = i / 5; // TODO: 5 is a placeholder                      |                              |
-        int tmpages = ++indexpages + i; //                                       |                              |
-        while (indexpages > 0) pages.put(indexpages, "index" + --indexpages); // | index_  -> Index pages       |
-        while (i > 0) pages.put(tmpages--, "tm" + --i); //                       | tm_     -> Time machine page |
+        Collections.sort(timeMachineData);
     }
 
     @Override
@@ -78,69 +69,20 @@ public class EngineerBookScreen extends Screen {
     }
 
     @Override
-    public void init() {
-        Iterator<ItemStack> i = minecraft.player.getHeldEquipment().iterator();
-        while(i.hasNext()) {
-            ItemStack item = i.next();
-            if (item.isItemEqual(new ItemStack(ModItems.engineerBook))) {
-                bookData = item.getChildTag("data");
-                break;
-            }
-        }
-
-        if (!bookData.contains("page")) bookData.putInt("page", 0);
-        String page = pages.get(bookData.getInt("page"));
-        if (page.equals("welcome")) {
-
-            // Draw welcome screen
-            addButton(new TextWidget(width / 2, height / 2 - 192 + 2, "Time Machine Engineer's Book", true));
-
-        } else if (page.startsWith("index")) {
-
-            int n = Integer.parseInt(page.substring(5));
-            // Draw index page
-
-        } else if (page.startsWith("tm")) {
-
-            int n = Integer.parseInt(page.substring(2));
-            TimeMachineData data = timeMachineData[n];
-            // Draw time machine page
-
-        }
-        super.init();
+    protected void init() {
+        this.panel = new DocsPanel(Minecraft.getInstance(), this.width, this.height, 0, 0);
+        this.children.add(0, this.panel);
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        renderBackground();
-        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.minecraft.getTextureManager().bindTexture(BOOK_GUI_TEXTURES);
-        int i = (this.width - 192) / 2;
-        int j = (this.height - 192) / 2;
-        this.blit(i, j, 0, 0, 192, 192);
-        super.render(mouseX, mouseY, partialTicks);
+    public void render(int p_render_1_, int p_render_2_, float p_render_3_) {
+        if (this.panel != null) {
+            this.panel.render(p_render_1_, p_render_2_, p_render_3_);
+        }
+        super.render(p_render_1_, p_render_2_, p_render_3_);
     }
 
-    @Override
-    public void onClose() {
-        // Set data on client
-        Minecraft.getInstance().deferTask(()->{
-            ItemStack item = Minecraft.getInstance().player.inventory.getCurrentItem();
-            int slot = Minecraft.getInstance().player.inventory.currentItem;
-            if (item.isItemEqual(new ItemStack(ModItems.engineerBook))) {
-                CompoundNBT tag = item.getTag();
-                tag.put("data", this.bookData);
-                item.setTag(tag);
-                Minecraft.getInstance().player.inventory.setInventorySlotContents(slot, item);
-            } else {
-                TimeTravelMod.logger.warn("Client was unable to set Engineer Book data!");
-            }
-        });
-        // Sync to server
-        ModPacketHandler.CHANNEL.sendToServer(new SyncBookData(this.bookData));
-    }
-
-    private class TimeMachineData {
+    private class TimeMachineData implements Comparable<TimeMachineData> {
 
         public TranslationTextComponent name;
         public TranslationTextComponent description;
@@ -200,6 +142,79 @@ public class EngineerBookScreen extends Screen {
             if (controllerBlockPos.getZ() < minZ) minZ = controllerBlockPos.getZ(); else if (controllerBlockPos.getZ() > maxZ) maxZ = controllerBlockPos.getZ();
 
             boundingBox = new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
+        }
+
+        @Override
+        public int compareTo(TimeMachineData o) {
+            return Integer.compare(this.tier, o.tier);
+        }
+    }
+
+    class DocsPanel extends ScrollPanel {
+
+        private int contentHeight = 0;
+
+        public DocsPanel(Minecraft client, int width, int height, int top, int left) {
+            super(client, width, height, top, left);
+        }
+
+        @Override
+        protected int getContentHeight() {
+            return Math.max(contentHeight-8, height); // TODO: When panel is finished, this should calculate the height by itself
+        }
+
+        @Override
+        protected void drawPanel(int entryRight, int relativeY, Tessellator tess, int mouseX, int mouseY) {
+            int padding = 4;
+            int right = this.left + this.width - 6;
+            right -= 2;
+            relativeY += padding;
+            relativeY += drawCenteredString(ModItems.engineerBook.getName().getUnformattedComponentText(), width / 2, relativeY, 0xFFD900);
+            relativeY += 2;
+            relativeY += drawSplitString(
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consectetur purus ac tellus ultrices tempor. Interdum et malesuada fames ac ante ipsum primis in faucibus. Duis quis interdum erat. Curabitur vel ultrices velit. In vitae dolor lorem. Phasellus efficitur diam eros, vel efficitur leo pulvinar eget. Integer posuere eros ante, ut vestibulum metus pharetra vitae. Aenean rhoncus sem ut sapien mattis, non volutpat nisl sodales. Ut quis ipsum eu massa placerat maximus. Ut ornare eros nec velit mattis congue. Mauris volutpat maximus purus, vel malesuada nulla pharetra eget.",
+                    left + padding, relativeY, (right - padding) - left, 0xFFFFFF);
+            relativeY += 8;
+            relativeY += drawCenteredString("Time Machines", width / 2, relativeY, 0xFFD900);
+            relativeY += 2;
+            for(TimeMachineData data: timeMachineData) {
+                int tier;
+                if (data.name.getKey().equals(ModTimeMachines.timeMachineCreative.getName().getKey())) {
+                    tier = data.tier - 1;
+                } else {
+                    tier = data.tier;
+                }
+                relativeY += drawString(data.name.setStyle(new Style().setBold(true)).getFormattedText(), left + padding, relativeY, 0xFFFFFF);
+                relativeY += drawString("Max tier: "+tier+" | Cooldown time: "+data.cooldown+" seconds", left + padding, relativeY, 0xC98300);
+                relativeY += 2;
+                relativeY += drawSplitString(data.description.getFormattedText(), left + padding, relativeY, (right - padding) - left, 0xFFFFFF);
+                if (data.upgrades != null && data.upgrades.length != 0) {
+                    relativeY += 2;
+                    relativeY += drawString(new StringTextComponent("Compatible upgrades").setStyle(new Style().setUnderlined(true)).getFormattedText(), left + padding, relativeY, 0xFFFFFF);
+                    for (TimeMachineUpgrade upgrade : data.upgrades) {
+                        relativeY += 2;
+                        relativeY += drawString(upgrade.getName().getFormattedText(), left + padding, relativeY,0xFFFFFF);
+                    }
+                }
+                relativeY += 8;
+            }
+
+            contentHeight = relativeY;
+        }
+
+        private int drawCenteredString(String text, int x, int y, int color) {
+            super.drawCenteredString(font, text, x, y, color);
+            return font.FONT_HEIGHT;
+        }
+
+        private int drawSplitString(String text, int x, int y, int width, int color) {
+            font.drawSplitString(text, x, y, width, color);
+            return font.listFormattedStringToWidth(text, width).size() * 9;
+        }
+
+        public int drawString(String text, int x, int y, int color) {
+            drawString(font, text, x, y, color);
+            return font.FONT_HEIGHT;
         }
     }
 }

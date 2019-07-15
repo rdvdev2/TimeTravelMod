@@ -92,14 +92,12 @@ public abstract class TimeMachine implements IForgeRegistryEntry<TimeMachine> {
 
     // FORGE REGISTRY END
 
-    /**
-     * Gets the name of the Time Machine. Used for the Engineer's book.
-     * @return The Time Machine name
-     */
-    abstract public TranslationTextComponent getName();
+    public final TranslationTextComponent getName() { // tm.modid.registryname.name
+        return new TranslationTextComponent("tm."+getRegistryName().getNamespace()+"."+getRegistryName().getPath()+".name");
+    }
 
-    public TranslationTextComponent getDescription() {
-        return new TranslationTextComponent("tm.default.description", getTier());
+    public final TranslationTextComponent getDescription() { // tm.modid.registryname.description
+        return new TranslationTextComponent("tm."+getRegistryName().getNamespace()+"."+getRegistryName().getPath()+".description");
     }
 
     /**

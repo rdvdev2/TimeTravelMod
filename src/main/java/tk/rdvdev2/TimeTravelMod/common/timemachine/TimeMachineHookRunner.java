@@ -6,7 +6,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHook;
@@ -24,6 +23,7 @@ public class TimeMachineHookRunner extends TimeMachine {
     public TimeMachineHookRunner(TimeMachine tm, TimeMachineUpgrade[] upgrades) {
         this.tm = tm;
         this.upgrades = upgrades;
+        setRegistryName(tm.getRegistryName()); // Hack to get the proper time machine name and description
     }
 
     public TimeMachine removeHooks() {
@@ -41,14 +41,6 @@ public class TimeMachineHookRunner extends TimeMachine {
         }
         return incompatibilities;
     }
-
-    @Override
-    public TranslationTextComponent getName() {
-        return tm.getName();
-    }
-
-    @Override
-    public TranslationTextComponent getDescription() {return tm.getDescription();}
 
     @Override
     public int getCooldownTime() {
