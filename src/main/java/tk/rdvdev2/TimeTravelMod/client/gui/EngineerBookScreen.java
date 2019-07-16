@@ -3,7 +3,11 @@ package tk.rdvdev2.TimeTravelMod.client.gui;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.AbstractButton;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -12,20 +16,28 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.gui.ScrollPanel;
 import tk.rdvdev2.TimeTravelMod.ModItems;
+import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.ModTimeMachines;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.CreativeTimeMachine;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
+import java.util.*;
 
 public class EngineerBookScreen extends Screen {
 
+    private int tickCount;
+
+    @Override
+    public void tick() {
+        tickCount++;
+        if (tickCount >= 40) tickCount = 0;
+    }
+
     private ArrayList<TimeMachineData> timeMachineData;
     private DocsPanel panel;
+    private ItemRenderer itemRenderer;
+    private static HashMap<Integer, Integer> yLevels = new HashMap<>();
 
     public EngineerBookScreen(Collection<TimeMachine> timeMachines) {
         super(new StringTextComponent("TITLE PLACEHOLDER"));
@@ -37,6 +49,7 @@ public class EngineerBookScreen extends Screen {
         while (iterator.hasNext()) {
             TimeMachine tm = iterator.next();
             TimeMachineData d = new TimeMachineData();
+            d.id = i++;
             d.name = tm.getName();
             d.description = tm.getDescription();
             d.tier = tm.getTier();
@@ -69,8 +82,10 @@ public class EngineerBookScreen extends Screen {
     }
 
     @Override
-    protected void init() {
-        this.panel = new DocsPanel(Minecraft.getInstance(), this.width, this.height, 0, 0);
+    public void init(Minecraft minecraft, int width, int height) {
+        super.init(minecraft, width, height);
+        this.itemRenderer = this.minecraft.getItemRenderer();
+        this.panel = new DocsPanel(this.minecraft, this.width, this.height, 0, 0);
         this.children.add(0, this.panel);
     }
 
@@ -82,8 +97,15 @@ public class EngineerBookScreen extends Screen {
         super.render(p_render_1_, p_render_2_, p_render_3_);
     }
 
+    @Override
+    public void onClose() {
+        super.onClose();
+        yLevels.clear();
+    }
+
     private class TimeMachineData implements Comparable<TimeMachineData> {
 
+        public int id;
         public TranslationTextComponent name;
         public TranslationTextComponent description;
         public int tier;
@@ -119,7 +141,7 @@ public class EngineerBookScreen extends Screen {
                         }
                         if (controllerBlockPos.equals(new BlockPos(x, y, z))) {
                             blockTypeMap[y][x][z] = TimeMachine.TMComponentType.CONTROLPANEL; continue nextPos;
-                        } else blockTypeMap[y][x][z] = null;
+                        } else blockTypeMap[y][x][z] = TimeMachine.TMComponentType.AIR;
                     }
         }
 
@@ -152,6 +174,7 @@ public class EngineerBookScreen extends Screen {
 
     class DocsPanel extends ScrollPanel {
 
+        private int previousTick = tickCount;
         private int contentHeight = 0;
 
         public DocsPanel(Minecraft client, int width, int height, int top, int left) {
@@ -159,15 +182,22 @@ public class EngineerBookScreen extends Screen {
         }
 
         @Override
+        protected int getScrollAmount() {
+            return font.FONT_HEIGHT * 3;
+        }
+
+        @Override
         protected int getContentHeight() {
-            return Math.max(contentHeight-8, height); // TODO: When panel is finished, this should calculate the height by itself
+            return Math.max(contentHeight, height); // TODO: When panel is finished, this should calculate the height by itself
         }
 
         @Override
         protected void drawPanel(int entryRight, int relativeY, Tessellator tess, int mouseX, int mouseY) {
+            buttons.clear();
             int padding = 4;
             int right = this.left + this.width - 6;
             right -= 2;
+            int relativeYdiff = 0 - relativeY;
             relativeY += padding;
             relativeY += drawCenteredString(ModItems.engineerBook.getName().getUnformattedComponentText(), width / 2, relativeY, 0xFFD900);
             relativeY += 2;
@@ -179,18 +209,55 @@ public class EngineerBookScreen extends Screen {
             relativeY += 2;
             for(TimeMachineData data: timeMachineData) {
                 int tier;
+                boolean hasBuilding;
                 if (data.name.getKey().equals(ModTimeMachines.timeMachineCreative.getName().getKey())) {
                     tier = data.tier - 1;
+                    hasBuilding = false;
                 } else {
                     tier = data.tier;
+                    hasBuilding = true;
                 }
                 relativeY += drawString(data.name.setStyle(new Style().setBold(true)).getFormattedText(), left + padding, relativeY, 0xFFFFFF);
                 relativeY += drawString("Max tier: "+tier+" | Cooldown time: "+data.cooldown+" seconds", left + padding, relativeY, 0xC98300);
                 relativeY += 2;
                 relativeY += drawSplitString(data.description.getFormattedText(), left + padding, relativeY, (right - padding) - left, 0xFFFFFF);
+                if (hasBuilding) {
+                    relativeY += 4;
+                    relativeY += drawString(new StringTextComponent("How to build it").setStyle(new Style().setUnderlined(true)).getFormattedText(), left + padding, relativeY, 0xFFFFFF);
+                    relativeY += 2;
+                    drawString("Layer: "+yLevels.getOrDefault(data.id, 0), left + padding, relativeY + 6, 0xFFFFFF);
+                    int _width = font.getStringWidth("Layer: "+yLevels.getOrDefault(data.id, 0));
+                    addButton(new yNavButton(left + padding + _width + padding, relativeY, data.id, 0, ((int) data.boundingBox.maxY)));
+                    addButton(new yNavButton(left + padding + _width + padding + 20 + padding, relativeY, data.id, 1, ((int) data.boundingBox.maxY)));
+                    buttons.forEach(b -> b.render(mouseX, mouseY, 0));
+                    relativeY += 20;
+                    relativeY += 2;
+                    TimeMachine.TMComponentType[][] layer = data.blockTypeMap[yLevels.get(data.id)];
+                    RenderHelper.enableGUIStandardItemLighting();
+                    for (int z = 0; z <= data.boundingBox.maxZ; z++) {
+                        int drawY = z * 22;
+                        for (int x = 0; x <= data.boundingBox.maxX; x++) {
+                            int drawX = x * 22;
+                            ItemStack drawItem = getDrawItem(data, layer, z, x);
+                            itemRenderer.renderItemIntoGUI(drawItem, left + padding + drawX, relativeY + drawY);
+                        }
+                    }
+                    RenderHelper.disableStandardItemLighting();
+                    for (int z = 0; z <= data.boundingBox.maxZ; z++) {
+                        int drawY = z * 22;
+                        for (int x = 0; x <= data.boundingBox.maxX; x++) {
+                            int drawX = x * 22;
+                            if (mouseX >= left + padding + drawX && mouseX <= left + padding + drawX + 20 && mouseY >= relativeY + drawY && mouseY <= relativeY + drawY + 20) {
+                                ItemStack drawItem = getDrawItem(data, layer, z, x);
+                                renderComponentHoverEffect(drawItem.getTextComponent(), mouseX, mouseY);
+                            }
+                        }
+                    }
+                    relativeY += data.boundingBox.maxZ * 22 + 20;
+                }
                 if (data.upgrades != null && data.upgrades.length != 0) {
                     relativeY += 2;
-                    relativeY += drawString(new StringTextComponent("Compatible upgrades").setStyle(new Style().setUnderlined(true)).getFormattedText(), left + padding, relativeY, 0xFFFFFF);
+                    relativeY += drawString(new StringTextComponent("Compatible Time Machine Upgrades").setStyle(new Style().setUnderlined(true)).getFormattedText(), left + padding, relativeY, 0xFFFFFF);
                     for (TimeMachineUpgrade upgrade : data.upgrades) {
                         relativeY += 2;
                         relativeY += drawString(upgrade.getName().getFormattedText(), left + padding, relativeY,0xFFFFFF);
@@ -198,8 +265,74 @@ public class EngineerBookScreen extends Screen {
                 }
                 relativeY += 8;
             }
+            relativeY += drawCenteredString("Time Machine Upgrades", width / 2, relativeY, 0xFFD900);
+            relativeY += 2;
+            Collection<TimeMachineUpgrade> upgrades = ModRegistries.upgradesRegistry.getValues();
+            if (upgrades.isEmpty()) {
+                relativeY += drawString("There isn't any availabe Time Machine Upgrade :(", left + padding, relativeY, 0xFFFFFF);
+                relativeY += 2;
+            } else for (TimeMachineUpgrade upgrade : upgrades) {
+                relativeY += drawString(upgrade.getName().setStyle(new Style().setBold(true)).getFormattedText(), left + padding, relativeY, 0xFFFFFF);
+                relativeY += 2;
+                relativeY += drawSplitString(upgrade.getDescription().getFormattedText(), left + padding, relativeY, (right - padding) - left, 0xFFFFFF);
+                relativeY += 2;
+                if (upgrade.getCompatibleTMs() != null && upgrade.getCompatibleTMs().length != 0) {
+                    relativeY += drawString(new StringTextComponent("Compatible Time Machines").setStyle(new Style().setUnderlined(true)).getFormattedText(), left + padding, relativeY, 0xFFFFFF);
+                    for (TimeMachine tm : upgrade.getCompatibleTMs()) {
+                        relativeY += 2;
+                        relativeY += drawString(tm.getName().getFormattedText(), left + padding, relativeY,0xFFFFFF);
+                    }
+                    relativeY += 2;
+                }
+            }
+            relativeY += 6;
 
-            contentHeight = relativeY;
+            contentHeight = relativeY + relativeYdiff;
+        }
+
+        private HashMap<Integer, Integer> currentBasicBlock = new HashMap<>(timeMachineData.size()-1);
+        private HashMap<Integer, Integer> curentCoreBlock = new HashMap<>(timeMachineData.size()-1);
+        private HashMap<Integer, Integer> currentControlPanelBlock = new HashMap<>(timeMachineData.size()-1);
+
+        private ItemStack getDrawItem(TimeMachineData data, TimeMachine.TMComponentType[][] layer, int z, int x) {
+            int index;
+            switch (layer[x][z]) {
+                case BASIC:
+                    if (tickCount < previousTick || !currentBasicBlock.containsKey(data.id)) {
+                        index = currentBasicBlock.getOrDefault(data.id, -1) + 1;
+                        if (index >= data.basicBlocks.length) index = 0;
+                        currentBasicBlock.put(data.id, index);
+                    } else {
+                        index = currentBasicBlock.get(data.id);
+                    }
+                    return new ItemStack(data.basicBlocks[index].getBlock());
+                case CORE:
+                    if (tickCount < previousTick || !curentCoreBlock.containsKey(data.id)) {
+                        index = curentCoreBlock.getOrDefault(data.id, -1) + 1;
+                        if (index >= data.coreBlocks.length) index = 0;
+                        curentCoreBlock.put(data.id, index);
+                    } else {
+                        index = curentCoreBlock.get(data.id);
+                    }
+                    return new ItemStack(data.coreBlocks[index].getBlock());
+                case CONTROLPANEL:
+                    if (tickCount < previousTick || !currentControlPanelBlock.containsKey(data.id)) {
+                        index = currentControlPanelBlock.getOrDefault(data.id, -1) + 1;
+                        if (index >= data.controllerBlocks.length) index = 0;
+                        currentControlPanelBlock.put(data.id, index);
+                    } else {
+                        index = currentControlPanelBlock.get(data.id);
+                    }
+                    return new ItemStack(data.controllerBlocks[index].getBlock());
+                default:
+                case AIR:
+                    return ItemStack.EMPTY;
+            }
+        }
+
+        @Override
+        public void render(int mouseX, int mouseY, float partialTicks) {
+            super.render(mouseX, mouseY, partialTicks);
         }
 
         private int drawCenteredString(String text, int x, int y, int color) {
@@ -215,6 +348,38 @@ public class EngineerBookScreen extends Screen {
         public int drawString(String text, int x, int y, int color) {
             drawString(font, text, x, y, color);
             return font.FONT_HEIGHT;
+        }
+
+        class yNavButton extends AbstractButton {
+
+            private final int mode;
+            private final int id;
+            private final int maxY;
+
+            public yNavButton(int x, int y, int id, int mode, int maxY) { // mode 0 -> decrease, 1 -> increase
+                super(x, y, 20, 20, mode == 0 ? "-" : "+");
+                this.id = id;
+                this.mode = mode;
+                this.maxY = maxY;
+                yLevels.putIfAbsent(id, 0);
+                if((mode == 0 && yLevels.get(id) == 0) || (mode == 1 && yLevels.get(id) == maxY)) {
+                    this.active = false;
+                } else {
+                    this.active = true;
+                }
+            }
+
+            @Override
+            public void onPress() {
+                if((mode == 0 && yLevels.get(id) == 0) || (mode == 1 && yLevels.get(id) == maxY)) return;
+                int yValue = yLevels.get(id);
+                if (mode == 0) {
+                    yValue--;
+                } else if (mode == 1) {
+                    yValue++;
+                }
+                yLevels.put(id, yValue);
+            }
         }
     }
 }

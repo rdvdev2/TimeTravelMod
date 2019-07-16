@@ -605,6 +605,6 @@ public abstract class TimeMachine implements IForgeRegistryEntry<TimeMachine> {
     }
 
     public enum TMComponentType {
-        BASIC, CORE, CONTROLPANEL, UPGRADE
+        BASIC, CORE, CONTROLPANEL, UPGRADE, AIR
     }
 }

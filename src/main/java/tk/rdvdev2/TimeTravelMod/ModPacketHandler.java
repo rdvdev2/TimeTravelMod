@@ -5,7 +5,6 @@ import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import tk.rdvdev2.TimeTravelMod.common.networking.DimensionTpPKT;
 import tk.rdvdev2.TimeTravelMod.common.networking.OpenTmGuiPKT;
-import tk.rdvdev2.TimeTravelMod.common.networking.SyncBookData;
 
 public class ModPacketHandler {
     private static final String PROTOCOL_VERSION = "TTM" + 1 + (ModConfig.COMMON.enableExperimentalFeatures.get() ? "-EXPERIMENTAL" : "");
@@ -21,6 +20,5 @@ public class ModPacketHandler {
 
         CHANNEL.registerMessage(disc++, DimensionTpPKT.class, DimensionTpPKT::encode, DimensionTpPKT::decode, DimensionTpPKT.Handler::handle);
         CHANNEL.registerMessage(disc++, OpenTmGuiPKT.class, OpenTmGuiPKT::encode, OpenTmGuiPKT::decode, OpenTmGuiPKT.Handler::handle);
-        CHANNEL.registerMessage(disc++, SyncBookData.class, SyncBookData::encode, SyncBookData::decode, SyncBookData.Handler::handle);
     }
 }
