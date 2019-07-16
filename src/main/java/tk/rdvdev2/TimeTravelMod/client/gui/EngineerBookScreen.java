@@ -40,7 +40,7 @@ public class EngineerBookScreen extends Screen {
     private static HashMap<Integer, Integer> yLevels = new HashMap<>();
 
     public EngineerBookScreen(Collection<TimeMachine> timeMachines) {
-        super(new StringTextComponent("TITLE PLACEHOLDER"));
+        super(new StringTextComponent(""));
 
         timeMachineData = new ArrayList<>(timeMachines.size());
 
@@ -188,7 +188,7 @@ public class EngineerBookScreen extends Screen {
 
         @Override
         protected int getContentHeight() {
-            return Math.max(contentHeight, height); // TODO: When panel is finished, this should calculate the height by itself
+            return Math.max(contentHeight, height);
         }
 
         @Override
@@ -201,11 +201,11 @@ public class EngineerBookScreen extends Screen {
             relativeY += padding;
             relativeY += drawCenteredString(ModItems.engineerBook.getName().getUnformattedComponentText(), width / 2, relativeY, 0xFFD900);
             relativeY += 2;
-            relativeY += drawSplitString(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consectetur purus ac tellus ultrices tempor. Interdum et malesuada fames ac ante ipsum primis in faucibus. Duis quis interdum erat. Curabitur vel ultrices velit. In vitae dolor lorem. Phasellus efficitur diam eros, vel efficitur leo pulvinar eget. Integer posuere eros ante, ut vestibulum metus pharetra vitae. Aenean rhoncus sem ut sapien mattis, non volutpat nisl sodales. Ut quis ipsum eu massa placerat maximus. Ut ornare eros nec velit mattis congue. Mauris volutpat maximus purus, vel malesuada nulla pharetra eget.",
-                    left + padding, relativeY, (right - padding) - left, 0xFFFFFF);
+            relativeY += drawSplitString(new TranslationTextComponent("gui.tmengineerbook.introduction").getUnformattedComponentText(),left + padding, relativeY, (right - padding) - left, 0xFFFFFF);
             relativeY += 8;
-            relativeY += drawCenteredString("Time Machines", width / 2, relativeY, 0xFFD900);
+            relativeY += drawCenteredString(new TranslationTextComponent("gui.tmengineerbook.tms").getUnformattedComponentText(), width / 2, relativeY, 0xFFD900);
+            relativeY += 2;
+            relativeY += drawSplitString(new TranslationTextComponent("gui.tmengineerbook.tmsintroduction").getUnformattedComponentText(),left + padding, relativeY, (right - padding) - left, 0xFFFFFF);
             relativeY += 2;
             for(TimeMachineData data: timeMachineData) {
                 int tier;
@@ -218,15 +218,15 @@ public class EngineerBookScreen extends Screen {
                     hasBuilding = true;
                 }
                 relativeY += drawString(data.name.setStyle(new Style().setBold(true)).getFormattedText(), left + padding, relativeY, 0xFFFFFF);
-                relativeY += drawString("Max tier: "+tier+" | Cooldown time: "+data.cooldown+" seconds", left + padding, relativeY, 0xC98300);
+                relativeY += drawString(new TranslationTextComponent("gui.tmengineerbook.tmstats", data.tier, data.cooldown).getUnformattedComponentText(), left + padding, relativeY, 0xC98300);
                 relativeY += 2;
                 relativeY += drawSplitString(data.description.getFormattedText(), left + padding, relativeY, (right - padding) - left, 0xFFFFFF);
                 if (hasBuilding) {
                     relativeY += 4;
-                    relativeY += drawString(new StringTextComponent("How to build it").setStyle(new Style().setUnderlined(true)).getFormattedText(), left + padding, relativeY, 0xFFFFFF);
+                    relativeY += drawString(new TranslationTextComponent("gui.tmengineerbook.howto").setStyle(new Style().setUnderlined(true)).getFormattedText(), left + padding, relativeY, 0xFFFFFF);
                     relativeY += 2;
-                    drawString("Layer: "+yLevels.getOrDefault(data.id, 0), left + padding, relativeY + 6, 0xFFFFFF);
-                    int _width = font.getStringWidth("Layer: "+yLevels.getOrDefault(data.id, 0));
+                    drawString(new TranslationTextComponent("gui.tmengineerbook.layer", yLevels.getOrDefault(data.id, 0)).getUnformattedComponentText(), left + padding, relativeY + 6, 0xFFFFFF);
+                    int _width = font.getStringWidth(new TranslationTextComponent("gui.tmengineerbook.layer", yLevels.getOrDefault(data.id, 0)).getUnformattedComponentText());
                     addButton(new yNavButton(left + padding + _width + padding, relativeY, data.id, 0, ((int) data.boundingBox.maxY)));
                     addButton(new yNavButton(left + padding + _width + padding + 20 + padding, relativeY, data.id, 1, ((int) data.boundingBox.maxY)));
                     buttons.forEach(b -> b.render(mouseX, mouseY, 0));
@@ -257,7 +257,7 @@ public class EngineerBookScreen extends Screen {
                 }
                 if (data.upgrades != null && data.upgrades.length != 0) {
                     relativeY += 2;
-                    relativeY += drawString(new StringTextComponent("Compatible Time Machine Upgrades").setStyle(new Style().setUnderlined(true)).getFormattedText(), left + padding, relativeY, 0xFFFFFF);
+                    relativeY += drawString(new TranslationTextComponent("gui.tmengineerbook.compatibleupgrades").setStyle(new Style().setUnderlined(true)).getFormattedText(), left + padding, relativeY, 0xFFFFFF);
                     for (TimeMachineUpgrade upgrade : data.upgrades) {
                         relativeY += 2;
                         relativeY += drawString(upgrade.getName().getFormattedText(), left + padding, relativeY,0xFFFFFF);
@@ -265,11 +265,11 @@ public class EngineerBookScreen extends Screen {
                 }
                 relativeY += 8;
             }
-            relativeY += drawCenteredString("Time Machine Upgrades", width / 2, relativeY, 0xFFD900);
+            relativeY += drawCenteredString(new TranslationTextComponent("gui.tmengineerbook.upgrades").getUnformattedComponentText(), width / 2, relativeY, 0xFFD900);
             relativeY += 2;
             Collection<TimeMachineUpgrade> upgrades = ModRegistries.upgradesRegistry.getValues();
             if (upgrades.isEmpty()) {
-                relativeY += drawString("There isn't any availabe Time Machine Upgrade :(", left + padding, relativeY, 0xFFFFFF);
+                relativeY += drawString(new TranslationTextComponent("gui.tmengineerbook.noupgrades").getUnformattedComponentText(), left + padding, relativeY, 0xFFFFFF);
                 relativeY += 2;
             } else for (TimeMachineUpgrade upgrade : upgrades) {
                 relativeY += drawString(upgrade.getName().setStyle(new Style().setBold(true)).getFormattedText(), left + padding, relativeY, 0xFFFFFF);
@@ -277,7 +277,7 @@ public class EngineerBookScreen extends Screen {
                 relativeY += drawSplitString(upgrade.getDescription().getFormattedText(), left + padding, relativeY, (right - padding) - left, 0xFFFFFF);
                 relativeY += 2;
                 if (upgrade.getCompatibleTMs() != null && upgrade.getCompatibleTMs().length != 0) {
-                    relativeY += drawString(new StringTextComponent("Compatible Time Machines").setStyle(new Style().setUnderlined(true)).getFormattedText(), left + padding, relativeY, 0xFFFFFF);
+                    relativeY += drawString(new TranslationTextComponent("gui.tmengineerbook.compatibletms").setStyle(new Style().setUnderlined(true)).getFormattedText(), left + padding, relativeY, 0xFFFFFF);
                     for (TimeMachine tm : upgrade.getCompatibleTMs()) {
                         relativeY += 2;
                         relativeY += drawString(tm.getName().getFormattedText(), left + padding, relativeY,0xFFFFFF);
@@ -328,11 +328,6 @@ public class EngineerBookScreen extends Screen {
                 case AIR:
                     return ItemStack.EMPTY;
             }
-        }
-
-        @Override
-        public void render(int mouseX, int mouseY, float partialTicks) {
-            super.render(mouseX, mouseY, partialTicks);
         }
 
         private int drawCenteredString(String text, int x, int y, int color) {
