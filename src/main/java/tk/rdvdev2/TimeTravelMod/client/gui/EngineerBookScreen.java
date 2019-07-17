@@ -94,7 +94,6 @@ public class EngineerBookScreen extends Screen {
         if (this.panel != null) {
             this.panel.render(p_render_1_, p_render_2_, p_render_3_);
         }
-        super.render(p_render_1_, p_render_2_, p_render_3_);
     }
 
     @Override
@@ -218,7 +217,7 @@ public class EngineerBookScreen extends Screen {
                     hasBuilding = true;
                 }
                 relativeY += drawString(data.name.setStyle(new Style().setBold(true)).getFormattedText(), left + padding, relativeY, 0xFFFFFF);
-                relativeY += drawString(new TranslationTextComponent("gui.tmengineerbook.tmstats", data.tier, data.cooldown).getUnformattedComponentText(), left + padding, relativeY, 0xC98300);
+                relativeY += drawString(new TranslationTextComponent("gui.tmengineerbook.tmstats", tier, data.cooldown).getUnformattedComponentText(), left + padding, relativeY, 0xC98300);
                 relativeY += 2;
                 relativeY += drawSplitString(data.description.getFormattedText(), left + padding, relativeY, (right - padding) - left, 0xFFFFFF);
                 if (hasBuilding) {
@@ -229,7 +228,11 @@ public class EngineerBookScreen extends Screen {
                     int _width = font.getStringWidth(new TranslationTextComponent("gui.tmengineerbook.layer", yLevels.getOrDefault(data.id, 0)).getUnformattedComponentText());
                     addButton(new yNavButton(left + padding + _width + padding, relativeY, data.id, 0, ((int) data.boundingBox.maxY)));
                     addButton(new yNavButton(left + padding + _width + padding + 20 + padding, relativeY, data.id, 1, ((int) data.boundingBox.maxY)));
-                    buttons.forEach(b -> b.render(mouseX, mouseY, 0));
+                    buttons.forEach(b -> {
+                        if (b instanceof yNavButton && ((yNavButton) b).id == data.id) {
+                            b.render(mouseX, mouseY, 0);
+                        }
+                    });
                     relativeY += 20;
                     relativeY += 2;
                     TimeMachine.TMComponentType[][] layer = data.blockTypeMap[yLevels.get(data.id)];
