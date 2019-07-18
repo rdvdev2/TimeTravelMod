@@ -1,9 +1,10 @@
 # TimeTravelMod
-[![Downloads badge](http://cf.way2muchnoise.eu/full_time-travel-mod_downloads.svg)](http://dapalan.com/8faC)
+[![Downloads badge](http://cf.way2muchnoise.eu/full_time-travel-mod_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/time-travel-mod)
+[![Crowdin](https://d322cqt584bo4o.cloudfront.net/time-travel-mod/localized.svg)](https://crowdin.com/project/time-travel-mod)
 
 Ever wanted to travel through time in Minecraft? Build your own time travel machine and discover a bunch of new worlds, objects and mobs!
 ## State of development
-Actually the mod is in a very early development state, so expect bugs and crashes.
+The mod is still a beta, but it's very stable. Missing features.
 
 ## Usage of the API
 WIP
