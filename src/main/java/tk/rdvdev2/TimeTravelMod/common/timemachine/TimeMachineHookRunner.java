@@ -23,6 +23,7 @@ public class TimeMachineHookRunner extends TimeMachine {
     public TimeMachineHookRunner(TimeMachine tm, TimeMachineUpgrade[] upgrades) {
         this.tm = tm;
         this.upgrades = upgrades;
+        setRegistryName(tm.getRegistryName()); // Hack to get the proper time machine name and description
     }
 
     public TimeMachine removeHooks() {

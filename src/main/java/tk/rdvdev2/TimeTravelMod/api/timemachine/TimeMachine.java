@@ -9,6 +9,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
@@ -90,6 +91,14 @@ public abstract class TimeMachine implements IForgeRegistryEntry<TimeMachine> {
     }
 
     // FORGE REGISTRY END
+
+    public final TranslationTextComponent getName() { // tm.modid.registryname.name
+        return new TranslationTextComponent("tm."+getRegistryName().getNamespace()+"."+getRegistryName().getPath()+".name");
+    }
+
+    public final TranslationTextComponent getDescription() { // tm.modid.registryname.description
+        return new TranslationTextComponent("tm."+getRegistryName().getNamespace()+"."+getRegistryName().getPath()+".description");
+    }
 
     /**
      * Gets the cooldown time of the core
@@ -595,7 +604,7 @@ public abstract class TimeMachine implements IForgeRegistryEntry<TimeMachine> {
         return ModRegistries.timeMachinesRegistry.getValue(new ResourceLocation(s));
     }
 
-    private enum TMComponentType {
-        BASIC, CORE, CONTROLPANEL, UPGRADE
+    public enum TMComponentType {
+        BASIC, CORE, CONTROLPANEL, UPGRADE, AIR
     }
 }

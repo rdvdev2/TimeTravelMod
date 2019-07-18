@@ -1,5 +1,6 @@
 package tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade;
 
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
@@ -69,5 +70,20 @@ public abstract class TimeMachineUpgrade implements IForgeRegistryEntry<TimeMach
         Iterator<Class> it = exclusiveHooks.iterator();
         while (it.hasNext()) if (hook.isAssignableFrom(it.next())) return true;
         return false;
+    }
+
+    public boolean isExclusiveHook(Class<? extends TimeMachineHook> hook) {
+        if (exclusiveHooks.isEmpty()) return false;
+        Iterator<Class> it = exclusiveHooks.iterator();
+        while (it.hasNext()) if (hook.isAssignableFrom(it.next())) return true;
+        return false;
+    }
+
+    public final TranslationTextComponent getName() { // tmupgrade.modid.registryname.name
+        return new TranslationTextComponent("tmupgrade."+getRegistryName().getNamespace()+"."+getRegistryName().getPath()+".name");
+    }
+
+    public final TranslationTextComponent getDescription() { // tmupgrade.modid.registryname.description
+        return new TranslationTextComponent("tmupgrade."+getRegistryName().getNamespace()+"."+getRegistryName().getPath()+".description");
     }
 }
