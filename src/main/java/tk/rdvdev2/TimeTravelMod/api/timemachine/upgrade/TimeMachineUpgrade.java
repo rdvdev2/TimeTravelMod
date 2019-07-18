@@ -72,13 +72,6 @@ public abstract class TimeMachineUpgrade implements IForgeRegistryEntry<TimeMach
         return false;
     }
 
-    public boolean isExclusiveHook(Class<? extends TimeMachineHook> hook) {
-        if (exclusiveHooks.isEmpty()) return false;
-        Iterator<Class> it = exclusiveHooks.iterator();
-        while (it.hasNext()) if (hook.isAssignableFrom(it.next())) return true;
-        return false;
-    }
-
     public final TranslationTextComponent getName() { // tmupgrade.modid.registryname.name
         return new TranslationTextComponent("tmupgrade."+getRegistryName().getNamespace()+"."+getRegistryName().getPath()+".name");
     }
