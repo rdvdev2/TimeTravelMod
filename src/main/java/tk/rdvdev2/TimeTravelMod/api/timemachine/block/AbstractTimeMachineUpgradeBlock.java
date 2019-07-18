@@ -1,5 +1,6 @@
 package tk.rdvdev2.TimeTravelMod.api.timemachine.block;
 
+import net.minecraftforge.common.MinecraftForge;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import tk.rdvdev2.TimeTravelMod.common.event.ConfigureTimeMachineBlocksEvent;
 
@@ -10,14 +11,9 @@ public abstract class AbstractTimeMachineUpgradeBlock extends AbstractTimeMachin
 
     public AbstractTimeMachineUpgradeBlock(Properties properties) {
         super(properties);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
-    /**
-     * Links the block with it's corresponding Time Machine
-     *
-     * @param event The linking event
-     */
-    @Override
     public void setTimeMachine(ConfigureTimeMachineBlocksEvent event) {
         HashMap<TimeMachineUpgrade, AbstractTimeMachineComponentBlock[]> hm = event.getUpgrades();
         if (hm.containsKey(getUpgrade())) {

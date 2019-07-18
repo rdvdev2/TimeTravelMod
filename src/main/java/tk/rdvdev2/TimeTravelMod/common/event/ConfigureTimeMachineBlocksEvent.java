@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class ConfigureTimeMachineBlocksEvent extends Event {
 
     public TimeMachine getTimeMachine(BlockState state) {
-        return ModRegistries.timeMachinesRegistry.getValue(((HashMap<BlockState, ResourceLocation>) ModRegistries.timeMachinesRegistry.getSlaveMap(ModRegistries.BLOCKTOTM, HashMap.class)).get(state));
+        return ModRegistries.timeMachinesRegistry.getValue(((HashMap<BlockState, ResourceLocation>) ModRegistries.timeMachinesRegistry.getSlaveMap(ModRegistries.CONTROLLERTOTM, HashMap.class)).get(state));
     }
 
     public HashMap<TimeMachineUpgrade, AbstractTimeMachineComponentBlock[]> getUpgrades() {

@@ -14,7 +14,6 @@ import net.minecraftforge.registries.RegistryManager;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineComponentBlock;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineUpgradeBlock;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import tk.rdvdev2.TimeTravelMod.common.event.ConfigureTimeMachineBlocksEvent;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.CreativeTimeMachine;
@@ -34,7 +33,7 @@ public class ModRegistries {
     public static IForgeRegistry<TimeLine> timeLinesRegistry;
     public static IForgeRegistry<TimeMachineUpgrade> upgradesRegistry;
     public static ResourceLocation TIERTOTIMELINE = new ResourceLocation("timetravelmod:tiertotimeline");
-    public static ResourceLocation BLOCKTOTM = new ResourceLocation("timetravelmod:blocktotm");
+    public static ResourceLocation CONTROLLERTOTM = new ResourceLocation("timetravelmod:blocktotm");
     public static ResourceLocation TMTOUPGRADE = new ResourceLocation("timetravelmod:tmtoupgrade");
     public static ResourceLocation UPGRADETOBLOCK = new ResourceLocation("timetravelmod:upgradetoblock");
 
@@ -98,21 +97,20 @@ public class ModRegistries {
         @Override
         public void onCreate(IForgeRegistryInternal<TimeMachine> owner, RegistryManager stage) {
             blockStateResourceLocationHashMap = new HashMap<>();
-            owner.setSlaveMap(BLOCKTOTM, blockStateResourceLocationHashMap.clone());
+            owner.setSlaveMap(CONTROLLERTOTM, blockStateResourceLocationHashMap.clone());
         }
 
         @SuppressWarnings("unchecked")
         @Override
         public void onAdd(IForgeRegistryInternal owner, RegistryManager stage, int id, TimeMachine obj, @Nullable TimeMachine oldObj) {
-            blockStateResourceLocationHashMap = (HashMap<BlockState, ResourceLocation>)owner.getSlaveMap(BLOCKTOTM, HashMap.class);
+            blockStateResourceLocationHashMap = (HashMap<BlockState, ResourceLocation>)owner.getSlaveMap(CONTROLLERTOTM, HashMap.class);
             if (obj instanceof CreativeTimeMachine) return; // Special rule for the creative Time Machine
             if (!blockStateResourceLocationHashMap.containsValue(obj.getRegistryName())) {
-                for(BlockState block:obj.getBlocks()) {
-                    if (block.getBlock() instanceof AbstractTimeMachineUpgradeBlock) continue; // Time Machine Upgrade blocks must be ignored
+                for(BlockState block:obj.getControllerBlocks()) {
                     if (!blockStateResourceLocationHashMap.containsKey(block)) {
                         blockStateResourceLocationHashMap.put(block, obj.getRegistryName());
                     } else {
-                        throw new RuntimeException(obj.getRegistryName()+" tryed to register with block "+block.toString()+", but it is already registered to "+ GameRegistry.findRegistry(Block.class).getValue(blockStateResourceLocationHashMap.get(block)).toString());
+                        throw new RuntimeException(obj.getRegistryName()+" tryed to register with controller block "+block.toString()+", but it is already registered to "+ GameRegistry.findRegistry(Block.class).getValue(blockStateResourceLocationHashMap.get(block)).toString());
                     }
                 }
             }

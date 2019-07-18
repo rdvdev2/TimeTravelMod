@@ -19,8 +19,6 @@ import static tk.rdvdev2.TimeTravelMod.api.timemachine.block.TMReadyProperty.rea
 
 public abstract class AbstractTimeMachineCoreBlock extends AbstractTimeMachineComponentBlock {
 
-    private float randomExplosionChance = 0.001F;
-
     public AbstractTimeMachineCoreBlock(Properties properties) {
         super(properties);
         setDefaultState(getStateContainer().getBaseState().with(ready, true));
@@ -40,14 +38,14 @@ public abstract class AbstractTimeMachineCoreBlock extends AbstractTimeMachineCo
     }
 
     @Override
-    public boolean hasTileEntity(BlockState state) {
+    public final boolean hasTileEntity(BlockState state) {
         return !state.get(ready);
     }
 
     @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+    public final TileEntity createTileEntity(BlockState state, IBlockReader world) {
         if (!state.get(ready))
-            return new TMCooldownTileEntity(super.getTimeMachine().getCooldownTime());
+            return new TMCooldownTileEntity();
         else
             throw new RuntimeException("TMCooldownTileEntity can't be created in a ready TM");
     }
@@ -61,7 +59,7 @@ public abstract class AbstractTimeMachineCoreBlock extends AbstractTimeMachineCo
      */
     public boolean randomExplosion(World world, BlockPos pos, float aportation) {
         Random r = new Random();
-        if (r.nextFloat() < randomExplosionChance+aportation) {
+        if (r.nextFloat() < getRandomExplosionChance()+aportation) {
             world.setBlockState(pos, Blocks.AIR.getDefaultState());
             new TemporalExplosion(world, null, pos, 4.0F).explode();
             return true;

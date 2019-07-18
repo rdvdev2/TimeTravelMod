@@ -13,7 +13,7 @@ public class TMCooldownTileEntity extends TileEntity implements ITickableTileEnt
 
     public static TileEntityType<TMCooldownTileEntity> type;
 
-    int remainingTicks;
+    Integer remainingTicks;
 
     /**
      * Constructor of the TileEntity
@@ -25,10 +25,15 @@ public class TMCooldownTileEntity extends TileEntity implements ITickableTileEnt
     }
 
     /**
-     * Default constructor of the TileEntity (20 seconds cool down time)
+     * Default constructor of the TileEntity (Time Machine static HashMap stores time)
      */
     public TMCooldownTileEntity() {
-        this(20*20);
+        super(type);
+        remainingTicks = null;
+    }
+
+    public void setTime(int ticks) {
+        this.remainingTicks = ticks;
     }
 
     @Override
@@ -44,21 +49,9 @@ public class TMCooldownTileEntity extends TileEntity implements ITickableTileEnt
         this.remainingTicks = compound.getInt("ticks");
     }
 
-    /*@Override
-    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
-        try {
-            if (newSate.get(TMReadyProperty.ready)) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (IllegalArgumentException e) {
-            return true;
-        }
-    }*/
-
     @Override
     public void tick() {
+        if (remainingTicks == null || remainingTicks < 0) return;
         this.remainingTicks -= 1;
         if (this.remainingTicks == 0) {
             this.world.setBlockState(this.pos, this.world.getBlockState(this.pos).getBlock().getDefaultState().with(TMReadyProperty.ready, true));

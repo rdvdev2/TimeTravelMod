@@ -23,6 +23,7 @@ import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineCompone
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineCoreBlock;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineUpgradeBlock;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TMReadyProperty;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.block.tileentity.TMCooldownTileEntity;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineHooksException;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
@@ -582,8 +583,9 @@ public abstract class TimeMachine implements IForgeRegistryEntry<TimeMachine> {
      * @param side The facing of the Time Machine
      */
     public final void doCooldown(World worldIn, BlockPos controllerPos, Direction side) {
-        for (BlockPos block:getCoreBlocksPos(side)) {
-            worldIn.setBlockState(controllerPos.add(block), worldIn.getBlockState(controllerPos.add(block)).with(TMReadyProperty.ready, false));
+        for (BlockPos relativePos:getCoreBlocksPos(side)) {
+            worldIn.setBlockState(controllerPos.add(relativePos), worldIn.getBlockState(controllerPos.add(relativePos)).with(TMReadyProperty.ready, false));
+            ((TMCooldownTileEntity)worldIn.getTileEntity(controllerPos.add(relativePos))).setTime(getCooldownTime());
         }
     }
 
