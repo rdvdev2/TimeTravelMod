@@ -32,6 +32,7 @@ import tk.rdvdev2.TimeTravelMod.common.world.corruption.ICorruption;
 import tk.rdvdev2.TimeTravelMod.common.world.dimension.PresentTimeLine;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -99,7 +100,15 @@ public class DimensionTpPKT {
             }
             TimeMachine finalTm = tm;
             ctx.get().enqueueWork(() -> {
-                if (serverPlayer.world.isBlockLoaded(pos) &&
+                List<Entity> entities = finalTm.getEntitiesInside(origin, pos, side);
+                AtomicBoolean entitiesFlag = new AtomicBoolean(true);
+                message.additionalEntities.forEach( entity -> {
+                    if (!entities.contains(entity)) {
+                        entitiesFlag.set(false);
+                    }
+                });
+                if (entitiesFlag.get() &&
+                    serverPlayer.world.isBlockLoaded(pos) &&
                     finalTm.isBuilt(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
                     finalTm.isPlayerInside(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side, serverPlayer) &&
                     !finalTm.isOverloaded(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
