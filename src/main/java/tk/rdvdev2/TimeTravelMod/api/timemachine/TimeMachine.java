@@ -388,7 +388,6 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
      * @return True if the player is inside the Time Machine
      */
     public boolean isPlayerInside(World world, BlockPos controllerPos, Direction side, PlayerEntity player) {
-        System.out.println(getEntitiesInside(world, controllerPos, side));
         for (Entity entity:getEntitiesInside(world, controllerPos, side)){
             if (entity.getEntityId() == (player.getEntityId())) {
                 return true;
