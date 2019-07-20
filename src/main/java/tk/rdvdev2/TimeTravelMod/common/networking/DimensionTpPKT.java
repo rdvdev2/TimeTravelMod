@@ -1,6 +1,9 @@
 package tk.rdvdev2.TimeTravelMod.common.networking;
 
 import com.google.common.base.Charsets;
+import net.minecraft.block.pattern.BlockPattern;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
@@ -12,8 +15,10 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.ServerWorld;
 import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
@@ -31,10 +36,9 @@ import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
 import tk.rdvdev2.TimeTravelMod.common.world.corruption.ICorruption;
 import tk.rdvdev2.TimeTravelMod.common.world.dimension.PresentTimeLine;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.*;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class DimensionTpPKT {
 
@@ -42,18 +46,22 @@ public class DimensionTpPKT {
     static Capability<ICorruption> CORRUPTION_CAPABILITY = null;
 
     public DimensionTpPKT() {
+        additionalEntities = new HashSet<>();
     }
 
     private TimeLine tl;
     private TimeMachine tm;
     private BlockPos pos;
     private Direction side;
+    private Set<UUID> additionalEntities;
 
-    public DimensionTpPKT(TimeLine tl, TimeMachine tm, BlockPos pos, Direction side) {
+    public DimensionTpPKT(TimeLine tl, TimeMachine tm, BlockPos pos, Direction side, Entity... additionalEntities) {
+        this();
         this.tl = tl;
         this.tm = tm instanceof TimeMachineHookRunner ? ((TimeMachineHookRunner) tm).removeHooks() : tm;
         this.pos = pos;
         this.side = side;
+        if (additionalEntities != null && additionalEntities.length != 0) this.additionalEntities = Arrays.stream(additionalEntities).map(Entity::getUniqueID).collect(Collectors.toSet());
     }
 
     public static void encode(DimensionTpPKT pkt, PacketBuffer buf) {
@@ -68,6 +76,11 @@ public class DimensionTpPKT {
         buf.writeInt(pkt.pos.getY());
         buf.writeInt(pkt.pos.getZ());
         buf.writeInt(pkt.side.getIndex());
+        buf.writeInt(pkt.additionalEntities.size());
+        pkt.additionalEntities.forEach(uuid -> {
+            buf.writeLong(uuid.getMostSignificantBits());
+            buf.writeLong(uuid.getLeastSignificantBits());
+        });
     }
 
     public static DimensionTpPKT decode(PacketBuffer buf) {
@@ -78,6 +91,11 @@ public class DimensionTpPKT {
         pkt.tm = TimeMachine.fromString(buf.readCharSequence(size2, Charsets.UTF_8).toString());
         pkt.pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
         pkt.side = Direction.byIndex(buf.readInt());
+        int size = buf.readInt();
+        for (int i = 0; i < size; i++) {
+            UUID uuid = new UUID(buf.readLong(), buf.readLong());
+            pkt.additionalEntities.add(uuid);
+        }
         return pkt;
     }
 
@@ -102,7 +120,10 @@ public class DimensionTpPKT {
                     !finalTm.isOverloaded(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
                     canTravel(finalTm, dim, serverPlayer)) {
                         applyCorruption(finalTm, serverPlayer.dimension, dim, serverPlayer.server);
-                        changeDim(serverPlayer, pos, dim, finalTm, side);
+                        changePlayerDim(serverPlayer, pos, dim, finalTm, side);
+                        message.additionalEntities.stream()
+                                .map(uuid -> serverPlayer.getServerWorld().getEntityByUuid(uuid))
+                                .forEach(entity -> changeEntityDim(entity, pos, dim, finalTm, side));
                 } else TimeTravelMod.logger.error("Time Travel canceled due to incorrect conditions");
             });
         }
@@ -138,7 +159,7 @@ public class DimensionTpPKT {
             return false;
         }
 
-        public static void changeDim(ServerPlayerEntity player, BlockPos pos, DimensionType destDim, TimeMachine tm, Direction side) { // copy from ServerPlayerEntity#changeDimension
+        public static void changePlayerDim(ServerPlayerEntity player, BlockPos pos, DimensionType destDim, TimeMachine tm, Direction side) { // copy from ServerPlayerEntity#changeDimension
             if (!ForgeHooks.onTravelToDimension(player, destDim)) return;
             player.invulnerableDimensionChange = true;
             DimensionType currentDim = player.dimension;
@@ -195,6 +216,71 @@ public class DimensionTpPKT {
             player.lastFoodLevel = -1;
             BasicEventHooks.firePlayerChangedDimensionEvent(player, currentDim, destDim);
             return;
+        }
+
+        public static void changeEntityDim(Entity entityIn, BlockPos pos, DimensionType destDim, TimeMachine tm, Direction side) {
+            if (entityIn instanceof ServerPlayerEntity) {
+                changePlayerDim((ServerPlayerEntity)entityIn, pos, destDim, tm, side);
+                return;
+            }
+            if (!net.minecraftforge.common.ForgeHooks.onTravelToDimension(entityIn, destDim)) return;
+            if (!entityIn.world.isRemote && !entityIn.removed) {
+                entityIn.world.getProfiler().startSection("changeDimension");
+                MinecraftServer minecraftserver = entityIn.getServer();
+                DimensionType dimensiontype = entityIn.dimension;
+                ServerWorld serverworld = minecraftserver.getWorld(dimensiontype);
+                ServerWorld serverworld1 = minecraftserver.getWorld(destDim);
+                entityIn.dimension = destDim;
+                entityIn.detach();
+                entityIn.world.getProfiler().startSection("reposition");
+                Vec3d vec3d = entityIn.getMotion();
+                float f = 0.0F;
+                BlockPos blockpos;
+                if (dimensiontype == DimensionType.field_223229_c_ && destDim == DimensionType.field_223227_a_) {
+                    blockpos = serverworld1.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, serverworld1.getSpawnPoint());
+                } else if (destDim == DimensionType.field_223229_c_) {
+                    blockpos = serverworld1.getSpawnCoordinate();
+                } else {
+                    double movementFactor = serverworld.getDimension().getMovementFactor() / serverworld1.getDimension().getMovementFactor();
+                    double d0 = entityIn.posX * movementFactor;
+                    double d1 = entityIn.posZ * movementFactor;
+
+                    double d3 = Math.min(-2.9999872E7D, serverworld1.getWorldBorder().minX() + 16.0D);
+                    double d4 = Math.min(-2.9999872E7D, serverworld1.getWorldBorder().minZ() + 16.0D);
+                    double d5 = Math.min(2.9999872E7D, serverworld1.getWorldBorder().maxX() - 16.0D);
+                    double d6 = Math.min(2.9999872E7D, serverworld1.getWorldBorder().maxZ() - 16.0D);
+                    d0 = MathHelper.clamp(d0, d3, d5);
+                    d1 = MathHelper.clamp(d1, d4, d6);
+                    Vec3d vec3d1 = entityIn.getLastPortalVec();
+                    blockpos = new BlockPos(d0, entityIn.posY, d1);
+                    BlockPattern.PortalInfo blockpattern$portalinfo = serverworld1.getDefaultTeleporter().func_222272_a(blockpos, vec3d, entityIn.getTeleportDirection(), vec3d1.x, vec3d1.y, entityIn instanceof PlayerEntity);
+                    if (blockpattern$portalinfo == null) {
+                        return;
+                    }
+
+                    blockpos = new BlockPos(blockpattern$portalinfo.field_222505_a);
+                    vec3d = blockpattern$portalinfo.field_222506_b;
+                    f = (float)blockpattern$portalinfo.field_222507_c;
+                }
+
+                entityIn.world.getProfiler().endStartSection("reloading");
+                Entity entity = entityIn.getType().create(serverworld1);
+                if (entity != null) {
+                    entity.copyDataFromOld(entityIn);
+                    entity.moveToBlockPosAndAngles(blockpos, entity.rotationYaw + f, entity.rotationPitch);
+                    entity.setMotion(vec3d);
+                    serverworld1.func_217460_e(entity);
+                }
+
+                entityIn.remove(false);
+                entityIn.world.getProfiler().endSection();
+                serverworld.resetUpdateEntityTick();
+                serverworld1.resetUpdateEntityTick();
+                entityIn.world.getProfiler().endSection();
+                return;
+            } else {
+                return;
+            }
         }
     }
 }
