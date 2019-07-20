@@ -12,8 +12,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.ServerWorld;
 import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
@@ -88,7 +88,7 @@ public class DimensionTpPKT {
 
         public static void handle(DimensionTpPKT message, Supplier<NetworkEvent.Context> ctx) {
             ServerPlayerEntity serverPlayer = ctx.get().getSender();
-            DimensionType dim = message.tl instanceof PresentTimeLine ? DimensionType.field_223227_a_ : DimensionType.byName(message.tl.getDimension().getRegistryName());
+            DimensionType dim = message.tl instanceof PresentTimeLine ? DimensionType.OVERWORLD : DimensionType.byName(message.tl.getDimension().getRegistryName());
             BlockPos pos = message.pos;
             Direction side = message.side;
             ServerWorld origin = serverPlayer.getServerWorld();
@@ -144,7 +144,7 @@ public class DimensionTpPKT {
                 if (!ItemStack.areItemsEqual(player.inventory.getCurrentItem(), new ItemStack(ModItems.creativeTimeMachine, 1)))
                     return false;
             }
-            if (dim == DimensionType.field_223227_a_) return true;
+            if (dim == DimensionType.OVERWORLD) return true;
             for (TimeLine tl : (HashSet<TimeLine>)ModRegistries.timeLinesRegistry.getSlaveMap(ModRegistries.TIERTOTIMELINE, ArrayList.class).get(tm.getTier())) {
                 if (tl.getDimension() == dim.getModType()) {
                     return true;

@@ -43,7 +43,7 @@ public abstract class TimeLine extends ForgeRegistryEntry<TimeLine> {
         Iterator<TimeLine> iterator = ModRegistries.timeLinesRegistry.iterator();
         while (iterator.hasNext()) {
             TimeLine tl = iterator.next();
-            if (tl.getDimension() == world.getDimension().getType().getModType() || world.getDimension().getType() == DimensionType.field_223227_a_) return true;
+            if (tl.getDimension() == world.getDimension().getType().getModType() || world.getDimension().getType() == DimensionType.OVERWORLD) return true;
         }
         return false;
     }
