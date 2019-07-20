@@ -88,7 +88,7 @@ public abstract class TimeMachine implements IForgeRegistryEntry<TimeMachine> {
      */
     @Override
     public final Class<TimeMachine> getRegistryType() {
-        return (Class<TimeMachine>)this.getClass();
+        return TimeMachine.class;
     }
 
     // FORGE REGISTRY END

@@ -1,6 +1,5 @@
 package tk.rdvdev2.TimeTravelMod.common.networking;
 
-import com.google.common.base.Charsets;
 import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,7 +11,6 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -66,34 +64,25 @@ public class DimensionTpPKT {
 
     public static void encode(DimensionTpPKT pkt, PacketBuffer buf) {
 
-        String tl = pkt.tl.getRegistryName().toString();
-        buf.writeInt(tl.length());
-        buf.writeCharSequence(tl, Charsets.UTF_8);
-        String key = ModRegistries.timeMachinesRegistry.getKey(pkt.tm).toString();
-        buf.writeInt(key.length());
-        buf.writeCharSequence(pkt.tm.toString(), Charsets.UTF_8);
-        buf.writeInt(pkt.pos.getX());
-        buf.writeInt(pkt.pos.getY());
-        buf.writeInt(pkt.pos.getZ());
-        buf.writeInt(pkt.side.getIndex());
+        buf.writeRegistryId(pkt.tl);
+        buf.writeRegistryId(pkt.tm);
+        buf.writeBlockPos(pkt.pos);
+        buf.writeEnumValue(pkt.side);
         buf.writeInt(pkt.additionalEntities.size());
         pkt.additionalEntities.forEach(uuid -> {
-            buf.writeLong(uuid.getMostSignificantBits());
-            buf.writeLong(uuid.getLeastSignificantBits());
+            buf.writeUniqueId(uuid);
         });
     }
 
     public static DimensionTpPKT decode(PacketBuffer buf) {
         DimensionTpPKT pkt = new DimensionTpPKT();
-        int size1 = buf.readInt();
-        pkt.tl = ModRegistries.timeLinesRegistry.getValue(new ResourceLocation(buf.readCharSequence(size1, Charsets.UTF_8).toString()));
-        int size2 = buf.readInt();
-        pkt.tm = TimeMachine.fromString(buf.readCharSequence(size2, Charsets.UTF_8).toString());
-        pkt.pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-        pkt.side = Direction.byIndex(buf.readInt());
+        pkt.tl = buf.readRegistryIdSafe(TimeLine.class);
+        pkt.tm = buf.readRegistryIdSafe(TimeMachine.class);
+        pkt.pos = buf.readBlockPos();
+        pkt.side = buf.readEnumValue(Direction.class);
         int size = buf.readInt();
         for (int i = 0; i < size; i++) {
-            UUID uuid = new UUID(buf.readLong(), buf.readLong());
+            UUID uuid = buf.readUniqueId();
             pkt.additionalEntities.add(uuid);
         }
         return pkt;

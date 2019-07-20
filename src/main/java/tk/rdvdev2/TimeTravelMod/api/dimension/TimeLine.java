@@ -90,7 +90,7 @@ public abstract class TimeLine implements IForgeRegistryEntry<TimeLine> {
      */
     @Override
     public Class<TimeLine> getRegistryType() {
-        return (Class<TimeLine>)getClass();
+        return TimeLine.class;
     }
 
     public static boolean isValidTimeLine(World world) {

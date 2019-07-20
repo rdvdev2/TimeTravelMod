@@ -1,7 +1,7 @@
 package tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade;
 
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.registries.IForgeRegistryEntry;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
 
@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Optional;
 
-public abstract class TimeMachineUpgrade implements IForgeRegistryEntry<TimeMachineUpgrade> {
+public abstract class TimeMachineUpgrade extends ForgeRegistryEntry<TimeMachineUpgrade> {
 
     private ArrayList<TimeMachineHook> hooks;
     private TimeMachine[] compatibleTMs;
