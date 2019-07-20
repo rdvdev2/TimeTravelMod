@@ -5,7 +5,6 @@ import net.minecraft.nbt.IntNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -13,6 +12,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.common.world.corruption.CorruptionHandler;
 import tk.rdvdev2.TimeTravelMod.common.world.corruption.ICorruption;
 
@@ -41,7 +41,7 @@ public class ModCapabilities {
 
     @SubscribeEvent
     public static void attachToWorld(AttachCapabilitiesEvent<World> event) {
-        if (event.getObject().getDimension().getType() == DimensionType.THE_NETHER || event.getObject().getDimension().getType() == DimensionType.THE_END) return;
+        if (TimeLine.isValidTimeLine(event.getObject())) return;
         event.addCapability(new ResourceLocation(MODID, "corruption"), new ICapabilityProvider() {
             @Nonnull
             @Override
