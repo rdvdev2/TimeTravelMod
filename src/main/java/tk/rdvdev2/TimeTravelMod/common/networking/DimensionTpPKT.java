@@ -69,9 +69,7 @@ public class DimensionTpPKT {
         buf.writeBlockPos(pkt.pos);
         buf.writeEnumValue(pkt.side);
         buf.writeInt(pkt.additionalEntities.size());
-        pkt.additionalEntities.forEach(uuid -> {
-            buf.writeUniqueId(uuid);
-        });
+        pkt.additionalEntities.forEach(buf::writeUniqueId);
     }
 
     public static DimensionTpPKT decode(PacketBuffer buf) {

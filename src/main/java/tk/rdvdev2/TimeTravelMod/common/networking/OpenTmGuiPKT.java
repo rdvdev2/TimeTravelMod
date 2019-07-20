@@ -1,5 +1,6 @@
 package tk.rdvdev2.TimeTravelMod.common.networking;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -8,19 +9,29 @@ import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class OpenTmGuiPKT {
-    public OpenTmGuiPKT(){}
+    public OpenTmGuiPKT(){
+        this.additionalEntities = new HashSet<>();
+    }
 
     public TimeMachine tm;
     public BlockPos pos;
     public Direction side;
+    public Set<UUID> additionalEntities;
 
-    public OpenTmGuiPKT(TimeMachine tm, BlockPos pos, Direction side) {
+    public OpenTmGuiPKT(TimeMachine tm, BlockPos pos, Direction side, Entity... aditionalEntities) {
+        this();
         this.tm = tm instanceof TimeMachineHookRunner ? ((TimeMachineHookRunner)tm).removeHooks() : tm;
         this.pos = pos;
         this.side = side;
+        if (aditionalEntities != null && aditionalEntities.length != 0) this.additionalEntities = Arrays.stream(aditionalEntities).map(Entity::getUniqueID).collect(Collectors.toSet());
     }
 
     public static OpenTmGuiPKT decode(PacketBuffer buf) {
@@ -28,6 +39,11 @@ public class OpenTmGuiPKT {
         pkt.tm = buf.readRegistryIdSafe(TimeMachine.class);
         pkt.pos = buf.readBlockPos();
         pkt.side = buf.readEnumValue(Direction.class);
+        int size = buf.readInt();
+        for (int i = 0; i < size; i++) {
+            UUID uuid = buf.readUniqueId();
+            pkt.additionalEntities.add(uuid);
+        }
         return pkt;
     }
 
@@ -35,6 +51,8 @@ public class OpenTmGuiPKT {
         buf.writeRegistryId(pkt.tm);
         buf.writeBlockPos(pkt.pos);
         buf.writeEnumValue(pkt.side);
+        buf.writeInt(pkt.additionalEntities.size());
+        pkt.additionalEntities.forEach(buf::writeUniqueId);
     }
 
     public static class Handler {
