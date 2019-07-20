@@ -28,10 +28,8 @@ import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineH
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Defines the behaviour and the aspect of a Time Machine
@@ -259,7 +257,10 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
                 if (playerIn instanceof ServerPlayerEntity) {
                     ModTriggers.ACCESS_TIME_MACHINE.trigger((ServerPlayerEntity) playerIn);
                 }
-                TimeTravelMod.proxy.displayTMGuiScreen(playerIn, this, controllerPos, side);
+                TimeTravelMod.proxy.displayTMGuiScreen(playerIn, this, controllerPos, side, getEntitiesInside(world, controllerPos, side).stream()
+                        .filter(entity -> !entity.equals(playerIn))
+                        .map(Entity::getUniqueID)
+                        .collect(Collectors.toList()).toArray(new UUID[]{}));
         }
     }
 

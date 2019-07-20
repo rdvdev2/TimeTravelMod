@@ -10,17 +10,18 @@ import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineHooksException;
 import tk.rdvdev2.TimeTravelMod.client.gui.EngineerBookScreen;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineHooksException;
 import tk.rdvdev2.TimeTravelMod.client.gui.TimeMachineScreen;
 import tk.rdvdev2.TimeTravelMod.common.networking.OpenTmGuiPKT;
+
+import java.util.UUID;
 
 public class ClientProxy extends CommonProxy {
 
     private EngineerBookScreen generatedEngineerBook;
 
     @Override
-    public void displayTMGuiScreen(PlayerEntity player, TimeMachine tm, BlockPos pos, Direction side) {
-        Minecraft.getInstance().deferTask(()->Minecraft.getInstance().displayGuiScreen(new TimeMachineScreen(player, tm, pos, side)));
+    public void displayTMGuiScreen(PlayerEntity player, TimeMachine tm, BlockPos pos, Direction side, UUID... additionalEntities) {
+        Minecraft.getInstance().deferTask(()->Minecraft.getInstance().displayGuiScreen(new TimeMachineScreen(player, tm, pos, side, additionalEntities)));
     }
 
     @Override
@@ -33,7 +34,7 @@ public class ClientProxy extends CommonProxy {
     public void handleOpenTMGUI(OpenTmGuiPKT message, NetworkEvent.Context ctx) {
         PlayerEntity player = Minecraft.getInstance().player;
         try {
-            TimeTravelMod.proxy.displayTMGuiScreen(player, message.tm.hook(player.world, message.pos, message.side), message.pos, message.side);
+            TimeTravelMod.proxy.displayTMGuiScreen(player, message.tm.hook(player.world, message.pos, message.side), message.pos, message.side, (UUID[]) message.additionalEntities.toArray());
         } catch (IncompatibleTimeMachineHooksException e) {
             throw new RuntimeException("Time Machine GUI opened with invalid upgrade configuration");
         }

@@ -1,6 +1,5 @@
 package tk.rdvdev2.TimeTravelMod.common.networking;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -26,12 +25,12 @@ public class OpenTmGuiPKT {
     public Direction side;
     public Set<UUID> additionalEntities;
 
-    public OpenTmGuiPKT(TimeMachine tm, BlockPos pos, Direction side, Entity... aditionalEntities) {
+    public OpenTmGuiPKT(TimeMachine tm, BlockPos pos, Direction side, UUID... aditionalEntities) {
         this();
         this.tm = tm instanceof TimeMachineHookRunner ? ((TimeMachineHookRunner)tm).removeHooks() : tm;
         this.pos = pos;
         this.side = side;
-        if (aditionalEntities != null && aditionalEntities.length != 0) this.additionalEntities = Arrays.stream(aditionalEntities).map(Entity::getUniqueID).collect(Collectors.toSet());
+        if (aditionalEntities != null && aditionalEntities.length != 0) this.additionalEntities = Arrays.stream(aditionalEntities).collect(Collectors.toSet());
     }
 
     public static OpenTmGuiPKT decode(PacketBuffer buf) {

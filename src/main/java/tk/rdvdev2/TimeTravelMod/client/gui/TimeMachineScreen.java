@@ -21,16 +21,18 @@ import tk.rdvdev2.TimeTravelMod.common.networking.DimensionTpPKT;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
 public class TimeMachineScreen extends Screen {
 
+    private final UUID[] additionalEntities;
     private PlayerEntity player;
     private TimeMachine tm;
     private BlockPos pos;
     private Direction side;
 
-    public TimeMachineScreen(PlayerEntity player, TimeMachine tm, BlockPos pos, Direction side){
+    public TimeMachineScreen(PlayerEntity player, TimeMachine tm, BlockPos pos, Direction side, UUID... additionalEntities){
         super(new StringTextComponent("TITLE PLACEHOLDER"));
         this.player = player;
         try {
@@ -40,6 +42,7 @@ public class TimeMachineScreen extends Screen {
         }
         this.pos = pos;
         this.side = side;
+        this.additionalEntities = additionalEntities;
     }
 
     @Override
@@ -81,7 +84,7 @@ public class TimeMachineScreen extends Screen {
         TimeLineButton b = (TimeLineButton) button;
         Minecraft.getInstance().displayGuiScreen(null);
         if (b.tl.getDimension() != b.screen.player.dimension.getModType() && TimeLine.isValidTimeLine(b.screen.player.world)) {
-            ModPacketHandler.CHANNEL.sendToServer(new DimensionTpPKT(b.tl, b.screen.tm, b.screen.pos, b.screen.side));
+            ModPacketHandler.CHANNEL.sendToServer(new DimensionTpPKT(b.tl, b.screen.tm, b.screen.pos, b.screen.side, b.screen.additionalEntities));
         } else {
             b.screen.player.sendMessage(new TranslationTextComponent("gui.tm.error.text"));
         }

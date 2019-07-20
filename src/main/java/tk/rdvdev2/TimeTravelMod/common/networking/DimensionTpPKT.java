@@ -1,8 +1,6 @@
 package tk.rdvdev2.TimeTravelMod.common.networking;
 
-import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
@@ -16,7 +14,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.ServerWorld;
 import net.minecraft.world.dimension.DimensionType;
-import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
@@ -53,13 +50,13 @@ public class DimensionTpPKT {
     private Direction side;
     private Set<UUID> additionalEntities;
 
-    public DimensionTpPKT(TimeLine tl, TimeMachine tm, BlockPos pos, Direction side, Entity... additionalEntities) {
+    public DimensionTpPKT(TimeLine tl, TimeMachine tm, BlockPos pos, Direction side, UUID... additionalEntities) {
         this();
         this.tl = tl;
         this.tm = tm instanceof TimeMachineHookRunner ? ((TimeMachineHookRunner) tm).removeHooks() : tm;
         this.pos = pos;
         this.side = side;
-        if (additionalEntities != null && additionalEntities.length != 0) this.additionalEntities = Arrays.stream(additionalEntities).map(Entity::getUniqueID).collect(Collectors.toSet());
+        if (additionalEntities != null && additionalEntities.length != 0) this.additionalEntities = Arrays.stream(additionalEntities).collect(Collectors.toSet());
     }
 
     public static void encode(DimensionTpPKT pkt, PacketBuffer buf) {
@@ -93,6 +90,7 @@ public class DimensionTpPKT {
             DimensionType dim = message.tl instanceof PresentTimeLine ? DimensionType.field_223227_a_ : DimensionType.byName(message.tl.getDimension().getRegistryName());
             BlockPos pos = message.pos;
             Direction side = message.side;
+            ServerWorld origin = serverPlayer.getServerWorld();
             TimeMachine tm = null;
             try {
                 tm = message.tm.hook(serverPlayer.world, pos, side);
@@ -109,7 +107,7 @@ public class DimensionTpPKT {
                         applyCorruption(finalTm, serverPlayer.dimension, dim, serverPlayer.server);
                         changePlayerDim(serverPlayer, pos, dim, finalTm, side);
                         message.additionalEntities.stream()
-                                .map(uuid -> serverPlayer.getServerWorld().getEntityByUuid(uuid))
+                                .map(uuid -> origin.getEntityByUuid(uuid))
                                 .forEach(entity -> changeEntityDim(entity, pos, dim, finalTm, side));
                 } else TimeTravelMod.logger.error("Time Travel canceled due to incorrect conditions");
             });
@@ -223,32 +221,19 @@ public class DimensionTpPKT {
                 Vec3d vec3d = entityIn.getMotion();
                 float f = 0.0F;
                 BlockPos blockpos;
-                if (dimensiontype == DimensionType.field_223229_c_ && destDim == DimensionType.field_223227_a_) {
-                    blockpos = serverworld1.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, serverworld1.getSpawnPoint());
-                } else if (destDim == DimensionType.field_223229_c_) {
-                    blockpos = serverworld1.getSpawnCoordinate();
-                } else {
-                    double movementFactor = serverworld.getDimension().getMovementFactor() / serverworld1.getDimension().getMovementFactor();
-                    double d0 = entityIn.posX * movementFactor;
-                    double d1 = entityIn.posZ * movementFactor;
 
-                    double d3 = Math.min(-2.9999872E7D, serverworld1.getWorldBorder().minX() + 16.0D);
-                    double d4 = Math.min(-2.9999872E7D, serverworld1.getWorldBorder().minZ() + 16.0D);
-                    double d5 = Math.min(2.9999872E7D, serverworld1.getWorldBorder().maxX() - 16.0D);
-                    double d6 = Math.min(2.9999872E7D, serverworld1.getWorldBorder().maxZ() - 16.0D);
-                    d0 = MathHelper.clamp(d0, d3, d5);
-                    d1 = MathHelper.clamp(d1, d4, d6);
-                    Vec3d vec3d1 = entityIn.getLastPortalVec();
-                    blockpos = new BlockPos(d0, entityIn.posY, d1);
-                    BlockPattern.PortalInfo blockpattern$portalinfo = serverworld1.getDefaultTeleporter().func_222272_a(blockpos, vec3d, entityIn.getTeleportDirection(), vec3d1.x, vec3d1.y, entityIn instanceof PlayerEntity);
-                    if (blockpattern$portalinfo == null) {
-                        return;
-                    }
+                double movementFactor = serverworld.getDimension().getMovementFactor() / serverworld1.getDimension().getMovementFactor();
+                double d0 = entityIn.posX * movementFactor;
+                double d1 = entityIn.posZ * movementFactor;
 
-                    blockpos = new BlockPos(blockpattern$portalinfo.field_222505_a);
-                    vec3d = blockpattern$portalinfo.field_222506_b;
-                    f = (float)blockpattern$portalinfo.field_222507_c;
-                }
+                double d3 = Math.min(-2.9999872E7D, serverworld1.getWorldBorder().minX() + 16.0D);
+                double d4 = Math.min(-2.9999872E7D, serverworld1.getWorldBorder().minZ() + 16.0D);
+                double d5 = Math.min(2.9999872E7D, serverworld1.getWorldBorder().maxX() - 16.0D);
+                double d6 = Math.min(2.9999872E7D, serverworld1.getWorldBorder().maxZ() - 16.0D);
+                d0 = MathHelper.clamp(d0, d3, d5);
+                d1 = MathHelper.clamp(d1, d4, d6);
+                Vec3d vec3d1 = entityIn.getLastPortalVec();
+                blockpos = new BlockPos(d0, entityIn.posY, d1);
 
                 entityIn.world.getProfiler().endStartSection("reloading");
                 Entity entity = entityIn.getType().create(serverworld1);
