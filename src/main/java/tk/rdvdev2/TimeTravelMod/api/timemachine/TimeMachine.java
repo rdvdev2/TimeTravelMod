@@ -457,14 +457,16 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
      * @param controllerPos The position of the TM Controller
      * @param side The facing of the time machine
      */
-    public void teleporterTasks(Entity entity, World worldIn, World worldOut, BlockPos controllerPos, Direction side) {
+    public void teleporterTasks(Entity entity, World worldIn, World worldOut, BlockPos controllerPos, Direction side, boolean shouldBuild) {
         IChunk chunk = worldIn.getChunk(controllerPos);
         worldIn.getChunkProvider().getChunk(chunk.getPos().x, chunk.getPos().z, ChunkStatus.FULL, false);
-        BlockPos[] posData = getPosData(controllerPos, side);
-        BlockState[] blockData = getBlockData(worldOut, posData);
-        destroyTM(worldOut, posData);
-        buildTM(worldIn, posData, blockData);
-        doCooldown(worldIn, controllerPos, side);
+        if (shouldBuild) {
+            BlockPos[] posData = getPosData(controllerPos, side);
+            BlockState[] blockData = getBlockData(worldOut, posData);
+            destroyTM(worldOut, posData);
+            buildTM(worldIn, posData, blockData);
+            doCooldown(worldIn, controllerPos, side);
+        }
     }
 
     /**

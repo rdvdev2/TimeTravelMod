@@ -105,7 +105,7 @@ public class DimensionTpPKT {
                     !finalTm.isOverloaded(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
                     canTravel(finalTm, dim, serverPlayer)) {
                         applyCorruption(finalTm, serverPlayer.dimension, dim, serverPlayer.server);
-                        changePlayerDim(serverPlayer, pos, dim, finalTm, side);
+                        changePlayerDim(serverPlayer, pos, dim, finalTm, side, true);
                         message.additionalEntities.stream()
                                 .map(uuid -> origin.getEntityByUuid(uuid))
                                 .forEach(entity -> changeEntityDim(entity, pos, dim, finalTm, side));
@@ -144,7 +144,7 @@ public class DimensionTpPKT {
             return false;
         }
 
-        public static void changePlayerDim(ServerPlayerEntity player, BlockPos pos, DimensionType destDim, TimeMachine tm, Direction side) { // copy from ServerPlayerEntity#changeDimension
+        public static void changePlayerDim(ServerPlayerEntity player, BlockPos pos, DimensionType destDim, TimeMachine tm, Direction side, boolean shouldBuild) { // copy from ServerPlayerEntity#changeDimension
             if (!ForgeHooks.onTravelToDimension(player, destDim)) return;
             player.invulnerableDimensionChange = true;
             DimensionType currentDim = player.dimension;
@@ -180,7 +180,7 @@ public class DimensionTpPKT {
             d2 = MathHelper.clamp(d2, d4, d6);
             player.setLocationAndAngles(d0, d1, d2, f1, f);
 
-            tm.teleporterTasks(player, player.getServer().getWorld(destDim), player.getServer().getWorld(currentDim), pos, side);
+            tm.teleporterTasks(player, player.getServer().getWorld(destDim), player.getServer().getWorld(currentDim), pos, side, shouldBuild);
 
             serverworld.getProfiler().endSection();
             player.setWorld(serverworld1);
@@ -205,7 +205,7 @@ public class DimensionTpPKT {
 
         public static void changeEntityDim(Entity entityIn, BlockPos pos, DimensionType destDim, TimeMachine tm, Direction side) {
             if (entityIn instanceof ServerPlayerEntity) {
-                changePlayerDim((ServerPlayerEntity)entityIn, pos, destDim, tm, side);
+                changePlayerDim((ServerPlayerEntity)entityIn, pos, destDim, tm, side, false);
                 return;
             }
             if (!net.minecraftforge.common.ForgeHooks.onTravelToDimension(entityIn, destDim)) return;

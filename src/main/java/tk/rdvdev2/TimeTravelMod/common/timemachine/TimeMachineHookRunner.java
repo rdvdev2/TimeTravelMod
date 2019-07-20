@@ -138,8 +138,8 @@ public class TimeMachineHookRunner extends TimeMachine {
     }
 
     @Override
-    public void teleporterTasks(Entity entity, World worldIn, World worldOut, BlockPos controllerPos, Direction side) {
-        tm.teleporterTasks(entity, worldIn, worldOut, controllerPos, side);
+    public void teleporterTasks(Entity entity, World worldIn, World worldOut, BlockPos controllerPos, Direction side, boolean shouldBuild) {
+        tm.teleporterTasks(entity, worldIn, worldOut, controllerPos, side, shouldBuild);
     }
 
     @Override
