@@ -129,9 +129,9 @@ processResources {
         def minor = versionProps['MINOR']
         def patch = versionProps['PATCH']
         
-        apiVersion = "1.14.3-" + majormod + "." + majorapi
+        apiVersion = "1.14.4-" + majormod + "." + majorapi
 
-        project.version = "1.14.3-" + majormod + "." + majorapi + "." + minor + "." + patch
+        project.version = "1.14.4-" + majormod + "." + majorapi + "." + minor + "." + patch
     }
     
     // replace stuff in mods.toml, nothing else
