@@ -41,7 +41,7 @@ public class ModCapabilities {
 
     @SubscribeEvent
     public static void attachToWorld(AttachCapabilitiesEvent<World> event) {
-        if (TimeLine.isValidTimeLine(event.getObject())) return;
+        if (!TimeLine.isValidTimeLine(event.getObject())) return;
         event.addCapability(new ResourceLocation(MODID, "corruption"), new ICapabilityProvider() {
             @Nonnull
             @Override
