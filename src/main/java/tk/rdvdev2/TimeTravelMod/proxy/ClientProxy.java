@@ -4,8 +4,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkEvent;
+import tk.rdvdev2.TimeTravelMod.ModBlocks;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
+import tk.rdvdev2.TimeTravelMod.ModSounds;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineHooksException;
@@ -34,9 +38,20 @@ public class ClientProxy extends CommonProxy {
     public void handleOpenTMGUI(OpenTmGuiPKT message, NetworkEvent.Context ctx) {
         PlayerEntity player = Minecraft.getInstance().player;
         try {
-            TimeTravelMod.proxy.displayTMGuiScreen(player, message.tm.hook(player.world, message.pos, message.side), message.pos, message.side, (UUID[]) message.additionalEntities.toArray());
+            TimeTravelMod.proxy.displayTMGuiScreen(player, message.tm.hook(player.world, message.pos, message.side), message.pos, message.side, message.additionalEntities.toArray(new UUID[]{}));
         } catch (IncompatibleTimeMachineHooksException e) {
             throw new RuntimeException("Time Machine GUI opened with invalid upgrade configuration");
         }
+    }
+
+    @Override
+    public void modConstructor(TimeTravelMod instance) {
+        super.modConstructor(instance);
+        // Register ColorHandlerEvent#Block
+        MinecraftForge.EVENT_BUS.addListener(ModBlocks::registerBlockColor);
+        // Register PlaySoundEvent
+        MinecraftForge.EVENT_BUS.addListener(ModSounds::onPlaySound);
+        // Register RegistryEvent#Register<SoundEvent>
+        FMLJavaModLoadingContext.get().getModEventBus().register(ModSounds.class);
     }
 }

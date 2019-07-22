@@ -8,10 +8,8 @@ import net.minecraft.util.SoundEvent;
 import net.minecraftforge.client.event.sound.PlaySoundEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import tk.rdvdev2.TimeTravelMod.common.world.dimension.oldwest.OldWestDimension;
 
-@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModSounds {
 
     public static ResourceLocation oldWestMusicLocation = new ResourceLocation(TimeTravelMod.MODID, "oldwest_music");
