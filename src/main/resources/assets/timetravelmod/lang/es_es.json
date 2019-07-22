@@ -9,6 +9,7 @@
     "advancements.timetraveling.doesnt_look_good.description": "Muere por una Explosión Temporal",
     "advancements.timetraveling.better_than_mending.title": "Mejor que Reparación",
     "advancements.timetraveling.better_than_mending.description": "Repara completamente cualquier item en un caldero temporal",
+    "chat.ttm.outdated": "¡Una nueva versión del Time Travel Mod está disponible! ¡Puedes encontrarla en su página de CurseForge!",
     "death.attack.temporalerror": "%s está jugando demasiado con el tiempo",
     "gui.tm.error.text": "¡No puedes viajar a tu línea temporal o desde el mundo inferior o el fin!",
     "gui.tm.oldwest.text": "Viejo Oeste",
