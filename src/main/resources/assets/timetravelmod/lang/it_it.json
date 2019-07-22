@@ -1,5 +1,6 @@
 {
     "advancements.timetraveling.root.title": "Time Travel Mod",
+    "chat.ttm.outdated": "È disponibile una nuova versione di Time Travel! Dai un'occhiata nella sua pagina CurseForge!",
     "death.attack.temporalerror": "%s Sta giocando troppo con il tempo",
     "gui.tm.error.text": "Non puoi viaggiare alla tua linea del tempo o dal nether o end!",
     "gui.tm.oldwest.text": "Vecchio West",
