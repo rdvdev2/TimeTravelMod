@@ -1,11 +1,11 @@
 modLoader="javafml"
-loaderVersion="[28,)" # 28 -> 1.14.4
+loaderVersion="[${loaderVersion},)"
 
 [[mods]]
     modId="timetravelmod"
-    version="${version}"
+    version="${modVersion}"
     displayName="Time Travel Mod"
-    updateJSONURL="https://raw.githubusercontent.com/rdvdev2/TimeTravelMod/1.14.4/updates.json"
+    updateJSONURL="https://raw.githubusercontent.com/rdvdev2/TimeTravelMod/${minecraftVersion}/updates.json"
     issueTrackerURL="https://github.com/rdvdev2/TimeTravelMod/issues"
     displayURL="https://minecraft.curseforge.com/projects/time-travel-mod"
     logoFile="logo.png"
@@ -18,13 +18,13 @@ Ever wanted to travel through time in Minecraft? Build your own time travel mach
 [[dependencies.timetravelmod]]
     modId="forge"
     mandatory=true
-    versionRange="[28,)" # 28 -> 1.14.4
+    versionRange="[${loaderVersion},)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.timetravelmod]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.14.4]"
+    versionRange="[${minecraftVersion}]"
     ordering="NONE"
     side="BOTH"

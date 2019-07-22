@@ -14,6 +14,8 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
 def apiVersion
+def minecraftVersion
+def loaderVersion
 group = "tk.rdvdev2.TimeTravelMod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "TimeTravelMod"
 
@@ -102,19 +104,6 @@ dependencies {
 
 }
 
-// Example for how to get properties into the manifest for reading by the runtime..
-jar {
-    manifest {
-        attributes(["Specification-Title": "Time Travel Mod",
-                    "Specification-Vendor": "rdvdev2",
-                    "Specification-Version": "26.0", // We are version 1 of the modlauncher specification
-                    "Implementation-Title": "Time Travel Mod",
-                    "Implementation-Version": "${project.version}",
-                    "Implementation-Vendor" :"rdvdev2",
-                    "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
-    }
-}
-
 processResources {
     def versionPropsFile = file('version.properties')
     inputs.file versionPropsFile
@@ -123,24 +112,38 @@ processResources {
 
     versionProps.load(new FileInputStream(versionPropsFile))
 
+    def mc = versionProps['MC']
+    def loader = versionProps['LOADER']
     def majormod = versionProps['MAJORMOD']
     def majorapi = versionProps['MAJORAPI']
     def minor = versionProps['MINOR']
     def patch = versionProps['PATCH']
-        
-    apiVersion = "1.14.4-" + majormod + "." + majorapi
-    project.version = "1.14.4-" + majormod + "." + majorapi + "." + minor + "." + patch
-    
+
+    apiVersion = mc + "-" + majormod + "." + majorapi
+    project.version = apiVersion + "." + minor + "." + patch
+    minecraftVersion = mc
+    loaderVersion = loader
+
     // replace stuff in mods.toml, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'META-INF/mods.toml'
-
-        // replace version and mcversion
-        expand 'version':project.version
+        expand ('loaderVersion':loaderVersion, 'modVersion':project.version, 'minecraftVersion':minecraftVersion)
     }
 
     // copy everything else except the mods.toml
     from(sourceSets.main.resources.srcDirs) {
         exclude 'META-INF/mods.toml'
+    }
+}
+
+jar {
+    manifest {
+        attributes(["Specification-Title": "Minecraft Forge",
+                    "Specification-Vendor": "The Minecraft Forge Team",
+                    "Specification-Version": loaderVersion +".0",
+                    "Implementation-Title": "Time Travel Mod",
+                    "Implementation-Version": project.version,
+                    "Implementation-Vendor" :"rdvdev2",
+                    "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
     }
 }
