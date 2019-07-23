@@ -7,16 +7,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
+import tk.rdvdev2.TimeTravelMod.common.world.corruption.CorruptionCapabilityProvider;
 import tk.rdvdev2.TimeTravelMod.common.world.corruption.CorruptionHandler;
 import tk.rdvdev2.TimeTravelMod.common.world.corruption.ICorruption;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import static tk.rdvdev2.TimeTravelMod.TimeTravelMod.MODID;
@@ -42,12 +40,6 @@ public class ModCapabilities {
     @SubscribeEvent
     public static void attachToWorld(AttachCapabilitiesEvent<World> event) {
         if (!TimeLine.isValidTimeLine(event.getObject())) return;
-        event.addCapability(new ResourceLocation(MODID, "corruption"), new ICapabilityProvider() {
-            @Nonnull
-            @Override
-            public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-                return LazyOptional.of(() -> (T)new CorruptionHandler(event.getObject()));
-            }
-        });
+        event.addCapability(new ResourceLocation(MODID, "corruption"), new CorruptionCapabilityProvider(event.getObject()));
     }
 }
