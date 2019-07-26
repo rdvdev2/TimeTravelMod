@@ -1,4 +1,4 @@
-package tk.rdvdev2.TimeTravelMod.common.world.dimension.oldwest;
+package tk.rdvdev2.TimeTravelMod.common.world.dimension.oldwest.biome;
 
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
