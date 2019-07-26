@@ -40,10 +40,14 @@ public abstract class TimeLine extends ForgeRegistryEntry<TimeLine> {
     }
 
     public static boolean isValidTimeLine(World world) {
+        if (world.getDimension().getType().getModType() == null) {
+            if (world.getDimension().getType() == DimensionType.OVERWORLD) return true;
+            else return false; // The end and the nether aren't timelines
+        }
         Iterator<TimeLine> iterator = ModRegistries.timeLinesRegistry.iterator();
         while (iterator.hasNext()) {
             TimeLine tl = iterator.next();
-            if (tl.getDimension() == world.getDimension().getType().getModType() || world.getDimension().getType() == DimensionType.OVERWORLD) return true;
+            if (tl.getDimension() == world.getDimension().getType().getModType()) return true;
         }
         return false;
     }
