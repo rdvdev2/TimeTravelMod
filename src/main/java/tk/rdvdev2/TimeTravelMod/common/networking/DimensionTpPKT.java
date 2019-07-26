@@ -4,7 +4,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.play.server.*;
+import net.minecraft.network.play.server.SPlayEntityEffectPacket;
+import net.minecraft.network.play.server.SPlayerAbilitiesPacket;
+import net.minecraft.network.play.server.SRespawnPacket;
+import net.minecraft.network.play.server.SServerDifficultyPacket;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
@@ -204,7 +207,7 @@ public class DimensionTpPKT {
                 player.connection.sendPacket(new SPlayEntityEffectPacket(player.getEntityId(), effectinstance));
             }
 
-            player.connection.sendPacket(new SPlaySoundEventPacket(1032, BlockPos.ZERO, 0, false));
+            //player.connection.sendPacket(new SPlaySoundEventPacket(1032, BlockPos.ZERO, 0, false)); // TODO: Custom sound?
             player.lastExperience = -1;
             player.lastHealth = -1.0F;
             player.lastFoodLevel = -1;
