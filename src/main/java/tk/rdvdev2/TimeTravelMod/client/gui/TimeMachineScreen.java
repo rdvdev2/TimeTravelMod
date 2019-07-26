@@ -83,7 +83,7 @@ public class TimeMachineScreen extends Screen {
     private static void clickHandler(Button button) {
         TimeLineButton b = (TimeLineButton) button;
         Minecraft.getInstance().displayGuiScreen(null);
-        if (b.tl.getDimension() != b.screen.player.dimension.getModType() && TimeLine.isValidTimeLine(b.screen.player.world)) {
+        if (b.tl.getDimension() != b.screen.player.dimension && TimeLine.isValidTimeLine(b.screen.player.world)) {
             ModPacketHandler.CHANNEL.sendToServer(new DimensionTpPKT(b.tl, b.screen.tm, b.screen.pos, b.screen.side, b.screen.additionalEntities));
         } else {
             b.screen.player.sendMessage(new TranslationTextComponent("gui.tm.error.text"));

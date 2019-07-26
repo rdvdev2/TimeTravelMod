@@ -1,12 +1,13 @@
 package tk.rdvdev2.TimeTravelMod.api.dimension;
 
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.dimension.DimensionType;
-import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 
 import java.util.Iterator;
+import java.util.function.BiFunction;
 
 /**
  * This class defines a time line. It's the dimension's world provider. It must be registered in the time line registry instead of the dimension manager.
@@ -14,8 +15,7 @@ import java.util.Iterator;
 public abstract class TimeLine extends ForgeRegistryEntry<TimeLine> {
 
     private int minTier;
-    private ModDimension dimension;
-    private TimeLine registeredInstance = null;
+    private DimensionType dimension;
 
     /**
      * Gets the minimum Time Machine tier required to travel to this time line
@@ -25,7 +25,12 @@ public abstract class TimeLine extends ForgeRegistryEntry<TimeLine> {
         return minTier;
     }
 
-    public ModDimension getDimension() {
+    // Time Travel Mod internal: use hook() instead
+    public void setDimension(DimensionType dimension) {
+        this.dimension = dimension;
+    }
+
+    public DimensionType getDimension() {
         return dimension;
     }
 
@@ -33,21 +38,22 @@ public abstract class TimeLine extends ForgeRegistryEntry<TimeLine> {
      * Constructor of the Time Line
      * @param minTier The desired minimum tier
      */
-    public TimeLine(ModDimension dimension, int minTier) {
-        super();
-        this.dimension = dimension;
+    public TimeLine(int minTier) {
         this.minTier = minTier;
     }
 
+    public BiFunction<World, DimensionType, ? extends Dimension> hook(BiFunction<World, DimensionType, ? extends Dimension> originial) {
+        return (world, dimensionType) -> {
+            this.dimension = dimensionType;
+            return originial.apply(world, dimensionType);
+        };
+    }
+
     public static boolean isValidTimeLine(World world) {
-        if (world.getDimension().getType().getModType() == null) {
-            if (world.getDimension().getType() == DimensionType.OVERWORLD) return true;
-            else return false; // The end and the nether aren't timelines
-        }
         Iterator<TimeLine> iterator = ModRegistries.timeLinesRegistry.iterator();
         while (iterator.hasNext()) {
             TimeLine tl = iterator.next();
-            if (tl.getDimension() == world.getDimension().getType().getModType()) return true;
+            if (tl.getDimension() == world.getDimension().getType()) return true;
         }
         return false;
     }

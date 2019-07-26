@@ -32,7 +32,6 @@ import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineH
 import tk.rdvdev2.TimeTravelMod.common.timemachine.CreativeTimeMachine;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
 import tk.rdvdev2.TimeTravelMod.common.world.corruption.ICorruption;
-import tk.rdvdev2.TimeTravelMod.common.world.dimension.PresentTimeLine;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -91,7 +90,7 @@ public class DimensionTpPKT {
 
         public static void handle(DimensionTpPKT message, Supplier<NetworkEvent.Context> ctx) {
             ServerPlayerEntity serverPlayer = ctx.get().getSender();
-            DimensionType dim = message.tl instanceof PresentTimeLine ? DimensionType.OVERWORLD : DimensionType.byName(message.tl.getDimension().getRegistryName());
+            DimensionType dim = message.tl.getDimension();
             BlockPos pos = message.pos;
             Direction side = message.side;
             ServerWorld origin = serverPlayer.getServerWorld();
@@ -115,7 +114,7 @@ public class DimensionTpPKT {
                     finalTm.isBuilt(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
                     finalTm.isPlayerInside(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side, serverPlayer) &&
                     !finalTm.isOverloaded(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
-                    canTravel(finalTm, dim, serverPlayer)) {
+                    canTravel(finalTm, message.tl, serverPlayer)) {
                         applyCorruption(finalTm, serverPlayer.dimension, dim, serverPlayer.server);
                         changePlayerDim(serverPlayer, pos, dim, finalTm, side, true);
                         message.additionalEntities.stream()
@@ -130,9 +129,9 @@ public class DimensionTpPKT {
             Iterator<TimeLine> iterator = ModRegistries.timeLinesRegistry.iterator();
             while (iterator.hasNext()) {
                 TimeLine current = iterator.next();
-                if (current.getDimension() == origDim.getModType()) {
+                if (current.getDimension() == origDim) {
                     origTier = current.getMinTier();
-                } else if (current.getDimension() == destDim.getModType()) {
+                } else if (current.getDimension() == destDim) {
                     destTier = current.getMinTier();
                 }
             }
@@ -142,18 +141,13 @@ public class DimensionTpPKT {
             server.getWorld(destDim).getCapability(CORRUPTION_CAPABILITY).orElseThrow(RuntimeException::new).increaseCorruptionLevel(amount);
         }
 
-        private static boolean canTravel(TimeMachine tm, DimensionType dim, ServerPlayerEntity player) {
-            if (tm instanceof CreativeTimeMachine) {
+        private static boolean canTravel(TimeMachine tm, TimeLine tl, ServerPlayerEntity player) {
+            TimeMachine unhookedTM = tm instanceof TimeMachineHookRunner ? ((TimeMachineHookRunner) tm).removeHooks() : tm;
+            if (unhookedTM instanceof CreativeTimeMachine) {
                 if (!ItemStack.areItemsEqual(player.inventory.getCurrentItem(), new ItemStack(ModItems.creativeTimeMachine, 1)))
                     return false;
             }
-            if (dim == DimensionType.OVERWORLD) return true;
-            for (TimeLine tl : (HashSet<TimeLine>)ModRegistries.timeLinesRegistry.getSlaveMap(ModRegistries.TIERTOTIMELINE, ArrayList.class).get(tm.getTier())) {
-                if (tl.getDimension() == dim.getModType()) {
-                    return true;
-                }
-            }
-            return false;
+            return tm.getTier() >= tl.getMinTier();
         }
 
         public static void changePlayerDim(ServerPlayerEntity player, BlockPos pos, DimensionType destDim, TimeMachine tm, Direction side, boolean shouldBuild) { // copy from ServerPlayerEntity#changeDimension
