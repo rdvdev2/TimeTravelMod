@@ -58,5 +58,7 @@ public final class OldWestBiome extends Biome {
         // Time Travel Mod start
         this.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(Feature.ORE, new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.timeCrystalOre.getDefaultState(), 4), Placement.COUNT_RANGE, new CountRangeConfig(1, 0, 0, 16)));
         this.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, Biome.createDecoratedFeature(ModFeatures.GUNPOWDER, NoFeatureConfig.NO_FEATURE_CONFIG, Placement.CHANCE_TOP_SOLID_HEIGHTMAP, new ChanceConfig(100)));
+        DefaultBiomeFeatures.addExtraGoldOre(this);
+        this.addStructure(Feature.MINESHAFT, new MineshaftConfig(0.002D, MineshaftStructure.Type.MESA));
     }
 }
