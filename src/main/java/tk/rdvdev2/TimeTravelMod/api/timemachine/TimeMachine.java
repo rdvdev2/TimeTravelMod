@@ -458,7 +458,7 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
      */
     public void teleporterTasks(Entity entity, World worldIn, World worldOut, BlockPos controllerPos, Direction side, boolean shouldBuild) {
         IChunk chunk = worldIn.getChunk(controllerPos);
-        worldIn.getChunkProvider().getChunk(chunk.getPos().x, chunk.getPos().z, ChunkStatus.FULL, false);
+        worldIn.getChunkProvider().getChunk(chunk.getPos().x, chunk.getPos().z, ChunkStatus.FULL, true);
         if (shouldBuild) {
             BlockPos[] posData = getPosData(controllerPos, side);
             BlockState[] blockData = getBlockData(worldOut, posData);

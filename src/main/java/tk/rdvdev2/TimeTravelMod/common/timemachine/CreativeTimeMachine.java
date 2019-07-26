@@ -80,8 +80,8 @@ public class CreativeTimeMachine extends TimeMachine {
     @Override
     public void teleporterTasks(Entity entity, World worldIn, World worldOut, BlockPos controllerPos, Direction side, boolean shouldBuild) {
         IChunk chunk = worldIn.getChunk(controllerPos);
-        worldIn.getChunkProvider().getChunk(chunk.getPos().x, chunk.getPos().z, ChunkStatus.FULL, false);
-        int height = worldIn.getHeight(Heightmap.Type.MOTION_BLOCKING, (int) entity.posX, (int) entity.posZ);
+        chunk = worldIn.getChunkProvider().getChunk(chunk.getPos().x, chunk.getPos().z, ChunkStatus.FULL, true);
+        int height = chunk.getTopBlockY(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, (int) entity.posX, (int) entity.posZ);
         entity.setPosition(entity.posX, height + 1, entity.posZ);
     }
 
