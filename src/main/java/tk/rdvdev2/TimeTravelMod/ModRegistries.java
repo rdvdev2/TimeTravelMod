@@ -19,7 +19,6 @@ import tk.rdvdev2.TimeTravelMod.common.event.ConfigureTimeMachineBlocksEvent;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.CreativeTimeMachine;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
@@ -31,7 +30,6 @@ public class ModRegistries {
     public static IForgeRegistry<TimeLine> timeLinesRegistry;
     public static IForgeRegistry<TimeMachineUpgrade> upgradesRegistry;
     public static ResourceLocation CONTROLLERTOTM = new ResourceLocation("timetravelmod:blocktotm");
-    public static ResourceLocation TMTOUPGRADE = new ResourceLocation("timetravelmod:tmtoupgrade");
     public static ResourceLocation UPGRADETOBLOCK = new ResourceLocation("timetravelmod:upgradetoblock");
 
     @SubscribeEvent
@@ -86,34 +84,14 @@ public class ModRegistries {
         }
     }
 
-    public static class TimeMachineUpgradesCallbacks implements IForgeRegistry.CreateCallback<TimeMachineUpgrade>, IForgeRegistry.AddCallback<TimeMachineUpgrade> {
+    public static class TimeMachineUpgradesCallbacks implements IForgeRegistry.CreateCallback<TimeMachineUpgrade> {
 
-        private HashMap<TimeMachine, TimeMachineUpgrade[]> tmtoupgradehm;
         private HashMap<TimeMachineUpgrade, AbstractTimeMachineComponentBlock[]> upgradetoblockhm;
 
         @Override
         public void onCreate(IForgeRegistryInternal<TimeMachineUpgrade> owner, RegistryManager stage) {
-            tmtoupgradehm = new HashMap<>();
-            owner.setSlaveMap(TMTOUPGRADE, tmtoupgradehm);
             upgradetoblockhm = new HashMap<>();
             owner.setSlaveMap(UPGRADETOBLOCK, upgradetoblockhm);
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        public void onAdd(IForgeRegistryInternal<TimeMachineUpgrade> owner, RegistryManager stage, int id, TimeMachineUpgrade obj, @Nullable TimeMachineUpgrade oldObj) {
-            tmtoupgradehm = (HashMap<TimeMachine, TimeMachineUpgrade[]>) owner.getSlaveMap(TMTOUPGRADE, HashMap.class);
-            for (TimeMachine tm:obj.getCompatibleTMs()) {
-                if (tmtoupgradehm.containsKey(tm)) {
-                    TimeMachineUpgrade[] upgrades = tmtoupgradehm.get(tm);
-                    int index = upgrades.length;
-                    upgrades = Arrays.copyOf(upgrades, index+1);
-                    upgrades[index] = obj;
-                    tmtoupgradehm.put(tm, upgrades);
-                } else {
-                    tmtoupgradehm.put(tm, new TimeMachineUpgrade[]{obj});
-                }
-            }
         }
     }
 }

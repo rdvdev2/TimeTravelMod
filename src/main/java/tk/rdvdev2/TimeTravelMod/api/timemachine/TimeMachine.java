@@ -121,9 +121,23 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
         }
     }
 
+    private ArrayList<TimeMachineUpgrade> upgrades;
+
     @SuppressWarnings("unchecked")
     public final TimeMachineUpgrade[] getCompatibleUpgrades() {
-        return ((HashMap<TimeMachine, TimeMachineUpgrade[]>)ModRegistries.upgradesRegistry.getSlaveMap(ModRegistries.TMTOUPGRADE, HashMap.class)).get(this);
+        TimeMachine instance = this instanceof TimeMachineHookRunner ? ((TimeMachineHookRunner) this).removeHooks() : this;
+        if (upgrades == null) {
+            upgrades = new ArrayList<>();
+            ModRegistries.upgradesRegistry.forEach(upgrade -> {
+                for(TimeMachine tm: upgrade.getCompatibleTMs()) {
+                    if (tm == instance) {
+                        upgrades.add(upgrade);
+                        break;
+                    }
+                }
+            });
+        }
+        return upgrades.toArray(new TimeMachineUpgrade[0]);
     }
 
     /**
