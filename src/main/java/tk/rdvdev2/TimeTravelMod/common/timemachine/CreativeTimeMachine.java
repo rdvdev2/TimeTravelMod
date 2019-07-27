@@ -17,6 +17,9 @@ import tk.rdvdev2.TimeTravelMod.ModTriggers;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 
+import java.util.Collections;
+import java.util.List;
+
 public class CreativeTimeMachine extends TimeMachine {
 
     @Override
@@ -35,18 +38,18 @@ public class CreativeTimeMachine extends TimeMachine {
     }
 
     @Override
-    public int[][] coreBlocksPos() {
-        return new int[0][0];
+    public List<BlockPos> coreBlocksPos() {
+        return Collections.EMPTY_LIST;
     }
 
     @Override
-    public int[][] basicBlocksPos() {
-        return new int[0][0];
+    public List<BlockPos> basicBlocksPos() {
+        return Collections.EMPTY_LIST;
     }
 
     @Override
-    public int[][] airBlocksPos() {
-        return new int[0][0];
+    public List<BlockPos> airBlocksPos() {
+        return Collections.EMPTY_LIST;
     }
 
     @Override

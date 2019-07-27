@@ -59,9 +59,9 @@ public class EngineerBookScreen extends Screen {
                 timeMachineData.add(d);
                 continue;
             }
-            d.basicBlocksPos = tm.getBasicBlocksPos(Direction.NORTH);
+            d.basicBlocksPos = tm.getBasicBlocksPos(Direction.NORTH).toArray(new BlockPos[0]);
             d.basicBlocks = tm.getBasicBlocks();
-            d.coreBlocksPos = tm.getCoreBlocksPos(Direction.NORTH);
+            d.coreBlocksPos = tm.getCoreBlocksPos(Direction.NORTH).toArray(new BlockPos[0]);
             d.coreBlocks = tm.getCoreBlocks();
             d.controllerBlockPos = new BlockPos(0, 0, 0);
             d.controllerBlocks = tm.getControllerBlocks();
@@ -101,7 +101,7 @@ public class EngineerBookScreen extends Screen {
         yLevels.clear();
     }
 
-    private class TimeMachineData implements Comparable<TimeMachineData> {
+    private class TimeMachineData implements Comparable<TimeMachineData> { // TODO: Take advantage of List<BlockPos>
 
         public int id;
         public TranslationTextComponent name;

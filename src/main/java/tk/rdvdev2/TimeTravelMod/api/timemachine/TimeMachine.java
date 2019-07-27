@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -60,19 +61,19 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
      * Returns the position(s) where must be a TM Core relatively to a compatible Time Machine Controller facing north
      * @return Array of positions where must be a TM Core
      */
-    abstract public int[][] coreBlocksPos();
+    abstract public List<BlockPos> coreBlocksPos();
 
     /**
      * Returns the position(s) where must be a TM Basic Block or a TM Upgrade relatively to a compatible Time Machine Controller facing north
      * @return Array of positions where must be a TM Basic Block or a TM Upgrade
      */
-    abstract public int[][] basicBlocksPos();
+    abstract public List<BlockPos> basicBlocksPos();
 
     /**
      * Returns the position(s) where must be air relatively to a compatible Time Machine Controller facing north
      * @return Array of positions where must be air
      */
-    abstract public int[][] airBlocksPos();
+    abstract public List<BlockPos> airBlocksPos();
 
     /**
      * Returns the valid IBlockState(s) for TM Controller blocks
@@ -130,7 +131,7 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
      * @param side Facing of the time machine
      * @return Array of positions where must be a TM Core
      */
-    public BlockPos[] getCoreBlocksPos(Direction side) {
+    public List<BlockPos> getCoreBlocksPos(Direction side) {
         return applySide(coreBlocksPos(), side);
     }
 
@@ -139,7 +140,7 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
      * @param side Facing of the time machine
      * @return Array of positions where must be a TM Basic Block or a TM Upgrade
      */
-    public BlockPos[] getBasicBlocksPos(Direction side) {
+    public List<BlockPos> getBasicBlocksPos(Direction side) {
         return applySide(basicBlocksPos(), side);
     }
 
@@ -148,7 +149,7 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
      * @param side Facing of the time machine
      * @return Array of positions where must be air
      */
-    public BlockPos[] getAirBlocksPos(Direction side) {
+    public List<BlockPos> getAirBlocksPos(Direction side) {
         return applySide(airBlocksPos(), side);
     }
 
@@ -169,29 +170,27 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
 
     /**
      * Converts the relative block positions to meet the actual Time Machine Facing
-     * @param input An array of relative positions. The positions are represented in an int array of format {x, y, z}
+     * @param posList An array of relative positions. The positions are represented in an int array of format {x, y, z}
      * @param side The actual facing of the Time Machine
      * @return An array of BlockPos aligned with the Time Machine facing
      */
-    public final static BlockPos[] applySide(int[][] input, Direction side){
-        BlockPos[] output = new BlockPos[input.length];
-        for (int i = 0; i < input.length; i++) {
-            switch (side.getName()) {
-                case "north":
-                    output[i] = new BlockPos(input[i][0], input[i][1], input[i][2]);
+    public final static List<BlockPos> applySide(List<BlockPos> posList, Direction side){
+        posList = new ArrayList<>(posList);
+        if (side == Direction.NORTH) return posList;
+        for (int i = 0; i < posList.size(); i++) {
+            switch (side) {
+                case SOUTH:
+                    posList.set(i, posList.get(i).rotate(Rotation.CLOCKWISE_180));
                     break;
-                case "south":
-                    output[i] = new BlockPos(input[i][0], input[i][1], input[i][2] * -1);
+                case WEST:
+                    posList.set(i, posList.get(i).rotate(Rotation.COUNTERCLOCKWISE_90));
                     break;
-                case "west":
-                    output[i] = new BlockPos(input[i][2], input[i][1], input[i][0]);
-                    break;
-                case "east":
-                    output[i] = new BlockPos(input[i][2] * -1, input[i][1], input[i][0]);
+                case EAST:
+                    posList.set(i, posList.get(i).rotate(Rotation.CLOCKWISE_90));
                     break;
             }
         }
-        return output;
+        return posList;
     }
 
     /**
@@ -290,9 +289,9 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
     public boolean isBuilt(World world, BlockPos controllerPos, Direction side) {
         if (isComponentTypeBuilt(TMComponentType.CORE, world, controllerPos, side) &&
             isComponentTypeBuilt(TMComponentType.BASIC, world, controllerPos, side)) {
-            BlockPos[] airPos = getAirBlocksPos(side);
-            for (int i = 0; i < airPos.length; i++) {
-                if (world.getBlockState(controllerPos.add(airPos[i])) != Blocks.AIR.getDefaultState()) {
+            List<BlockPos> airPos = getAirBlocksPos(side);
+            for (BlockPos pos: airPos) {
+                if (world.getBlockState(controllerPos.add(pos)) != Blocks.AIR.getDefaultState()) {
                     return false;
                 }
             }
@@ -310,7 +309,7 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
      * @return True if the component is correctly built
      */
     public final boolean isComponentTypeBuilt(TMComponentType type, World world, BlockPos controllerPos, Direction side) {
-        BlockPos[] positions;
+        List<BlockPos> positions;
         BlockState[] states;
 
         switch (type) {
@@ -324,7 +323,7 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
                 states = ArrayUtils.addAll(getBasicBlocks(), getUpgradeBlocks());
                 break;
             case CONTROLPANEL:
-                positions = new BlockPos[]{new BlockPos(0, 0, 0)};
+                positions = Collections.singletonList(BlockPos.ZERO);
                 states = getControllerBlocks();
                 break;
             default:
@@ -416,21 +415,21 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
      */
     public AxisAlignedBB getAirSpace(BlockPos controllerPos, Direction side) {
         // Get the air blocks
-        BlockPos relativeAirBlocks[] = applySide(airBlocksPos(), side);
+        List<BlockPos> relativeAirBlocks = applySide(airBlocksPos(), side);
         // First block is the min and max block by default
-        BlockPos minPos = relativeAirBlocks[0];
-        BlockPos maxPos = relativeAirBlocks[0];
+        BlockPos minPos = relativeAirBlocks.get(0);
+        BlockPos maxPos = relativeAirBlocks.get(0);
         // Check for the correct min and max block
-        for (int block = 1; block < relativeAirBlocks.length; block++) {
-            if (relativeAirBlocks[block].getX() < minPos.getX() ||
-                relativeAirBlocks[block].getY() < minPos.getY() ||
-                relativeAirBlocks[block].getZ() < minPos.getZ()) {
-                minPos = relativeAirBlocks[block];
+        for (BlockPos pos: relativeAirBlocks) {
+            if (pos.getX() < minPos.getX() ||
+                pos.getY() < minPos.getY() ||
+                pos.getZ() < minPos.getZ()) {
+                minPos = pos;
             } else
-            if (relativeAirBlocks[block].getX() > maxPos.getX() ||
-                relativeAirBlocks[block].getY() > maxPos.getY() ||
-                relativeAirBlocks[block].getZ() > maxPos.getZ()) {
-                maxPos = relativeAirBlocks[block];
+            if (pos.getX() > maxPos.getX() ||
+                pos.getY() > maxPos.getY() ||
+                pos.getZ() > maxPos.getZ()) {
+                maxPos = pos;
             }
         }
         // Convert the relative positions to real ones
@@ -460,10 +459,10 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
         IChunk chunk = worldIn.getChunk(controllerPos);
         worldIn.getChunkProvider().getChunk(chunk.getPos().x, chunk.getPos().z, ChunkStatus.FULL, true);
         if (shouldBuild) {
-            BlockPos[] posData = getPosData(controllerPos, side);
-            BlockState[] blockData = getBlockData(worldOut, posData);
+            List<BlockPos> posData = getPosData(controllerPos, side);
+            Map<BlockPos, BlockState> blockData = getBlockData(worldOut, posData);
             destroyTM(worldOut, posData);
-            buildTM(worldIn, posData, blockData);
+            buildTM(worldIn, blockData);
             doCooldown(worldIn, controllerPos, side);
         }
     }
@@ -474,14 +473,14 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
      * @param side The Time Machine facing
      * @return An array with all the Time Machine blocks positions
      */
-    public final BlockPos[] getPosData(BlockPos controllerPos, Direction side) {
-        BlockPos[] controllerPosA = new BlockPos[]{new BlockPos(0, 0, 0)};
-        BlockPos[] corePos = getCoreBlocksPos(side);
-        BlockPos[] basePos = getBasicBlocksPos(side);
-        BlockPos[] airPos = getAirBlocksPos(side);
-        BlockPos[] posData = (BlockPos[]) ArrayUtils.addAll((BlockPos[]) ArrayUtils.addAll(controllerPosA, corePos), (BlockPos[]) ArrayUtils.addAll(basePos, airPos));
-        for (int i = 0; i < posData.length; i++) {
-            posData[i] = controllerPos.add(posData[i]);
+    public final List<BlockPos> getPosData(BlockPos controllerPos, Direction side) {
+        ArrayList<BlockPos> posData = new ArrayList<BlockPos>();
+        posData.add(BlockPos.ZERO);
+        posData.addAll(getCoreBlocksPos(side));
+        posData.addAll(getBasicBlocksPos(side));
+        posData.addAll(getAirBlocksPos(side));
+        for (int i = 0; i < posData.size(); i++) {
+            posData.set(i, controllerPos.add(posData.get(i)));
         }
         return posData;
     }
@@ -492,10 +491,10 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
      * @param posData The positions gathered by the getPosData() method
      * @return An array with all the Time Machine blocks IBlockStates
      */
-    public final BlockState[] getBlockData(World world, BlockPos[] posData) {
-        BlockState[] blockData = new BlockState[posData.length];
-        for (int i = 0; i < blockData.length; i++) {
-            blockData[i] = world.getBlockState(posData[i]);
+    public final Map<BlockPos, BlockState> getBlockData(World world, List<BlockPos> posData) {
+        Map<BlockPos, BlockState> blockData = new HashMap<>(posData.size());
+        for (BlockPos pos: posData) {
+            blockData.put(pos, world.getBlockState(pos));
         }
         return blockData;
     }
@@ -505,21 +504,20 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
      * @param world The source world
      * @param posData The positions gathered by the getPosData() method
      */
-    public final void destroyTM(World world, BlockPos[] posData) {
-        for (int i = 0; i < posData.length; i++) {
-            world.setBlockState(posData[i], Blocks.AIR.getDefaultState());
+    public final void destroyTM(World world, List<BlockPos> posData) {
+        for (BlockPos pos: posData) {
+            world.setBlockState(pos, Blocks.AIR.getDefaultState());
         }
     }
 
     /**
      * Build the Time Machine in the target world
      * @param world The target world
-     * @param posData The positions gathered by the getPosData() method
      * @param blockData The IBlockStates gathered by the getBlockData() method
      */
-    public final void buildTM(World world, BlockPos[] posData, BlockState[] blockData) {
-        for (int i = 0; i < posData.length; i++) {
-            world.setBlockState(posData[i], blockData[i]);
+    public final void buildTM(World world, Map<BlockPos, BlockState> blockData) {
+        for (BlockPos pos: blockData.keySet()) {
+            world.setBlockState(pos, blockData.get(pos));
         }
     }
 

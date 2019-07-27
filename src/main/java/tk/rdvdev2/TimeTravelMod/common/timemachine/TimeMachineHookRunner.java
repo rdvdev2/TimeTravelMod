@@ -12,6 +12,7 @@ import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHook;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -53,17 +54,17 @@ public class TimeMachineHookRunner extends TimeMachine {
     }
 
     @Override
-    public int[][] coreBlocksPos() {
+    public List<BlockPos> coreBlocksPos() {
         return tm.coreBlocksPos();
     }
 
     @Override
-    public int[][] basicBlocksPos() {
+    public List<BlockPos> basicBlocksPos() {
         return tm.basicBlocksPos();
     }
 
     @Override
-    public int[][] airBlocksPos() {
+    public List<BlockPos> airBlocksPos() {
         return tm.airBlocksPos();
     }
 
@@ -83,17 +84,17 @@ public class TimeMachineHookRunner extends TimeMachine {
     }
 
     @Override
-    public BlockPos[] getCoreBlocksPos(Direction side) {
+    public List<BlockPos> getCoreBlocksPos(Direction side) {
         return tm.getCoreBlocksPos(side);
     }
 
     @Override
-    public BlockPos[] getBasicBlocksPos(Direction side) {
+    public List<BlockPos> getBasicBlocksPos(Direction side) {
         return tm.getBasicBlocksPos(side);
     }
 
     @Override
-    public BlockPos[] getAirBlocksPos(Direction side) {
+    public List<BlockPos> getAirBlocksPos(Direction side) {
         return tm.getAirBlocksPos(side);
     }
 
