@@ -38,8 +38,9 @@ public class ModRegistries {
 
         timeMachinesRegistry = new RegistryBuilder<TimeMachine>()
                 .setType(TimeMachine.class)
-                .setName(new ResourceLocation("timetravelmod:ztimemachines"))
+                .setName(new ResourceLocation("timetravelmod:timemachines"))
                 .addCallback(new TimeMachinesCallbacks())
+                .legacyName("timetravelmod:ztimemachines")
                 .create();
 
         upgradesRegistry = new RegistryBuilder<TimeMachineUpgrade>()
@@ -49,7 +50,7 @@ public class ModRegistries {
                 .create();
     }
 
-    public static class TimeMachinesCallbacks implements IForgeRegistry.CreateCallback<TimeMachine>, IForgeRegistry.AddCallback<TimeMachine>, IForgeRegistry.BakeCallback {
+    public static class TimeMachinesCallbacks implements IForgeRegistry.CreateCallback<TimeMachine>, IForgeRegistry.AddCallback<TimeMachine> {
 
         private HashMap<BlockState, ResourceLocation> blockStateResourceLocationHashMap;
 
@@ -73,11 +74,6 @@ public class ModRegistries {
                     }
                 }
             }
-        }
-
-        @Override
-        public void onBake(IForgeRegistryInternal owner, RegistryManager stage) {
-
         }
     }
 
