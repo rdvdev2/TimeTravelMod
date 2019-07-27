@@ -8,15 +8,13 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import tk.rdvdev2.TimeTravelMod.ModTimeMachines;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
-import tk.rdvdev2.TimeTravelMod.common.event.ConfigureTimeMachineBlocksEvent;
 
 public class CreativeTimeMachineItem extends Item {
     private String name = "creativetimemachine";
-    private TimeMachine timeMachine;
+    private TimeMachine timeMachine = ModTimeMachines.timeMachineCreative;
 
     public CreativeTimeMachineItem() {
         super(new Properties()
@@ -24,11 +22,6 @@ public class CreativeTimeMachineItem extends Item {
                 .group(TimeTravelMod.tabTTM)
         );
         setRegistryName(name);
-        MinecraftForge.EVENT_BUS.addListener(this::setTimeMachine);
-    }
-
-    public void setTimeMachine(ConfigureTimeMachineBlocksEvent event) {
-        this.timeMachine = ModTimeMachines.timeMachineCreative;
     }
 
     @Override

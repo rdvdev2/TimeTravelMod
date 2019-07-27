@@ -15,13 +15,10 @@ import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineComponentBlock;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
-import tk.rdvdev2.TimeTravelMod.common.event.ConfigureTimeMachineBlocksEvent;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.CreativeTimeMachine;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
-
-import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModRegistries {
@@ -80,7 +77,7 @@ public class ModRegistries {
 
         @Override
         public void onBake(IForgeRegistryInternal owner, RegistryManager stage) {
-            EVENT_BUS.post(new ConfigureTimeMachineBlocksEvent());
+
         }
     }
 

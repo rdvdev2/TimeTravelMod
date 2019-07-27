@@ -1,8 +1,9 @@
 package tk.rdvdev2.TimeTravelMod.api.timemachine.block;
 
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
-import tk.rdvdev2.TimeTravelMod.common.event.ConfigureTimeMachineBlocksEvent;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,11 +12,11 @@ public abstract class AbstractTimeMachineUpgradeBlock extends AbstractTimeMachin
 
     public AbstractTimeMachineUpgradeBlock(Properties properties) {
         super(properties);
-        MinecraftForge.EVENT_BUS.register(this);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setTimeMachine);
     }
 
-    public void setTimeMachine(ConfigureTimeMachineBlocksEvent event) {
-        HashMap<TimeMachineUpgrade, AbstractTimeMachineComponentBlock[]> hm = event.getUpgrades();
+    public void setTimeMachine(FMLCommonSetupEvent event) {
+        HashMap<TimeMachineUpgrade, AbstractTimeMachineComponentBlock[]> hm = ModRegistries.upgradesRegistry.getSlaveMap(ModRegistries.UPGRADETOBLOCK, HashMap.class);
         if (hm.containsKey(getUpgrade())) {
             AbstractTimeMachineComponentBlock[] blocks = hm.get(getUpgrade());
             int index = blocks.length;
