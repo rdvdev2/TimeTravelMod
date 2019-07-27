@@ -15,8 +15,6 @@ import tk.rdvdev2.TimeTravelMod.ModTriggers;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 
-import java.util.ArrayList;
-
 public class CreativeTimeMachine extends TimeMachine {
 
     @Override
@@ -24,9 +22,14 @@ public class CreativeTimeMachine extends TimeMachine {
         return 0;
     }
 
+    private int tier = 0;
+
     @Override
     public int getTier() {
-        return ModRegistries.timeLinesRegistry.getSlaveMap(ModRegistries.TIERTOTIMELINE, ArrayList.class).size() -1;
+        if (tier == 0) {
+            ModRegistries.timeLinesRegistry.forEach(timeLine -> tier = Math.max(timeLine.getMinTier(), tier));
+        }
+        return tier;
     }
 
     @Override

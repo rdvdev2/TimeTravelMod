@@ -19,10 +19,8 @@ import tk.rdvdev2.TimeTravelMod.common.event.ConfigureTimeMachineBlocksEvent;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.CreativeTimeMachine;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
@@ -32,7 +30,6 @@ public class ModRegistries {
     public static IForgeRegistry<TimeMachine> timeMachinesRegistry;
     public static IForgeRegistry<TimeLine> timeLinesRegistry;
     public static IForgeRegistry<TimeMachineUpgrade> upgradesRegistry;
-    public static ResourceLocation TIERTOTIMELINE = new ResourceLocation("timetravelmod:tiertotimeline");
     public static ResourceLocation CONTROLLERTOTM = new ResourceLocation("timetravelmod:blocktotm");
     public static ResourceLocation TMTOUPGRADE = new ResourceLocation("timetravelmod:tmtoupgrade");
     public static ResourceLocation UPGRADETOBLOCK = new ResourceLocation("timetravelmod:upgradetoblock");
@@ -42,7 +39,6 @@ public class ModRegistries {
         timeLinesRegistry = new RegistryBuilder<TimeLine>()
                 .setType(TimeLine.class)
                 .setName(new ResourceLocation("timetravelmod:timelines"))
-                .addCallback(new TimeLinesCallbacks())
                 .create();
 
         timeMachinesRegistry = new RegistryBuilder<TimeMachine>()
@@ -56,38 +52,6 @@ public class ModRegistries {
                 .setName(new ResourceLocation("timetravelmod:tmupgrades"))
                 .addCallback(new TimeMachineUpgradesCallbacks())
                 .create();
-    }
-
-    public static class TimeLinesCallbacks implements IForgeRegistry.AddCallback<TimeLine>, IForgeRegistry.CreateCallback<TimeLine> {
-
-        private ArrayList<HashSet<TimeLine>> tierToTimeLineArray;
-
-        @Override
-        public void onCreate(IForgeRegistryInternal<TimeLine> owner, RegistryManager stage) {
-            tierToTimeLineArray = new ArrayList<HashSet<TimeLine>>(0);
-            owner.setSlaveMap(TIERTOTIMELINE, tierToTimeLineArray);
-        }
-
-        @Override
-        public void onAdd(IForgeRegistryInternal<TimeLine> owner, RegistryManager stage, int id, TimeLine obj, @Nullable TimeLine oldObj) {
-
-            // Get the tiers ArrayList
-            tierToTimeLineArray = owner.getSlaveMap(TIERTOTIMELINE, ArrayList.class);
-
-            // Expand the ArrayList if there is a new max tier
-            tierToTimeLineArray.ensureCapacity(obj.getMinTier()+1);
-            for (int i = tierToTimeLineArray.size(); i < obj.getMinTier()+1; i++) {
-                tierToTimeLineArray.add(new HashSet<TimeLine>());
-            }
-
-            // Add the new TimeLine to it's valid tiers
-            for (int i = obj.getMinTier(); i < tierToTimeLineArray.size(); i++) {
-                tierToTimeLineArray.get(i).add(obj);
-            }
-
-            // Save the new data
-            owner.setSlaveMap(TIERTOTIMELINE, tierToTimeLineArray);
-        }
     }
 
     public static class TimeMachinesCallbacks implements IForgeRegistry.CreateCallback<TimeMachine>, IForgeRegistry.AddCallback<TimeMachine>, IForgeRegistry.BakeCallback {
