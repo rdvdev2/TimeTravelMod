@@ -55,7 +55,6 @@ public class EngineerBookScreen extends Screen {
             d.tier = tm.getTier();
             d.cooldown = tm.getCooldownTime() / 20;
             if (tm instanceof CreativeTimeMachine) {
-                d.controllerBlockPos = null; // Flag to indicate the Time Machine has no building
                 d.tier++; // Ensure it's the last one in the list
                 timeMachineData.add(d);
                 continue;

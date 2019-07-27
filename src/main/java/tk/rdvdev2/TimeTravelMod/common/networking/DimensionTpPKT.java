@@ -2,7 +2,6 @@ package tk.rdvdev2.TimeTravelMod.common.networking;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.SPlayEntityEffectPacket;
 import net.minecraft.network.play.server.SPlayerAbilitiesPacket;
@@ -23,13 +22,11 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.fml.hooks.BasicEventHooks;
 import net.minecraftforge.fml.network.NetworkEvent;
-import tk.rdvdev2.TimeTravelMod.ModItems;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineHooksException;
-import tk.rdvdev2.TimeTravelMod.common.timemachine.CreativeTimeMachine;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
 import tk.rdvdev2.TimeTravelMod.common.world.corruption.ICorruption;
 
@@ -114,7 +111,7 @@ public class DimensionTpPKT {
                     finalTm.isBuilt(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
                     finalTm.isPlayerInside(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side, serverPlayer) &&
                     !finalTm.isOverloaded(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
-                    canTravel(finalTm, message.tl, serverPlayer)) {
+                    finalTm.getTier() >= message.tl.getMinTier()) {
                         applyCorruption(finalTm, serverPlayer.dimension, dim, serverPlayer.server);
                         changePlayerDim(serverPlayer, pos, dim, finalTm, side, true);
                         message.additionalEntities.stream()
@@ -139,15 +136,6 @@ public class DimensionTpPKT {
             int amount = Math.abs(destTier - origTier) * tm.getCorruptionMultiplier();
             server.getWorld(origDim).getCapability(CORRUPTION_CAPABILITY).orElseThrow(RuntimeException::new).increaseCorruptionLevel(amount);
             server.getWorld(destDim).getCapability(CORRUPTION_CAPABILITY).orElseThrow(RuntimeException::new).increaseCorruptionLevel(amount);
-        }
-
-        private static boolean canTravel(TimeMachine tm, TimeLine tl, ServerPlayerEntity player) {
-            TimeMachine unhookedTM = tm instanceof TimeMachineHookRunner ? ((TimeMachineHookRunner) tm).removeHooks() : tm;
-            if (unhookedTM instanceof CreativeTimeMachine) {
-                if (!ItemStack.areItemsEqual(player.inventory.getCurrentItem(), new ItemStack(ModItems.creativeTimeMachine, 1)))
-                    return false;
-            }
-            return tm.getTier() >= tl.getMinTier();
         }
 
         public static void changePlayerDim(ServerPlayerEntity player, BlockPos pos, DimensionType destDim, TimeMachine tm, Direction side, boolean shouldBuild) { // copy from ServerPlayerEntity#changeDimension

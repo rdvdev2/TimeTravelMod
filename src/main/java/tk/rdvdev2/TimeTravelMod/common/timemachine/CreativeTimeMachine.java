@@ -3,6 +3,7 @@ package tk.rdvdev2.TimeTravelMod.common.timemachine;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -10,6 +11,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.Heightmap;
+import tk.rdvdev2.TimeTravelMod.ModItems;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.ModTriggers;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
@@ -77,7 +79,7 @@ public class CreativeTimeMachine extends TimeMachine {
 
     @Override
     public boolean isPlayerInside(World world, BlockPos controllerPos, Direction side, PlayerEntity player) {
-        return true;
+        return ItemStack.areItemsEqual(player.inventory.getCurrentItem(), new ItemStack(ModItems.creativeTimeMachine, 1));
     }
 
     @Override
