@@ -109,6 +109,7 @@ public class DimensionTpPKT {
                 if (entitiesFlag.get() &&
                     serverPlayer.world.isBlockLoaded(pos) &&
                     finalTm.isBuilt(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
+                    finalTm.isCooledDown(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
                     finalTm.isPlayerInside(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side, serverPlayer) &&
                     !finalTm.isOverloaded(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
                     finalTm.getTier() >= message.tl.getMinTier()) {
