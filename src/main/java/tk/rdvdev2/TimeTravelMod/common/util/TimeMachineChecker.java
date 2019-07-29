@@ -10,6 +10,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.World;
+import tk.rdvdev2.TimeTravelMod.ModConfig;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 
 import java.util.Arrays;
@@ -40,7 +41,7 @@ public class TimeMachineChecker {
         Check error = check(tm, world, player, pos, side);
         if (error == null) {
             return true;
-        } else {
+        } else if (ModConfig.COMMON.enableCheaterReports.get().booleanValue()){
             Arrays.stream(server.getPlayerList().getOppedPlayers().getKeys())
                     .map(op -> server.getPlayerList().getPlayerByUsername(op))
                     .forEach(op -> {
@@ -48,7 +49,7 @@ public class TimeMachineChecker {
                         op.sendStatusMessage(error.getCheaterReport(player), false);
                     });
             return false;
-        }
+        } else return false;
     }
 
     public static enum Check {

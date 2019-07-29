@@ -63,5 +63,6 @@
     "tm.timetravelmod.tmtier1.description": "A very simple Time Machine. You will only reach the Old West.",
     "tm.timetravelmod.tmtier1.name": "Tier 1 Time Machine",
     "config.timetravelmod.common.enableexperimentalfeatrues": "When this is enabled experimental features of the mod are activated",
-    "config.timetravelmod.common.enableupdatepromos": "If this is disabled you won't be notiified of mod updates at world joining"
+    "config.timetravelmod.common.enableupdatepromos": "If this is disabled you won't be notiified of mod updates at world joining",
+    "config.timetravelmod.common.enablecheaterreports": "If this is disabled game masters (ops) won't be notified when a possible cheater is detected"
 }

@@ -36,6 +36,7 @@ public class ModConfig {
 
         public final ForgeConfigSpec.BooleanValue enableExperimentalFeatures;
         public final ForgeConfigSpec.BooleanValue enableUpdatePromos;
+        public final ForgeConfigSpec.BooleanValue enableCheaterReports;
 
         Common(ForgeConfigSpec.Builder builder) {
 
@@ -51,6 +52,11 @@ public class ModConfig {
                     .comment("If this is disabled you won't be notiified of mod updates at world joining")
                     .translation("config.timetravelmod.common.enableupdatepromos")
                     .define("enableUpdatePromos", true);
+
+            enableCheaterReports = builder
+                    .comment("If this is disabled game masters (ops) won't be notified when a possible cheater is detected")
+                    .translation("config.timetravelmod.common.enablecheaterreports")
+                    .define("enableCheaterReports", true);
 
             builder.pop();
         }
