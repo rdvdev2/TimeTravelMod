@@ -28,6 +28,7 @@ import tk.rdvdev2.TimeTravelMod.api.timemachine.block.tileentity.TMCooldownTileE
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineHooksException;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
+import tk.rdvdev2.TimeTravelMod.common.util.TimeMachineChecker;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -261,19 +262,23 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
      * @param side The facing of the time machine
      */
     public void run(World world, PlayerEntity playerIn, BlockPos controllerPos, Direction side) {
-        if (isBuilt(world, controllerPos, side) &&
-            isCooledDown(world, controllerPos, side) &&
-            isPlayerInside(world, controllerPos, side, playerIn) &&
-            !isOverloaded(world, controllerPos, side) &&
-            !world.isRemote) {
-            if (!triggerTemporalExplosion(world, controllerPos, side))
-                if (playerIn instanceof ServerPlayerEntity) {
-                    ModTriggers.ACCESS_TIME_MACHINE.trigger((ServerPlayerEntity) playerIn);
+        if (!world.isRemote) {
+            TimeMachineChecker.Check error = TimeMachineChecker.check(this, world, playerIn, controllerPos, side);
+            if (error == null) {
+                if (!triggerTemporalExplosion(world, controllerPos, side)) {
+                    if (playerIn instanceof ServerPlayerEntity) {
+                        ModTriggers.ACCESS_TIME_MACHINE.trigger((ServerPlayerEntity) playerIn);
+                    }
+                    TimeTravelMod.proxy.displayTMGuiScreen(playerIn, this, controllerPos, side, getEntitiesInside(world, controllerPos, side).stream()
+                            .filter(entity -> !entity.equals(playerIn))
+                            .map(Entity::getUniqueID)
+                            .collect(Collectors.toList()).toArray(new UUID[]{}));
                 }
-                TimeTravelMod.proxy.displayTMGuiScreen(playerIn, this, controllerPos, side, getEntitiesInside(world, controllerPos, side).stream()
-                        .filter(entity -> !entity.equals(playerIn))
-                        .map(Entity::getUniqueID)
-                        .collect(Collectors.toList()).toArray(new UUID[]{}));
+            } else {
+                if (playerIn instanceof ServerPlayerEntity) {
+                    playerIn.sendStatusMessage(error.getClientError(), true);
+                }
+            }
         }
     }
 

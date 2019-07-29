@@ -28,6 +28,7 @@ import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineHooksException;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
+import tk.rdvdev2.TimeTravelMod.common.util.TimeMachineChecker;
 import tk.rdvdev2.TimeTravelMod.common.world.corruption.ICorruption;
 
 import java.util.*;
@@ -108,10 +109,7 @@ public class DimensionTpPKT {
                 });
                 if (entitiesFlag.get() &&
                     serverPlayer.world.isBlockLoaded(pos) &&
-                    finalTm.isBuilt(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
-                    finalTm.isCooledDown(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
-                    finalTm.isPlayerInside(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side, serverPlayer) &&
-                    !finalTm.isOverloaded(serverPlayer.getServer().getWorld(serverPlayer.dimension), pos, side) &&
+                    TimeMachineChecker.serverCheck(serverPlayer.server, finalTm, serverPlayer.world, serverPlayer, pos, side) &&
                     finalTm.getTier() >= message.tl.getMinTier()) {
                         applyCorruption(finalTm, serverPlayer.dimension, dim, serverPlayer.server);
                         changePlayerDim(serverPlayer, pos, dim, finalTm, side, true);
