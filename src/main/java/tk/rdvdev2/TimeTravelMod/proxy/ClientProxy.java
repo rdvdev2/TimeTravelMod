@@ -5,14 +5,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkEvent;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
-import tk.rdvdev2.TimeTravelMod.ModSounds;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineHooksException;
+import tk.rdvdev2.TimeTravelMod.client.SoundManager;
 import tk.rdvdev2.TimeTravelMod.client.gui.EngineerBookScreen;
 import tk.rdvdev2.TimeTravelMod.client.gui.TimeMachineScreen;
 import tk.rdvdev2.TimeTravelMod.common.networking.OpenTmGuiPKT;
@@ -50,8 +49,6 @@ public class ClientProxy extends CommonProxy {
         // Register ColorHandlerEvent#Block
         MinecraftForge.EVENT_BUS.addListener(ModBlocks::registerBlockColor);
         // Register PlaySoundEvent
-        MinecraftForge.EVENT_BUS.addListener(ModSounds::onPlaySound);
-        // Register RegistryEvent#Register<SoundEvent>
-        FMLJavaModLoadingContext.get().getModEventBus().register(ModSounds.class);
+        MinecraftForge.EVENT_BUS.addListener(SoundManager::onPlaySound);
     }
 }
