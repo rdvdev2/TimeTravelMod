@@ -14,6 +14,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.WorldInfo;
@@ -116,7 +117,12 @@ public class DimensionTpPKT {
                         message.additionalEntities.stream()
                                 .map(uuid -> origin.getEntityByUuid(uuid))
                                 .forEach(entity -> changeEntityDim(entity, pos, dim, finalTm, side));
-                } else TimeTravelMod.logger.error("Time Travel canceled due to incorrect conditions");
+                } else {
+                    if (!entitiesFlag.get()) {
+                        serverPlayer.sendStatusMessage(new TranslationTextComponent("timetravelmod.error.entitiesescaped"), true);
+                    }
+                    TimeTravelMod.logger.error("Time Travel canceled due to incorrect conditions");
+                }
             });
         }
 
