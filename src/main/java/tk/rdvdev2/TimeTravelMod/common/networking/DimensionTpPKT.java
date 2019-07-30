@@ -14,7 +14,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.WorldInfo;
@@ -127,7 +126,7 @@ public class DimensionTpPKT {
                         }
                 } else {
                     if (!entitiesFlag.get()) {
-                        serverPlayer.sendStatusMessage(new TranslationTextComponent("timetravelmod.error.entitiesescaped"), true);
+                        serverPlayer.sendStatusMessage(TimeMachineChecker.Check.ENTITIES_ESCAPED.getClientError(), true);
                     }
                     TimeTravelMod.logger.error("Time Travel canceled due to incorrect conditions");
                 }

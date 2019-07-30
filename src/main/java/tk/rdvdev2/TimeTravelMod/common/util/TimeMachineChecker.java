@@ -57,7 +57,8 @@ public class TimeMachineChecker {
         COOLED_DOWN("timetravelmod.error.cooled_down.client", "timetravelmod.error.cooled_down.server"),
         PALYER_INSIDE("timetravelmod.error.player_inside.client", "timetravelmod.error.player_inside.server"),
         OVERLOADED("timetravelmod.error.overloaded.client", "timetravelmod.error.overloaded.server"),
-        UNREACHABLE_DIM("", "timetravelmod.error.unreachable_dim");
+        UNREACHABLE_DIM("", "timetravelmod.error.unreachable_dim"),
+        ENTITIES_ESCAPED("timetravelmod.error.entitiesescaped", "");
 
         private final String clientError;
         private final String cheatError;
