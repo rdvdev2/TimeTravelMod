@@ -57,6 +57,7 @@
     "timetravelmod.error.overloaded.client": "The Time Machine is overloaded!",
     "timetravelmod.error.overloaded.server": "The Time Machine used by the player is overloaded",
     "timetravelmod.error.entitiesescaped": "Someone exited the Time Machine, canceled.",
+    "timetravelmod.error.unreachable_dim": "The destination Time Line is unreachable with the Time Machine used by the player.",
     "timetravelmod.cheater_report": "A Time Travel request was received in the server, but the player who sent it (%s) is possibly cheating. Reason: %s. We suggest you to %s him.",
     "timetravelmod.ban": "[BAN]",
     "tm.timetravelmod.tmcreative.description": "A special Time Machine. This Time Machine is only available in creative mode and allows to time travel without building anything. Instead, you only have to use the item and you will have access to all Time Lines. The Creative Time Machine also doesn't have any cool down time.",

@@ -110,13 +110,21 @@ public class DimensionTpPKT {
                 });
                 if (entitiesFlag.get() &&
                     serverPlayer.world.isBlockLoaded(pos) &&
-                    TimeMachineChecker.serverCheck(serverPlayer.server, finalTm, serverPlayer.world, serverPlayer, pos, side) &&
-                    finalTm.getTier() >= message.tl.getMinTier()) {
-                        applyCorruption(finalTm, serverPlayer.dimension, dim, serverPlayer.server);
-                        changePlayerDim(serverPlayer, pos, dim, finalTm, side, true);
-                        message.additionalEntities.stream()
-                                .map(uuid -> origin.getEntityByUuid(uuid))
-                                .forEach(entity -> changeEntityDim(entity, pos, dim, finalTm, side));
+                    TimeMachineChecker.serverCheck(serverPlayer.server, finalTm, serverPlayer.world, serverPlayer, pos, side)) {
+                        if (finalTm.getTier() >= message.tl.getMinTier()) {
+                            applyCorruption(finalTm, serverPlayer.dimension, dim, serverPlayer.server);
+                            changePlayerDim(serverPlayer, pos, dim, finalTm, side, true);
+                            message.additionalEntities.stream()
+                                    .map(uuid -> origin.getEntityByUuid(uuid))
+                                    .forEach(entity -> changeEntityDim(entity, pos, dim, finalTm, side));
+                        } else {
+                            Arrays.stream(serverPlayer.server.getPlayerList().getOppedPlayers().getKeys())
+                                    .map(op -> serverPlayer.server.getPlayerList().getPlayerByUsername(op))
+                                    .forEach(op -> {
+                                        if (op != null)
+                                            op.sendStatusMessage(TimeMachineChecker.Check.UNREACHABLE_DIM.getCheaterReport(serverPlayer), false);
+                                    });
+                        }
                 } else {
                     if (!entitiesFlag.get()) {
                         serverPlayer.sendStatusMessage(new TranslationTextComponent("timetravelmod.error.entitiesescaped"), true);
