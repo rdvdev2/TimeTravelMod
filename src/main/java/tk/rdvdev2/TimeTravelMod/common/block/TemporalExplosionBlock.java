@@ -19,12 +19,8 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.loot.LootContext;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
 import tk.rdvdev2.TimeTravelMod.ModTriggers;
-
-import java.util.Collections;
-import java.util.List;
 
 public class TemporalExplosionBlock extends Block {
     private String name = "temporalexplosion";
@@ -38,11 +34,6 @@ public class TemporalExplosionBlock extends Block {
                 .variableOpacity()
         );
         setRegistryName(name);
-    }
-
-    @Override
-    public List<ItemStack> getDrops(BlockState p_220076_1_, LootContext.Builder p_220076_2_) {
-        return Collections.emptyList();
     }
 
     @Override
