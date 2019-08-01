@@ -33,7 +33,7 @@ public abstract class AbstractTimeMachineControlPanelBlock extends AbstractTimeM
      */
     public final TimeMachine getTimeMachine() {
         if (this.timeMachine == null) {
-            timeMachine = ModRegistries.timeMachinesRegistry.getValue(((HashMap<BlockState, ResourceLocation>) ModRegistries.timeMachinesRegistry.getSlaveMap(ModRegistries.CONTROLLERTOTM, HashMap.class)).get(this.getDefaultState()));
+            timeMachine = ModRegistries.TIME_MACHINES.getValue(((HashMap<BlockState, ResourceLocation>) ModRegistries.TIME_MACHINES.getSlaveMap(ModRegistries.CONTROLLERTOTM, HashMap.class)).get(this.getDefaultState()));
         }
         return timeMachine;
     }

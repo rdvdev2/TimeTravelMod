@@ -14,12 +14,12 @@ import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 
 public class CreativeTimeMachineItem extends Item {
     private String name = "creativetimemachine";
-    private TimeMachine timeMachine = ModTimeMachines.timeMachineCreative;
+    private TimeMachine timeMachine = ModTimeMachines.CREATIVE;
 
     public CreativeTimeMachineItem() {
         super(new Properties()
                 .maxStackSize(1)
-                .group(TimeTravelMod.tabTTM)
+                .group(TimeTravelMod.TAB_TTM)
         );
         setRegistryName(name);
     }

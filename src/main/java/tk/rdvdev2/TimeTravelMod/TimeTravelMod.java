@@ -20,18 +20,18 @@ public class TimeTravelMod {
 
     public static final String MODID = "timetravelmod";
 
-    public static IProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
+    public static final IProxy PROXY = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
-    public static final Logger logger = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger();
 
-    public static ItemGroup tabTTM = new TTMItemGroup();
+    public static final ItemGroup TAB_TTM = new TTMItemGroup();
 
     public TimeTravelMod() {
-        proxy.modConstructor(this);
+        PROXY.modConstructor(this);
     }
 
     public void commonSetup(FMLCommonSetupEvent event) {
-        TimeTravelMod.logger.info("Time Travel Mod is in common setup state.");
+        TimeTravelMod.LOGGER.info("Time Travel Mod is in common setup state.");
         ModPacketHandler.init();
         VanillaBiomesFeatures.register();
         ModCapabilities.register();

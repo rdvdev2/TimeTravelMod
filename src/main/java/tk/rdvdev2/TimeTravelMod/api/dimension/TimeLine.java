@@ -80,7 +80,7 @@ public abstract class TimeLine extends ForgeRegistryEntry<TimeLine> {
     }
 
     public static boolean isValidTimeLine(World world) {
-        Iterator<TimeLine> iterator = ModRegistries.timeLinesRegistry.iterator();
+        Iterator<TimeLine> iterator = ModRegistries.TIME_LINES.iterator();
         while (iterator.hasNext()) {
             TimeLine tl = iterator.next();
             if (tl.getDimension() == world.getDimension().getType()) return true;

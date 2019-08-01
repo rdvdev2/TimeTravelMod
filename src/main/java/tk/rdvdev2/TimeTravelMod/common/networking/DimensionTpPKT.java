@@ -128,14 +128,14 @@ public class DimensionTpPKT {
                     if (!entitiesFlag.get()) {
                         serverPlayer.sendStatusMessage(TimeMachineChecker.Check.ENTITIES_ESCAPED.getClientError(), true);
                     }
-                    TimeTravelMod.logger.error("Time Travel canceled due to incorrect conditions");
+                    TimeTravelMod.LOGGER.error("Time Travel canceled due to incorrect conditions");
                 }
             });
         }
 
         private static void applyCorruption(TimeMachine tm, DimensionType origDim, DimensionType destDim, MinecraftServer server) {
             int origTier = -1, destTier = -1;
-            Iterator<TimeLine> iterator = ModRegistries.timeLinesRegistry.iterator();
+            Iterator<TimeLine> iterator = ModRegistries.TIME_LINES.iterator();
             while (iterator.hasNext()) {
                 TimeLine current = iterator.next();
                 if (current.getDimension() == origDim) {

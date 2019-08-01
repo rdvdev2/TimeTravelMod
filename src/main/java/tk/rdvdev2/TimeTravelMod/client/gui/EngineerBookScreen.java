@@ -197,7 +197,7 @@ public class EngineerBookScreen extends Screen {
             right -= 2;
             int relativeYdiff = 0 - relativeY;
             relativeY += padding;
-            relativeY += drawCenteredString(ModItems.engineerBook.getName().getUnformattedComponentText(), width / 2, relativeY, 0xFFD900);
+            relativeY += drawCenteredString(ModItems.ENGINEER_BOOK.getName().getUnformattedComponentText(), width / 2, relativeY, 0xFFD900);
             relativeY += 2;
             relativeY += drawSplitString(new TranslationTextComponent("gui.tmengineerbook.introduction").getUnformattedComponentText(),left + padding, relativeY, (right - padding) - left, 0xFFFFFF);
             relativeY += 8;
@@ -208,7 +208,7 @@ public class EngineerBookScreen extends Screen {
             for(TimeMachineData data: timeMachineData) {
                 int tier;
                 boolean hasBuilding;
-                if (data.name.getKey().equals(ModTimeMachines.timeMachineCreative.getName().getKey())) {
+                if (data.name.getKey().equals(ModTimeMachines.CREATIVE.getName().getKey())) {
                     tier = data.tier - 1;
                     hasBuilding = false;
                 } else {
@@ -269,7 +269,7 @@ public class EngineerBookScreen extends Screen {
             }
             relativeY += drawCenteredString(new TranslationTextComponent("gui.tmengineerbook.upgrades").getUnformattedComponentText(), width / 2, relativeY, 0xFFD900);
             relativeY += 2;
-            Collection<TimeMachineUpgrade> upgrades = ModRegistries.upgradesRegistry.getValues();
+            Collection<TimeMachineUpgrade> upgrades = ModRegistries.UPGRADES.getValues();
             if (upgrades.isEmpty()) {
                 relativeY += drawString(new TranslationTextComponent("gui.tmengineerbook.noupgrades").getUnformattedComponentText(), left + padding, relativeY, 0xFFFFFF);
                 relativeY += 2;

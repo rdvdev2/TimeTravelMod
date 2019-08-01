@@ -15,7 +15,7 @@ public class ItemEngineerBook extends Item {
 
     public ItemEngineerBook() {
         super(new Properties()
-                .group(TimeTravelMod.tabTTM)
+                .group(TimeTravelMod.TAB_TTM)
                 .maxStackSize(1));
         setRegistryName(name);
     }
@@ -24,7 +24,7 @@ public class ItemEngineerBook extends Item {
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
         ActionResultType result = ActionResultType.PASS;
         if (worldIn.isRemote) {
-            TimeTravelMod.proxy.displayEngineerBookGuiScreen(playerIn);
+            TimeTravelMod.PROXY.displayEngineerBookGuiScreen(playerIn);
             result = ActionResultType.PASS;
         }
         return new ActionResult<ItemStack>(result, playerIn.getHeldItem(handIn));

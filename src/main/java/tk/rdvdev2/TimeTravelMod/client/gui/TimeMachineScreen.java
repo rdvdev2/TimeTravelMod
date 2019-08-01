@@ -47,7 +47,7 @@ public class TimeMachineScreen extends Screen {
 
     @Override
     public void init() {
-        ArrayList<TimeLine> tls = new ArrayList(ModRegistries.timeLinesRegistry.getValues());
+        ArrayList<TimeLine> tls = new ArrayList(ModRegistries.TIME_LINES.getValues());
         Collections.sort(tls, Comparator.comparingInt(TimeLine::getMinTier));
         int buttoncount = tls.size();
         for(int id = 0; id < tls.size(); id++) {

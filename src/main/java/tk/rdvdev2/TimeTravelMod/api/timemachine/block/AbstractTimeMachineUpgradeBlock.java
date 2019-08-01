@@ -16,7 +16,7 @@ public abstract class AbstractTimeMachineUpgradeBlock extends AbstractTimeMachin
     }
 
     public void setTimeMachine(FMLCommonSetupEvent event) {
-        HashMap<TimeMachineUpgrade, AbstractTimeMachineComponentBlock[]> hm = ModRegistries.upgradesRegistry.getSlaveMap(ModRegistries.UPGRADETOBLOCK, HashMap.class);
+        HashMap<TimeMachineUpgrade, AbstractTimeMachineComponentBlock[]> hm = ModRegistries.UPGRADES.getSlaveMap(ModRegistries.UPGRADETOBLOCK, HashMap.class);
         if (hm.containsKey(getUpgrade())) {
             AbstractTimeMachineComponentBlock[] blocks = hm.get(getUpgrade());
             int index = blocks.length;

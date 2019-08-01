@@ -29,13 +29,13 @@ public class CommonProxy implements IProxy {
 
     @Override
     public void displayEngineerBookGuiScreen(PlayerEntity player) {
-        TimeTravelMod.logger.warn("Server is trying to display the Engineer's Book GUI");
+        TimeTravelMod.LOGGER.warn("Server is trying to display the Engineer's Book GUI");
     }
 
     @Override
     public void handleOpenTMGUI(OpenTmGuiPKT message, NetworkEvent.Context ctx) {
         // Server is not going to handle this
-        TimeTravelMod.logger.warn("Server is trying to handle the OpenTmGuiPKT packet. That's weird!");
+        TimeTravelMod.LOGGER.warn("Server is trying to handle the OpenTmGuiPKT packet. That's weird!");
     }
 
     @Override

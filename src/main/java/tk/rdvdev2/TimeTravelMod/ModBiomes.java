@@ -13,22 +13,22 @@ import static tk.rdvdev2.TimeTravelMod.TimeTravelMod.MODID;
 
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModBiomes {
-    public static Biome OLDWEST = new OldWestBiome();
+    public static final Biome OLDWEST = new OldWestBiome().setRegistryName(MODID, "oldwest");
 
     @SubscribeEvent
     public static void registerBiomes(RegistryEvent.Register<Biome> event) {
         event.getRegistry().registerAll(
-                OLDWEST.setRegistryName("timetravelmod:oldwest")
+                OLDWEST
         );
     }
 
     public static class ProviderTypes {
-        public static BiomeProviderType<OldWestBiomeProviderSettings, OldWestBiomeProvider> OLDWEST_LAYERED = new BiomeProviderType<>(OldWestBiomeProvider::new, OldWestBiomeProviderSettings::new);
+        public static final BiomeProviderType<OldWestBiomeProviderSettings, OldWestBiomeProvider> OLDWEST_LAYERED = (BiomeProviderType<OldWestBiomeProviderSettings, OldWestBiomeProvider>) new BiomeProviderType<>(OldWestBiomeProvider::new, OldWestBiomeProviderSettings::new).setRegistryName(MODID, "oldwest_layered");
 
         @SubscribeEvent
         public static void registerProviderTypes(RegistryEvent.Register<BiomeProviderType<?,?>> event) {
             event.getRegistry().registerAll(
-                    OLDWEST_LAYERED.setRegistryName(MODID, "oldwest_layered")
+                    OLDWEST_LAYERED
             );
         }
     }

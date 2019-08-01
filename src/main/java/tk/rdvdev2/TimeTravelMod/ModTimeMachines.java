@@ -8,19 +8,30 @@ import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.CreativeTimeMachine;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.Tier1TimeMachine;
 
+import static tk.rdvdev2.TimeTravelMod.TimeTravelMod.MODID;
+
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModTimeMachines {
 
-    public static TimeMachine timeMachineTier1 = new Tier1TimeMachine();
-    public static ResourceLocation timeMachineTier1Location = new ResourceLocation("timetravelmod:tmtier1");
-    public static TimeMachine timeMachineCreative = new CreativeTimeMachine();
-    public static ResourceLocation timeMachineCreativeLocation = new ResourceLocation("timetravelmod:tmcreative");
+    public static final TimeMachine TIER_1 = new Tier1TimeMachine().setRegistryName(MODID, "tier1");
+    public static final TimeMachine CREATIVE = new CreativeTimeMachine().setRegistryName(MODID, "creative");
 
     @SubscribeEvent
     public static void registerTimeMachines(RegistryEvent.Register<TimeMachine> event) {
         event.getRegistry().registerAll(
-                timeMachineTier1.setRegistryName(timeMachineTier1Location),
-                timeMachineCreative.setRegistryName(timeMachineCreativeLocation)
+                TIER_1,
+                CREATIVE
         );
+    }
+
+    @SubscribeEvent
+    public static void remapLegacyNames(RegistryEvent.MissingMappings<TimeMachine> event) {
+        event.getMappings().forEach(mapping -> {
+            if (mapping.key.equals(new ResourceLocation(MODID, "tmtier1"))) {
+                mapping.remap(TIER_1);
+            } else if (mapping.key.equals(new ResourceLocation(MODID, "tmcreative"))) {
+                mapping.remap(CREATIVE);
+            }
+        });
     }
 }

@@ -68,7 +68,7 @@ public class TemporalCauldronTileEntity extends TileEntity implements ITickableT
     }
 
     public void putCrystal(ItemStack item) {
-        if (item.getItem() == ModItems.timeCrystal) {
+        if (item.getItem() == ModItems.TIME_CRYSTAL) {
             inventory.insertItem(CRYSTAL_SLOT, item, false);
             crystal_usages = 2000;
             this.world.setBlockState(this.pos, this.world.getBlockState(pos).with(TemporalCauldronBlock.LEVEL, 3));

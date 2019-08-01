@@ -53,18 +53,18 @@ public class TemporalCauldronBlock extends Block {
         if (te == null) {
             return false;
         }
-        if (!playerItemStack.isEmpty() && !playerItemStack.isItemEqual(new ItemStack(ModItems.timeCrystal)) && playerItemStack.isDamaged() && !te.containsItem()) {
+        if (!playerItemStack.isEmpty() && !playerItemStack.isItemEqual(new ItemStack(ModItems.TIME_CRYSTAL)) && playerItemStack.isDamaged() && !te.containsItem()) {
             if (!worldIn.isRemote) {
                 ItemStack copy = playerItemStack.copy();
                 playerItemStack.grow(-1);
                 playerIn.setHeldItem(hand, playerItemStack);
                 te.putItem(copy);
             }
-        } else if (playerItemStack.isItemEqual(new ItemStack(ModItems.timeCrystal)) && !te.containsCrystal()) {
+        } else if (playerItemStack.isItemEqual(new ItemStack(ModItems.TIME_CRYSTAL)) && !te.containsCrystal()) {
             if(!worldIn.isRemote) {
                 if (!playerIn.isCreative())
                     playerIn.setHeldItem(hand, new ItemStack(playerItemStack.getItem(), playerItemStack.getCount() - 1));
-                te.putCrystal(new ItemStack(ModItems.timeCrystal, 1));
+                te.putCrystal(new ItemStack(ModItems.TIME_CRYSTAL, 1));
             }
         } else if (te.containsItem()) {
             if(!worldIn.isRemote) {
@@ -112,7 +112,7 @@ public class TemporalCauldronBlock extends Block {
 
     @Override
     public ItemStack getItem(IBlockReader p_185473_1_, BlockPos p_185473_2_, BlockState p_185473_3_) {
-        return new ItemStack(Item.getItemFromBlock(ModBlocks.temporalCauldron));
+        return new ItemStack(Item.getItemFromBlock(ModBlocks.TEMPORAL_CAULDRON));
     }
 
     @Override

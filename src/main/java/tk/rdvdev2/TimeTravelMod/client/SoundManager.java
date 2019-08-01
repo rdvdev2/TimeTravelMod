@@ -14,7 +14,7 @@ public class SoundManager {
             if (Minecraft.getInstance().player != null &&
                     Minecraft.getInstance().player.world.getDimension() instanceof OldWestDimension &&
                     event.getSound().getCategory() == SoundCategory.MUSIC) {
-                event.setResultSound(SimpleSound.music(ModSounds.oldWestMusicEvent));
+                event.setResultSound(SimpleSound.music(ModSounds.OLDWEST_MUSIC));
             }
         }
     }

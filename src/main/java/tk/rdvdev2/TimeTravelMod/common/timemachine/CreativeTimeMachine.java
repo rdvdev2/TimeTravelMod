@@ -32,7 +32,7 @@ public class CreativeTimeMachine extends TimeMachine {
     @Override
     public int getTier() {
         if (tier == 0) {
-            ModRegistries.timeLinesRegistry.forEach(timeLine -> tier = Math.max(timeLine.getMinTier(), tier));
+            ModRegistries.TIME_LINES.forEach(timeLine -> tier = Math.max(timeLine.getMinTier(), tier));
         }
         return tier;
     }
@@ -59,7 +59,7 @@ public class CreativeTimeMachine extends TimeMachine {
             if (playerIn instanceof ServerPlayerEntity) {
                 ModTriggers.ACCESS_TIME_MACHINE.trigger((ServerPlayerEntity) playerIn);
             }
-            TimeTravelMod.proxy.displayTMGuiScreen(playerIn, this, controllerPos, side);
+            TimeTravelMod.PROXY.displayTMGuiScreen(playerIn, this, controllerPos, side);
         }
     }
 
@@ -82,7 +82,7 @@ public class CreativeTimeMachine extends TimeMachine {
 
     @Override
     public boolean isPlayerInside(World world, BlockPos controllerPos, Direction side, PlayerEntity player) {
-        return ItemStack.areItemsEqual(player.inventory.getCurrentItem(), new ItemStack(ModItems.creativeTimeMachine, 1));
+        return ItemStack.areItemsEqual(player.inventory.getCurrentItem(), new ItemStack(ModItems.CREATIVE_TIME_MACHINE, 1));
     }
 
     @Override

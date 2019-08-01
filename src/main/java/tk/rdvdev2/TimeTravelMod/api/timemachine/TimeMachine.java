@@ -81,7 +81,7 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
      * @return Array of valid IBlockStates for TM Controller blocks
      */
     public BlockState[] getControllerBlocks() {
-        return new BlockState[]{ModBlocks.timeMachineControlPanel.getDefaultState()};
+        return new BlockState[]{ModBlocks.TIME_MACHINE_CONTROL_PANEL.getDefaultState()};
     }
 
     /**
@@ -89,7 +89,7 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
      * @return Array of valid IBlockStates for TM Blocks
      */
     public BlockState[] getCoreBlocks() {
-        return new BlockState[]{ModBlocks.timeMachineCore.getDefaultState()};
+        return new BlockState[]{ModBlocks.TIME_MACHINE_CORE.getDefaultState()};
     }
 
     /**
@@ -97,7 +97,7 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
      * @return Array of valid IBlockStates for TM Basic Blocks
      */
     public BlockState[] getBasicBlocks() {
-        return new BlockState[]{ModBlocks.timeMachineBasicBlock.getDefaultState()};
+        return new BlockState[]{ModBlocks.TIME_MACHINE_BASIC_BLOCK.getDefaultState()};
     }
 
     /**
@@ -109,7 +109,7 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
         AbstractTimeMachineComponentBlock[] blocks = new AbstractTimeMachineComponentBlock[0];
         try {
             for (TimeMachineUpgrade upgrade : getCompatibleUpgrades()) {
-                HashMap<TimeMachineUpgrade, AbstractTimeMachineComponentBlock[]> hm = (HashMap<TimeMachineUpgrade, AbstractTimeMachineComponentBlock[]>) ModRegistries.upgradesRegistry.getSlaveMap(ModRegistries.UPGRADETOBLOCK, HashMap.class);
+                HashMap<TimeMachineUpgrade, AbstractTimeMachineComponentBlock[]> hm = (HashMap<TimeMachineUpgrade, AbstractTimeMachineComponentBlock[]>) ModRegistries.UPGRADES.getSlaveMap(ModRegistries.UPGRADETOBLOCK, HashMap.class);
                 blocks = blocks == null ? hm.get(upgrade) : ArrayUtils.addAll(blocks, hm.get(upgrade));
             }
             BlockState[] states = new BlockState[0];
@@ -129,7 +129,7 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
         TimeMachine instance = this instanceof TimeMachineHookRunner ? ((TimeMachineHookRunner) this).removeHooks() : this;
         if (upgrades == null) {
             upgrades = new ArrayList<>();
-            ModRegistries.upgradesRegistry.forEach(upgrade -> {
+            ModRegistries.UPGRADES.forEach(upgrade -> {
                 for(TimeMachine tm: upgrade.getCompatibleTMs()) {
                     if (tm == instance) {
                         upgrades.add(upgrade);
@@ -269,7 +269,7 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
                     if (playerIn instanceof ServerPlayerEntity) {
                         ModTriggers.ACCESS_TIME_MACHINE.trigger((ServerPlayerEntity) playerIn);
                     }
-                    TimeTravelMod.proxy.displayTMGuiScreen(playerIn, this, controllerPos, side, getEntitiesInside(world, controllerPos, side).stream()
+                    TimeTravelMod.PROXY.displayTMGuiScreen(playerIn, this, controllerPos, side, getEntitiesInside(world, controllerPos, side).stream()
                             .filter(entity -> !entity.equals(playerIn))
                             .map(Entity::getUniqueID)
                             .collect(Collectors.toList()).toArray(new UUID[]{}));
@@ -563,11 +563,11 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
 
     @Override
     public String toString() {
-        return ModRegistries.timeMachinesRegistry.getKey(this).toString();
+        return ModRegistries.TIME_MACHINES.getKey(this).toString();
     }
 
     public static TimeMachine fromString(String s) {
-        return ModRegistries.timeMachinesRegistry.getValue(new ResourceLocation(s));
+        return ModRegistries.TIME_MACHINES.getValue(new ResourceLocation(s));
     }
 
     public enum TMComponentType {

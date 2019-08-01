@@ -56,7 +56,7 @@ public class OpenTmGuiPKT {
 
     public static class Handler {
         public static void handle(OpenTmGuiPKT message, Supplier<NetworkEvent.Context> ctx) {
-            TimeTravelMod.proxy.handleOpenTMGUI(message, ctx.get());
+            TimeTravelMod.PROXY.handleOpenTMGUI(message, ctx.get());
         }
     }
 }

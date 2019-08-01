@@ -23,27 +23,27 @@ import java.util.HashMap;
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModRegistries {
 
-    public static IForgeRegistry<TimeMachine> timeMachinesRegistry;
-    public static IForgeRegistry<TimeLine> timeLinesRegistry;
-    public static IForgeRegistry<TimeMachineUpgrade> upgradesRegistry;
-    public static ResourceLocation CONTROLLERTOTM = new ResourceLocation("timetravelmod:blocktotm");
-    public static ResourceLocation UPGRADETOBLOCK = new ResourceLocation("timetravelmod:upgradetoblock");
+    public static IForgeRegistry<TimeMachine> TIME_MACHINES;
+    public static IForgeRegistry<TimeLine> TIME_LINES;
+    public static IForgeRegistry<TimeMachineUpgrade> UPGRADES;
+    public static final ResourceLocation CONTROLLERTOTM = new ResourceLocation("timetravelmod:blocktotm");
+    public static final ResourceLocation UPGRADETOBLOCK = new ResourceLocation("timetravelmod:upgradetoblock");
 
     @SubscribeEvent
     public static void addRegistries(RegistryEvent.NewRegistry event) {
-        timeLinesRegistry = new RegistryBuilder<TimeLine>()
+        TIME_LINES = new RegistryBuilder<TimeLine>()
                 .setType(TimeLine.class)
                 .setName(new ResourceLocation("timetravelmod:timelines"))
                 .create();
 
-        timeMachinesRegistry = new RegistryBuilder<TimeMachine>()
+        TIME_MACHINES = new RegistryBuilder<TimeMachine>()
                 .setType(TimeMachine.class)
                 .setName(new ResourceLocation("timetravelmod:timemachines"))
                 .addCallback(new TimeMachinesCallbacks())
                 .legacyName("timetravelmod:ztimemachines")
                 .create();
 
-        upgradesRegistry = new RegistryBuilder<TimeMachineUpgrade>()
+        UPGRADES = new RegistryBuilder<TimeMachineUpgrade>()
                 .setType(TimeMachineUpgrade.class)
                 .setName(new ResourceLocation("timetravelmod:tmupgrades"))
                 .addCallback(new TimeMachineUpgradesCallbacks())

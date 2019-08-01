@@ -59,9 +59,9 @@ public class TemporalExplosionBlock extends Block {
 
     @Override
     public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn, Hand hand, BlockRayTraceResult blockRayTraceResult) {
-        if (ItemStack.areItemStacksEqual(playerIn.inventory.getCurrentItem(), new ItemStack(ModBlocks.reinforcedHeavyBlock, playerIn.inventory.getCurrentItem().getCount()))) {
+        if (ItemStack.areItemStacksEqual(playerIn.inventory.getCurrentItem(), new ItemStack(ModBlocks.REINFORCED_HEAVY_BLOCK, playerIn.inventory.getCurrentItem().getCount()))) {
             if(!playerIn.isCreative()) playerIn.inventory.getCurrentItem().grow(-1);
-            worldIn.setBlockState(pos, ModBlocks.reinforcedHeavyBlock.getDefaultState());
+            worldIn.setBlockState(pos, ModBlocks.REINFORCED_HEAVY_BLOCK.getDefaultState());
             worldIn.playSound(null, pos, SoundEvents.BLOCK_METAL_PLACE, SoundCategory.BLOCKS, 3.0F, 1);
             return true;
         }

@@ -29,7 +29,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void displayEngineerBookGuiScreen(PlayerEntity player) {
-        if (generatedEngineerBook == null) generatedEngineerBook = new EngineerBookScreen(ModRegistries.timeMachinesRegistry.getValues());
+        if (generatedEngineerBook == null) generatedEngineerBook = new EngineerBookScreen(ModRegistries.TIME_MACHINES.getValues());
         Minecraft.getInstance().deferTask(()->Minecraft.getInstance().displayGuiScreen(generatedEngineerBook));
     }
 
@@ -37,7 +37,7 @@ public class ClientProxy extends CommonProxy {
     public void handleOpenTMGUI(OpenTmGuiPKT message, NetworkEvent.Context ctx) {
         PlayerEntity player = Minecraft.getInstance().player;
         try {
-            TimeTravelMod.proxy.displayTMGuiScreen(player, message.tm.hook(player.world, message.pos, message.side), message.pos, message.side, message.additionalEntities.toArray(new UUID[]{}));
+            TimeTravelMod.PROXY.displayTMGuiScreen(player, message.tm.hook(player.world, message.pos, message.side), message.pos, message.side, message.additionalEntities.toArray(new UUID[]{}));
         } catch (IncompatibleTimeMachineHooksException e) {
             throw new RuntimeException("Time Machine GUI opened with invalid upgrade configuration");
         }

@@ -7,23 +7,25 @@ import net.minecraftforge.fml.common.Mod;
 import tk.rdvdev2.TimeTravelMod.common.item.CreativeTimeMachineItem;
 import tk.rdvdev2.TimeTravelMod.common.item.ItemEngineerBook;
 
+import static tk.rdvdev2.TimeTravelMod.TimeTravelMod.MODID;
+
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModItems {
 
-    public static Item timeCrystal = new Item(new Item.Properties().group(TimeTravelMod.tabTTM)).setRegistryName("timecrystal");
-    public static Item controllerCircuit = new Item(new Item.Properties().group(TimeTravelMod.tabTTM)).setRegistryName("controllercircuit");
-    public static Item heavyIngot = new Item(new Item.Properties().group(TimeTravelMod.tabTTM)).setRegistryName("heavyingot");
-    public static Item creativeTimeMachine = new CreativeTimeMachineItem();
-    public static Item engineerBook = new ItemEngineerBook();
+    public static final Item TIME_CRYSTAL = new Item(new Item.Properties().group(TimeTravelMod.TAB_TTM)).setRegistryName(MODID, "timecrystal");
+    public static final Item CONTROLLER_CIRCUIT = new Item(new Item.Properties().group(TimeTravelMod.TAB_TTM)).setRegistryName(MODID, "controllercircuit");
+    public static final Item HEAVY_INGOT = new Item(new Item.Properties().group(TimeTravelMod.TAB_TTM)).setRegistryName(MODID, "heavyingot");
+    public static final Item CREATIVE_TIME_MACHINE = new CreativeTimeMachineItem();
+    public static final Item ENGINEER_BOOK = new ItemEngineerBook();
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                timeCrystal,
-                controllerCircuit,
-                heavyIngot,
-                creativeTimeMachine,
-                engineerBook
+                TIME_CRYSTAL,
+                CONTROLLER_CIRCUIT,
+                HEAVY_INGOT,
+                CREATIVE_TIME_MACHINE,
+                ENGINEER_BOOK
         );
     }
 }
