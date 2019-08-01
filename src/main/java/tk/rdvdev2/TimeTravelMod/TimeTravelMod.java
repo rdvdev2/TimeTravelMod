@@ -22,7 +22,7 @@ public class TimeTravelMod {
 
     public static final IProxy PROXY = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
-    public static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger("TIMETRAVELMOD");
 
     public static final ItemGroup TAB_TTM = new TTMItemGroup();
 
