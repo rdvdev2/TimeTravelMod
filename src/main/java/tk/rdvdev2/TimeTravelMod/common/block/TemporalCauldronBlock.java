@@ -24,15 +24,12 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.loot.LootContext;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
 import tk.rdvdev2.TimeTravelMod.ModItems;
 import tk.rdvdev2.TimeTravelMod.ModTriggers;
 import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TemporalCauldronTileEntity;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TemporalCauldronBlock extends Block {
     private String name = "temporalcauldron";
@@ -110,13 +107,6 @@ public class TemporalCauldronBlock extends Block {
 
     public boolean allowsMovement(BlockState p_196266_1_, IBlockReader p_196266_2_, BlockPos p_196266_3_, PathType p_196266_4_) {
         return false;
-    }
-
-    @Override
-    public List<ItemStack> getDrops(BlockState p_220076_1_, LootContext.Builder contextBuilder) {
-        List<ItemStack> drops = new ArrayList<ItemStack>();
-        drops.add(new ItemStack(Item.getItemFromBlock(ModBlocks.temporalCauldron)));
-        return drops;
     }
 
     @Override
