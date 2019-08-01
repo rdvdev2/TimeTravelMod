@@ -21,7 +21,6 @@ import net.minecraft.state.properties.RedstoneSide;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
@@ -281,19 +280,10 @@ public class GunpowderWireBlock extends Block {
         float red, blue, green;
 
         if (!burned) {
-            red = 0.5f;
-            blue = 0.5f;
-            green = 0.5f;
+            return 0x989898;
         } else {
-            red = 0;
-            blue = 0;
-            green = 0;
+            return 0x262626;
         }
-
-        int i = MathHelper.clamp((int)(red * 255.0F), 0, 255);
-        int j = MathHelper.clamp((int)(blue * 255.0F), 0, 255);
-        int k = MathHelper.clamp((int)(green * 255.0F), 0, 255);
-        return -16777216 | i << 16 | j << 8 | k;
     }
 
     /*@Override

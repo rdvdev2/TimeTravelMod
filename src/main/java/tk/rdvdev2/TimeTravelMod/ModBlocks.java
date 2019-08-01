@@ -101,6 +101,6 @@ public class ModBlocks {
 
     @OnlyIn(Dist.CLIENT)
     public static void registerBlockColor(ColorHandlerEvent.Block event) {
-        event.getBlockColors().register((state, world, pos, num) -> GunpowderWireBlock.colorMultiplier(state.get(GunpowderWireBlock.BURNED)), ModBlocks.GUNPOWDER_WIRE);
+        event.getBlockColors().register((state, world, pos, num) -> GunpowderWireBlock.colorMultiplier(state.get(GunpowderWireBlock.BURNED).booleanValue()), ModBlocks.GUNPOWDER_WIRE);
     }
 }
