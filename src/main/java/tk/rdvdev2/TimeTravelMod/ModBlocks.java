@@ -56,9 +56,9 @@ public class ModBlocks {
     @SubscribeEvent
     public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event) {
         TemporalCauldronTileEntity.type = TileEntityType.Builder.create(TemporalCauldronTileEntity::new, ModBlocks.TEMPORAL_CAULDRON).build(null);
-        TemporalCauldronTileEntity.type.setRegistryName("timetravelmod", "temporalcauldron");
+        TemporalCauldronTileEntity.type.setRegistryName(MODID, "temporalcauldron");
         TMCooldownTileEntity.type = TileEntityType.Builder.create(TMCooldownTileEntity::new, getAllCoreBlocks()).build(null);
-        TMCooldownTileEntity.type.setRegistryName("timetravelmod", "tmcooldown");
+        TMCooldownTileEntity.type.setRegistryName(MODID, "tmcooldown");
         event.getRegistry().registerAll(
                 TemporalCauldronTileEntity.type,
                 TMCooldownTileEntity.type
