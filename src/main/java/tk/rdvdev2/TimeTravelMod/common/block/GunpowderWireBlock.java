@@ -13,6 +13,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Items;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
@@ -296,6 +297,7 @@ public class GunpowderWireBlock extends Block {
     public void setBurned(BlockPos pos, World world) {
         BlockState state = world.getBlockState(pos);
         world.setBlockState(pos, state.with(BURNED, true));
+        world.addOptionalParticle(ParticleTypes.LARGE_SMOKE, pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0);
         if (world.getBlockState(pos.down()) == Blocks.TNT.getDefaultState()) {
             world.setBlockState(pos.down(), Blocks.AIR.getDefaultState());
             world.setBlockState(pos, Blocks.AIR.getDefaultState());
@@ -329,6 +331,7 @@ public class GunpowderWireBlock extends Block {
             if (player instanceof ServerPlayerEntity)
             player.getHeldItem(hand).attemptDamageItem(1, worldIn.rand, (ServerPlayerEntity) player);
             setBurned(pos, worldIn);
+            player.playSound(SoundEvents.BLOCK_FIRE_EXTINGUISH, 5, 0);
             return true;
         } else return false;
     }
