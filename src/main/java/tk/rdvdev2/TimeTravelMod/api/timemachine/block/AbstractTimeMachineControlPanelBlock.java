@@ -1,5 +1,6 @@
 package tk.rdvdev2.TimeTravelMod.api.timemachine.block;
 
+import com.google.common.collect.Lists;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
@@ -7,15 +8,17 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineHooksException;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class AbstractTimeMachineControlPanelBlock extends AbstractTimeMachineComponentBlock {
@@ -54,9 +57,17 @@ public abstract class AbstractTimeMachineControlPanelBlock extends AbstractTimeM
                 hookRunner.run(worldIn, playerIn, pos, side);
                 return true;
             } catch (IncompatibleTimeMachineHooksException e) {
-                playerIn.sendStatusMessage(new StringTextComponent("This time machine has incompatible hooks"), false); // TODO: Descriptive error and translations
+                TranslationTextComponent message = new TranslationTextComponent("timetravelmod.error.uncompatible_upgrades", concatUncompatibilities(Lists.newArrayList(e.getIncompatibilities())));
+                playerIn.sendStatusMessage(message, false);
                 return false;
             }
         } else return false;
+    }
+
+    private static TranslationTextComponent concatUncompatibilities(ArrayList<TimeMachineUpgrade> upgrades) {
+        if (upgrades.size() != 1) {
+            String separator = upgrades.size() > 2 ? "timetravelmod.generic.comma" : "timetravelmod.generic.and";
+            return new TranslationTextComponent(separator, upgrades.remove(0).getName(), concatUncompatibilities(upgrades));
+        } else return upgrades.remove(0).getName();
     }
 }
