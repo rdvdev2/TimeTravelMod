@@ -48,9 +48,9 @@
     "block.timetravelmod.timemachinecore": "Nucli de màquina del temps",
     "config.timetravelmod.client.enabletimelinemusic": "Quan s'habilita, les Linies Temporals tenen la seva propia música",
     "config.timetravelmod.common.enableexperimentalfeatrues": "Quan s'habilita, les funcions experimentals del mod s'activen",
-    "tm.timetravelmod.tmcreative.description": "Una Màquina del Temps especial. Aquesta Màquina del Temps només està disponible en mode creatiu i permet viatjar en el temps sense construir res. En canvi, només has d’utilitzar l’item i tindràs accés a totes les Línies Temporals. Aquesta Màquina del Temps tampoc té cap temps de refredament.",
-    "tm.timetravelmod.tmcreative.name": "Màquina del temps (Creatiu)",
-    "tm.timetravelmod.tmtier1.description": "Una Màquina del Temps molt simple. Només podràs arribar al Vell Oest.",
-    "tm.timetravelmod.tmtier1.name": "Màquina del Temps de nivell 1",
+    "tm.timetravelmod.creative.description": "Una Màquina del Temps especial. Aquesta Màquina del Temps només està disponible en mode creatiu i permet viatjar en el temps sense construir res. En canvi, només has d’utilitzar l’item i tindràs accés a totes les Línies Temporals. Aquesta Màquina del Temps tampoc té cap temps de refredament.",
+    "tm.timetravelmod.creative.name": "Màquina del temps (Creatiu)",
+    "tm.timetravelmod.tier1.description": "Una Màquina del Temps molt simple. Només podràs arribar al Vell Oest.",
+    "tm.timetravelmod.tier1.name": "Màquina del Temps de nivell 1",
     "config.timetravelmod.common.enableupdatepromos": "Quan es desactiva deixes de rebre notificacions sobre noves actualitzacions al unir-te a un món"
 }
