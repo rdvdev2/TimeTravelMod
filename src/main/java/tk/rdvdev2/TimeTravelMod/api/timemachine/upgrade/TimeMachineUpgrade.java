@@ -14,7 +14,7 @@ public abstract class TimeMachineUpgrade extends ForgeRegistryEntry<TimeMachineU
 
     private ArrayList<TimeMachineHook> hooks;
     private TimeMachine[] compatibleTMs;
-    private HashSet<Class> exclusiveHooks;
+    private HashSet<Class<? extends TimeMachineHook>> exclusiveHooks;
 
     public TimeMachineUpgrade() {
         this.hooks = new ArrayList<TimeMachineHook>(0);
@@ -67,7 +67,7 @@ public abstract class TimeMachineUpgrade extends ForgeRegistryEntry<TimeMachineU
 
     public boolean isExclusiveHook(Class<? extends TimeMachineHook> hook) {
         if (exclusiveHooks.isEmpty()) return false;
-        Iterator<Class> it = exclusiveHooks.iterator();
+        Iterator<Class<? extends TimeMachineHook>> it = exclusiveHooks.iterator();
         while (it.hasNext()) if (hook.isAssignableFrom(it.next())) return true;
         return false;
     }

@@ -4,7 +4,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
@@ -33,7 +32,7 @@ public class TimeMachineHookRunner extends TimeMachine {
 
     public HashSet<TimeMachineUpgrade> checkIncompatibilities() {
         HashSet<TimeMachineUpgrade> incompatibilities = new HashSet<>(0);
-        for(Class hook: TimeMachineHook.HOOK_TYPES) {
+        for(Class<? extends TimeMachineHook> hook: TimeMachineHook.HOOK_TYPES) {
             HashSet<TimeMachineUpgrade> found = new HashSet<>(0);
             for (TimeMachineUpgrade upgrade: this.upgrades) {
                 if (upgrade.isExclusiveHook(hook)) found.add(upgrade);
@@ -45,7 +44,7 @@ public class TimeMachineHookRunner extends TimeMachine {
 
     @Override
     public int getCooldownTime() {
-        return tm.getCooldownTime();
+        return runHooks(tm::getCooldownTime, TimeMachineHook.CooldownHook.class);
     }
 
     @Override
@@ -55,57 +54,37 @@ public class TimeMachineHookRunner extends TimeMachine {
 
     @Override
     public List<BlockPos> coreBlocksPos() {
-        return tm.coreBlocksPos();
+        return tm.coreBlocksPos(); // Directly delegate, this isn't in the Upgrades scope
     }
 
     @Override
     public List<BlockPos> basicBlocksPos() {
-        return tm.basicBlocksPos();
+        return tm.basicBlocksPos(); // Directly delegate, this isn't in the Upgrades scope
     }
 
     @Override
     public List<BlockPos> airBlocksPos() {
-        return tm.airBlocksPos();
+        return tm.airBlocksPos(); // Directly delegate, this isn't in the Upgrades scope
     }
 
     @Override
     public BlockState[] getControllerBlocks() {
-        return tm.getControllerBlocks();
+        return tm.getControllerBlocks(); // Directly delegate, this isn't in the Upgrades scope
     }
 
     @Override
     public BlockState[] getCoreBlocks() {
-        return tm.getCoreBlocks();
+        return tm.getCoreBlocks(); // Directly delegate, this isn't in the Upgrades scope
     }
 
     @Override
     public BlockState[] getBasicBlocks() {
-        return tm.getBasicBlocks();
-    }
-
-    @Override
-    public List<BlockPos> getCoreBlocksPos(Direction side) {
-        return tm.getCoreBlocksPos(side);
-    }
-
-    @Override
-    public List<BlockPos> getBasicBlocksPos(Direction side) {
-        return tm.getBasicBlocksPos(side);
-    }
-
-    @Override
-    public List<BlockPos> getAirBlocksPos(Direction side) {
-        return tm.getAirBlocksPos(side);
+        return tm.getBasicBlocks(); // Directly delegate, this isn't in the Upgrades scope
     }
 
     @Override
     public int getEntityMaxLoad() {
         return runHooks(tm::getEntityMaxLoad, TimeMachineHook.EntityMaxLoadHook.class);
-    }
-
-    @Override
-    public BlockState[] getBlocks() {
-        return tm.getBlocks();
     }
 
     @Override
@@ -115,40 +94,15 @@ public class TimeMachineHookRunner extends TimeMachine {
 
     @Override
     public boolean triggerTemporalExplosion(World world, BlockPos controllerPos, Direction side) {
-        return tm.triggerTemporalExplosion(world, controllerPos, side);
-    }
-
-    @Override
-    public boolean isBuilt(World world, BlockPos controllerPos, Direction side) {
-        return tm.isBuilt(world, controllerPos, side);
-    }
-
-    @Override
-    public boolean isOverloaded(World world, BlockPos controllerPos, Direction side) {
-        return tm.isOverloaded(world, controllerPos, side);
-    }
-
-    @Override
-    public boolean isPlayerInside(World world, BlockPos controllerPos, Direction side, PlayerEntity player) {
-        return tm.isPlayerInside(world, controllerPos, side, player);
-    }
-
-    @Override
-    public AxisAlignedBB getAirSpace(BlockPos controllerPos, Direction side) {
-        return tm.getAirSpace(controllerPos, side);
+        return runHooks(() -> tm.triggerTemporalExplosion(world, controllerPos, side), TimeMachineHook.TriggerTemporalExplosionHook.class);
     }
 
     @Override
     public void teleporterTasks(Entity entity, World worldIn, World worldOut, BlockPos controllerPos, Direction side, boolean shouldBuild) {
-        tm.teleporterTasks(entity, worldIn, worldOut, controllerPos, side, shouldBuild);
+        runVoidHooks(() -> tm.teleporterTasks(entity, worldIn, worldOut, controllerPos, side, shouldBuild), TimeMachineHook.TeleporterTasks.class);
     }
 
-    @Override
-    public boolean isCooledDown(World world, BlockPos controllerPos, Direction side) {
-        return tm.isCooledDown(world, controllerPos, side);
-    }
-
-    private <T> T runHooks(Supplier<T> original, Class<? extends TimeMachineHook> clazz, Object... args) {
+    private <T> T runHooks(Supplier<T> original, Class<? extends TimeMachineHook<T>> clazz, Object... args) {
         for(TimeMachineUpgrade upgrade:upgrades) {
             if (upgrade.isExclusiveHook(clazz)) {
                 return upgrade.runHook(Optional.empty(), clazz, this, args);
@@ -161,7 +115,7 @@ public class TimeMachineHookRunner extends TimeMachine {
         return result;
     }
 
-    private void runVoidHooks(Runnable original, Class<? extends TimeMachineHook> clazz, Object... args) {
+    private void runVoidHooks(Runnable original, Class<? extends TimeMachineHook<Void>> clazz, Object... args) {
         for(TimeMachineUpgrade upgrade:upgrades) {
             if (upgrade.isExclusiveHook(clazz)) {
                 upgrade.runVoidHook(clazz, this, args);

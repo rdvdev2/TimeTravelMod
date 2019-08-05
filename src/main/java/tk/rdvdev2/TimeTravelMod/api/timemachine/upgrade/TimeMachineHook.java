@@ -1,5 +1,6 @@
 package tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -8,12 +9,15 @@ import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
 
 import java.util.Optional;
 
-public interface TimeMachineHook<R> {
+public abstract interface TimeMachineHook<R> {
 
-    static final Class[] HOOK_TYPES = new Class[]{
+    static final Class<? extends TimeMachineHook>[] HOOK_TYPES = new Class[]{
             RunHook.class,
             TierHook.class,
-            EntityMaxLoadHook.class
+            EntityMaxLoadHook.class,
+            CooldownHook.class,
+            TriggerTemporalExplosionHook.class,
+            TeleporterTasks.class
     };
 
     R run(Optional<R> original, TimeMachineHookRunner tm, Object... args);
@@ -49,5 +53,35 @@ public interface TimeMachineHook<R> {
         }
 
         int run(Optional<Integer> original, TimeMachineHookRunner tm);
+    }
+
+    public interface CooldownHook extends TimeMachineHook<Integer> {
+        @Override
+        default Integer run(Optional<Integer> original, TimeMachineHookRunner tm, Object... args) {
+            return run(original, tm);
+        }
+
+        int run(Optional<Integer> original, TimeMachineHookRunner tm);
+    }
+
+    @SuppressWarnings("unchecked")
+    public interface TriggerTemporalExplosionHook extends TimeMachineHook<Boolean> {
+        @Override
+        default Boolean run(Optional<Boolean> original, TimeMachineHookRunner tm, Object... args) {
+            return run(original, tm, (World) args[0], (BlockPos) args[1], (Direction) args[2]);
+        }
+
+        boolean run(Optional<Boolean> original, TimeMachineHookRunner tm, World world, BlockPos controllerPos, Direction side);
+    }
+
+    @SuppressWarnings("unchecked")
+    public interface TeleporterTasks extends TimeMachineHook<Void> {
+        @Override
+        default Void run(Optional<Void> original, TimeMachineHookRunner tm, Object... args) {
+            run(tm, (Entity) args[0], (World) args[1], (World) args[2], (BlockPos) args[3], (Direction) args[4], (boolean) args[5]);
+            return null;
+        }
+
+        void run(TimeMachineHookRunner tm, Entity entity, World worldIn, World worldOut, BlockPos controllerPos, Direction side, boolean shouldBuild);
     }
 }
