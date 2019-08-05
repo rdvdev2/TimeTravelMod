@@ -28,6 +28,6 @@
     "block.timetravelmod.timemachinecore": "时间机器核心",
     "config.timetravelmod.client.enabletimelinemusic": "启用此功能后，时间线将有各自独有的音乐",
     "config.timetravelmod.common.enableexperimentalfeatrues": "启用该功能后，实验性功能将会被激活",
-    "tm.timetravelmod.tmcreative.name": "创造时间机器",
+    "tm.timetravelmod.creative.name": "创造时间机器",
     "config.timetravelmod.common.enableupdatepromos": "如果禁用此功能，你将不会在进入世界时收到模组更新提醒"
 }
