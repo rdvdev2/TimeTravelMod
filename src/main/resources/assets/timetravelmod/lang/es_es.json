@@ -48,9 +48,9 @@
     "block.timetravelmod.timemachinecore": "Núcleo de máquina del tiempo",
     "config.timetravelmod.client.enabletimelinemusic": "Cuando se habilita, las Lineas Temporales tienen su propia música",
     "config.timetravelmod.common.enableexperimentalfeatrues": "Cuando se habilita, las funciones experimentales del mod se activan",
-    "tm.timetravelmod.tmcreative.description": "Una Máquina del Tiempo especial. Esta Máquina del Tiempo sólo está disponible en el modo creativo y permite viajar sin construir nada. En lugar de ello, solo tienes que usar el item y tendrás acceso a todas las Líneas Temporales. Esta Máquina del Tiempo tampoco tiene tiempo de enfriamiento.",
-    "tm.timetravelmod.tmcreative.name": "Máquina del tiempo (Creativo)",
-    "tm.timetravelmod.tmtier1.description": "Una Máquina del Tiempo muy simple. Sólo llegarás al Viejo Oeste.",
-    "tm.timetravelmod.tmtier1.name": "Máquina del Tiempo de nivel 1",
+    "tm.timetravelmod.creative.description": "Una Máquina del Tiempo especial. Esta Máquina del Tiempo sólo está disponible en el modo creativo y permite viajar sin construir nada. En lugar de ello, solo tienes que usar el item y tendrás acceso a todas las Líneas Temporales. Esta Máquina del Tiempo tampoco tiene tiempo de enfriamiento.",
+    "tm.timetravelmod.creative.name": "Máquina del tiempo (Creativo)",
+    "tm.timetravelmod.tier1.description": "Una Máquina del Tiempo muy simple. Sólo llegarás al Viejo Oeste.",
+    "tm.timetravelmod.tier1.name": "Máquina del Tiempo de nivel 1",
     "config.timetravelmod.common.enableupdatepromos": "Si se desactiva, dejaras de ser notificado de las nuevas versiones del mod al unirte a un mundo"
 }

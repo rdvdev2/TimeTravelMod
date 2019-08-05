@@ -37,6 +37,6 @@
     "block.timetravelmod.timemachinecore": "Coeur de la machine temporelle",
     "config.timetravelmod.client.enabletimelinemusic": "Quand cela est activé, les lignes temporelles ont leur propre musique",
     "config.timetravelmod.common.enableexperimentalfeatrues": "Quand cette fonctionnalité est activée, les fonctionnalités expérimentales du mod sont activées",
-    "tm.timetravelmod.tmcreative.name": "Machine Temporelle créative",
+    "tm.timetravelmod.creative.name": "Machine Temporelle créative",
     "config.timetravelmod.common.enableupdatepromos": "Si ceci est désactivé, vous ne serez pas informé des mises à jour du mod à l'entrée dans le monde"
 }
