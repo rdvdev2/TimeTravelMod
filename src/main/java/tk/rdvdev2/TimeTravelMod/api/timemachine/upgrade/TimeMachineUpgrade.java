@@ -20,21 +20,24 @@ public class TimeMachineUpgrade extends ForgeRegistryEntry<TimeMachineUpgrade> {
         this.hooks = new ArrayList<TimeMachineHook>(0);
     }
 
-    public void addHook(TimeMachineHook hook) {
+    public TimeMachineUpgrade addHook(TimeMachineHook hook) {
         addHook(hook, false);
+        return this;
     }
 
-    public void addHook(TimeMachineHook hook, boolean exclusiveMode) {
+    public TimeMachineUpgrade addHook(TimeMachineHook hook, boolean exclusiveMode) {
         this.hooks.add(hook);
         if (exclusiveMode) {
             exclusiveHooks.add(hook.getClass());
         }
+        return this;
     }
 
-    public void addAllHooks(TimeMachineHook... hooks) {
+    public TimeMachineUpgrade addAllHooks(TimeMachineHook... hooks) {
         for (TimeMachineHook hook:hooks) {
             this.addHook(hook);
         }
+        return this;
     }
 
     public <T> T runHook(Optional<T> original, Class<? extends TimeMachineHook> clazz, TimeMachineHookRunner tm, Object... args) {
@@ -61,8 +64,9 @@ public class TimeMachineUpgrade extends ForgeRegistryEntry<TimeMachineUpgrade> {
         return compatibleTMs;
     }
 
-    public void setCompatibleTMs(TimeMachine[] compatibleTMs) {
+    public TimeMachineUpgrade setCompatibleTMs(TimeMachine[] compatibleTMs) {
         this.compatibleTMs = compatibleTMs;
+        return this;
     }
 
     public boolean isExclusiveHook(Class<? extends TimeMachineHook> hook) {
