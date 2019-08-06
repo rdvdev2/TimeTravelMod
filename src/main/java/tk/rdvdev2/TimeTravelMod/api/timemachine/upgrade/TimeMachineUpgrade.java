@@ -64,7 +64,7 @@ public class TimeMachineUpgrade extends ForgeRegistryEntry<TimeMachineUpgrade> {
         return compatibleTMs;
     }
 
-    public TimeMachineUpgrade setCompatibleTMs(TimeMachine[] compatibleTMs) {
+    public TimeMachineUpgrade setCompatibleTMs(TimeMachine... compatibleTMs) {
         this.compatibleTMs = compatibleTMs;
         return this;
     }

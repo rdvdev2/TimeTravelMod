@@ -40,7 +40,7 @@ public class ModTimeMachines {
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class Upgrades {
 
-        public static final TimeMachineUpgrade TRACKER = new TimeMachineUpgrade().addHook(TrackerHooks.HOOKS[0], true).setRegistryName(MODID, "tracker").setCompatibleTMs(new TimeMachine[]{TIER_1});
+        public static final TimeMachineUpgrade TRACKER = new TimeMachineUpgrade().addHook(TrackerHooks.HOOKS[0], true).setRegistryName(MODID, "tracker").setCompatibleTMs(ModRegistries.TIME_MACHINES.getValues().toArray(new TimeMachine[0]));
 
         @SubscribeEvent
         public static void registerUpgrades(RegistryEvent.Register<TimeMachineUpgrade> event) {
