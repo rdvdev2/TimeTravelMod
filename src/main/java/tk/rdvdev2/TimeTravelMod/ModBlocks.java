@@ -37,6 +37,7 @@ public class ModBlocks {
     public static final Block TEMPORAL_EXPLOSION = new TemporalExplosionBlock();
     public static final Block TEMPORAL_CAULDRON = new TemporalCauldronBlock();
     public static final Block GUNPOWDER_WIRE = new GunpowderWireBlock();
+    public static final Block TIME_MACHINE_TRACKER = new TimeMachineTrackerBlock();
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
@@ -49,7 +50,8 @@ public class ModBlocks {
                 REINFORCED_HEAVY_BLOCK,
                 TEMPORAL_EXPLOSION,
                 TEMPORAL_CAULDRON,
-                GUNPOWDER_WIRE
+                GUNPOWDER_WIRE,
+                TIME_MACHINE_TRACKER
         );
     }
 
@@ -85,7 +87,8 @@ public class ModBlocks {
                 HEAVY_BLOCK,
                 REINFORCED_HEAVY_BLOCK,
                 TEMPORAL_EXPLOSION,
-                TEMPORAL_CAULDRON
+                TEMPORAL_CAULDRON,
+                TIME_MACHINE_TRACKER
         );
         final String gunpowderTranslationKey = Items.GUNPOWDER.getTranslationKey();
         event.getRegistry().register(new BlockItem(GUNPOWDER_WIRE, new Item.Properties().maxStackSize(64).group(Items.GUNPOWDER.getGroup())){

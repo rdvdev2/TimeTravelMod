@@ -5,8 +5,10 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.CreativeTimeMachine;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.Tier1TimeMachine;
+import tk.rdvdev2.TimeTravelMod.common.timemachine.hook.TrackerHooks;
 
 import static tk.rdvdev2.TimeTravelMod.TimeTravelMod.MODID;
 
@@ -33,5 +35,18 @@ public class ModTimeMachines {
                 mapping.remap(CREATIVE);
             }
         });
+    }
+
+    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static class Upgrades {
+
+        public static final TimeMachineUpgrade TRACKER = new TimeMachineUpgrade().addHook(TrackerHooks.HOOKS[0], true).setRegistryName(MODID, "tracker").setCompatibleTMs(new TimeMachine[]{TIER_1});
+
+        @SubscribeEvent
+        public static void registerUpgrades(RegistryEvent.Register<TimeMachineUpgrade> event) {
+            event.getRegistry().registerAll(
+                    TRACKER
+            );
+        }
     }
 }
