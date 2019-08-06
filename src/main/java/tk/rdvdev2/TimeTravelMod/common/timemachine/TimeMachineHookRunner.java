@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
@@ -100,6 +101,61 @@ public class TimeMachineHookRunner extends TimeMachine {
     @Override
     public void teleporterTasks(Entity entity, World worldIn, World worldOut, BlockPos controllerPos, Direction side, boolean shouldBuild) {
         runVoidHooks(() -> tm.teleporterTasks(entity, worldIn, worldOut, controllerPos, side, shouldBuild), TimeMachineHook.TeleporterTasks.class, entity, worldIn, worldOut, controllerPos, side, shouldBuild);
+    }
+
+    @Override
+    public List<BlockPos> getCoreBlocksPos(Direction side) {
+        return tm.getCoreBlocksPos(side);
+    }
+
+    @Override
+    public List<BlockPos> getBasicBlocksPos(Direction side) {
+        return tm.getBasicBlocksPos(side);
+    }
+
+    @Override
+    public List<BlockPos> getAirBlocksPos(Direction side) {
+        return tm.getAirBlocksPos(side);
+    }
+
+    @Override
+    public BlockState[] getBlocks() {
+        return tm.getBlocks();
+    }
+
+    @Override
+    public boolean isBuilt(World world, BlockPos controllerPos, Direction side) {
+        return tm.isBuilt(world, controllerPos, side);
+    }
+
+    @Override
+    public boolean isCooledDown(World world, BlockPos controllerPos, Direction side) {
+        return tm.isCooledDown(world, controllerPos, side);
+    }
+
+    @Override
+    public boolean isOverloaded(World world, BlockPos controllerPos, Direction side) {
+        return tm.isOverloaded(world, controllerPos, side);
+    }
+
+    @Override
+    public boolean isPlayerInside(World world, BlockPos controllerPos, Direction side, PlayerEntity player) {
+        return tm.isPlayerInside(world, controllerPos, side, player);
+    }
+
+    @Override
+    public AxisAlignedBB getAirSpace(BlockPos controllerPos, Direction side) {
+        return tm.getAirSpace(controllerPos, side);
+    }
+
+    @Override
+    public int getCorruptionMultiplier() {
+        return tm.getCorruptionMultiplier();
+    }
+
+    @Override
+    public String toString() {
+        return tm.toString();
     }
 
     private <T> T runHooks(Supplier<T> original, Class<? extends TimeMachineHook<T>> clazz, Object... args) {
