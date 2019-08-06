@@ -7,6 +7,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
 
 public abstract interface TimeMachineHook<R> {
@@ -82,6 +83,6 @@ public abstract interface TimeMachineHook<R> {
             return null;
         }
 
-        void run(TimeMachineHookRunner tm, Entity entity, World worldIn, World worldOut, BlockPos controllerPos, Direction side, boolean shouldBuild);
+        void run(TimeMachineHookRunner tm, @Nullable Entity entity, World worldIn, World worldOut, BlockPos controllerPos, Direction side, boolean shouldBuild);
     }
 }

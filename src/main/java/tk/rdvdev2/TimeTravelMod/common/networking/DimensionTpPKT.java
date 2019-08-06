@@ -133,7 +133,7 @@ public class DimensionTpPKT {
             });
         }
 
-        private static void applyCorruption(TimeMachine tm, DimensionType origDim, DimensionType destDim, MinecraftServer server) {
+        public static void applyCorruption(TimeMachine tm, DimensionType origDim, DimensionType destDim, MinecraftServer server) {
             int origTier = -1, destTier = -1;
             Iterator<TimeLine> iterator = ModRegistries.TIME_LINES.iterator();
             while (iterator.hasNext()) {

@@ -19,6 +19,7 @@ import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineCoreBlo
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.tileentity.TMCooldownTileEntity;
 import tk.rdvdev2.TimeTravelMod.common.block.*;
 import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TemporalCauldronTileEntity;
+import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TimeMachineRecallerTileEntity;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -38,6 +39,7 @@ public class ModBlocks {
     public static final Block TEMPORAL_CAULDRON = new TemporalCauldronBlock();
     public static final Block GUNPOWDER_WIRE = new GunpowderWireBlock();
     public static final Block TIME_MACHINE_TRACKER = new TimeMachineTrackerBlock();
+    public static final Block TIME_MACHINE_RECALLER = new TimeMachineRecallerBlock();
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
@@ -51,7 +53,8 @@ public class ModBlocks {
                 TEMPORAL_EXPLOSION,
                 TEMPORAL_CAULDRON,
                 GUNPOWDER_WIRE,
-                TIME_MACHINE_TRACKER
+                TIME_MACHINE_TRACKER,
+                TIME_MACHINE_RECALLER
         );
     }
 
@@ -61,9 +64,12 @@ public class ModBlocks {
         TemporalCauldronTileEntity.type.setRegistryName(MODID, "temporalcauldron");
         TMCooldownTileEntity.type = TileEntityType.Builder.create(TMCooldownTileEntity::new, getAllCoreBlocks()).build(null);
         TMCooldownTileEntity.type.setRegistryName(MODID, "tmcooldown");
+        TimeMachineRecallerTileEntity.type = TileEntityType.Builder.create(TimeMachineRecallerTileEntity::new, ModBlocks.TIME_MACHINE_RECALLER).build(null);
+        TimeMachineRecallerTileEntity.type.setRegistryName("tmrecaller");
         event.getRegistry().registerAll(
                 TemporalCauldronTileEntity.type,
-                TMCooldownTileEntity.type
+                TMCooldownTileEntity.type,
+                TimeMachineRecallerTileEntity.type
         );
     }
 
@@ -88,7 +94,8 @@ public class ModBlocks {
                 REINFORCED_HEAVY_BLOCK,
                 TEMPORAL_EXPLOSION,
                 TEMPORAL_CAULDRON,
-                TIME_MACHINE_TRACKER
+                TIME_MACHINE_TRACKER,
+                TIME_MACHINE_RECALLER
         );
         final String gunpowderTranslationKey = Items.GUNPOWDER.getTranslationKey();
         event.getRegistry().register(new BlockItem(GUNPOWDER_WIRE, new Item.Properties().maxStackSize(64).group(Items.GUNPOWDER.getGroup())){

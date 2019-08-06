@@ -30,6 +30,7 @@ import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
 import tk.rdvdev2.TimeTravelMod.common.util.TimeMachineChecker;
 
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -244,7 +245,7 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
                 if (world.getBlockState(controllerPos.add(pos)) == state) {
                     TimeMachineUpgrade upgrade = ((AbstractTimeMachineUpgradeBlock) state.getBlock()).getUpgrade();
                     upgrades.putIfAbsent(upgrade, new HashSet<>());
-                    upgrades.get(upgrade).add(pos);
+                    upgrades.get(upgrade).add(controllerPos.add(pos));
                     break;
                 }
         return upgrades;
@@ -470,7 +471,7 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
      * @param controllerPos The position of the TM Controller
      * @param side The facing of the time machine
      */
-    public void teleporterTasks(Entity entity, World worldIn, World worldOut, BlockPos controllerPos, Direction side, boolean shouldBuild) {
+    public void teleporterTasks(@Nullable Entity entity, World worldIn, World worldOut, BlockPos controllerPos, Direction side, boolean shouldBuild) {
         IChunk chunk = worldIn.getChunk(controllerPos);
         worldIn.getChunkProvider().getChunk(chunk.getPos().x, chunk.getPos().z, ChunkStatus.FULL, true);
         if (shouldBuild) {
