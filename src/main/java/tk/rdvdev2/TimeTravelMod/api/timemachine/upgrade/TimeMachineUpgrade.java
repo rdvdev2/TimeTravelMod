@@ -14,7 +14,7 @@ public class TimeMachineUpgrade extends ForgeRegistryEntry<TimeMachineUpgrade> {
 
     private ArrayList<TimeMachineHook> hooks;
     private TimeMachine[] compatibleTMs;
-    private HashSet<Class<? extends TimeMachineHook>> exclusiveHooks;
+    private HashSet<Class<? extends TimeMachineHook>> exclusiveHooks = new HashSet<>();
 
     public TimeMachineUpgrade() {
         this.hooks = new ArrayList<TimeMachineHook>(0);
