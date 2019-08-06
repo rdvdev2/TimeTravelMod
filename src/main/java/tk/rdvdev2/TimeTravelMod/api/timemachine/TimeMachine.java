@@ -237,18 +237,14 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
      * @param side The facing of the Time Machine
      * @return An array of Time Machine upgrades that are applied to this Time Machine
      */
-    public final TimeMachineUpgrade[] getUpgrades(World world, BlockPos controllerPos, Direction side) {
-        TimeMachineUpgrade[] upgrades = new TimeMachineUpgrade[0];
+    public final HashMap<TimeMachineUpgrade, HashSet<BlockPos>> getUpgrades(World world, BlockPos controllerPos, Direction side) {
+        HashMap<TimeMachineUpgrade, HashSet<BlockPos>> upgrades = new HashMap<>(0);
         for (BlockPos pos:getBasicBlocksPos(side))
             for (BlockState state:getUpgradeBlocks())
                 if (world.getBlockState(controllerPos.add(pos)) == state) {
-                    try {
-                        int id = upgrades.length;
-                        upgrades = Arrays.copyOf(upgrades, id + 1);
-                        upgrades[id] = ((AbstractTimeMachineUpgradeBlock)state.getBlock()).getUpgrade();
-                    } catch (NullPointerException e) {
-                        upgrades = new TimeMachineUpgrade[]{((AbstractTimeMachineUpgradeBlock)state.getBlock()).getUpgrade()};
-                    }
+                    TimeMachineUpgrade upgrade = ((AbstractTimeMachineUpgradeBlock) state.getBlock()).getUpgrade();
+                    upgrades.putIfAbsent(upgrade, new HashSet<>());
+                    upgrades.get(upgrade).add(pos);
                     break;
                 }
         return upgrades;

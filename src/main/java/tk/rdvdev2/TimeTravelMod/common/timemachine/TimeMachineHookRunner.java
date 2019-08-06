@@ -11,6 +11,7 @@ import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHook;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -19,9 +20,9 @@ import java.util.function.Supplier;
 public class TimeMachineHookRunner extends TimeMachine {
 
     TimeMachine tm;
-    TimeMachineUpgrade[] upgrades;
+    private final HashMap<TimeMachineUpgrade, HashSet<BlockPos>> upgrades;
 
-    public TimeMachineHookRunner(TimeMachine tm, TimeMachineUpgrade[] upgrades) {
+    public TimeMachineHookRunner(TimeMachine tm, HashMap<TimeMachineUpgrade, HashSet<BlockPos>> upgrades) {
         this.tm = tm;
         this.upgrades = upgrades;
         setRegistryName(tm.getRegistryName()); // Hack to get the proper time machine name and description
@@ -35,7 +36,7 @@ public class TimeMachineHookRunner extends TimeMachine {
         HashSet<TimeMachineUpgrade> incompatibilities = new HashSet<>(0);
         for(Class<? extends TimeMachineHook> hook: TimeMachineHook.HOOK_TYPES) {
             HashSet<TimeMachineUpgrade> found = new HashSet<>(0);
-            for (TimeMachineUpgrade upgrade: this.upgrades) {
+            for (TimeMachineUpgrade upgrade: this.upgrades.keySet()) {
                 if (upgrade.isExclusiveHook(hook)) found.add(upgrade);
             }
             if (found.size() > 1) incompatibilities.addAll(found);
@@ -159,30 +160,34 @@ public class TimeMachineHookRunner extends TimeMachine {
     }
 
     private <T> T runHooks(Supplier<T> original, Class<? extends TimeMachineHook<T>> clazz, Object... args) {
-        for(TimeMachineUpgrade upgrade:upgrades) {
+        for(TimeMachineUpgrade upgrade:upgrades.keySet()) {
             if (upgrade.isExclusiveHook(clazz)) {
                 return upgrade.runHook(Optional.empty(), clazz, this, args);
             }
         }
         T result = original.get();
-        for (TimeMachineUpgrade upgrade:upgrades) {
+        for (TimeMachineUpgrade upgrade:upgrades.keySet()) {
             result = upgrade.runHook(Optional.of(result), clazz, this, args);
         }
         return result;
     }
 
     private void runVoidHooks(Runnable original, Class<? extends TimeMachineHook<Void>> clazz, Object... args) {
-        for(TimeMachineUpgrade upgrade:upgrades) {
+        for(TimeMachineUpgrade upgrade:upgrades.keySet()) {
             if (upgrade.isExclusiveHook(clazz)) {
                 upgrade.runVoidHook(clazz, this, args);
                 return;
             }
         }
         boolean done = false;
-        for(TimeMachineUpgrade upgrade:upgrades) {
+        for(TimeMachineUpgrade upgrade:upgrades.keySet()) {
             if (upgrade.runVoidHook(clazz, this, args))
                 done = true;
         }
         if (!done) original.run();
+    }
+
+    public HashSet<BlockPos> getUpgradePos(TimeMachineUpgrade upgrade) {
+        return upgrades.get(upgrade);
     }
 }
