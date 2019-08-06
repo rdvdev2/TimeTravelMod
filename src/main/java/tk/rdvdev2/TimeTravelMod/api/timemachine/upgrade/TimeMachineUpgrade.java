@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Optional;
 
-public abstract class TimeMachineUpgrade extends ForgeRegistryEntry<TimeMachineUpgrade> {
+public class TimeMachineUpgrade extends ForgeRegistryEntry<TimeMachineUpgrade> {
 
     private ArrayList<TimeMachineHook> hooks;
     private TimeMachine[] compatibleTMs;
