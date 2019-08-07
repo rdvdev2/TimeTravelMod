@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "configured=false,triggered=false": [
+      { "model": "timetravelmod:block/timemachinerecaller_ff"}
+    ],
+    "configured=true,triggered=false": [
+      { "model": "timetravelmod:block/timemachinerecaller_tf"}
+    ],
+    "configured=false,triggered=true": [
+      { "model": "timetravelmod:block/timemachinerecaller_ft"}
+    ],
+    "configured=true,triggered=true": [
+      { "model": "timetravelmod:block/timemachinerecaller_tt"}
+    ]
+  }
+}
