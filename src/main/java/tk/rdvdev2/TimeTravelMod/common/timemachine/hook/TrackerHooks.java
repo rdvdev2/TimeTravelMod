@@ -13,7 +13,7 @@ import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
 import java.util.Set;
 
 import static tk.rdvdev2.TimeTravelMod.ModTimeMachines.Upgrades.TRACKER;
-import static tk.rdvdev2.TimeTravelMod.common.block.TimeMachineRecallerBlock.CONFIGURED_PROPERTY;
+import static tk.rdvdev2.TimeTravelMod.common.block.TimeMachineRecallerBlock.CONFIGURED;
 
 public class TrackerHooks {
 
@@ -30,7 +30,7 @@ public class TrackerHooks {
                     for (Direction direction: Direction.values()) {
                         BlockPos recaller = pos.offset(direction);
                         if (worldOut.getBlockState(recaller).getBlock() == ModBlocks.TIME_MACHINE_RECALLER) {
-                            worldOut.setBlockState(recaller, worldOut.getBlockState(recaller).with(CONFIGURED_PROPERTY, true));
+                            worldOut.setBlockState(recaller, worldOut.getBlockState(recaller).with(CONFIGURED, true));
                             TileEntity tile = worldOut.getTileEntity(recaller);
                             if (tile instanceof TimeMachineRecallerTileEntity) {
                                 ((TimeMachineRecallerTileEntity) tile).setControllerPos(controllerPos);

@@ -32,8 +32,8 @@ import static tk.rdvdev2.TimeTravelMod.common.networking.DimensionTpPKT.Handler.
 
 public class TimeMachineRecallerBlock extends Block {
 
-    public static final BooleanProperty CONFIGURED_PROPERTY = BooleanProperty.create("configured");
-    public static final BooleanProperty TRIGGERED_PROPERTY = BooleanProperty.create("triggered");
+    public static final BooleanProperty CONFIGURED = BooleanProperty.create("configured");
+    public static final BooleanProperty TRIGGERED = BooleanProperty.create("triggered");
 
     public TimeMachineRecallerBlock() {
         super(Properties.create(Material.IRON)
@@ -44,18 +44,18 @@ public class TimeMachineRecallerBlock extends Block {
                 .harvestTool(ToolType.PICKAXE)
                 .harvestLevel(2)
         );
-        setDefaultState(getStateContainer().getBaseState().with(CONFIGURED_PROPERTY, false).with(TRIGGERED_PROPERTY, false));
+        setDefaultState(getStateContainer().getBaseState().with(CONFIGURED, false).with(TRIGGERED, false));
         setRegistryName(MODID, "timemachinerecaller");
     }
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> stateBuilder) {
-        stateBuilder.add(CONFIGURED_PROPERTY).add(TRIGGERED_PROPERTY);
+        stateBuilder.add(CONFIGURED).add(TRIGGERED);
     }
 
     @Override
     public boolean hasTileEntity(BlockState state) {
-        return state.get(CONFIGURED_PROPERTY).booleanValue();
+        return state.get(CONFIGURED).booleanValue();
     }
 
     @Nullable
@@ -84,20 +84,21 @@ public class TimeMachineRecallerBlock extends Block {
         super.neighborChanged(state, world, pos, neighbourBlock, neighbourPos, bool);
         if (!world.isRemote) {
             if (world.isBlockPowered(pos)) {
-                if (!state.get(TRIGGERED_PROPERTY).booleanValue()) {
-                    world.setBlockState(pos, state.with(TRIGGERED_PROPERTY, true));
-                    if (state.get(CONFIGURED_PROPERTY).booleanValue()) {
+                if (!state.get(TRIGGERED).booleanValue()) {
+                    world.setBlockState(pos, state.with(TRIGGERED, true));
+                    if (state.get(CONFIGURED).booleanValue()) {
                         TileEntity tile = world.getTileEntity(pos);
                         if (world instanceof ServerWorld && tile instanceof TimeMachineRecallerTileEntity) {
                             BlockPos controllerPos = ((TimeMachineRecallerTileEntity) tile).getControllerPos();
                             Direction side = ((TimeMachineRecallerTileEntity) tile).getSide();
                             DimensionType searchDim = ((TimeMachineRecallerTileEntity) tile).getDest();
-                            searchRecall((ServerWorld) world, world.getServer().getWorld(searchDim), controllerPos, side, pos);
+                            boolean ret = searchRecall((ServerWorld) world, world.getServer().getWorld(searchDim), controllerPos, side, pos);
+                            world.setBlockState(pos, state.with(CONFIGURED, ret).with(TRIGGERED, true));
                         }
                     }
                 }
             } else {
-                world.setBlockState(pos, state.with(TRIGGERED_PROPERTY, false));
+                world.setBlockState(pos, state.with(TRIGGERED, false));
             }
         }
     }
@@ -111,7 +112,7 @@ public class TimeMachineRecallerBlock extends Block {
             boolean ret = tryRecall(tm, searchWorld, origin, controllerPos, side);
             searchWorld.forceChunk(controllerPos.getX() >> 4, controllerPos.getZ() >> 4, false);
             DimensionManager.keepLoaded(searchWorld.getDimension().getType(), false);
-            return ret;
+            return !ret;
         } else {
             TileEntity tile = searchWorld.getTileEntity(recallerPos);
             if (tile instanceof TimeMachineRecallerTileEntity) {
