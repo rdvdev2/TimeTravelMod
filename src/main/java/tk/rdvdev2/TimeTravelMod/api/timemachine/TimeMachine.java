@@ -350,13 +350,13 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
             boolean coincidence = false;
             for (BlockState state:states) {
                 if (type == TMComponentType.CORE ?
-                        world.getBlockState(controllerPos.add(pos)).with(TMReadyProperty.ready, true) == state.with(TMReadyProperty.ready, true) :
+                        world.getBlockState(controllerPos.add(pos)).getBlock().getDefaultState() == state.getBlock().getDefaultState() :
                         world.getBlockState(controllerPos.add(pos)) == state) {
                     coincidence = true;
                     break;
                 }
             }
-            if (!coincidence) {return false;}
+            if (!coincidence) return false;
         }
         return true;
     }
@@ -372,9 +372,11 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
         for(BlockPos pos:getCoreBlocksPos(side)) {
             boolean coincidence = false;
             for(BlockState state:getCoreBlocks()) {
-                if(world.getBlockState(controllerPos.add(pos)) == state.with(TMReadyProperty.ready, true)) {
-                    coincidence = true;
-                    break;
+                if (world.getBlockState(controllerPos.add(pos)).getBlock() instanceof AbstractTimeMachineCoreBlock) {
+                    if (world.getBlockState(controllerPos.add(pos)) == state.with(TMReadyProperty.ready, true)) {
+                        coincidence = true;
+                        break;
+                    }
                 }
             }
             if(!coincidence)
