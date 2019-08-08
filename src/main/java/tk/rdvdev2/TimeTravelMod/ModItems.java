@@ -17,6 +17,7 @@ public class ModItems {
     public static final Item HEAVY_INGOT = new Item(new Item.Properties().group(TimeTravelMod.TAB_TTM)).setRegistryName(MODID, "heavyingot");
     public static final Item CREATIVE_TIME_MACHINE = new CreativeTimeMachineItem();
     public static final Item ENGINEER_BOOK = new ItemEngineerBook();
+    public static final Item COMMUNICATIONS_CIRCUIT = new Item(new Item.Properties().group(TimeTravelMod.TAB_TTM)).setRegistryName(MODID, "communicationscircuit");
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
@@ -25,7 +26,8 @@ public class ModItems {
                 CONTROLLER_CIRCUIT,
                 HEAVY_INGOT,
                 CREATIVE_TIME_MACHINE,
-                ENGINEER_BOOK
+                ENGINEER_BOOK,
+                COMMUNICATIONS_CIRCUIT
         );
     }
 }
