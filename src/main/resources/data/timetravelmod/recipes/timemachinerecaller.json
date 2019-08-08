@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CRC",
+    "RMR",
+    "CRC" ],
+  "key": {
+    "C": [
+      {
+        "item": "minecraft:gray_concrete"
+      }
+    ],
+    "R": [
+      {
+        "item": "minecraft:redstone"
+      }
+    ],
+    "M": [
+      {
+        "item": "timetravelmod:communicationscircuit"
+      }
+    ]
+  },
+  "result": {
+    "item": "timetravelmod:timemachinerecaller"
+  }
+}

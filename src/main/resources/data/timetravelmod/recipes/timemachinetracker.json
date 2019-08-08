@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "timetravelmod:timemachinebasicblock"
+    },
+    {
+      "item": "timetravelmod:communicationscircuit"
+    }
+  ],
+  "result": {
+    "item": "timetravelmod:timemachinetracker"
+  }
+}

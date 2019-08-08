@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TTT",
+    "RGR",
+    "NNN" ],
+  "key": {
+    "T": [
+      {
+        "item": "minecraft:redstone_torch"
+      }
+    ],
+    "R": [
+      {
+        "item": "minecraft:redstone"
+      }
+    ],
+    "G": [
+      {
+        "item": "minecraft:green_terracotta"
+      }
+    ],
+    "N": [
+      {
+        "item": "minecraft:gold_nugget"
+      }
+    ]
+  },
+  "result": {
+    "item": "timetravelmod:communicationscircuit"
+  }
+}
