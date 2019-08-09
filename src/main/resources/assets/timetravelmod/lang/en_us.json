@@ -63,7 +63,7 @@
     "timetravelmod.error.overloaded.server": "The Time Machine used by the player is overloaded",
     "timetravelmod.error.entitiesescaped": "Someone exited the Time Machine, canceled.",
     "timetravelmod.error.unreachable_dim": "The destination Time Line is unreachable with the Time Machine used by the player.",
-    "timetravelmod.error.uncompatible_upgrades": "The following Time Machine Upgrades are uncompatible beetwen them: %",
+    "timetravelmod.error.uncompatible_upgrades": "The following Time Machine Upgrades are uncompatible beetwen them: %s",
     "timetravelmod.cheater_report": "A Time Travel request was received in the server, but the player who sent it (%s) is possibly cheating. Reason: %s. We suggest you to %s him.",
     "timetravelmod.ban": "[BAN]",
     "timetravelmod.generic.comma" : "%s, %s",
