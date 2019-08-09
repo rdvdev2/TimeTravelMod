@@ -61,6 +61,7 @@
     "timetravelmod.error.overloaded.server": "La máquina del tiempo usada por el jugador está sobrecargada",
     "timetravelmod.error.entitiesescaped": "Alguien salió de la máquina del tiempo, cancelado.",
     "timetravelmod.error.unreachable_dim": "La línea temporal de destino es inalcanzable con la máquina del tiempo usada por el jugador.",
+    "timetravelmod.error.uncompatible_upgrades": "Las siguientes mejoras para máquinas del tiempo no son compatibles entre ellas: %s",
     "timetravelmod.cheater_report": "Se recibió una solicitud de Viaje en el tiempo en el servidor, pero el jugador que la envió (%s) posiblemente está usando exploits. Motivo: %s. Te sugerimos que le hagas %s.",
     "timetravelmod.ban": "[BAN]",
     "timetravelmod.generic.comma": "%s, %s",
