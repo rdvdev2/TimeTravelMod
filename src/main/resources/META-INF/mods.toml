@@ -18,7 +18,7 @@ Ever wanted to travel through time in Minecraft? Build your own time travel mach
 [[dependencies.timetravelmod]]
     modId="forge"
     mandatory=true
-    versionRange="[${loaderVersion}.0.29,)"
+    versionRange="[${loaderVersion}.0.45,)"
     ordering="NONE"
     side="BOTH"
 
