@@ -59,9 +59,9 @@ public class EngineerBookScreen extends Screen {
                 timeMachineData.add(d);
                 continue;
             }
-            d.basicBlocksPos = tm.getBasicBlocksPos(Direction.NORTH);
+            d.basicBlocksPos = tm.getBasicBlocksPos(Direction.SOUTH);
             d.basicBlocks = tm.getBasicBlocks();
-            d.coreBlocksPos = tm.getCoreBlocksPos(Direction.NORTH);
+            d.coreBlocksPos = tm.getCoreBlocksPos(Direction.SOUTH);
             d.coreBlocks = tm.getCoreBlocks();
             d.controllerBlockPos = new BlockPos(0, 0, 0);
             d.controllerBlocks = tm.getControllerBlocks();
