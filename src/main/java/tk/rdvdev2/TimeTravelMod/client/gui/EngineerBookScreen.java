@@ -59,9 +59,9 @@ public class EngineerBookScreen extends Screen {
                 timeMachineData.add(d);
                 continue;
             }
-            d.basicBlocksPos = tm.getBasicBlocksPos(Direction.NORTH).toArray(new BlockPos[0]);
+            d.basicBlocksPos = tm.getBasicBlocksPos(Direction.NORTH);
             d.basicBlocks = tm.getBasicBlocks();
-            d.coreBlocksPos = tm.getCoreBlocksPos(Direction.NORTH).toArray(new BlockPos[0]);
+            d.coreBlocksPos = tm.getCoreBlocksPos(Direction.NORTH);
             d.coreBlocks = tm.getCoreBlocks();
             d.controllerBlockPos = new BlockPos(0, 0, 0);
             d.controllerBlocks = tm.getControllerBlocks();
@@ -101,16 +101,16 @@ public class EngineerBookScreen extends Screen {
         yLevels.clear();
     }
 
-    private class TimeMachineData implements Comparable<TimeMachineData> { // TODO: Take advantage of List<BlockPos>
+    private static class TimeMachineData implements Comparable<TimeMachineData> {
 
         public int id;
         public TranslationTextComponent name;
         public TranslationTextComponent description;
         public int tier;
         public int cooldown; // in seconds
-        public BlockPos[] basicBlocksPos;
+        public List<BlockPos> basicBlocksPos;
         public BlockState[] basicBlocks;
-        public BlockPos[] coreBlocksPos;
+        public List<BlockPos> coreBlocksPos;
         public BlockState[] coreBlocks;
         public BlockPos controllerBlockPos;
         public BlockState[] controllerBlocks;
@@ -121,8 +121,8 @@ public class EngineerBookScreen extends Screen {
 
         public void relocateBlocks() {
             BlockPos translocation = new BlockPos(0 - boundingBox.minX, 0 - boundingBox.minY, 0 - boundingBox.minZ);
-            for (int i = 0; i < basicBlocksPos.length; i++) basicBlocksPos[i] = basicBlocksPos[i].add(translocation);
-            for (int i = 0; i < coreBlocksPos.length; i++) coreBlocksPos[i] = coreBlocksPos[i].add(translocation);
+            for (int i = 0; i < basicBlocksPos.size(); i++) basicBlocksPos.set(i, basicBlocksPos.get(i).add(translocation));
+            for (int i = 0; i < coreBlocksPos.size(); i++) coreBlocksPos.set(i, coreBlocksPos.get(i).add(translocation));
             controllerBlockPos = controllerBlockPos.add(translocation);
         }
 
@@ -147,19 +147,16 @@ public class EngineerBookScreen extends Screen {
             int minX = 100, minY = 100, minZ = 100;
             int maxX = -100, maxY = -100, maxZ = -100;
 
-            for(BlockPos pos: basicBlocksPos) {
+            List<BlockPos> allPos = new ArrayList<>(basicBlocksPos.size()+coreBlocksPos.size()+1);
+            allPos.addAll(basicBlocksPos);
+            allPos.addAll(coreBlocksPos);
+            allPos.add(controllerBlockPos);
+
+            for(BlockPos pos: allPos) {
                 if (pos.getX() < minX) minX = pos.getX(); else if (pos.getX() > maxX) maxX = pos.getX();
                 if (pos.getY() < minY) minY = pos.getY(); else if (pos.getY() > maxY) maxY = pos.getY();
                 if (pos.getZ() < minZ) minZ = pos.getZ(); else if (pos.getZ() > maxZ) maxZ = pos.getZ();
             }
-            for(BlockPos pos: coreBlocksPos) {
-                if (pos.getX() < minX) minX = pos.getX(); else if (pos.getX() > maxX) maxX = pos.getX();
-                if (pos.getY() < minY) minY = pos.getY(); else if (pos.getY() > maxY) maxY = pos.getY();
-                if (pos.getZ() < minZ) minZ = pos.getZ(); else if (pos.getZ() > maxZ) maxZ = pos.getZ();
-            }
-            if (controllerBlockPos.getX() < minX) minX = controllerBlockPos.getX(); else if (controllerBlockPos.getX() > maxX) maxX = controllerBlockPos.getX();
-            if (controllerBlockPos.getY() < minY) minY = controllerBlockPos.getY(); else if (controllerBlockPos.getY() > maxY) maxY = controllerBlockPos.getY();
-            if (controllerBlockPos.getZ() < minZ) minZ = controllerBlockPos.getZ(); else if (controllerBlockPos.getZ() > maxZ) maxZ = controllerBlockPos.getZ();
 
             boundingBox = new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
         }
