@@ -13,13 +13,14 @@ import net.minecraft.world.World;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.tileentity.TMCooldownTileEntity;
 import tk.rdvdev2.TimeTravelMod.common.world.TemporalExplosion;
 
+import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.Random;
 
 import static tk.rdvdev2.TimeTravelMod.api.timemachine.block.TMReadyProperty.ready;
 
-public abstract class AbstractTimeMachineCoreBlock extends AbstractTimeMachineComponentBlock {
+public class TimeMachineCoreBlock extends AbstractTimeMachineComponentBlock {
 
-    public AbstractTimeMachineCoreBlock(Properties properties) {
+    public TimeMachineCoreBlock(Properties properties) {
         super(properties);
         setDefaultState(getStateContainer().getBaseState().with(ready, true));
     }
@@ -33,6 +34,7 @@ public abstract class AbstractTimeMachineCoreBlock extends AbstractTimeMachineCo
     }
 
     @Override
+    @OverridingMethodsMustInvokeSuper
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> stateBuilder) {
         stateBuilder.add(new IProperty[]{ready});
     }
@@ -57,7 +59,7 @@ public abstract class AbstractTimeMachineCoreBlock extends AbstractTimeMachineCo
      * @param aportation The extra chance of the Time Machine core to explode (It is summed to the base one)
      * @return True if the Time Machine core exploded
      */
-    public boolean randomExplosion(World world, BlockPos pos, float aportation) {
+    public final boolean randomExplosion(World world, BlockPos pos, float aportation) {
         Random r = new Random();
         if (r.nextFloat() < getRandomExplosionChance()+aportation) {
             world.setBlockState(pos, Blocks.AIR.getDefaultState());
@@ -73,7 +75,7 @@ public abstract class AbstractTimeMachineCoreBlock extends AbstractTimeMachineCo
      * @param pos The position of the Time Machine core
      * @return True if the Time Machine core exploded
      */
-    public boolean randomExplosion(World world, BlockPos pos) {
+    public final boolean randomExplosion(World world, BlockPos pos) {
         return randomExplosion(world, pos, 0);
     }
 
@@ -83,11 +85,12 @@ public abstract class AbstractTimeMachineCoreBlock extends AbstractTimeMachineCo
      * @param pos The position of the Time Machine core
      * @return True if the Time Machine core exploded (This should be always true)
      */
-    public boolean forceExplosion(World world, BlockPos pos) {
+    public final boolean forceExplosion(World world, BlockPos pos) {
         return randomExplosion(world, pos, 1);
     }
 
     @Override
+    @OverridingMethodsMustInvokeSuper
     public void onPlayerDestroy(IWorld worldIn, BlockPos pos, BlockState state) {
         if (!state.get(TMReadyProperty.ready)) {
             forceExplosion(worldIn.getWorld(), pos);

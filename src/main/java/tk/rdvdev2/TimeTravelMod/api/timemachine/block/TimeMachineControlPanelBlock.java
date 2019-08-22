@@ -21,11 +21,11 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public abstract class AbstractTimeMachineControlPanelBlock extends AbstractTimeMachineComponentBlock {
+public class TimeMachineControlPanelBlock extends AbstractTimeMachineComponentBlock {
 
     private TimeMachine timeMachine = null;
 
-    public AbstractTimeMachineControlPanelBlock(Properties properties) {
+    public TimeMachineControlPanelBlock(Properties properties) {
         super(properties);
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -41,8 +41,8 @@ public abstract class AbstractTimeMachineControlPanelBlock extends AbstractTimeM
         return timeMachine;
     }
 
-    @OverridingMethodsMustInvokeSuper
     @Override
+    @OverridingMethodsMustInvokeSuper
     public boolean onBlockActivated(BlockState state,
                                     World worldIn,
                                     BlockPos pos,

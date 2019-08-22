@@ -5,7 +5,7 @@ import net.minecraft.block.Block;
 /**
  * A generic Block instance that works with the TimeMachine mechanics
  */
-public abstract class AbstractTimeMachineComponentBlock extends Block {
+abstract class AbstractTimeMachineComponentBlock extends Block {
     AbstractTimeMachineComponentBlock(Properties properties) {
         super(properties);
     }

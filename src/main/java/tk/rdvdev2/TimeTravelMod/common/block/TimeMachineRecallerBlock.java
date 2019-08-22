@@ -19,7 +19,7 @@ import net.minecraftforge.common.ToolType;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineControlPanelBlock;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineControlPanelBlock;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineHooksException;
 import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TimeMachineRecallerTileEntity;
 
@@ -106,8 +106,8 @@ public class TimeMachineRecallerBlock extends Block {
     private boolean searchRecall(ServerWorld origin, ServerWorld searchWorld, BlockPos controllerPos, Direction side, BlockPos recallerPos) {
         DimensionManager.keepLoaded(searchWorld.getDimension().getType());
         Block controllerBlock = searchWorld.getBlockState(controllerPos).getBlock();
-        if (controllerBlock instanceof AbstractTimeMachineControlPanelBlock) {
-            TimeMachine tm = ((AbstractTimeMachineControlPanelBlock) controllerBlock).getTimeMachine();
+        if (controllerBlock instanceof TimeMachineControlPanelBlock) {
+            TimeMachine tm = ((TimeMachineControlPanelBlock) controllerBlock).getTimeMachine();
             searchWorld.forceChunk(controllerPos.getX() >> 4, controllerPos.getZ() >> 4, true);
             boolean ret = tryRecall(tm, searchWorld, origin, controllerPos, side);
             searchWorld.forceChunk(controllerPos.getX() >> 4, controllerPos.getZ() >> 4, false);

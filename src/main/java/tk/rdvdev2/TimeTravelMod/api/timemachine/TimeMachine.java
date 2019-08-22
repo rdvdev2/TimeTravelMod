@@ -20,10 +20,9 @@ import tk.rdvdev2.TimeTravelMod.ModBlocks;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.ModTriggers;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineComponentBlock;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineCoreBlock;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineUpgradeBlock;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TMReadyProperty;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineCoreBlock;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineUpgradeBlock;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.tileentity.TMCooldownTileEntity;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineHooksException;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
@@ -107,14 +106,14 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
      */
     @SuppressWarnings("unchecked")
     public final BlockState[] getUpgradeBlocks() {
-        AbstractTimeMachineComponentBlock[] blocks = new AbstractTimeMachineComponentBlock[0];
+        TimeMachineUpgradeBlock[] blocks = new TimeMachineUpgradeBlock[0];
         try {
             for (TimeMachineUpgrade upgrade : getCompatibleUpgrades()) {
-                HashMap<TimeMachineUpgrade, AbstractTimeMachineComponentBlock[]> hm = (HashMap<TimeMachineUpgrade, AbstractTimeMachineComponentBlock[]>) ModRegistries.UPGRADES.getSlaveMap(ModRegistries.UPGRADETOBLOCK, HashMap.class);
+                HashMap<TimeMachineUpgrade, TimeMachineUpgradeBlock[]> hm = (HashMap<TimeMachineUpgrade, TimeMachineUpgradeBlock[]>) ModRegistries.UPGRADES.getSlaveMap(ModRegistries.UPGRADETOBLOCK, HashMap.class);
                 blocks = blocks == null ? hm.get(upgrade) : ArrayUtils.addAll(blocks, hm.get(upgrade));
             }
             BlockState[] states = new BlockState[0];
-            for (AbstractTimeMachineComponentBlock block : blocks) {
+            for (TimeMachineUpgradeBlock block : blocks) {
                 states = states == null ? new BlockState[]{block.getDefaultState()} : ArrayUtils.addAll(states, new BlockState[]{block.getDefaultState()});
             }
             return states;
@@ -243,7 +242,7 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
         for (BlockPos pos:getBasicBlocksPos(side))
             for (BlockState state:getUpgradeBlocks())
                 if (world.getBlockState(controllerPos.add(pos)) == state) {
-                    TimeMachineUpgrade upgrade = ((AbstractTimeMachineUpgradeBlock) state.getBlock()).getUpgrade();
+                    TimeMachineUpgrade upgrade = ((TimeMachineUpgradeBlock) state.getBlock()).getUpgrade();
                     upgrades.putIfAbsent(upgrade, new HashSet<>());
                     upgrades.get(upgrade).add(controllerPos.add(pos));
                     break;
@@ -288,8 +287,8 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
      */
     public boolean triggerTemporalExplosion(World world, BlockPos controllerPos, Direction side) {
         for (BlockPos pos:getCoreBlocksPos(side)) {
-            AbstractTimeMachineComponentBlock core = (AbstractTimeMachineComponentBlock)world.getBlockState(controllerPos.add(pos)).getBlock();
-            if (((AbstractTimeMachineCoreBlock)core).randomExplosion(world, controllerPos.add(pos)))
+            TimeMachineCoreBlock core = (TimeMachineCoreBlock) world.getBlockState(controllerPos.add(pos)).getBlock();
+            if (core.randomExplosion(world, controllerPos.add(pos)))
                 return true;
         }
         return false;
@@ -372,7 +371,7 @@ public abstract class TimeMachine extends ForgeRegistryEntry<TimeMachine> {
         for(BlockPos pos:getCoreBlocksPos(side)) {
             boolean coincidence = false;
             for(BlockState state:getCoreBlocks()) {
-                if (world.getBlockState(controllerPos.add(pos)).getBlock() instanceof AbstractTimeMachineCoreBlock) {
+                if (world.getBlockState(controllerPos.add(pos)).getBlock() instanceof TimeMachineCoreBlock) {
                     if (world.getBlockState(controllerPos.add(pos)) == state.with(TMReadyProperty.ready, true)) {
                         coincidence = true;
                         break;

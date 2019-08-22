@@ -13,7 +13,7 @@ import net.minecraftforge.registries.RegistryBuilder;
 import net.minecraftforge.registries.RegistryManager;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.AbstractTimeMachineComponentBlock;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineUpgradeBlock;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.CreativeTimeMachine;
 
@@ -79,7 +79,7 @@ public class ModRegistries {
 
     public static class TimeMachineUpgradesCallbacks implements IForgeRegistry.CreateCallback<TimeMachineUpgrade> {
 
-        private HashMap<TimeMachineUpgrade, AbstractTimeMachineComponentBlock[]> upgradetoblockhm;
+        private HashMap<TimeMachineUpgrade, TimeMachineUpgradeBlock[]> upgradetoblockhm;
 
         @Override
         public void onCreate(IForgeRegistryInternal<TimeMachineUpgrade> owner, RegistryManager stage) {
