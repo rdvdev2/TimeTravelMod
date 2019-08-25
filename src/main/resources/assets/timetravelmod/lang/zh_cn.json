@@ -48,6 +48,5 @@
     "tm.timetravelmod.creative.name": "创造时间机器",
     "tmupgrade.timetravelmod.tracker.name": "时间机器追踪器",
     "tmupgrade.timetravelmod.tracker.description": "这个升级将生效与周围的时间机器计时器 当时间机器追踪器配置时，它的中心将会变绿，当它接收到红石信号时, 将会重新配置回到时间线. 如果你穿越了很多时间线，你需要在每个时间线都安装一个计时器.",
-    "config.timetravelmod.common.enableupdatepromos": "如果禁用此功能，你将不会在进入世界时收到模组更新提醒",
     "config.timetravelmod.common.enablecheaterreports": "如果禁用这个功能，在检测到作弊者时将不会通知op"
 }
