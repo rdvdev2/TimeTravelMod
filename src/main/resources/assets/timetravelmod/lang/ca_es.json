@@ -22,7 +22,6 @@
     "gui.tmengineerbook.layer": "Capa: %s",
     "gui.tmengineerbook.compatibleupgrades": "Millores per a Màquines del Temps compatibles",
     "gui.tmengineerbook.upgrades": "Millores per a Màquines del Temps",
-    "gui.tmengineerbook.noupgrades": "No hi ha cap Millora per a Màquines del Temps disponible :(",
     "gui.tmengineerbook.compatibletms": "Màquines del Temps compatibles",
     "item.timetravelmod.controllercircuit": "Circuit controlador",
     "item.timetravelmod.creativetimemachine": "Màquina del temps (Creatiu)",
@@ -74,6 +73,5 @@
     "tm.timetravelmod.tier1.name": "Màquina del Temps de nivell 1",
     "tmupgrade.timetravelmod.tracker.name": "Rastrejador de màquines del temps",
     "tmupgrade.timetravelmod.tracker.description": "Aquesta actualització configurarà els retornador de màquines del temps adjacents quan facis servir la màquina del temps. Quan es configura un retornador de màquines del temps, el seu centre es torna verd i, quan s'activa amb redstone, retorna la màquina del temps que el va configurar a la teva línia temporal. Si viatges a través de diverses línies temporals, hauràs instal·lar un retornador de màquines del temps en cada línia temporal que visitis.",
-    "config.timetravelmod.common.enableupdatepromos": "Quan es desactiva deixes de rebre notificacions sobre noves actualitzacions al unir-te a un món",
     "config.timetravelmod.common.enablecheaterreports": "Si aquesta opció està desactivada, els operadors (ops) no seran avisats quan es detecti un possible trampós"
 }
