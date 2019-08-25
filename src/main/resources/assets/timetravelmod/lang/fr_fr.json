@@ -39,6 +39,7 @@
     "config.timetravelmod.client.enabletimelinemusic": "Quand cela est activé, les lignes temporelles ont leur propre musique",
     "config.timetravelmod.common.enableexperimentalfeatrues": "Quand cette fonctionnalité est activée, les fonctionnalités expérimentales du mod sont activées",
     "tm.timetravelmod.tmcreative.name": "Machine Temporelle créative",
+    "tm.timetravelmod.tmtier1.description": "Une machine temporelle toute simple. Vous n'atteindrez que le Far West.",
     "tm.timetravelmod.tmtier1.name": "Machine temporelle de niveau 1",
     "config.timetravelmod.common.enableupdatepromos": "Si ceci est désactivé, vous ne serez pas informé des mises à jour du mod à l'entrée dans le monde"
 }
