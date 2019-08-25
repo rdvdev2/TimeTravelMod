@@ -22,7 +22,7 @@
     "gui.tmengineerbook.layer": "Layer: %s",
     "gui.tmengineerbook.compatibleupgrades": "Compatible Time Machine Upgrades",
     "gui.tmengineerbook.upgrades": "Time Machine Upgrades",
-    "gui.tmengineerbook.noupgrades": "There isn't any availabe Time Machine Upgrade :(",
+    "gui.tmengineerbook.noupgrades": "There isn't any available Time Machine Upgrade :(",
     "gui.tmengineerbook.compatibletms": "Compatible Time Machines",
     "item.timetravelmod.controllercircuit": "Controller circuit",
     "item.timetravelmod.creativetimemachine": "Creative time machine",
@@ -74,7 +74,6 @@
     "tm.timetravelmod.tier1.name": "Tier 1 Time Machine",
     "tmupgrade.timetravelmod.tracker.name": "Time machine tracker",
     "tmupgrade.timetravelmod.tracker.description": "This upgrade will configure it's adjacent Time machine recaller blocks when you use the Time Machine. When a Time machine recaller block is configured it's center turns green and, when powered with redstone, will return the Time Machine that configured it to your Time Line. If you travel across various Time Lines, you will need to install a Time Machine recaller on every Time Line you visit.",
-    "config.timetravelmod.common.enableexperimentalfeatrues": "When this is enabled experimental features of the mod are activated",
-    "config.timetravelmod.common.enableupdatepromos": "If this is disabled you won't be notiified of mod updates at world joining",
+    "config.timetravelmod.common.enableupdatepromos": "If this is disabled you won't be notified of mod updates at world joining",
     "config.timetravelmod.common.enablecheaterreports": "If this is disabled game masters (ops) won't be notified when a possible cheater is detected"
 }
