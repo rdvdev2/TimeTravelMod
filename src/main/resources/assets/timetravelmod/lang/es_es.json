@@ -22,7 +22,6 @@
     "gui.tmengineerbook.layer": "Capa: %s",
     "gui.tmengineerbook.compatibleupgrades": "Mejoras para Máquinas del Tiempo compatibles",
     "gui.tmengineerbook.upgrades": "Mejoras para Máquinas del Tiempo",
-    "gui.tmengineerbook.noupgrades": "No hay ninguna Mejora para Máquinas del Tiempo disponible :(",
     "gui.tmengineerbook.compatibletms": "Máquinas del Tiempo Compatibles",
     "item.timetravelmod.controllercircuit": "Circuito controlador",
     "item.timetravelmod.creativetimemachine": "Máquina del tiempo (Creativo)",
@@ -74,6 +73,5 @@
     "tm.timetravelmod.tier1.name": "Máquina del Tiempo de nivel 1",
     "tmupgrade.timetravelmod.tracker.name": "Rastreador para máquinas del tiempo",
     "tmupgrade.timetravelmod.tracker.description": "Esta actualización configurará los regresadores para máquinas del tiempo adyacentes cuando uses la máquina del tiempo. Cuando se configura un regresador para máquinas del tiempo, su centro se vuelve verde y, cuando se activa con redstone, devuelve la máquina del tiempo que lo configuró a tu línea temporal. Si viajas a través de varias líneas temporales, deberás instalar un regresador para máquinas del tiempo en cada línea temporal que visites.",
-    "config.timetravelmod.common.enableupdatepromos": "Si se desactiva, dejaras de ser notificado de las nuevas versiones del mod al unirte a un mundo",
     "config.timetravelmod.common.enablecheaterreports": "Si esta opción está deshabilitada, los operadores (ops) no serán notificados cuando se detecte un posible tramposo"
 }
