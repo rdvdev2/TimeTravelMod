@@ -26,6 +26,7 @@
     "item.timetravelmod.timemachinebasicblock": "Bloc de base de la machine temporelle",
     "item.timetravelmod.timemachinecontrolpanel": "Panneau de contrôle de la machine temporelle",
     "item.timetravelmod.timemachinecore": "Coeur de la machine temporelle",
+    "item.timetravelmod.timemachinerecaller": "Rappeleur de machine temporelle",
     "item.timetravelmod.timemachinetracker": "Émetteur de machine temporelle",
     "item.timetravelmod.communicationscircuit": "Circuit de communication",
     "itemGroup.timetravelmod": "Time Travel Mod",
@@ -37,6 +38,7 @@
     "block.timetravelmod.timemachinebasicblock": "Bloc de base de la machine temporelle",
     "block.timetravelmod.timemachinecontrolpanel": "Panneau de contrôle de la machine temporelle",
     "block.timetravelmod.timemachinecore": "Coeur de la machine temporelle",
+    "block.timetravelmod.timemachinerecaller": "Rappeleur de machine temporelle",
     "block.timetravelmod.timemachinetracker": "Émetteur de machine temporelle",
     "config.timetravelmod.client.enabletimelinemusic": "Quand cela est activé, les lignes temporelles ont leur propre musique",
     "config.timetravelmod.common.enableexperimentalfeatrues": "Quand cette fonctionnalité est activée, les fonctionnalités expérimentales du mod sont activées",
@@ -48,10 +50,15 @@
     "timetravelmod.error.player_inside.server": "Le joueur n'est pas à l'intérieur de la machine temporelle",
     "timetravelmod.error.overloaded.client": "La machine temporelle est surchargée !",
     "timetravelmod.error.overloaded.server": "La machine temporelle utilisée par le joueur est surchargée",
+    "timetravelmod.error.entitiesescaped": "Quelqu'un est sorti de la machine temporelle, opération interrompue.",
+    "timetravelmod.error.unreachable_dim": "La ligne temporelle de destination est inaccessible avec la machine temporelle utilisée par le joueur.",
+    "timetravelmod.error.uncompatible_upgrades": "Les améliorations suivantes de la machine temporelle sont incompatibles entre elles : %s",
+    "timetravelmod.cheater_report": "Une requête de voyage dans le temps a été reçue sur le serveur, mais le joueur qui l'a émise (%s) est potentiellement en train de tricher. Raison : %s. Nous vous suggérons de le %s.",
     "timetravelmod.ban": "[BAN]",
     "timetravelmod.generic.comma": "%s, %s",
     "timetravelmod.generic.and": "%s et %s",
     "tm.timetravelmod.creative.name": "Machine Temporelle créative",
     "tmupgrade.timetravelmod.tracker.name": "Émetteur de machine temporelle",
-    "config.timetravelmod.common.enableupdatepromos": "Si ceci est désactivé, vous ne serez pas informé des mises à jour du mod à l'entrée dans le monde"
+    "config.timetravelmod.common.enableupdatepromos": "Si ceci est désactivé, vous ne serez pas informé des mises à jour du mod à l'entrée dans le monde",
+    "config.timetravelmod.common.enablecheaterreports": "Si cela est désactivé, les opérateurs (ops) ne seront pas avertis quand un tricheur potentiel est détecté"
 }
