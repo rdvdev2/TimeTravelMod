@@ -9,7 +9,7 @@
     "advancements.timetraveling.doesnt_look_good.description": "Mourez dans une explosion temporelle.",
     "advancements.timetraveling.better_than_mending.title": "Bien mieux que Raccommodage",
     "advancements.timetraveling.better_than_mending.description": "Réparez complètement n'importe quel objet dans un chaudron temporel.",
-    "chat.ttm.outdated": "Une nouvelle version du Time Travel Mod est disponible ! Consulter la page CurseForge !",
+    "chat.ttm.outdated": "Une nouvelle version du Time Travel Mod est disponible ! Consultez la page CurseForge !",
     "death.attack.temporalerror": "%s a trop joué avec le temps",
     "gui.tm.error.text": "Vous ne pouvez pas voyager vers votre ligne temporelle ou depuis le Nether ou l'End !",
     "gui.tm.oldwest.text": "Far West",
@@ -73,6 +73,7 @@
     "tm.timetravelmod.tier1.description": "Une machine temporelle toute simple. Vous n'atteindrez que le Far West.",
     "tm.timetravelmod.tier1.name": "Machine temporelle de niveau 1",
     "tmupgrade.timetravelmod.tracker.name": "Émetteur de machine temporelle",
+    "tmupgrade.timetravelmod.tracker.description": "Cette amélioration configurera les blocs adjacents de rappeleurs de machines temporelles lors de l'utilisation de la machine. Lorsqu'un bloc de rappeleur de machine temporelle est configuré, son centre devient vert et, lorsqu'il est alimenté avec de la redstone, il renverra la machine temporelle qui l'a configuré vers votre ligne temporelle. Si vous voyagez à travers plusieurs lignes temporelles, vous aurez besoin d'installer un rappeleur de machine temporelle sur chaque ligne temporelle que vous visitez.",
     "config.timetravelmod.common.enableupdatepromos": "Si cette option est désactivée, vous ne serez pas informé des mises à jour du mod à l'entrée dans le monde",
     "config.timetravelmod.common.enablecheaterreports": "Si cette option est désactivée, les opérateurs (ops) ne seront pas avertis quand un tricheur potentiel est détecté"
 }
