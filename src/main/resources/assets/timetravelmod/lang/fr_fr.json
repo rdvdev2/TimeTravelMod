@@ -22,6 +22,7 @@
     "gui.tmengineerbook.layer": "Couche : %s",
     "gui.tmengineerbook.compatibleupgrades": "Améliorations de machine temporelle compatibles",
     "gui.tmengineerbook.upgrades": "Améliorations de machine temporelle",
+    "gui.tmengineerbook.noupgrades": "Il n'y a aucune amélioration de machine temporelle de disponible :(",
     "gui.tmengineerbook.compatibletms": "Machines temporelles compatibles",
     "item.timetravelmod.controllercircuit": "Circuit de contrôle",
     "item.timetravelmod.creativetimemachine": "Machine temporelle illimitée",
@@ -73,5 +74,6 @@
     "tm.timetravelmod.tier1.name": "Machine temporelle de niveau 1",
     "tmupgrade.timetravelmod.tracker.name": "Émetteur de machine temporelle",
     "tmupgrade.timetravelmod.tracker.description": "Cette amélioration configurera les blocs adjacents de rappeleurs de machines temporelles lors de l'utilisation de la machine. Lorsqu'un bloc de rappeleur de machine temporelle est configuré, son centre devient vert et, lorsqu'il est alimenté avec de la redstone, il renverra la machine temporelle qui l'a configuré vers votre ligne temporelle. Si vous voyagez à travers plusieurs lignes temporelles, vous aurez besoin d'installer un rappeleur de machine temporelle sur chaque ligne temporelle que vous visitez.",
+    "config.timetravelmod.common.enableupdatepromos": "Si cette option est désactivée, vous ne serez pas informé des mises à jour du mod à l'entrée dans le monde",
     "config.timetravelmod.common.enablecheaterreports": "Si cette option est désactivée, les opérateurs (ops) ne seront pas avertis quand un tricheur potentiel est détecté"
 }
