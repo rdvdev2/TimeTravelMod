@@ -47,6 +47,8 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void modConstructor(TimeTravelMod instance) {
         super.modConstructor(instance);
+        // Register FMLClientSetupEvent
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(instance::clientSetup);
         // Register ColorHandlerEvent#Block
         FMLJavaModLoadingContext.get().getModEventBus().addListener(ModBlocks::registerBlockColor);
         // Register PlaySoundEvent

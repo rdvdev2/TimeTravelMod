@@ -17,6 +17,7 @@ import net.minecraft.world.gen.placement.CountRangeConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
+import tk.rdvdev2.TimeTravelMod.ModEntities;
 import tk.rdvdev2.TimeTravelMod.ModFeatures;
 
 public final class OldWestBiome extends Biome {
@@ -60,5 +61,6 @@ public final class OldWestBiome extends Biome {
         this.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, Biome.createDecoratedFeature(ModFeatures.GUNPOWDER, NoFeatureConfig.NO_FEATURE_CONFIG, Placement.CHANCE_TOP_SOLID_HEIGHTMAP, new ChanceConfig(100)));
         DefaultBiomeFeatures.addExtraGoldOre(this);
         this.addStructure(Feature.MINESHAFT, new MineshaftConfig(0.002D, MineshaftStructure.Type.MESA));
+        this.addSpawn(EntityClassification.MONSTER, new Biome.SpawnListEntry(ModEntities.ILLAGER_BANDIT, 50, 1,5));
     }
 }
