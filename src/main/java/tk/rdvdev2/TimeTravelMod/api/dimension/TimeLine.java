@@ -1,6 +1,7 @@
 package tk.rdvdev2.TimeTravelMod.api.dimension;
 
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.dimension.DimensionType;
@@ -79,7 +80,7 @@ public abstract class TimeLine extends ForgeRegistryEntry<TimeLine> {
         };
     }
 
-    public static boolean isValidTimeLine(World world) {
+    public static boolean isValidTimeLine(IWorld world) {
         Iterator<TimeLine> iterator = ModRegistries.TIME_LINES.iterator();
         while (iterator.hasNext()) {
             TimeLine tl = iterator.next();
