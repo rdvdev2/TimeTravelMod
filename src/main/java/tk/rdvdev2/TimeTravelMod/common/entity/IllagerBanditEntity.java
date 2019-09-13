@@ -2,43 +2,44 @@ package tk.rdvdev2.TimeTravelMod.common.entity;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.tileentity.BarrelTileEntity;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.structure.Structures;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.ItemStackHandler;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class IllagerBanditEntity extends MonsterEntity {
 
+    @CapabilityInject(IItemHandler.class)
+    private static Capability<IItemHandler> ITEM_HANDLER_CAPABILITY = null;
+
+    private IItemHandlerModifiable inventory;
+
     public IllagerBanditEntity(EntityType<? extends MonsterEntity> type, World world) {
         super(type, world);
-    }
-
-    @Override
-    public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
-        return super.canSpawn(worldIn, spawnReasonIn);
-    }
-
-    @Override
-    protected PathNavigator createNavigator(World worldIn) {
-        PathNavigator navigator = super.createNavigator(worldIn);
-        navigator.setCanSwim(true);
-        return navigator;
+        this.inventory = new ItemStackHandler(27);
     }
 
     @Override
@@ -53,7 +54,32 @@ public class IllagerBanditEntity extends MonsterEntity {
         this.goalSelector.addGoal(2, new RandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(2, new AvoidEntityGoal(this, IronGolemEntity.class, 5, 1.0D, 1.2D));
         this.goalSelector.addGoal(3, new SearchVillagesDuringNightGoal(this, 1.0D));
-        this.goalSelector.addGoal(4, new StealChestsDuringNightGoal(this, 1.2D));
+        this.goalSelector.addGoal(10, new StealChestsDuringNightGoal(this, 1.2D));
+    }
+
+    @Override
+    public boolean canDespawn(double distanceToClosestPlayer) {
+        if (super.canDespawn(distanceToClosestPlayer)) {
+            for (int slot = 0; slot < inventory.getSlots(); slot++) {
+                if (!inventory.getStackInSlot(slot).isEmpty()) return false;
+            }
+            return true;
+        } else return false;
+    }
+
+    @Override
+    protected void dropInventory() {
+        super.dropInventory();
+        for (int slot = 0; slot < inventory.getSlots(); slot++) {
+            if (!inventory.getStackInSlot(slot).isEmpty()) entityDropItem(inventory.getStackInSlot(slot));
+        }
+    }
+
+    @Override
+    public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction facing) {
+        if (cap == ITEM_HANDLER_CAPABILITY) {
+            return LazyOptional.of(() -> (T)inventory);
+        } else return super.getCapability(cap, facing);
     }
 
     private static class SearchVillagesDuringNightGoal extends Goal {
@@ -109,6 +135,7 @@ public class IllagerBanditEntity extends MonsterEntity {
         private Path path;
         private Status status = Status.DONE;
         private LockableLootTileEntity target;
+        private int tickCount = 0;
 
         public StealChestsDuringNightGoal(IllagerBanditEntity entity, double speed) {
             this.entity = entity;
@@ -168,12 +195,43 @@ public class IllagerBanditEntity extends MonsterEntity {
         @Override
         public void tick() {
             super.tick();
+            if (target.isRemoved()) status = Status.DONE;
             switch (status) {
                 case SEARCHING:
-                    if (this.navigator.noPath()) status = Status.STEALING;
+                    if (this.entity.getDistanceSq(target.getPos().getX(), target.getPos().getY(), target.getPos().getZ()) < 2) {
+                        status = Status.STEALING;
+                        this.navigator.clearPath();
+                    } else break;
                 case STEALING:
-                    // TODO: Start stealing
+                    // TODO: Visuals
+                    if (!target.isEmpty() && tickCount++ >= 20) { // Every second
+                        tickCount = 0;
+                        for (int slot = 0; slot < target.getSizeInventory(); slot++) {
+                            ItemStack stack = target.getStackInSlot(slot);
+                            if (!stack.isEmpty()) {
+                                int targetSlot = getTargetSlot(entity.inventory, stack);
+                                if (targetSlot == -1) {
+                                    status = status.DONE;
+                                    break;
+                                }
+                                stack = entity.inventory.insertItem(targetSlot, stack, false);
+                                target.setInventorySlotContents(slot, stack);
+                                break;
+                            }
+                            status = Status.DONE;
+                        }
+                    } else if (target.isEmpty()) status = Status.DONE;
             }
+        }
+
+        public int getTargetSlot(IItemHandler inventory, ItemStack newStack) {
+            for (int slot = 0; slot < inventory.getSlots(); slot++) {
+                ItemStack stack = inventory.getStackInSlot(slot);
+                if (stack.isEmpty() || (stack.getItem().equals(newStack.getItem()) && stack.getCount() < stack.getMaxStackSize())) {
+                    return slot;
+                }
+            }
+            return -1; // Full inventory
         }
 
         private enum Status {SEARCHING, STEALING, DONE};
