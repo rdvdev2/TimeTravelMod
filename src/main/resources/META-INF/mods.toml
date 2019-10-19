@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[${loaderVersion},)"
+loaderVersion="[${loaderVersion}.1,)"
 
 [[mods]]
     modId="timetravelmod"
@@ -18,7 +18,7 @@ Ever wanted to travel through time in Minecraft? Build your own time travel mach
 [[dependencies.timetravelmod]]
     modId="forge"
     mandatory=true
-    versionRange="[${loaderVersion}.0.45,)"
+    versionRange="[${loaderVersion}.1,)"
     ordering="NONE"
     side="BOTH"
 
