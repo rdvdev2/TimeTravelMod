@@ -4,10 +4,13 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineHooksException;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHook;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 
@@ -18,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class TimeMachineHookRunner extends TimeMachine {
+public class TimeMachineHookRunner implements TimeMachine {
 
     TimeMachine tm;
     private final HashMap<TimeMachineUpgrade, HashSet<BlockPos>> upgrades;
@@ -26,7 +29,6 @@ public class TimeMachineHookRunner extends TimeMachine {
     public TimeMachineHookRunner(TimeMachine tm, HashMap<TimeMachineUpgrade, HashSet<BlockPos>> upgrades) {
         this.tm = tm;
         this.upgrades = upgrades;
-        setRegistryName(tm.getRegistryName()); // Hack to get the proper time machine name and description
     }
 
     public TimeMachine removeHooks() {
@@ -190,5 +192,73 @@ public class TimeMachineHookRunner extends TimeMachine {
 
     public HashSet<BlockPos> getUpgradePos(TimeMachineUpgrade upgrade) {
         return upgrades.get(upgrade);
+    }
+
+    @Override
+    public TranslationTextComponent getName() {
+        return tm.getName();
+    }
+
+    @Override
+    public TranslationTextComponent getDescription() {
+        return tm.getDescription();
+    }
+
+    @Override
+    public BlockState[] getUpgradeBlocks() {
+        return tm.getUpgradeBlocks();
+    }
+
+    @Override
+    public TimeMachineUpgrade[] getCompatibleUpgrades() {
+        return tm.getCompatibleUpgrades();
+    }
+
+    @Override
+    public TimeMachineHookRunner hook(World world, BlockPos controllerPos, Direction side) throws IncompatibleTimeMachineHooksException {
+        return this;
+    }
+
+    @Override
+    public HashMap<TimeMachineUpgrade, HashSet<BlockPos>> getUpgrades(World world, BlockPos controllerPos, Direction side) {
+        return this.upgrades;
+    }
+
+    @Override
+    public List<Entity> getEntitiesInside(World world, BlockPos controllerPos, Direction side) {
+        return tm.getEntitiesInside(world, controllerPos, side);
+    }
+
+    @Override
+    public void doCooldown(World worldIn, BlockPos controllerPos, Direction side) {
+        tm.doCooldown(worldIn, controllerPos, side);
+    }
+
+    // Delegate registry functionality to the original Time Machine
+
+    @Override
+    public TimeMachine setRegistryName(String name) {
+        return tm.setRegistryName(name);
+    }
+
+    @Override
+    public TimeMachine setRegistryName(String modID, String name) {
+        return tm.setRegistryName(modID, name);
+    }
+
+    @Override
+    public TimeMachine setRegistryName(ResourceLocation name) {
+        return tm.setRegistryName(name);
+    }
+
+    @Nullable
+    @Override
+    public ResourceLocation getRegistryName() {
+        return tm.getRegistryName();
+    }
+
+    @Override
+    public Class<TimeMachine> getRegistryType() {
+        return tm.getRegistryType();
     }
 }

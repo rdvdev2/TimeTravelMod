@@ -15,7 +15,7 @@ import static tk.rdvdev2.TimeTravelMod.TimeTravelMod.MODID;
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModTimeMachines {
 
-    public static final TimeMachine TIER_1 = new Tier1TimeMachine().setRegistryName(MODID, "tier1");
+    public static final TimeMachine TIER_1 = TimeMachine.fromTemplate(new Tier1TimeMachine()).setRegistryName(MODID, "tier1");
     public static final TimeMachine CREATIVE = new CreativeTimeMachine().setRegistryName(MODID, "creative");
 
     @SubscribeEvent

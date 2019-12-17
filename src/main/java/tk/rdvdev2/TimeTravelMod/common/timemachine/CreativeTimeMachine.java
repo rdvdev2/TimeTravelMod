@@ -1,5 +1,6 @@
 package tk.rdvdev2.TimeTravelMod.common.timemachine;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -15,7 +16,7 @@ import tk.rdvdev2.TimeTravelMod.ModItems;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.ModTriggers;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachineTemplate;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -23,34 +24,58 @@ import java.util.List;
 
 public class CreativeTimeMachine extends TimeMachine {
 
-    @Override
-    public int getCooldownTime() {
-        return 0;
-    }
+    public CreativeTimeMachine() {
+        super(new TimeMachineTemplate() {
+            @Override
+            public int getCooldownTime() {
+                return 0;
+            }
 
-    private int tier = 0;
+            private int tier = 0;
 
-    @Override
-    public int getTier() {
-        if (tier == 0) {
-            ModRegistries.TIME_LINES.forEach(timeLine -> tier = Math.max(timeLine.getMinTier(), tier));
-        }
-        return tier;
-    }
+            @Override
+            public int getTier() {
+                if (tier == 0) {
+                    ModRegistries.TIME_LINES.forEach(timeLine -> tier = Math.max(timeLine.getMinTier(), tier));
+                }
+                return tier;
+            }
 
-    @Override
-    public List<BlockPos> coreBlocksPos() {
-        return Collections.EMPTY_LIST;
-    }
+            @Override
+            public List<BlockPos> coreBlocksPos() {
+                return Collections.EMPTY_LIST;
+            }
 
-    @Override
-    public List<BlockPos> basicBlocksPos() {
-        return Collections.EMPTY_LIST;
-    }
+            @Override
+            public List<BlockPos> basicBlocksPos() {
+                return Collections.EMPTY_LIST;
+            }
 
-    @Override
-    public List<BlockPos> airBlocksPos() {
-        return Collections.EMPTY_LIST;
+            @Override
+            public List<BlockPos> airBlocksPos() {
+                return Collections.EMPTY_LIST;
+            }
+
+            @Override
+            public BlockState[] getControllerBlocks() {
+                return new BlockState[0];
+            }
+
+            @Override
+            public BlockState[] getCoreBlocks() {
+                return new BlockState[0];
+            }
+
+            @Override
+            public BlockState[] getBasicBlocks() {
+                return new BlockState[0];
+            }
+
+            @Override
+            public int getCorruptionMultiplier() {
+                return 0;
+            }
+        });
     }
 
     @Override
@@ -99,10 +124,5 @@ public class CreativeTimeMachine extends TimeMachine {
     @Override
     public boolean isOverloaded(World world, BlockPos controllerPos, Direction side) {
         return false;
-    }
-
-    @Override
-    public int getCorruptionMultiplier() {
-        return 0;
     }
 }

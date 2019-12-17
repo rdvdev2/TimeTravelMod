@@ -8,9 +8,9 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineHooksException;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
-import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * The Time Machine object with all it's functionality
  */
-public interface TimeMachine extends TimeMachineTemplate {
+public interface TimeMachine extends TimeMachineTemplate, IForgeRegistryEntry<TimeMachine> {
 
     /**
      * Returns the name of the Time Machine for use in GUIs
@@ -81,7 +81,13 @@ public interface TimeMachine extends TimeMachineTemplate {
      * @return A new TimeMachine object with the necesary upgrades applied
      * @throws IncompatibleTimeMachineHooksException Throwed if an incompatible upgrade is detected
      */
-    TimeMachineHookRunner hook(World world, BlockPos controllerPos, Direction side) throws IncompatibleTimeMachineHooksException;
+    TimeMachine hook(World world, BlockPos controllerPos, Direction side) throws IncompatibleTimeMachineHooksException;
+
+    /**
+     * Removes all the applied upgrades in the Time Machine
+     * @return The original TimeMachine object
+     */
+    TimeMachine removeHooks();
 
     /**
      * Detects all the Time Machine Upgrades installed in a built Time Machine
@@ -181,4 +187,12 @@ public interface TimeMachine extends TimeMachineTemplate {
      * @param side The facing of the Time Machine
      */
     void doCooldown(World worldIn, BlockPos controllerPos, Direction side);
+
+    TimeMachine setRegistryName(String name);
+
+    TimeMachine setRegistryName(String modID, String name);
+
+    static TimeMachine fromTemplate(TimeMachineTemplate template) {
+        return new tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachine(template);
+    }
 }

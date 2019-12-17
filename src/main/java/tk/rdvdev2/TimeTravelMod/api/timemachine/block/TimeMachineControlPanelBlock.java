@@ -15,7 +15,6 @@ import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineHooksException;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
-import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.ArrayList;
@@ -51,7 +50,7 @@ public class TimeMachineControlPanelBlock extends AbstractTimeMachineComponentBl
                                     BlockRayTraceResult blockRayTraceResult) {
         Direction side = blockRayTraceResult.getFace();
         if (!worldIn.isRemote && !(side == Direction.UP || side == Direction.DOWN)) {
-            TimeMachineHookRunner hookRunner = null;
+            TimeMachine hookRunner = null;
             try {
                 hookRunner = getTimeMachine().hook(worldIn, pos, side);
                 hookRunner.run(worldIn, playerIn, pos, side);

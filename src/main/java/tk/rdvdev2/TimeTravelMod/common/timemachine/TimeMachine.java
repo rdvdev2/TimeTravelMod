@@ -18,7 +18,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.ModTriggers;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.OldTimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachineTemplate;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TMReadyProperty;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineCoreBlock;
@@ -32,24 +31,27 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class TimeMachine extends ForgeRegistryEntry<TimeMachine> implements tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine {
+public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine> implements tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine {
 
     private final TimeMachineTemplate template;
     private ArrayList<TimeMachineUpgrade> upgrades;
 
-    private TimeMachine(TimeMachineTemplate template) {
+    public TimeMachine(TimeMachineTemplate template) {
         this.template = template;
     }
 
+    @Override
     public TranslationTextComponent getName() {
         return new TranslationTextComponent("tm."+getRegistryName().getNamespace()+"."+getRegistryName().getPath()+".name");
     }
 
+    @Override
     public TranslationTextComponent getDescription() {
         return new TranslationTextComponent("tm."+getRegistryName().getNamespace()+"."+getRegistryName().getPath()+".description");
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public final BlockState[] getUpgradeBlocks() {
         TimeMachineUpgradeBlock[] blocks = new TimeMachineUpgradeBlock[0];
         try {
@@ -68,13 +70,13 @@ public class TimeMachine extends ForgeRegistryEntry<TimeMachine> implements tk.r
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public final TimeMachineUpgrade[] getCompatibleUpgrades() {
-        OldTimeMachine instance = this instanceof TimeMachineHookRunner ? ((TimeMachineHookRunner) this).removeHooks() : this;
         if (upgrades == null) {
             upgrades = new ArrayList<>();
             ModRegistries.UPGRADES.forEach(upgrade -> {
-                for(OldTimeMachine tm: upgrade.getCompatibleTMs()) {
-                    if (tm == instance) {
+                for(tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine tm: upgrade.getCompatibleTMs()) {
+                    if (tm == this) {
                         upgrades.add(upgrade);
                         break;
                     }
@@ -84,18 +86,22 @@ public class TimeMachine extends ForgeRegistryEntry<TimeMachine> implements tk.r
         return upgrades.toArray(new TimeMachineUpgrade[0]);
     }
 
+    @Override
     public List<BlockPos> getCoreBlocksPos(Direction side) {
         return applySide(coreBlocksPos(), side);
     }
 
+    @Override
     public List<BlockPos> getBasicBlocksPos(Direction side) {
         return applySide(basicBlocksPos(), side);
     }
 
+    @Override
     public List<BlockPos> getAirBlocksPos(Direction side) {
         return applySide(airBlocksPos(), side);
     }
 
+    @Override
     public BlockState[] getBlocks() {
         if (getUpgradeBlocks().length != 0) {
             return (BlockState[]) ArrayUtils.addAll(ArrayUtils.addAll((BlockState[]) getControllerBlocks(), (BlockState[]) getCoreBlocks()), ArrayUtils.addAll((BlockState[]) getBasicBlocks(), (BlockState[]) getUpgradeBlocks()));
@@ -104,21 +110,19 @@ public class TimeMachine extends ForgeRegistryEntry<TimeMachine> implements tk.r
         }
     }
 
-    public final TimeMachineHookRunner hook(World world, BlockPos controllerPos, Direction side) throws IncompatibleTimeMachineHooksException {
+    @Override
+    public final tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine hook(World world, BlockPos controllerPos, Direction side) throws IncompatibleTimeMachineHooksException {
         TimeMachineHookRunner generated;
-        if (!(this instanceof TimeMachineHookRunner)) {
-            generated = new TimeMachineHookRunner(this, getUpgrades(world, controllerPos, side));
-            HashSet<TimeMachineUpgrade> incompatibilities = generated.checkIncompatibilities();
-            if (incompatibilities.isEmpty()) {
-                return generated;
-            } else {
-                throw new IncompatibleTimeMachineHooksException(incompatibilities);
-            }
+        generated = new TimeMachineHookRunner(this, getUpgrades(world, controllerPos, side));
+        HashSet<TimeMachineUpgrade> incompatibilities = generated.checkIncompatibilities();
+        if (incompatibilities.isEmpty()) {
+            return generated;
+        } else {
+            throw new IncompatibleTimeMachineHooksException(incompatibilities);
         }
-        else
-            return (TimeMachineHookRunner)this;
     }
 
+    @Override
     public final HashMap<TimeMachineUpgrade, HashSet<BlockPos>> getUpgrades(World world, BlockPos controllerPos, Direction side) {
         HashMap<TimeMachineUpgrade, HashSet<BlockPos>> upgrades = new HashMap<>(0);
         for (BlockPos pos:getBasicBlocksPos(side))
@@ -132,6 +136,7 @@ public class TimeMachine extends ForgeRegistryEntry<TimeMachine> implements tk.r
         return upgrades;
     }
 
+    @Override
     public void run(World world, PlayerEntity playerIn, BlockPos controllerPos, Direction side) {
         if (!world.isRemote) {
             TimeMachineChecker.Check error = TimeMachineChecker.check(this, world, playerIn, controllerPos, side);
@@ -153,6 +158,7 @@ public class TimeMachine extends ForgeRegistryEntry<TimeMachine> implements tk.r
         }
     }
 
+    @Override
     public boolean triggerTemporalExplosion(World world, BlockPos controllerPos, Direction side) {
         for (BlockPos pos:getCoreBlocksPos(side)) {
             TimeMachineCoreBlock core = (TimeMachineCoreBlock) world.getBlockState(controllerPos.add(pos)).getBlock();
@@ -162,9 +168,10 @@ public class TimeMachine extends ForgeRegistryEntry<TimeMachine> implements tk.r
         return false;
     }
 
+    @Override
     public boolean isBuilt(World world, BlockPos controllerPos, Direction side) {
-        if (isComponentTypeBuilt(OldTimeMachine.TMComponentType.CORE, world, controllerPos, side) &&
-                isComponentTypeBuilt(OldTimeMachine.TMComponentType.BASIC, world, controllerPos, side)) {
+        if (isComponentTypeBuilt(TMComponentType.CORE, world, controllerPos, side) &&
+                isComponentTypeBuilt(TMComponentType.BASIC, world, controllerPos, side)) {
             List<BlockPos> airPos = getAirBlocksPos(side);
             for (BlockPos pos: airPos) {
                 if (world.getBlockState(controllerPos.add(pos)) != Blocks.AIR.getDefaultState()) {
@@ -176,6 +183,7 @@ public class TimeMachine extends ForgeRegistryEntry<TimeMachine> implements tk.r
         return false;
     }
 
+    @Override
     public boolean isCooledDown(World world, BlockPos controllerPos, Direction side) {
         for(BlockPos pos:getCoreBlocksPos(side)) {
             boolean coincidence = false;
@@ -193,10 +201,12 @@ public class TimeMachine extends ForgeRegistryEntry<TimeMachine> implements tk.r
         return true;
     }
 
+    @Override
     public boolean isOverloaded(World world, BlockPos controllerPos, Direction side) {
         return getEntitiesInside(world, controllerPos, side).size() > getEntityMaxLoad();
     }
 
+    @Override
     public boolean isPlayerInside(World world, BlockPos controllerPos, Direction side, PlayerEntity player) {
         for (Entity entity:getEntitiesInside(world, controllerPos, side)){
             if (entity.getEntityId() == (player.getEntityId())) {
@@ -206,11 +216,13 @@ public class TimeMachine extends ForgeRegistryEntry<TimeMachine> implements tk.r
         return false;
     }
 
+    @Override
     public List<Entity> getEntitiesInside(World world, BlockPos controllerPos, Direction side) {
         AxisAlignedBB airSpace = getAirSpace(controllerPos, side);
         return world.getEntitiesWithinAABB(Entity.class, airSpace);
     }
 
+    @Override
     public AxisAlignedBB getAirSpace(BlockPos controllerPos, Direction side) {
         // Get the air blocks
         List<BlockPos> relativeAirBlocks = applySide(airBlocksPos(), side);
@@ -245,6 +257,7 @@ public class TimeMachine extends ForgeRegistryEntry<TimeMachine> implements tk.r
         );
     }
 
+    @Override
     public void teleporterTasks(@Nullable Entity entity, World worldIn, World worldOut, BlockPos controllerPos, Direction side, boolean shouldBuild) {
         IChunk chunk = worldIn.getChunk(controllerPos);
         worldIn.getChunkProvider().getChunk(chunk.getPos().x, chunk.getPos().z, ChunkStatus.FULL, true);
@@ -257,6 +270,7 @@ public class TimeMachine extends ForgeRegistryEntry<TimeMachine> implements tk.r
         }
     }
 
+    @Override
     public final void doCooldown(World worldIn, BlockPos controllerPos, Direction side) {
         for (BlockPos relativePos:getCoreBlocksPos(side)) {
             worldIn.setBlockState(controllerPos.add(relativePos), worldIn.getBlockState(controllerPos.add(relativePos)).with(TMReadyProperty.ready, false));
@@ -271,6 +285,11 @@ public class TimeMachine extends ForgeRegistryEntry<TimeMachine> implements tk.r
 
     public enum TMComponentType {
         BASIC, CORE, CONTROLPANEL, UPGRADE, AIR
+    }
+
+    @Override
+    public tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine removeHooks() {
+        return this;
     }
 
     // Private utils methods
@@ -294,7 +313,7 @@ public class TimeMachine extends ForgeRegistryEntry<TimeMachine> implements tk.r
         return posList;
     }
 
-    private final boolean isComponentTypeBuilt(OldTimeMachine.TMComponentType type, World world, BlockPos controllerPos, Direction side) {
+    private final boolean isComponentTypeBuilt(TMComponentType type, World world, BlockPos controllerPos, Direction side) {
         List<BlockPos> positions;
         BlockState[] states;
 
@@ -319,7 +338,7 @@ public class TimeMachine extends ForgeRegistryEntry<TimeMachine> implements tk.r
         for (BlockPos pos:positions) {
             boolean coincidence = false;
             for (BlockState state:states) {
-                if (type == OldTimeMachine.TMComponentType.CORE ?
+                if (type == TMComponentType.CORE ?
                         world.getBlockState(controllerPos.add(pos)).getBlock().getDefaultState() == state.getBlock().getDefaultState() :
                         world.getBlockState(controllerPos.add(pos)) == state) {
                     coincidence = true;
@@ -375,34 +394,42 @@ public class TimeMachine extends ForgeRegistryEntry<TimeMachine> implements tk.r
         return template.getTier();
     }
 
+    @Override
     public List<BlockPos> coreBlocksPos() {
         return template.coreBlocksPos();
     }
 
+    @Override
     public List<BlockPos> basicBlocksPos() {
         return template.basicBlocksPos();
     }
 
+    @Override
     public List<BlockPos> airBlocksPos() {
         return template.airBlocksPos();
     }
 
+    @Override
     public BlockState[] getControllerBlocks() {
         return template.getControllerBlocks();
     }
 
+    @Override
     public BlockState[] getCoreBlocks() {
         return template.getCoreBlocks();
     }
 
+    @Override
     public BlockState[] getBasicBlocks() {
         return template.getBasicBlocks();
     }
 
+    @Override
     public int getEntityMaxLoad() {
         return template.getEntityMaxLoad();
     }
 
+    @Override
     public int getCorruptionMultiplier() {
         return template.getCorruptionMultiplier();
     }
