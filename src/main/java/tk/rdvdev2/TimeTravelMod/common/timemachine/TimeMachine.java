@@ -170,8 +170,8 @@ public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api
 
     @Override
     public boolean isBuilt(World world, BlockPos controllerPos, Direction side) {
-        if (isComponentTypeBuilt(TMComponentType.CORE, world, controllerPos, side) &&
-                isComponentTypeBuilt(TMComponentType.BASIC, world, controllerPos, side)) {
+        if (isComponentTypeBuilt(TimeMachineComponentType.CORE, world, controllerPos, side) &&
+                isComponentTypeBuilt(TimeMachineComponentType.BASIC, world, controllerPos, side)) {
             List<BlockPos> airPos = getAirBlocksPos(side);
             for (BlockPos pos: airPos) {
                 if (world.getBlockState(controllerPos.add(pos)) != Blocks.AIR.getDefaultState()) {
@@ -283,10 +283,6 @@ public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api
         return ModRegistries.TIME_MACHINES.getKey(this).toString();
     }
 
-    public enum TMComponentType {
-        BASIC, CORE, CONTROLPANEL, UPGRADE, AIR
-    }
-
     @Override
     public tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine removeHooks() {
         return this;
@@ -313,7 +309,7 @@ public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api
         return posList;
     }
 
-    private final boolean isComponentTypeBuilt(TMComponentType type, World world, BlockPos controllerPos, Direction side) {
+    private final boolean isComponentTypeBuilt(TimeMachineComponentType type, World world, BlockPos controllerPos, Direction side) {
         List<BlockPos> positions;
         BlockState[] states;
 
@@ -338,7 +334,7 @@ public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api
         for (BlockPos pos:positions) {
             boolean coincidence = false;
             for (BlockState state:states) {
-                if (type == TMComponentType.CORE ?
+                if (type == TimeMachineComponentType.CORE ?
                         world.getBlockState(controllerPos.add(pos)).getBlock().getDefaultState() == state.getBlock().getDefaultState() :
                         world.getBlockState(controllerPos.add(pos)) == state) {
                     coincidence = true;

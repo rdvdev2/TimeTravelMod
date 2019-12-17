@@ -21,10 +21,9 @@ import tk.rdvdev2.TimeTravelMod.ModTimeMachines;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.CreativeTimeMachine;
+import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineComponentType;
 
 import java.util.*;
-
-import static tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachine.TMComponentType;
 
 public class EngineerBookScreen extends Screen {
 
@@ -118,7 +117,7 @@ public class EngineerBookScreen extends Screen {
         public BlockState[] controllerBlocks;
         public TimeMachineUpgrade[] upgrades;
 
-        public TMComponentType[][][] blockTypeMap;
+        public TimeMachineComponentType[][][] blockTypeMap;
         public AxisAlignedBB boundingBox;
 
         public void relocateBlocks() {
@@ -129,19 +128,19 @@ public class EngineerBookScreen extends Screen {
         }
 
         public void generateBlockTypeMap() {
-            blockTypeMap = new TMComponentType[(int)boundingBox.maxY+1][(int)boundingBox.maxX+1][(int)boundingBox.maxZ+1];
+            blockTypeMap = new TimeMachineComponentType[(int)boundingBox.maxY+1][(int)boundingBox.maxX+1][(int)boundingBox.maxZ+1];
             for(int y = 0; y <= boundingBox.maxY; y++)
                 for(int x = 0; x <= boundingBox.maxX; x++)
                     nextPos: for(int z = 0; z <= boundingBox.maxZ; z++) {
                         for(BlockPos pos: basicBlocksPos) if (pos.equals(new BlockPos(x, y, z))) {
-                            blockTypeMap[y][x][z] = TMComponentType.BASIC; continue nextPos;
+                            blockTypeMap[y][x][z] = TimeMachineComponentType.BASIC; continue nextPos;
                         }
                         for(BlockPos pos: coreBlocksPos) if (pos.equals(new BlockPos(x, y, z))) {
-                            blockTypeMap[y][x][z] = TMComponentType.CORE; continue nextPos;
+                            blockTypeMap[y][x][z] = TimeMachineComponentType.CORE; continue nextPos;
                         }
                         if (controllerBlockPos.equals(new BlockPos(x, y, z))) {
-                            blockTypeMap[y][x][z] = TMComponentType.CONTROLPANEL; continue nextPos;
-                        } else blockTypeMap[y][x][z] = TMComponentType.AIR;
+                            blockTypeMap[y][x][z] = TimeMachineComponentType.CONTROLPANEL; continue nextPos;
+                        } else blockTypeMap[y][x][z] = TimeMachineComponentType.AIR;
                     }
         }
 
@@ -233,7 +232,7 @@ public class EngineerBookScreen extends Screen {
                     });
                     relativeY += 20;
                     relativeY += 2;
-                    TMComponentType[][] layer = data.blockTypeMap[yLevels.get(data.id)];
+                    TimeMachineComponentType[][] layer = data.blockTypeMap[yLevels.get(data.id)];
                     RenderHelper.enableGUIStandardItemLighting();
                     for (int z = 0; z <= data.boundingBox.maxZ; z++) {
                         int drawY = z * 22;
@@ -295,7 +294,7 @@ public class EngineerBookScreen extends Screen {
         private HashMap<Integer, Integer> curentCoreBlock = new HashMap<>(timeMachineData.size()-1);
         private HashMap<Integer, Integer> currentControlPanelBlock = new HashMap<>(timeMachineData.size()-1);
 
-        private ItemStack getDrawItem(TimeMachineData data, TMComponentType[][] layer, int z, int x) {
+        private ItemStack getDrawItem(TimeMachineData data, TimeMachineComponentType[][] layer, int z, int x) {
             int index;
             switch (layer[x][z]) {
                 case BASIC:
