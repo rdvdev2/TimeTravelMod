@@ -26,8 +26,8 @@ import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineHooksException;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
+import tk.rdvdev2.TimeTravelMod.common.timemachine.exception.IncompatibleTimeMachineHooksException;
 import tk.rdvdev2.TimeTravelMod.common.util.TimeMachineChecker;
 import tk.rdvdev2.TimeTravelMod.common.world.corruption.ICorruption;
 

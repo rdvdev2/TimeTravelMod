@@ -19,17 +19,18 @@ import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.ModTriggers;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachineTemplate;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TMReadyProperty;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineCoreBlock;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineUpgradeBlock;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.tileentity.TMCooldownTileEntity;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineHooksException;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
+import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TMCooldownTileEntity;
+import tk.rdvdev2.TimeTravelMod.common.timemachine.exception.IncompatibleTimeMachineHooksException;
 import tk.rdvdev2.TimeTravelMod.common.util.TimeMachineChecker;
 
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static tk.rdvdev2.TimeTravelMod.common.block.properties.TMReadyProperty.TMReadyProperty;
 
 public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine> implements tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine {
 
@@ -189,7 +190,7 @@ public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api
             boolean coincidence = false;
             for(BlockState state:getCoreBlocks()) {
                 if (world.getBlockState(controllerPos.add(pos)).getBlock() instanceof TimeMachineCoreBlock) {
-                    if (world.getBlockState(controllerPos.add(pos)) == state.with(TMReadyProperty.ready, true)) {
+                    if (world.getBlockState(controllerPos.add(pos)) == state.with(TMReadyProperty, true)) {
                         coincidence = true;
                         break;
                     }
@@ -273,7 +274,7 @@ public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api
     @Override
     public final void doCooldown(World worldIn, BlockPos controllerPos, Direction side) {
         for (BlockPos relativePos:getCoreBlocksPos(side)) {
-            worldIn.setBlockState(controllerPos.add(relativePos), worldIn.getBlockState(controllerPos.add(relativePos)).with(TMReadyProperty.ready, false));
+            worldIn.setBlockState(controllerPos.add(relativePos), worldIn.getBlockState(controllerPos.add(relativePos)).with(TMReadyProperty, false));
             ((TMCooldownTileEntity)worldIn.getTileEntity(controllerPos.add(relativePos))).setTime(getCooldownTime());
         }
     }

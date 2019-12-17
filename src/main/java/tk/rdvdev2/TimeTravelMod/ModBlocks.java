@@ -19,11 +19,11 @@ import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineBasicBlock;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineControlPanelBlock;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineCoreBlock;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineUpgradeBlock;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.tileentity.TMCooldownTileEntity;
 import tk.rdvdev2.TimeTravelMod.common.block.GunpowderWireBlock;
 import tk.rdvdev2.TimeTravelMod.common.block.TemporalCauldronBlock;
 import tk.rdvdev2.TimeTravelMod.common.block.TemporalExplosionBlock;
 import tk.rdvdev2.TimeTravelMod.common.block.TimeMachineRecallerBlock;
+import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TMCooldownTileEntity;
 import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TemporalCauldronTileEntity;
 import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TimeMachineRecallerTileEntity;
 

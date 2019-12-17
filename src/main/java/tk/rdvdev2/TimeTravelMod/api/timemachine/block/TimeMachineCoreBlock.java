@@ -10,19 +10,20 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.tileentity.TMCooldownTileEntity;
+import tk.rdvdev2.TimeTravelMod.common.block.AbstractTimeMachineComponentBlock;
+import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TMCooldownTileEntity;
 import tk.rdvdev2.TimeTravelMod.common.world.TemporalExplosion;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.Random;
 
-import static tk.rdvdev2.TimeTravelMod.api.timemachine.block.TMReadyProperty.ready;
+import static tk.rdvdev2.TimeTravelMod.common.block.properties.TMReadyProperty.TMReadyProperty;
 
 public class TimeMachineCoreBlock extends AbstractTimeMachineComponentBlock {
 
     public TimeMachineCoreBlock(Properties properties) {
         super(properties);
-        setDefaultState(getStateContainer().getBaseState().with(ready, true));
+        setDefaultState(getStateContainer().getBaseState().with(TMReadyProperty, true));
     }
 
     /**
@@ -36,17 +37,17 @@ public class TimeMachineCoreBlock extends AbstractTimeMachineComponentBlock {
     @Override
     @OverridingMethodsMustInvokeSuper
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> stateBuilder) {
-        stateBuilder.add(new IProperty[]{ready});
+        stateBuilder.add(new IProperty[]{TMReadyProperty});
     }
 
     @Override
     public final boolean hasTileEntity(BlockState state) {
-        return !state.get(ready);
+        return !state.get(TMReadyProperty);
     }
 
     @Override
     public final TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        if (!state.get(ready))
+        if (!state.get(TMReadyProperty))
             return new TMCooldownTileEntity();
         else
             throw new RuntimeException("TMCooldownTileEntity can't be created in a ready TM");
@@ -92,7 +93,7 @@ public class TimeMachineCoreBlock extends AbstractTimeMachineComponentBlock {
     @Override
     @OverridingMethodsMustInvokeSuper
     public void onPlayerDestroy(IWorld worldIn, BlockPos pos, BlockState state) {
-        if (!state.get(TMReadyProperty.ready)) {
+        if (!state.get(TMReadyProperty)) {
             forceExplosion(worldIn.getWorld(), pos);
         }
     }

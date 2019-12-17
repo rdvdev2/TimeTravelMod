@@ -1,4 +1,6 @@
-package tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade;
+package tk.rdvdev2.TimeTravelMod.common.timemachine.exception;
+
+import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 
 import java.util.HashSet;
 
