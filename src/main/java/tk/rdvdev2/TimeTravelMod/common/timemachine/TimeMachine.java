@@ -289,6 +289,11 @@ public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api
         return this;
     }
 
+    @Override
+    public HashSet<BlockPos> getUpgradePos(TimeMachineUpgrade upgrade) {
+        return new HashSet<BlockPos>();
+    }
+
     // Private utils methods
 
     private static final List<BlockPos> applySide(List<BlockPos> posList, Direction side) {

@@ -68,6 +68,13 @@ public interface TimeMachine extends TimeMachineTemplate, IForgeRegistryEntry<Ti
     List<BlockPos> getAirBlocksPos(Direction side);
 
     /**
+     * Returns the absolute position where the Time Machine Upgrades are found
+     * @param upgrade The specific upgrade to search for
+     * @return The positions of the blocks containing the upgrade. Empty if the upgrades aren't applied.
+     */
+    HashSet<BlockPos> getUpgradePos(TimeMachineUpgrade upgrade);
+
+    /**
      * Returns the valid IBlockState(s) used to build this Time Machine
      * @return An array including all the valid IBlockStates
      */
@@ -172,11 +179,12 @@ public interface TimeMachine extends TimeMachineTemplate, IForgeRegistryEntry<Ti
 
     /**
      * Does the tasks of an ITeleporter when a time travel starts
-     * @param entity
+     * @param entity The traveling entity
      * @param worldIn The source world
      * @param worldOut The target world
      * @param controllerPos The position of the TM Controller
      * @param side The facing of the time machine
+     * @param shouldBuild If true, Time Machine transportation should be triggered
      */
     void teleporterTasks(@Nullable Entity entity, World worldIn, World worldOut, BlockPos controllerPos, Direction side, boolean shouldBuild);
 
