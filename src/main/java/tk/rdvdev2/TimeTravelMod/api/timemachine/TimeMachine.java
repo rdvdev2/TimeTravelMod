@@ -103,7 +103,7 @@ public interface TimeMachine extends TimeMachineTemplate, IForgeRegistryEntry<Ti
      * @param side Orientation of the Time Machine
      * @return A HashMap including all the installed upgrades and the position of the blocks that added them, relative to the Time Machine Controller block
      */
-    HashMap<tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade, HashSet<BlockPos>> getUpgrades(World world, BlockPos controllerPos, Direction side);
+    HashMap<TimeMachineUpgrade, HashSet<BlockPos>> getUpgrades(World world, BlockPos controllerPos, Direction side);
 
     /**
      * Starts the Time Machine and shows the dimension selection GUI to the player

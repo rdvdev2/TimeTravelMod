@@ -4,7 +4,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHook;
-import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -41,7 +40,7 @@ public class TimeMachineUpgrade extends ForgeRegistryEntry<tk.rdvdev2.TimeTravel
         return this;
     }
 
-    public <T> T runHook(Optional<T> original, Class<? extends TimeMachineHook> clazz, TimeMachineHookRunner tm, Object... args) {
+    public <T> T runHook(Optional<T> original, Class<? extends TimeMachineHook> clazz, TimeMachine tm, Object... args) {
         Optional<T> result = original;
         for (TimeMachineHook hook:this.hooks) {
             if (clazz.isInstance(hook)) {
@@ -51,7 +50,7 @@ public class TimeMachineUpgrade extends ForgeRegistryEntry<tk.rdvdev2.TimeTravel
         return result.orElse(original.orElseThrow(RuntimeException::new));
     }
 
-    public boolean runVoidHook(Class<? extends TimeMachineHook> clazz, TimeMachineHookRunner tm, Object... args) {
+    public boolean runVoidHook(Class<? extends TimeMachineHook> clazz, TimeMachine tm, Object... args) {
         for (TimeMachineHook hook:this.hooks) {
             if (clazz.isInstance(hook)) {
                 hook.run(null, tm, args);

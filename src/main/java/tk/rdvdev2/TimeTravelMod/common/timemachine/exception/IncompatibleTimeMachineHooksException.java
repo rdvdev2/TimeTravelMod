@@ -6,9 +6,9 @@ import java.util.HashSet;
 
 public class IncompatibleTimeMachineHooksException extends Throwable {
 
-    private HashSet<tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade> incompatibilities;
+    private HashSet<TimeMachineUpgrade> incompatibilities;
 
-    public IncompatibleTimeMachineHooksException(HashSet<tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade> incompatibilities) {
+    public IncompatibleTimeMachineHooksException(HashSet<TimeMachineUpgrade> incompatibilities) {
         this.incompatibilities = incompatibilities;
     }
 

@@ -26,7 +26,6 @@ import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
-import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.exception.IncompatibleTimeMachineHooksException;
 import tk.rdvdev2.TimeTravelMod.common.util.TimeMachineChecker;
 import tk.rdvdev2.TimeTravelMod.common.world.corruption.ICorruption;
@@ -54,7 +53,7 @@ public class DimensionTpPKT {
     public DimensionTpPKT(TimeLine tl, TimeMachine tm, BlockPos pos, Direction side, UUID... additionalEntities) {
         this();
         this.tl = tl;
-        this.tm = tm instanceof TimeMachineHookRunner ? ((TimeMachineHookRunner) tm).removeHooks() : tm;
+        this.tm = tm.removeHooks();
         this.pos = pos;
         this.side = side;
         if (additionalEntities != null && additionalEntities.length != 0) this.additionalEntities = Arrays.stream(additionalEntities).collect(Collectors.toSet());
