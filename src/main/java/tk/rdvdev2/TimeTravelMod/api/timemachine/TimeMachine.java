@@ -196,10 +196,23 @@ public interface TimeMachine extends TimeMachineTemplate, IForgeRegistryEntry<Ti
      */
     void doCooldown(World worldIn, BlockPos controllerPos, Direction side);
 
+    /**
+     * Support method for registration
+     * @see net.minecraftforge.registries.ForgeRegistryEntry#setRegistryName(String, String)
+     */
     TimeMachine setRegistryName(String name);
 
+    /**
+     * Support method for registration
+     * @see net.minecraftforge.registries.ForgeRegistryEntry#setRegistryName(String, String)
+     */
     TimeMachine setRegistryName(String modID, String name);
 
+    /**
+     * Constructs a new Time Machine using a given Time Machine Template
+     * @param template The template to use
+     * @return The new Time Machine
+     */
     static TimeMachine fromTemplate(TimeMachineTemplate template) {
         return new tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachine(template);
     }
