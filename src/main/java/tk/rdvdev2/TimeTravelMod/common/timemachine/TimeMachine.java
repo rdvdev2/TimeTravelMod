@@ -35,7 +35,7 @@ import static tk.rdvdev2.TimeTravelMod.common.block.properties.TMReadyProperty.T
 public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine> implements tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine {
 
     private final TimeMachineTemplate template;
-    private ArrayList<TimeMachineUpgrade> upgrades;
+    private ArrayList<tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade> upgrades;
 
     public TimeMachine(TimeMachineTemplate template) {
         this.template = template;
@@ -56,8 +56,8 @@ public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api
     public final BlockState[] getUpgradeBlocks() {
         TimeMachineUpgradeBlock[] blocks = new TimeMachineUpgradeBlock[0];
         try {
-            for (TimeMachineUpgrade upgrade : getCompatibleUpgrades()) {
-                HashMap<TimeMachineUpgrade, TimeMachineUpgradeBlock[]> hm = (HashMap<TimeMachineUpgrade, TimeMachineUpgradeBlock[]>) ModRegistries.UPGRADES.getSlaveMap(ModRegistries.UPGRADETOBLOCK, HashMap.class);
+            for (tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade upgrade : getCompatibleUpgrades()) {
+                HashMap<tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade, TimeMachineUpgradeBlock[]> hm = (HashMap<tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade, TimeMachineUpgradeBlock[]>) ModRegistries.UPGRADES.getSlaveMap(ModRegistries.UPGRADETOBLOCK, HashMap.class);
                 blocks = blocks == null ? hm.get(upgrade) : ArrayUtils.addAll(blocks, hm.get(upgrade));
             }
             BlockState[] states = new BlockState[0];
@@ -84,7 +84,7 @@ public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api
                 }
             });
         }
-        return upgrades.toArray(new TimeMachineUpgrade[0]);
+        return upgrades.toArray(new tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade[0]);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api
     public final tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine hook(World world, BlockPos controllerPos, Direction side) throws IncompatibleTimeMachineHooksException {
         TimeMachineHookRunner generated;
         generated = new TimeMachineHookRunner(this, getUpgrades(world, controllerPos, side));
-        HashSet<TimeMachineUpgrade> incompatibilities = generated.checkIncompatibilities();
+        HashSet<tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade> incompatibilities = generated.checkIncompatibilities();
         if (incompatibilities.isEmpty()) {
             return generated;
         } else {
@@ -124,12 +124,12 @@ public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api
     }
 
     @Override
-    public final HashMap<TimeMachineUpgrade, HashSet<BlockPos>> getUpgrades(World world, BlockPos controllerPos, Direction side) {
-        HashMap<TimeMachineUpgrade, HashSet<BlockPos>> upgrades = new HashMap<>(0);
+    public final HashMap<tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade, HashSet<BlockPos>> getUpgrades(World world, BlockPos controllerPos, Direction side) {
+        HashMap<tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade, HashSet<BlockPos>> upgrades = new HashMap<>(0);
         for (BlockPos pos:getBasicBlocksPos(side))
             for (BlockState state:getUpgradeBlocks())
                 if (world.getBlockState(controllerPos.add(pos)) == state) {
-                    TimeMachineUpgrade upgrade = ((TimeMachineUpgradeBlock) state.getBlock()).getUpgrade();
+                    tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade upgrade = ((TimeMachineUpgradeBlock) state.getBlock()).getUpgrade();
                     upgrades.putIfAbsent(upgrade, new HashSet<>());
                     upgrades.get(upgrade).add(controllerPos.add(pos));
                     break;

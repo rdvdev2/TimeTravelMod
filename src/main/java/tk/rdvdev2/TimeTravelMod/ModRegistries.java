@@ -25,7 +25,7 @@ public class ModRegistries {
 
     public static IForgeRegistry<TimeMachine> TIME_MACHINES;
     public static IForgeRegistry<TimeLine> TIME_LINES;
-    public static IForgeRegistry<TimeMachineUpgrade> UPGRADES;
+    public static IForgeRegistry<tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade> UPGRADES;
     public static final ResourceLocation CONTROLLERTOTM = new ResourceLocation("timetravelmod:blocktotm");
     public static final ResourceLocation UPGRADETOBLOCK = new ResourceLocation("timetravelmod:upgradetoblock");
 
@@ -77,12 +77,12 @@ public class ModRegistries {
         }
     }
 
-    public static class TimeMachineUpgradesCallbacks implements IForgeRegistry.CreateCallback<TimeMachineUpgrade> {
+    public static class TimeMachineUpgradesCallbacks implements IForgeRegistry.CreateCallback<tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade> {
 
-        private HashMap<TimeMachineUpgrade, TimeMachineUpgradeBlock[]> upgradetoblockhm;
+        private HashMap<tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade, TimeMachineUpgradeBlock[]> upgradetoblockhm;
 
         @Override
-        public void onCreate(IForgeRegistryInternal<TimeMachineUpgrade> owner, RegistryManager stage) {
+        public void onCreate(IForgeRegistryInternal<tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade> owner, RegistryManager stage) {
             upgradetoblockhm = new HashMap<>();
             owner.setSlaveMap(UPGRADETOBLOCK, upgradetoblockhm);
         }

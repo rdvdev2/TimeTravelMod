@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class TimeMachineUpgradeBlock extends AbstractTimeMachineComponentBlock {
 
-    private TimeMachineUpgrade upgrade;
+    private tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade upgrade;
 
     public TimeMachineUpgradeBlock(Properties properties) {
         super(properties);
@@ -20,7 +20,7 @@ public class TimeMachineUpgradeBlock extends AbstractTimeMachineComponentBlock {
     }
 
     public void setTimeMachine(FMLCommonSetupEvent event) {
-        HashMap<TimeMachineUpgrade, TimeMachineUpgradeBlock[]> hm = ModRegistries.UPGRADES.getSlaveMap(ModRegistries.UPGRADETOBLOCK, HashMap.class);
+        HashMap<tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade, TimeMachineUpgradeBlock[]> hm = ModRegistries.UPGRADES.getSlaveMap(ModRegistries.UPGRADETOBLOCK, HashMap.class);
         if (hm.containsKey(getUpgrade())) {
             TimeMachineUpgradeBlock[] blocks = hm.get(getUpgrade());
             int index = blocks.length;
@@ -41,7 +41,7 @@ public class TimeMachineUpgradeBlock extends AbstractTimeMachineComponentBlock {
      * Returns the attached upgrade
      * @return The attached upgrade
      */
-    public TimeMachineUpgrade getUpgrade() {
+    public tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade getUpgrade() {
         if (this.upgrade == null) throw new NullPointerException("Tried to access to the TimeMachineUpgrade of an unconfigured block (" + getRegistryName() + ")");
         return this.upgrade;
     }

@@ -115,7 +115,7 @@ public class EngineerBookScreen extends Screen {
         public BlockState[] coreBlocks;
         public BlockPos controllerBlockPos;
         public BlockState[] controllerBlocks;
-        public TimeMachineUpgrade[] upgrades;
+        public tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade[] upgrades;
 
         public TimeMachineComponentType[][][] blockTypeMap;
         public AxisAlignedBB boundingBox;
@@ -258,7 +258,7 @@ public class EngineerBookScreen extends Screen {
                 if (data.upgrades != null && data.upgrades.length != 0) {
                     relativeY += 2;
                     relativeY += drawString(new TranslationTextComponent("gui.tmengineerbook.compatibleupgrades").setStyle(new Style().setUnderlined(true)).getFormattedText(), left + padding, relativeY, 0xFFFFFF);
-                    for (TimeMachineUpgrade upgrade : data.upgrades) {
+                    for (tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade upgrade : data.upgrades) {
                         relativeY += 2;
                         relativeY += drawString(upgrade.getName().getFormattedText(), left + padding, relativeY,0xFFFFFF);
                     }
@@ -267,7 +267,7 @@ public class EngineerBookScreen extends Screen {
             }
             relativeY += drawCenteredString(new TranslationTextComponent("gui.tmengineerbook.upgrades").getUnformattedComponentText(), width / 2, relativeY, 0xFFD900);
             relativeY += 2;
-            Collection<TimeMachineUpgrade> upgrades = ModRegistries.UPGRADES.getValues();
+            Collection<tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade> upgrades = ModRegistries.UPGRADES.getValues();
             if (upgrades.isEmpty()) {
                 relativeY += drawString(new TranslationTextComponent("gui.tmengineerbook.noupgrades").getUnformattedComponentText(), left + padding, relativeY, 0xFFFFFF);
                 relativeY += 2;

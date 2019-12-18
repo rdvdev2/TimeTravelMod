@@ -24,9 +24,9 @@ import java.util.function.Supplier;
 public class TimeMachineHookRunner implements TimeMachine {
 
     TimeMachine tm;
-    private final HashMap<TimeMachineUpgrade, HashSet<BlockPos>> upgrades;
+    private final HashMap<tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade, HashSet<BlockPos>> upgrades;
 
-    public TimeMachineHookRunner(TimeMachine tm, HashMap<TimeMachineUpgrade, HashSet<BlockPos>> upgrades) {
+    public TimeMachineHookRunner(TimeMachine tm, HashMap<tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade, HashSet<BlockPos>> upgrades) {
         this.tm = tm;
         this.upgrades = upgrades;
     }
@@ -35,12 +35,12 @@ public class TimeMachineHookRunner implements TimeMachine {
         return this.tm;
     }
 
-    public HashSet<TimeMachineUpgrade> checkIncompatibilities() {
-        HashSet<TimeMachineUpgrade> incompatibilities = new HashSet<>(0);
+    public HashSet<tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade> checkIncompatibilities() {
+        HashSet<tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade> incompatibilities = new HashSet<>(0);
         for(Class<? extends TimeMachineHook> hook: TimeMachineHook.HOOK_TYPES) {
-            HashSet<TimeMachineUpgrade> found = new HashSet<>(0);
+            HashSet<tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade> found = new HashSet<>(0);
             for (TimeMachineUpgrade upgrade: this.upgrades.keySet()) {
-                if (upgrade.isExclusiveHook(hook)) found.add(upgrade);
+                if (((tk.rdvdev2.TimeTravelMod.common.timemachine.upgrade.TimeMachineUpgrade) upgrade).isExclusiveHook(hook)) found.add(upgrade);
             }
             if (found.size() > 1) incompatibilities.addAll(found);
         }
@@ -164,33 +164,33 @@ public class TimeMachineHookRunner implements TimeMachine {
 
     private <T> T runHooks(Supplier<T> original, Class<? extends TimeMachineHook<T>> clazz, Object... args) {
         for(TimeMachineUpgrade upgrade:upgrades.keySet()) {
-            if (upgrade.isExclusiveHook(clazz)) {
-                return upgrade.runHook(Optional.empty(), clazz, this, args);
+            if (((tk.rdvdev2.TimeTravelMod.common.timemachine.upgrade.TimeMachineUpgrade) upgrade).isExclusiveHook(clazz)) {
+                return ((tk.rdvdev2.TimeTravelMod.common.timemachine.upgrade.TimeMachineUpgrade) upgrade).runHook(Optional.empty(), clazz, this, args);
             }
         }
         T result = original.get();
         for (TimeMachineUpgrade upgrade:upgrades.keySet()) {
-            result = upgrade.runHook(Optional.of(result), clazz, this, args);
+            result = ((tk.rdvdev2.TimeTravelMod.common.timemachine.upgrade.TimeMachineUpgrade) upgrade).runHook(Optional.of(result), clazz, this, args);
         }
         return result;
     }
 
     private void runVoidHooks(Runnable original, Class<? extends TimeMachineHook<Void>> clazz, Object... args) {
         for(TimeMachineUpgrade upgrade:upgrades.keySet()) {
-            if (upgrade.isExclusiveHook(clazz)) {
-                upgrade.runVoidHook(clazz, this, args);
+            if (((tk.rdvdev2.TimeTravelMod.common.timemachine.upgrade.TimeMachineUpgrade) upgrade).isExclusiveHook(clazz)) {
+                ((tk.rdvdev2.TimeTravelMod.common.timemachine.upgrade.TimeMachineUpgrade) upgrade).runVoidHook(clazz, this, args);
                 return;
             }
         }
         boolean done = false;
         for(TimeMachineUpgrade upgrade:upgrades.keySet()) {
-            if (upgrade.runVoidHook(clazz, this, args))
+            if (((tk.rdvdev2.TimeTravelMod.common.timemachine.upgrade.TimeMachineUpgrade) upgrade).runVoidHook(clazz, this, args))
                 done = true;
         }
         if (!done) original.run();
     }
 
-    public HashSet<BlockPos> getUpgradePos(TimeMachineUpgrade upgrade) {
+    public HashSet<BlockPos> getUpgradePos(tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade upgrade) {
         return upgrades.get(upgrade);
     }
 
@@ -210,7 +210,7 @@ public class TimeMachineHookRunner implements TimeMachine {
     }
 
     @Override
-    public TimeMachineUpgrade[] getCompatibleUpgrades() {
+    public tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade[] getCompatibleUpgrades() {
         return tm.getCompatibleUpgrades();
     }
 
@@ -220,7 +220,7 @@ public class TimeMachineHookRunner implements TimeMachine {
     }
 
     @Override
-    public HashMap<TimeMachineUpgrade, HashSet<BlockPos>> getUpgrades(World world, BlockPos controllerPos, Direction side) {
+    public HashMap<tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade, HashSet<BlockPos>> getUpgrades(World world, BlockPos controllerPos, Direction side) {
         return this.upgrades;
     }
 
