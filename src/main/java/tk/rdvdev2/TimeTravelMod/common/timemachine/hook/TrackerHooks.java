@@ -6,9 +6,9 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHook;
 import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TimeMachineRecallerTileEntity;
-import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
 
 import java.util.Set;
 
@@ -22,7 +22,7 @@ public class TrackerHooks {
     public static class TeleporterHook implements TimeMachineHook.TeleporterTasks {
 
         @Override
-        public void run(TimeMachineHookRunner tm, Entity entity, World worldIn, World worldOut, BlockPos controllerPos, Direction side, boolean shouldBuild) {
+        public void run(TimeMachine tm, Entity entity, World worldIn, World worldOut, BlockPos controllerPos, Direction side, boolean shouldBuild) {
             tm.removeHooks().teleporterTasks(entity, worldIn, worldOut, controllerPos, side, shouldBuild);
             if (shouldBuild) {
                 Set<BlockPos> upgrades = tm.getUpgradePos(TRACKER);

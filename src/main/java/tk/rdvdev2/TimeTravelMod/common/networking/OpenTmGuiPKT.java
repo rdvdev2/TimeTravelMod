@@ -6,7 +6,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
-import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -27,7 +26,7 @@ public class OpenTmGuiPKT {
 
     public OpenTmGuiPKT(TimeMachine tm, BlockPos pos, Direction side, UUID... aditionalEntities) {
         this();
-        this.tm = tm instanceof TimeMachineHookRunner ? ((TimeMachineHookRunner)tm).removeHooks() : tm;
+        this.tm = tm.removeHooks();
         this.pos = pos;
         this.side = side;
         if (aditionalEntities != null && aditionalEntities.length != 0) this.additionalEntities = Arrays.stream(aditionalEntities).collect(Collectors.toSet());

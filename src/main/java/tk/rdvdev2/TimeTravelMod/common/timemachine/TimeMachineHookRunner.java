@@ -4,12 +4,15 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHook;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
+import tk.rdvdev2.TimeTravelMod.common.timemachine.exception.IncompatibleTimeMachineHooksException;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -18,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class TimeMachineHookRunner extends TimeMachine {
+public class TimeMachineHookRunner implements TimeMachine {
 
     TimeMachine tm;
     private final HashMap<TimeMachineUpgrade, HashSet<BlockPos>> upgrades;
@@ -26,7 +29,6 @@ public class TimeMachineHookRunner extends TimeMachine {
     public TimeMachineHookRunner(TimeMachine tm, HashMap<TimeMachineUpgrade, HashSet<BlockPos>> upgrades) {
         this.tm = tm;
         this.upgrades = upgrades;
-        setRegistryName(tm.getRegistryName()); // Hack to get the proper time machine name and description
     }
 
     public TimeMachine removeHooks() {
@@ -38,7 +40,7 @@ public class TimeMachineHookRunner extends TimeMachine {
         for(Class<? extends TimeMachineHook> hook: TimeMachineHook.HOOK_TYPES) {
             HashSet<TimeMachineUpgrade> found = new HashSet<>(0);
             for (TimeMachineUpgrade upgrade: this.upgrades.keySet()) {
-                if (upgrade.isExclusiveHook(hook)) found.add(upgrade);
+                if (((tk.rdvdev2.TimeTravelMod.common.timemachine.upgrade.TimeMachineUpgrade) upgrade).isExclusiveHook(hook)) found.add(upgrade);
             }
             if (found.size() > 1) incompatibilities.addAll(found);
         }
@@ -162,27 +164,27 @@ public class TimeMachineHookRunner extends TimeMachine {
 
     private <T> T runHooks(Supplier<T> original, Class<? extends TimeMachineHook<T>> clazz, Object... args) {
         for(TimeMachineUpgrade upgrade:upgrades.keySet()) {
-            if (upgrade.isExclusiveHook(clazz)) {
-                return upgrade.runHook(Optional.empty(), clazz, this, args);
+            if (((tk.rdvdev2.TimeTravelMod.common.timemachine.upgrade.TimeMachineUpgrade) upgrade).isExclusiveHook(clazz)) {
+                return ((tk.rdvdev2.TimeTravelMod.common.timemachine.upgrade.TimeMachineUpgrade) upgrade).runHook(Optional.empty(), clazz, this, args);
             }
         }
         T result = original.get();
         for (TimeMachineUpgrade upgrade:upgrades.keySet()) {
-            result = upgrade.runHook(Optional.of(result), clazz, this, args);
+            result = ((tk.rdvdev2.TimeTravelMod.common.timemachine.upgrade.TimeMachineUpgrade) upgrade).runHook(Optional.of(result), clazz, this, args);
         }
         return result;
     }
 
     private void runVoidHooks(Runnable original, Class<? extends TimeMachineHook<Void>> clazz, Object... args) {
         for(TimeMachineUpgrade upgrade:upgrades.keySet()) {
-            if (upgrade.isExclusiveHook(clazz)) {
-                upgrade.runVoidHook(clazz, this, args);
+            if (((tk.rdvdev2.TimeTravelMod.common.timemachine.upgrade.TimeMachineUpgrade) upgrade).isExclusiveHook(clazz)) {
+                ((tk.rdvdev2.TimeTravelMod.common.timemachine.upgrade.TimeMachineUpgrade) upgrade).runVoidHook(clazz, this, args);
                 return;
             }
         }
         boolean done = false;
         for(TimeMachineUpgrade upgrade:upgrades.keySet()) {
-            if (upgrade.runVoidHook(clazz, this, args))
+            if (((tk.rdvdev2.TimeTravelMod.common.timemachine.upgrade.TimeMachineUpgrade) upgrade).runVoidHook(clazz, this, args))
                 done = true;
         }
         if (!done) original.run();
@@ -190,5 +192,73 @@ public class TimeMachineHookRunner extends TimeMachine {
 
     public HashSet<BlockPos> getUpgradePos(TimeMachineUpgrade upgrade) {
         return upgrades.get(upgrade);
+    }
+
+    @Override
+    public TranslationTextComponent getName() {
+        return tm.getName();
+    }
+
+    @Override
+    public TranslationTextComponent getDescription() {
+        return tm.getDescription();
+    }
+
+    @Override
+    public BlockState[] getUpgradeBlocks() {
+        return tm.getUpgradeBlocks();
+    }
+
+    @Override
+    public TimeMachineUpgrade[] getCompatibleUpgrades() {
+        return tm.getCompatibleUpgrades();
+    }
+
+    @Override
+    public TimeMachine hook(World world, BlockPos controllerPos, Direction side) throws IncompatibleTimeMachineHooksException {
+        return this;
+    }
+
+    @Override
+    public HashMap<TimeMachineUpgrade, HashSet<BlockPos>> getUpgrades(World world, BlockPos controllerPos, Direction side) {
+        return this.upgrades;
+    }
+
+    @Override
+    public List<Entity> getEntitiesInside(World world, BlockPos controllerPos, Direction side) {
+        return tm.getEntitiesInside(world, controllerPos, side);
+    }
+
+    @Override
+    public void doCooldown(World worldIn, BlockPos controllerPos, Direction side) {
+        tm.doCooldown(worldIn, controllerPos, side);
+    }
+
+    // Delegate registry functionality to the original Time Machine
+
+    @Override
+    public TimeMachine setRegistryName(String name) {
+        return tm.setRegistryName(name);
+    }
+
+    @Override
+    public TimeMachine setRegistryName(String modID, String name) {
+        return tm.setRegistryName(modID, name);
+    }
+
+    @Override
+    public TimeMachine setRegistryName(ResourceLocation name) {
+        return tm.setRegistryName(name);
+    }
+
+    @Nullable
+    @Override
+    public ResourceLocation getRegistryName() {
+        return tm.getRegistryName();
+    }
+
+    @Override
+    public Class<TimeMachine> getRegistryType() {
+        return tm.getRegistryType();
     }
 }

@@ -1,86 +1,78 @@
 package tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade;
 
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
-import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Optional;
+/**
+ * Contains all the Time Machine hooks needed to apply an upgrade to a Time Machine. You can compose an upgrade using a builder-like scheme. Objects must be registered to work.
+ */
+public interface TimeMachineUpgrade extends IForgeRegistryEntry<TimeMachineUpgrade> {
 
-public class TimeMachineUpgrade extends ForgeRegistryEntry<TimeMachineUpgrade> {
+    /**
+     * Adds a hook to the upgrade. It will run in non exclusive mode.
+     * @param hook The hook to add
+     * @return The upgrade itself
+     */
+    TimeMachineUpgrade addHook(TimeMachineHook hook);
 
-    private ArrayList<TimeMachineHook> hooks;
-    private TimeMachine[] compatibleTMs;
-    private HashSet<Class<? extends TimeMachineHook>> exclusiveHooks = new HashSet<>();
+    /**
+     * Adds a hook to the upgrade
+     * @param hook The hook to add
+     * @param exclusiveMode If true, the hook will run in exclusive mode
+     * @return The upgrade itself
+     */
+    TimeMachineUpgrade addHook(TimeMachineHook hook, boolean exclusiveMode);
 
-    public TimeMachineUpgrade() {
-        this.hooks = new ArrayList<TimeMachineHook>(0);
-    }
+    /**
+     * Adds one or more hooks to the upgrade. They will run in non exclusive mode
+     * @param hooks The hooks to add
+     * @return The upgrade itself
+     */
+    TimeMachineUpgrade addAllHooks(TimeMachineHook... hooks);
 
-    public TimeMachineUpgrade addHook(TimeMachineHook hook) {
-        addHook(hook, false);
-        return this;
-    }
+    /**
+     * Specifies which Time Machines are compatible with this upgrade
+     * @param compatibleTMs The list of compatible Time Machines
+     * @return The upgrade itself
+     */
+    TimeMachineUpgrade setCompatibleTMs(TimeMachine... compatibleTMs);
 
-    public TimeMachineUpgrade addHook(TimeMachineHook hook, boolean exclusiveMode) {
-        this.hooks.add(hook);
-        if (exclusiveMode) {
-            exclusiveHooks.add(hook.getClass());
-        }
-        return this;
-    }
+    /**
+     * Returns which Time Machines are compatible with this upgrade
+     * @return The list of compatible Time Machines
+     */
+    TimeMachine[] getCompatibleTMs();
 
-    public TimeMachineUpgrade addAllHooks(TimeMachineHook... hooks) {
-        for (TimeMachineHook hook:hooks) {
-            this.addHook(hook);
-        }
-        return this;
-    }
+    /**
+     * Returns the name of the upgrade for use in GUIs
+     * @return The name of the upgrade as a TranslationTextComponent
+     */
+    TranslationTextComponent getName();
 
-    public <T> T runHook(Optional<T> original, Class<? extends TimeMachineHook> clazz, TimeMachineHookRunner tm, Object... args) {
-        Optional<T> result = original;
-        for (TimeMachineHook hook:this.hooks) {
-            if (clazz.isInstance(hook)) {
-                result = Optional.of((T)(hook.run(result, tm, args)));
-            }
-        }
-        return result.orElse(original.orElseThrow(RuntimeException::new));
-    }
+    /**
+     * Returns the description of the upgrade for use in GUIs
+     * @return The description of the upgrade as a TranslationTextComponent
+     */
+    TranslationTextComponent getDescription();
 
-    public boolean runVoidHook(Class<? extends TimeMachineHook> clazz, TimeMachineHookRunner tm, Object... args) {
-        for (TimeMachineHook hook:this.hooks) {
-            if (clazz.isInstance(hook)) {
-                hook.run(null, tm, args);
-                return true;
-            }
-        }
-        return false;
-    }
+    /**
+     * Support method for registration
+     * @see net.minecraftforge.registries.ForgeRegistryEntry#setRegistryName(String)
+     */
+    TimeMachineUpgrade setRegistryName(String name);
 
-    public TimeMachine[] getCompatibleTMs() {
-        return compatibleTMs;
-    }
+    /**
+     * Support method for registration
+     * @see net.minecraftforge.registries.ForgeRegistryEntry#setRegistryName(String, String)
+     */
+    TimeMachineUpgrade setRegistryName(String modID, String name);
 
-    public TimeMachineUpgrade setCompatibleTMs(TimeMachine... compatibleTMs) {
-        this.compatibleTMs = compatibleTMs;
-        return this;
-    }
-
-    public boolean isExclusiveHook(Class<? extends TimeMachineHook> hook) {
-        if (exclusiveHooks.isEmpty()) return false;
-        Iterator<Class<? extends TimeMachineHook>> it = exclusiveHooks.iterator();
-        while (it.hasNext()) if (hook.isAssignableFrom(it.next())) return true;
-        return false;
-    }
-
-    public final TranslationTextComponent getName() { // tmupgrade.modid.registryname.name
-        return new TranslationTextComponent("tmupgrade."+getRegistryName().getNamespace()+"."+getRegistryName().getPath()+".name");
-    }
-
-    public final TranslationTextComponent getDescription() { // tmupgrade.modid.registryname.description
-        return new TranslationTextComponent("tmupgrade."+getRegistryName().getNamespace()+"."+getRegistryName().getPath()+".description");
+    /**
+     * Constructs a new empty upgrade
+     * @return An empty upgrade
+     */
+    static TimeMachineUpgrade getNew() {
+        return new tk.rdvdev2.TimeTravelMod.common.timemachine.upgrade.TimeMachineUpgrade();
     }
 }

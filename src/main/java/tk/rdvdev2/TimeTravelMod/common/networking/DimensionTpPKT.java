@@ -26,9 +26,8 @@ import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineHooksException;
-import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineHookRunner;
-import tk.rdvdev2.TimeTravelMod.common.util.TimeMachineChecker;
+import tk.rdvdev2.TimeTravelMod.common.timemachine.exception.IncompatibleTimeMachineHooksException;
+import tk.rdvdev2.TimeTravelMod.common.util.TimeMachineUtils;
 import tk.rdvdev2.TimeTravelMod.common.world.corruption.ICorruption;
 
 import java.util.*;
@@ -45,16 +44,16 @@ public class DimensionTpPKT {
         additionalEntities = new HashSet<>();
     }
 
-    private TimeLine tl;
+    private tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLine tl;
     private TimeMachine tm;
     private BlockPos pos;
     private Direction side;
     private Set<UUID> additionalEntities;
 
-    public DimensionTpPKT(TimeLine tl, TimeMachine tm, BlockPos pos, Direction side, UUID... additionalEntities) {
+    public DimensionTpPKT(tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLine tl, TimeMachine tm, BlockPos pos, Direction side, UUID... additionalEntities) {
         this();
         this.tl = tl;
-        this.tm = tm instanceof TimeMachineHookRunner ? ((TimeMachineHookRunner) tm).removeHooks() : tm;
+        this.tm = tm.removeHooks();
         this.pos = pos;
         this.side = side;
         if (additionalEntities != null && additionalEntities.length != 0) this.additionalEntities = Arrays.stream(additionalEntities).collect(Collectors.toSet());
@@ -72,7 +71,7 @@ public class DimensionTpPKT {
 
     public static DimensionTpPKT decode(PacketBuffer buf) {
         DimensionTpPKT pkt = new DimensionTpPKT();
-        pkt.tl = buf.readRegistryIdSafe(TimeLine.class);
+        pkt.tl = (tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLine) buf.readRegistryIdSafe(TimeLine.class);
         pkt.tm = buf.readRegistryIdSafe(TimeMachine.class);
         pkt.pos = buf.readBlockPos();
         pkt.side = buf.readEnumValue(Direction.class);
@@ -109,7 +108,7 @@ public class DimensionTpPKT {
                 });
                 if (entitiesFlag.get() &&
                     serverPlayer.world.isBlockLoaded(pos) &&
-                    TimeMachineChecker.serverCheck(serverPlayer.server, finalTm, serverPlayer.world, serverPlayer, pos, side)) {
+                    TimeMachineUtils.serverCheck(serverPlayer.server, finalTm, serverPlayer.world, serverPlayer, pos, side)) {
                         if (finalTm.getTier() >= message.tl.getMinTier()) {
                             applyCorruption(finalTm, serverPlayer.dimension, dim, serverPlayer.server);
                             changePlayerDim(serverPlayer, pos, dim, finalTm, side, true);
@@ -121,12 +120,12 @@ public class DimensionTpPKT {
                                     .map(op -> serverPlayer.server.getPlayerList().getPlayerByUsername(op))
                                     .forEach(op -> {
                                         if (op != null)
-                                            op.sendStatusMessage(TimeMachineChecker.Check.UNREACHABLE_DIM.getCheaterReport(serverPlayer), false);
+                                            op.sendStatusMessage(TimeMachineUtils.Check.UNREACHABLE_DIM.getCheaterReport(serverPlayer), false);
                                     });
                         }
                 } else {
                     if (!entitiesFlag.get()) {
-                        serverPlayer.sendStatusMessage(TimeMachineChecker.Check.ENTITIES_ESCAPED.getClientError(), true);
+                        serverPlayer.sendStatusMessage(TimeMachineUtils.Check.ENTITIES_ESCAPED.getClientError(), true);
                     }
                     TimeTravelMod.LOGGER.error("Time Travel canceled due to incorrect conditions");
                 }
@@ -137,7 +136,7 @@ public class DimensionTpPKT {
             int origTier = -1, destTier = -1;
             Iterator<TimeLine> iterator = ModRegistries.TIME_LINES.iterator();
             while (iterator.hasNext()) {
-                TimeLine current = iterator.next();
+                tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLine current = (tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLine) iterator.next();
                 if (current.getDimension() == origDim) {
                     origTier = current.getMinTier();
                 } else if (current.getDimension() == destDim) {

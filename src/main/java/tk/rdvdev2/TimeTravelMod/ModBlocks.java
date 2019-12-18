@@ -15,15 +15,14 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineBasicBlock;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineControlPanelBlock;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineCoreBlock;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineUpgradeBlock;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.block.tileentity.TMCooldownTileEntity;
 import tk.rdvdev2.TimeTravelMod.common.block.GunpowderWireBlock;
 import tk.rdvdev2.TimeTravelMod.common.block.TemporalCauldronBlock;
 import tk.rdvdev2.TimeTravelMod.common.block.TemporalExplosionBlock;
 import tk.rdvdev2.TimeTravelMod.common.block.TimeMachineRecallerBlock;
+import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TMCooldownTileEntity;
 import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TemporalCauldronTileEntity;
 import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TimeMachineRecallerTileEntity;
 
@@ -36,7 +35,7 @@ import static tk.rdvdev2.TimeTravelMod.TimeTravelMod.MODID;
 public class ModBlocks {
 
     public static final Block TIME_CRYSTAL_ORE = new Block((Block.Properties.create(Material.ROCK).sound(SoundType.STONE).hardnessAndResistance(5f).lightValue(5/16).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(3))).setRegistryName(MODID, "timecrystalore");
-    public static final Block TIME_MACHINE_BASIC_BLOCK = new TimeMachineBasicBlock(Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(3f).lightValue(0 / 16).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(2)).setRegistryName(MODID, "timemachinebasicblock");
+    public static final Block TIME_MACHINE_BASIC_BLOCK = new Block(Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(3f).lightValue(0 / 16).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(2)).setRegistryName(MODID, "timemachinebasicblock");
     public static final Block TIME_MACHINE_CORE = new TimeMachineCoreBlock(Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(4f).lightValue(5 / 16).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(3)).setRegistryName(MODID, "timemachinecore");
     public static final Block TIME_MACHINE_CONTROL_PANEL = new TimeMachineControlPanelBlock(Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(3f).lightValue(0 / 16).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(2)).setRegistryName(MODID, "timemachinecontrolpanel");
     public static final Block HEAVY_BLOCK = new Block(Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(7f).lightValue(0/16).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(3)).setRegistryName(MODID, "heavyblock");

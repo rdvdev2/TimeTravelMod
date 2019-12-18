@@ -20,11 +20,12 @@ import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineControlPanelBlock;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.IncompatibleTimeMachineHooksException;
 import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TimeMachineRecallerTileEntity;
+import tk.rdvdev2.TimeTravelMod.common.timemachine.exception.IncompatibleTimeMachineHooksException;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static tk.rdvdev2.TimeTravelMod.TimeTravelMod.MODID;
 import static tk.rdvdev2.TimeTravelMod.common.networking.DimensionTpPKT.Handler.applyCorruption;
@@ -136,7 +137,7 @@ public class TimeMachineRecallerBlock extends Block {
     private boolean tryRecall(TimeMachine tm, ServerWorld foundWorld, ServerWorld recallWorld, BlockPos controllerPos, Direction side) {
         DimensionType foundDim = foundWorld.getDimension().getType();
         TimeLine tl = null;
-        for (TimeLine _tl : ModRegistries.TIME_LINES.getValues()) {
+        for (tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLine _tl : ModRegistries.TIME_LINES.getValues().stream().map((apiTL) -> (tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLine) apiTL).collect(Collectors.toList())) {
             if (_tl.getDimension() == foundDim) {
                 tl = _tl;
                 break;

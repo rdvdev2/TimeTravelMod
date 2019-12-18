@@ -12,10 +12,14 @@ import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.World;
 import tk.rdvdev2.TimeTravelMod.ModConfig;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
+import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
-public class TimeMachineChecker {
+public class TimeMachineUtils {
+
+    // Time Machine checking stuff
 
     public static Check check(TimeMachine tm, World world, PlayerEntity player, BlockPos pos, Direction side) {
         for(Check check: Check.values()) {
@@ -81,5 +85,14 @@ public class TimeMachineChecker {
             textComponent.setStyle(new Style().setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ban "+player.getName().getUnformattedComponentText())).setColor(TextFormatting.RED));
             return textComponent;
         }
+    }
+
+    // Time Machine uncompatibility listing stuff
+
+    public static TranslationTextComponent concatUncompatibilities(ArrayList<TimeMachineUpgrade> upgrades) {
+        if (upgrades.size() != 1) {
+            String separator = upgrades.size() > 2 ? "timetravelmod.generic.comma" : "timetravelmod.generic.and";
+            return new TranslationTextComponent(separator, upgrades.remove(0).getName(), concatUncompatibilities(upgrades));
+        } else return upgrades.remove(0).getName();
     }
 }
