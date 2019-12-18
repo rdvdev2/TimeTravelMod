@@ -10,7 +10,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import tk.rdvdev2.TimeTravelMod.common.block.AbstractTimeMachineComponentBlock;
 import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TMCooldownTileEntity;
 import tk.rdvdev2.TimeTravelMod.common.world.TemporalExplosion;
 
@@ -19,7 +18,11 @@ import java.util.Random;
 
 import static tk.rdvdev2.TimeTravelMod.common.block.properties.TMReadyProperty.TMReadyProperty;
 
-public class TimeMachineCoreBlock extends AbstractTimeMachineComponentBlock {
+/**
+ * Blocks that pretend to act as a Time Machine Core must extend from this class.
+ * Subclasses of this will have a cooldown and a random explosion chance integrated without needing to overwrite nothing on the class.
+ */
+public class TimeMachineCoreBlock extends Block {
 
     public TimeMachineCoreBlock(Properties properties) {
         super(properties);

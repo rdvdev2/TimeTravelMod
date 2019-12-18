@@ -24,7 +24,7 @@ import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineUpgradeBlock;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TMCooldownTileEntity;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.exception.IncompatibleTimeMachineHooksException;
-import tk.rdvdev2.TimeTravelMod.common.util.TimeMachineChecker;
+import tk.rdvdev2.TimeTravelMod.common.util.TimeMachineUtils;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -140,7 +140,7 @@ public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api
     @Override
     public void run(World world, PlayerEntity playerIn, BlockPos controllerPos, Direction side) {
         if (!world.isRemote) {
-            TimeMachineChecker.Check error = TimeMachineChecker.check(this, world, playerIn, controllerPos, side);
+            TimeMachineUtils.Check error = TimeMachineUtils.check(this, world, playerIn, controllerPos, side);
             if (error == null) {
                 if (!triggerTemporalExplosion(world, controllerPos, side)) {
                     if (playerIn instanceof ServerPlayerEntity) {

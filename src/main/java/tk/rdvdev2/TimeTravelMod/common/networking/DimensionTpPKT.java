@@ -27,7 +27,7 @@ import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.exception.IncompatibleTimeMachineHooksException;
-import tk.rdvdev2.TimeTravelMod.common.util.TimeMachineChecker;
+import tk.rdvdev2.TimeTravelMod.common.util.TimeMachineUtils;
 import tk.rdvdev2.TimeTravelMod.common.world.corruption.ICorruption;
 
 import java.util.*;
@@ -108,7 +108,7 @@ public class DimensionTpPKT {
                 });
                 if (entitiesFlag.get() &&
                     serverPlayer.world.isBlockLoaded(pos) &&
-                    TimeMachineChecker.serverCheck(serverPlayer.server, finalTm, serverPlayer.world, serverPlayer, pos, side)) {
+                    TimeMachineUtils.serverCheck(serverPlayer.server, finalTm, serverPlayer.world, serverPlayer, pos, side)) {
                         if (finalTm.getTier() >= message.tl.getMinTier()) {
                             applyCorruption(finalTm, serverPlayer.dimension, dim, serverPlayer.server);
                             changePlayerDim(serverPlayer, pos, dim, finalTm, side, true);
@@ -120,12 +120,12 @@ public class DimensionTpPKT {
                                     .map(op -> serverPlayer.server.getPlayerList().getPlayerByUsername(op))
                                     .forEach(op -> {
                                         if (op != null)
-                                            op.sendStatusMessage(TimeMachineChecker.Check.UNREACHABLE_DIM.getCheaterReport(serverPlayer), false);
+                                            op.sendStatusMessage(TimeMachineUtils.Check.UNREACHABLE_DIM.getCheaterReport(serverPlayer), false);
                                     });
                         }
                 } else {
                     if (!entitiesFlag.get()) {
-                        serverPlayer.sendStatusMessage(TimeMachineChecker.Check.ENTITIES_ESCAPED.getClientError(), true);
+                        serverPlayer.sendStatusMessage(TimeMachineUtils.Check.ENTITIES_ESCAPED.getClientError(), true);
                     }
                     TimeTravelMod.LOGGER.error("Time Travel canceled due to incorrect conditions");
                 }

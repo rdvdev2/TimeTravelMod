@@ -1,16 +1,20 @@
 package tk.rdvdev2.TimeTravelMod.api.timemachine.block;
 
+import net.minecraft.block.Block;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
-import tk.rdvdev2.TimeTravelMod.common.block.AbstractTimeMachineComponentBlock;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class TimeMachineUpgradeBlock extends AbstractTimeMachineComponentBlock {
+/**
+ * Blocks that pretend to act as a Time Machine Upgrade must extend from this class.
+ * Subclasses will provide the specified Time Machine Upgrade without needing to overwrite nothing on the class.
+ */
+public class TimeMachineUpgradeBlock extends Block {
 
     private TimeMachineUpgrade upgrade;
 
@@ -19,7 +23,7 @@ public class TimeMachineUpgradeBlock extends AbstractTimeMachineComponentBlock {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setTimeMachine);
     }
 
-    public void setTimeMachine(FMLCommonSetupEvent event) {
+    private void setTimeMachine(FMLCommonSetupEvent event) {
         HashMap<TimeMachineUpgrade, TimeMachineUpgradeBlock[]> hm = ModRegistries.UPGRADES.getSlaveMap(ModRegistries.UPGRADETOBLOCK, HashMap.class);
         if (hm.containsKey(getUpgrade())) {
             TimeMachineUpgradeBlock[] blocks = hm.get(getUpgrade());
@@ -32,6 +36,11 @@ public class TimeMachineUpgradeBlock extends AbstractTimeMachineComponentBlock {
         }
     }
 
+    /**
+     * Specifies the Time Machine Upgrade that the block will activate
+     * @param upgrade The upgrade to provide
+     * @return The block itself
+     */
     public TimeMachineUpgradeBlock setUpgrade(@Nonnull TimeMachineUpgrade upgrade) {
         this.upgrade = upgrade;
         return this;

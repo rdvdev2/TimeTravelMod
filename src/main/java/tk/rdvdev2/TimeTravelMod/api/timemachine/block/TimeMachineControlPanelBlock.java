@@ -1,6 +1,7 @@
 package tk.rdvdev2.TimeTravelMod.api.timemachine.block;
 
 import com.google.common.collect.Lists;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
@@ -13,15 +14,17 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
-import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
-import tk.rdvdev2.TimeTravelMod.common.block.AbstractTimeMachineComponentBlock;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.exception.IncompatibleTimeMachineHooksException;
+import tk.rdvdev2.TimeTravelMod.common.util.TimeMachineUtils;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
-import java.util.ArrayList;
 import java.util.HashMap;
 
-public class TimeMachineControlPanelBlock extends AbstractTimeMachineComponentBlock {
+/**
+ * This subclass of block is meant to be used on blocks that will act as a Time Machine Control Panel.
+ * This block will provide a GUI to control the Time Machine on right click withot needing to overwrite nothing on the class.
+ */
+public class TimeMachineControlPanelBlock extends Block {
 
     private TimeMachine timeMachine = null;
 
@@ -57,17 +60,11 @@ public class TimeMachineControlPanelBlock extends AbstractTimeMachineComponentBl
                 hookRunner.run(worldIn, playerIn, pos, side);
                 return true;
             } catch (IncompatibleTimeMachineHooksException e) {
-                TranslationTextComponent message = new TranslationTextComponent("timetravelmod.error.uncompatible_upgrades", concatUncompatibilities(Lists.newArrayList(e.getIncompatibilities())));
+                TranslationTextComponent message = new TranslationTextComponent("timetravelmod.error.uncompatible_upgrades", TimeMachineUtils.concatUncompatibilities(Lists.newArrayList(e.getIncompatibilities())));
                 playerIn.sendStatusMessage(message, false);
                 return false;
             }
         } else return false;
     }
 
-    private static TranslationTextComponent concatUncompatibilities(ArrayList<TimeMachineUpgrade> upgrades) {
-        if (upgrades.size() != 1) {
-            String separator = upgrades.size() > 2 ? "timetravelmod.generic.comma" : "timetravelmod.generic.and";
-            return new TranslationTextComponent(separator, upgrades.remove(0).getName(), concatUncompatibilities(upgrades));
-        } else return upgrades.remove(0).getName();
-    }
 }
