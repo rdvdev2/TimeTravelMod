@@ -44,13 +44,13 @@ public class DimensionTpPKT {
         additionalEntities = new HashSet<>();
     }
 
-    private TimeLine tl;
+    private tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLine tl;
     private TimeMachine tm;
     private BlockPos pos;
     private Direction side;
     private Set<UUID> additionalEntities;
 
-    public DimensionTpPKT(TimeLine tl, TimeMachine tm, BlockPos pos, Direction side, UUID... additionalEntities) {
+    public DimensionTpPKT(tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLine tl, TimeMachine tm, BlockPos pos, Direction side, UUID... additionalEntities) {
         this();
         this.tl = tl;
         this.tm = tm.removeHooks();
@@ -71,7 +71,7 @@ public class DimensionTpPKT {
 
     public static DimensionTpPKT decode(PacketBuffer buf) {
         DimensionTpPKT pkt = new DimensionTpPKT();
-        pkt.tl = buf.readRegistryIdSafe(TimeLine.class);
+        pkt.tl = (tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLine) buf.readRegistryIdSafe(TimeLine.class);
         pkt.tm = buf.readRegistryIdSafe(TimeMachine.class);
         pkt.pos = buf.readBlockPos();
         pkt.side = buf.readEnumValue(Direction.class);
@@ -136,7 +136,7 @@ public class DimensionTpPKT {
             int origTier = -1, destTier = -1;
             Iterator<TimeLine> iterator = ModRegistries.TIME_LINES.iterator();
             while (iterator.hasNext()) {
-                TimeLine current = iterator.next();
+                tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLine current = (tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLine) iterator.next();
                 if (current.getDimension() == origDim) {
                     origTier = current.getMinTier();
                 } else if (current.getDimension() == destDim) {

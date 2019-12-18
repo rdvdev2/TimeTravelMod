@@ -1,90 +1,46 @@
 package tk.rdvdev2.TimeTravelMod.api.dimension;
 
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.world.World;
-import net.minecraft.world.dimension.Dimension;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.common.ModDimension;
-import net.minecraftforge.registries.ForgeRegistryEntry;
-import org.apache.commons.lang3.Validate;
-import tk.rdvdev2.TimeTravelMod.ModRegistries;
-
-import java.util.Iterator;
-import java.util.function.BiFunction;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
 /**
- * This class defines a time line. It's the dimension's world provider. It must be registered in the time line registry instead of the dimension manager.
+ * This interface defines a time line. It's the dimension's world provider.
+ * To get an instance use the provided method, never implement the interface by yourself.
+ * It must be registered in the time line registry instead of the dimension manager.
  */
-public abstract class TimeLine extends ForgeRegistryEntry<TimeLine> {
-
-    private final ModDimension modDimension;
-    private final int minTier;
-    private DimensionType dimension;
+public interface TimeLine extends IForgeRegistryEntry<TimeLine> {
 
     /**
      * Gets the minimum Time Machine tier required to travel to this time line
      * @return The minimum tier
      */
-    public int getMinTier() {
-        return minTier;
-    }
-
-    public DimensionType getDimension() {
-        if (this.dimension != null) {
-            return this.dimension;
-        } else {
-            return DimensionType.byName(this.modDimension.getRegistryName());
-        }
-    }
-
-    public ModDimension getModDimension() {
-        return modDimension;
-    }
+    int getMinTier();
 
     /**
-     * Constructor of the Time Line
-     * @param minTier The desired minimum tier
+     * Gets the special ModDimension object that should be registered into the game registry
+     * @return The hooked ModDimension object
      */
-    public TimeLine(int minTier, ModDimension modDimension) {
-        this.minTier = minTier;
-        if (modDimension == null) { // Special case for Present, because Overworld doesn't have a ModDimension
-            this.modDimension = null;
-            this.dimension = DimensionType.OVERWORLD;
-            return;
-        }
-        Validate.notNull(modDimension.getRegistryName(), "Mod Dimension must have a Registry Name assigned!");
-        this.modDimension = new ModDimension() {
-            @Override
-            public BiFunction<World, DimensionType, ? extends Dimension> getFactory() {
-                return hook(modDimension.getFactory());
-            }
+    ModDimension getModDimension();
 
-            @Override
-            public void write(PacketBuffer buffer, boolean network) {
-                modDimension.write(buffer, network);
-            }
+    /**
+     * Support method for registration
+     * @see net.minecraftforge.registries.ForgeRegistryEntry#setRegistryName(String, String)
+     */
+    TimeLine setRegistryName(String name);
 
-            @Override
-            public void read(PacketBuffer buffer, boolean network) {
-                modDimension.read(buffer, network);
-            }
-        };
-        this.modDimension.setRegistryName(modDimension.getRegistryName());
-    }
+    /**
+     * Support method for registration
+     * @see net.minecraftforge.registries.ForgeRegistryEntry#setRegistryName(String, String)
+     */
+    TimeLine setRegistryName(String modID, String name);
 
-    private final BiFunction<World, DimensionType, ? extends Dimension> hook(BiFunction<World, DimensionType, ? extends Dimension> originial) {
-        return (world, dimensionType) -> {
-            this.dimension = dimensionType;
-            return originial.apply(world, dimensionType);
-        };
-    }
-
-    public static boolean isValidTimeLine(World world) {
-        Iterator<TimeLine> iterator = ModRegistries.TIME_LINES.iterator();
-        while (iterator.hasNext()) {
-            TimeLine tl = iterator.next();
-            if (tl.getDimension() == world.getDimension().getType()) return true;
-        }
-        return false;
+    /**
+     * Creates a new Time Line
+     * @param minTier The minimum tier a Time Machine needs to get to the Time Line
+     * @param modDimension The ModDimension object that you would normally register with the DimensionManager
+     * @return The new Time Line
+     */
+    static TimeLine getNew(int minTier, ModDimension modDimension) {
+        return new tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLine(minTier, modDimension);
     }
 }

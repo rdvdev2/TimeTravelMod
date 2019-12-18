@@ -10,10 +10,10 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.common.world.corruption.CorruptionCapabilityProvider;
 import tk.rdvdev2.TimeTravelMod.common.world.corruption.CorruptionHandler;
 import tk.rdvdev2.TimeTravelMod.common.world.corruption.ICorruption;
+import tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLine;
 
 import javax.annotation.Nullable;
 

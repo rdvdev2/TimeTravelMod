@@ -1,5 +1,8 @@
 package tk.rdvdev2.TimeTravelMod;
 
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
+import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ModDimension;
@@ -8,16 +11,22 @@ import net.minecraftforge.event.world.RegisterDimensionsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
-import tk.rdvdev2.TimeTravelMod.common.world.dimension.PresentTimeLine;
-import tk.rdvdev2.TimeTravelMod.common.world.dimension.oldwest.OldWestTimeLine;
+import tk.rdvdev2.TimeTravelMod.common.world.dimension.oldwest.OldWestDimension;
+
+import java.util.function.BiFunction;
 
 import static tk.rdvdev2.TimeTravelMod.TimeTravelMod.MODID;
 
 @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModTimeLines {
 
-    public static final TimeLine PRESENT = new PresentTimeLine().setRegistryName(MODID, "present");
-    public static final TimeLine OLDWEST = new OldWestTimeLine().setRegistryName(MODID, "oldwest");
+    public static final TimeLine PRESENT = TimeLine.getNew(0, null).setRegistryName(MODID, "present");
+    public static final TimeLine OLDWEST = TimeLine.getNew(1, new ModDimension() {
+        @Override
+        public BiFunction<World, DimensionType, ? extends Dimension> getFactory() {
+            return OldWestDimension::new;
+        }
+    }.setRegistryName(new ResourceLocation(MODID, "oldwest"))).setRegistryName(MODID, "oldwest");
 
     @SubscribeEvent
     public static void registerTimeLines(RegistryEvent.Register<TimeLine> event) {
