@@ -34,14 +34,9 @@ public class OldWestDimension extends net.minecraft.world.dimension.Dimension {
     private World world;
 
     public OldWestDimension(World world, DimensionType type) {
-        super(world, type);
+        super(world, type, 0.0F);
         this.world = world;
         this.type = type;
-    }
-
-    @Override
-    public Biome getBiome(BlockPos pos) {
-        return ModBiomes.OLDWEST;
     }
 
     @Override
@@ -75,14 +70,14 @@ public class OldWestDimension extends net.minecraft.world.dimension.Dimension {
         if (worldtype == WorldType.FLAT) {
             FlatGenerationSettings flatgenerationsettings = FlatGenerationSettings.getDefaultFlatGenerator();
             flatgenerationsettings.setBiome(ModBiomes.OLDWEST);
-            SingleBiomeProviderSettings singlebiomeprovidersettings1 = biomeprovidertype.createSettings().setBiome(flatgenerationsettings.getBiome());
+            SingleBiomeProviderSettings singlebiomeprovidersettings1 = biomeprovidertype.func_226840_a_(this.world.getWorldInfo()).setBiome(flatgenerationsettings.getBiome());
             return chunkgeneratortype.create(this.world, biomeprovidertype.create(singlebiomeprovidersettings1), flatgenerationsettings);
         } else if (worldtype == WorldType.DEBUG_ALL_BLOCK_STATES) {
-            SingleBiomeProviderSettings singlebiomeprovidersettings = biomeprovidertype.createSettings().setBiome(ModBiomes.OLDWEST);
+            SingleBiomeProviderSettings singlebiomeprovidersettings = biomeprovidertype.func_226840_a_(this.world.getWorldInfo()).setBiome(ModBiomes.OLDWEST);
             return chunkgeneratortype1.create(this.world, biomeprovidertype.create(singlebiomeprovidersettings), chunkgeneratortype1.createSettings());
         } else if (worldtype != WorldType.BUFFET) {
             OverworldGenSettings overworldgensettings = chunkgeneratortype4.createSettings();
-            OldWestBiomeProviderSettings oldWestBiomeProviderSettings = biomeprovidertype1.createSettings().setWorldInfo(this.world.getWorldInfo()).setGeneratorSettings(overworldgensettings);
+            OldWestBiomeProviderSettings oldWestBiomeProviderSettings = biomeprovidertype1.func_226840_a_(this.world.getWorldInfo()).setWorldInfo(this.world.getWorldInfo()).setGeneratorSettings(overworldgensettings);
             return chunkgeneratortype4.create(this.world, biomeprovidertype1.create(oldWestBiomeProviderSettings), overworldgensettings);
         } else {
             BiomeProvider biomeprovider = null;
@@ -103,24 +98,24 @@ public class OldWestDimension extends net.minecraft.world.dimension.Dimension {
                 }
 
                 if (BiomeProviderType.FIXED == biomeprovidertype3) {
-                    SingleBiomeProviderSettings singlebiomeprovidersettings2 = biomeprovidertype.createSettings().setBiome(abiome[0]);
+                    SingleBiomeProviderSettings singlebiomeprovidersettings2 = biomeprovidertype.func_226840_a_(this.world.getWorldInfo()).setBiome(abiome[0]);
                     biomeprovider = biomeprovidertype.create(singlebiomeprovidersettings2);
                 }
 
                 if (BiomeProviderType.CHECKERBOARD == biomeprovidertype3) {
                     int j = jsonobject2.has("size") ? jsonobject2.getAsJsonPrimitive("size").getAsInt() : 2;
-                    CheckerboardBiomeProviderSettings checkerboardbiomeprovidersettings = biomeprovidertype2.createSettings().setBiomes(abiome).setSize(j);
+                    CheckerboardBiomeProviderSettings checkerboardbiomeprovidersettings = biomeprovidertype2.func_226840_a_(this.world.getWorldInfo()).setBiomes(abiome).setSize(j);
                     biomeprovider = biomeprovidertype2.create(checkerboardbiomeprovidersettings);
                 }
 
                 if (BiomeProviderType.VANILLA_LAYERED == biomeprovidertype3) {
-                    OldWestBiomeProviderSettings oldWestBiomeProviderSettings = biomeprovidertype1.createSettings().setGeneratorSettings(new OverworldGenSettings()).setWorldInfo(this.world.getWorldInfo());
+                    OldWestBiomeProviderSettings oldWestBiomeProviderSettings = biomeprovidertype1.func_226840_a_(this.world.getWorldInfo()).setGeneratorSettings(new OverworldGenSettings()).setWorldInfo(this.world.getWorldInfo());
                     biomeprovider = biomeprovidertype1.create(oldWestBiomeProviderSettings);
                 }
             }
 
             if (biomeprovider == null) {
-                biomeprovider = biomeprovidertype.create(biomeprovidertype.createSettings().setBiome(Biomes.OCEAN));
+                biomeprovider = biomeprovidertype.create(biomeprovidertype.func_226840_a_(this.world.getWorldInfo()).setBiome(Biomes.OCEAN));
             }
 
             BlockState blockstate = Blocks.STONE.getDefaultState();
@@ -182,8 +177,8 @@ public class OldWestDimension extends net.minecraft.world.dimension.Dimension {
     @Nullable
     @Override
     public BlockPos findSpawn(int p_206921_1_, int p_206921_2_, boolean checkValid) {
-        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_206921_1_, 0, p_206921_2_);
-        Biome biome = this.world.getBiome(blockpos$mutableblockpos);
+        BlockPos.Mutable blockpos$mutableblockpos = new BlockPos.Mutable(p_206921_1_, 0, p_206921_2_);
+        Biome biome = this.world.func_226691_t_(blockpos$mutableblockpos);
         BlockState iblockstate = biome.getSurfaceBuilderConfig().getTop();
         if (checkValid && !iblockstate.getBlock().isIn(BlockTags.VALID_SPAWN)) {
             return null;

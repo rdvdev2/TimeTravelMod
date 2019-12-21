@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
@@ -46,25 +47,25 @@ public class TimeMachineControlPanelBlock extends Block {
 
     @Override
     @OverridingMethodsMustInvokeSuper
-    public boolean onBlockActivated(BlockState state,
-                                    World worldIn,
-                                    BlockPos pos,
-                                    PlayerEntity playerIn,
-                                    Hand hand,
-                                    BlockRayTraceResult blockRayTraceResult) {
+    public ActionResultType func_225533_a_(BlockState state,
+                                           World worldIn,
+                                           BlockPos pos,
+                                           PlayerEntity playerIn,
+                                           Hand hand,
+                                           BlockRayTraceResult blockRayTraceResult) {
         Direction side = blockRayTraceResult.getFace();
         if (!worldIn.isRemote && !(side == Direction.UP || side == Direction.DOWN)) {
             TimeMachine hookRunner = null;
             try {
                 hookRunner = getTimeMachine().hook(worldIn, pos, side);
                 hookRunner.run(worldIn, playerIn, pos, side);
-                return true;
+                return ActionResultType.SUCCESS;
             } catch (IncompatibleTimeMachineHooksException e) {
                 TranslationTextComponent message = new TranslationTextComponent("timetravelmod.error.uncompatible_upgrades", TimeMachineUtils.concatUncompatibilities(Lists.newArrayList(e.getIncompatibilities())));
                 playerIn.sendStatusMessage(message, false);
-                return false;
+                return ActionResultType.FAIL;
             }
-        } else return false;
+        } else return ActionResultType.FAIL;
     }
 
 }

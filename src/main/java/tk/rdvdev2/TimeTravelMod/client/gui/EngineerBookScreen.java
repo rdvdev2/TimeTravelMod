@@ -233,7 +233,7 @@ public class EngineerBookScreen extends Screen {
                     relativeY += 20;
                     relativeY += 2;
                     TimeMachineComponentType[][] layer = data.blockTypeMap[yLevels.get(data.id)];
-                    RenderHelper.enableGUIStandardItemLighting();
+                    RenderHelper.func_227780_a_();
                     for (int z = 0; z <= data.boundingBox.maxZ; z++) {
                         int drawY = z * 22;
                         for (int x = 0; x <= data.boundingBox.maxX; x++) {

@@ -157,15 +157,15 @@ public class DimensionTpPKT {
             player.dimension = destDim;
             ServerWorld serverworld1 = player.server.getWorld(destDim);
             WorldInfo worldinfo = player.world.getWorldInfo();
-            player.connection.sendPacket(new SRespawnPacket(destDim, worldinfo.getGenerator(), player.interactionManager.getGameType()));
+            player.connection.sendPacket(new SRespawnPacket(destDim, WorldInfo.func_227498_c_(worldinfo.getSeed()), worldinfo.getGenerator(), player.interactionManager.getGameType()));
             player.connection.sendPacket(new SServerDifficultyPacket(worldinfo.getDifficulty(), worldinfo.isDifficultyLocked()));
             PlayerList playerlist = player.server.getPlayerList();
             playerlist.updatePermissionLevel(player);
             serverworld.removeEntity(player, true); //Forge: the player entity is moved to the new world, NOT cloned. So keep the data alive with no matching invalidate call.
             player.revive();
-            double d0 = player.posX;
-            double d1 = player.posY;
-            double d2 = player.posZ;
+            double d0 = player.func_226277_ct_();
+            double d1 = player.func_226278_cu_();
+            double d2 = player.func_226281_cx_();
             float f = player.rotationPitch;
             float f1 = player.rotationYaw;
             double d3 = 8.0D;
@@ -190,7 +190,7 @@ public class DimensionTpPKT {
             serverworld.getProfiler().endSection();
             player.setWorld(serverworld1);
             serverworld1.func_217447_b(player);
-            player.connection.setPlayerLocation(player.posX, player.posY, player.posZ, f1, f);
+            player.connection.setPlayerLocation(player.func_226277_ct_(), player.func_226278_cu_(), player.func_226281_cx_(), f1, f);
             player.interactionManager.setWorld(serverworld1);
             player.connection.sendPacket(new SPlayerAbilitiesPacket(player.abilities));
             playerlist.sendWorldInfo(player, serverworld1);
@@ -228,8 +228,8 @@ public class DimensionTpPKT {
                 BlockPos blockpos;
 
                 double movementFactor = serverworld.getDimension().getMovementFactor() / serverworld1.getDimension().getMovementFactor();
-                double d0 = entityIn.posX * movementFactor;
-                double d1 = entityIn.posZ * movementFactor;
+                double d0 = entityIn.func_226277_ct_() * movementFactor;
+                double d1 = entityIn.func_226281_cx_() * movementFactor;
 
                 double d3 = Math.min(-2.9999872E7D, serverworld1.getWorldBorder().minX() + 16.0D);
                 double d4 = Math.min(-2.9999872E7D, serverworld1.getWorldBorder().minZ() + 16.0D);
@@ -238,7 +238,7 @@ public class DimensionTpPKT {
                 d0 = MathHelper.clamp(d0, d3, d5);
                 d1 = MathHelper.clamp(d1, d4, d6);
                 Vec3d vec3d1 = entityIn.getLastPortalVec();
-                blockpos = new BlockPos(d0, entityIn.posY, d1);
+                blockpos = new BlockPos(d0, entityIn.func_226278_cu_(), d1);
 
                 entityIn.world.getProfiler().endStartSection("reloading");
                 Entity entity = entityIn.getType().create(serverworld1);

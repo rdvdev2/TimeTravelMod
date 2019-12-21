@@ -1,6 +1,5 @@
 package tk.rdvdev2.TimeTravelMod.common.world.layer;
 
-import com.google.common.collect.ImmutableList;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biomes;
@@ -30,17 +29,14 @@ public class LayerUtil {
     protected static final int DEEP_COLD_OCEAN = Registry.BIOME.getId(Biomes.DEEP_COLD_OCEAN);
     protected static final int DEEP_FROZEN_OCEAN = Registry.BIOME.getId(Biomes.DEEP_FROZEN_OCEAN);
 
-    public static Layer[] buildOldWestProcedure(long seed, WorldType worldType, OverworldGenSettings settings) {
-        ImmutableList<IAreaFactory<LazyArea>> immutableList = buildOldWestProcedure(worldType, settings, in -> {
+    public static Layer buildOldWestProcedure(long seed, WorldType worldType, OverworldGenSettings settings) {
+        IAreaFactory<LazyArea> iareafactory = buildOldWestProcedure(worldType, settings, in -> {
             return new LazyAreaLayerContext(25, seed, in);
         });
-        Layer layer = new Layer(immutableList.get(0));
-        Layer layer1 = new Layer(immutableList.get(1));
-        Layer layer2 = new Layer(immutableList.get(2));
-        return new Layer[]{layer, layer1, layer2};
+        return new Layer(iareafactory);
     }
 
-    public static <T extends IArea, C extends IExtendedNoiseRandom<T>> ImmutableList<IAreaFactory<T>> buildOldWestProcedure(WorldType worldType, OverworldGenSettings settings, LongFunction<C> contextFactory) {
+    public static <T extends IArea, C extends IExtendedNoiseRandom<T>> IAreaFactory<T> buildOldWestProcedure(WorldType worldType, OverworldGenSettings settings, LongFunction<C> contextFactory) {
         IAreaFactory<T> factory = IslandLayer.INSTANCE.apply(contextFactory.apply(1L));
         factory = ZoomLayer.FUZZY.apply(contextFactory.apply(2000L), factory);
         factory = AddIslandLayer.INSTANCE.apply(contextFactory.apply(1L), factory);
@@ -96,8 +92,7 @@ public class LayerUtil {
         factory3 = SmoothLayer.INSTANCE.apply((IExtendedNoiseRandom)contextFactory.apply(1000L), factory3);
         factory3 = MixRiverLayer.INSTANCE.apply((IExtendedNoiseRandom)contextFactory.apply(100L), factory3, factory2);
         factory3 = MixOceansLayer.INSTANCE.apply(contextFactory.apply(100L), factory3, factory1);
-        IAreaFactory<T> factory5 = VoroniZoomLayer.INSTANCE.apply(contextFactory.apply(10L), factory3);
-        return ImmutableList.of(factory3, factory5, factory3);
+        return factory3;
     }
 
     static <T extends IArea, C extends IExtendedNoiseRandom<T>> IAreaFactory<T> getOldWestBiomeLayer(IAreaFactory<T> parentLayer, OverworldGenSettings chunkSettings, LongFunction<C> contextFactory) {

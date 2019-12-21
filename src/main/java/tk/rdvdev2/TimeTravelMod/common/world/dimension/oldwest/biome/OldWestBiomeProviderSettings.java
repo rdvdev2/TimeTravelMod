@@ -8,6 +8,10 @@ public class OldWestBiomeProviderSettings implements IBiomeProviderSettings {
     private WorldInfo worldInfo;
     private OverworldGenSettings generatorSettings;
 
+    public OldWestBiomeProviderSettings(WorldInfo worldInfo) {
+        this.setWorldInfo(worldInfo);
+    }
+
     public OldWestBiomeProviderSettings setWorldInfo(WorldInfo worldInfo) {
         this.worldInfo = worldInfo;
         return this;

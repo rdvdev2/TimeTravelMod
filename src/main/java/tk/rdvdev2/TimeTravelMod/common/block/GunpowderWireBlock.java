@@ -98,7 +98,7 @@ public class GunpowderWireBlock extends Block {
     }
 
     public void updateDiagonalNeighbors(BlockState state, IWorld worldIn, BlockPos pos, int flags) {
-        try (BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos.retain()) {
+        try (BlockPos.PooledMutable blockpos$pooledmutableblockpos = BlockPos.PooledMutable.retain()) {
             for(Direction enumfacing : Direction.Plane.HORIZONTAL) {
                 RedstoneSide redstoneside = state.get(FACING_PROPERTY_MAP.get(enumfacing));
                 if (redstoneside != RedstoneSide.NONE && worldIn.getBlockState(blockpos$pooledmutableblockpos.setPos(pos).move(enumfacing)).getBlock() != this) {
@@ -240,9 +240,9 @@ public class GunpowderWireBlock extends Block {
         return state.getBlock() == this || state.getBlock() == Blocks.TNT;
     }
 
-    public BlockRenderLayer getRenderLayer() {
+    /*public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.CUTOUT;
-    }
+    }*/
 
     public BlockState rotate(BlockState state, Rotation rot) {
         switch(rot) {
@@ -326,13 +326,15 @@ public class GunpowderWireBlock extends Block {
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult blockRayTraceResult) {
+    public ActionResultType func_225533_a_(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult blockRayTraceResult) {
         if (player.getHeldItem(hand).getItem() == Items.FLINT_AND_STEEL && !state.get(BURNED)) {
             if (player instanceof ServerPlayerEntity)
             player.getHeldItem(hand).attemptDamageItem(1, worldIn.rand, (ServerPlayerEntity) player);
             setBurned(pos, worldIn);
             player.playSound(SoundEvents.BLOCK_FIRE_EXTINGUISH, 5, 0);
-            return true;
-        } else return false;
+            return ActionResultType.SUCCESS;
+        } else return ActionResultType.PASS;
     }
+
+
 }

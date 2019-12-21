@@ -14,6 +14,7 @@ import net.minecraft.state.IProperty;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -40,18 +41,18 @@ public class TemporalCauldronBlock extends Block {
     protected static final VoxelShape WALLS;
 
     public TemporalCauldronBlock() {
-        super(Properties.create(Material.IRON, MaterialColor.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(2.0F));
+        super(Properties.create(Material.IRON, MaterialColor.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(2.0F).func_226896_b_());
         this.setDefaultState(this.getStateContainer().getBaseState().with(LEVEL, Integer.valueOf(0)));
         this.setRegistryName(name);
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn, Hand hand, BlockRayTraceResult blockRayTraceResult) {
-        super.onBlockActivated(state, worldIn, pos, playerIn, hand, blockRayTraceResult);
+    public ActionResultType func_225533_a_(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn, Hand hand, BlockRayTraceResult blockRayTraceResult) {
+        super.func_225533_a_(state, worldIn, pos, playerIn, hand, blockRayTraceResult);
         TemporalCauldronTileEntity te = (TemporalCauldronTileEntity) worldIn.getTileEntity(pos);
         ItemStack playerItemStack = playerIn.getHeldItem(hand);
         if (te == null) {
-            return false;
+            return ActionResultType.FAIL;
         }
         if (!playerItemStack.isEmpty() && !playerItemStack.isItemEqual(new ItemStack(ModItems.TIME_CRYSTAL)) && playerItemStack.isDamaged() && !te.containsItem()) {
             if (!worldIn.isRemote) {
@@ -72,7 +73,7 @@ public class TemporalCauldronBlock extends Block {
                 if (!item.isDamaged() && playerIn instanceof ServerPlayerEntity) ModTriggers.BETTER_THAN_MENDING.trigger((ServerPlayerEntity) playerIn);
                 worldIn.addEntity(new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), item));
             }
-        } else return false; return true;
+        } else return ActionResultType.PASS; return ActionResultType.SUCCESS;
     }
 
     @Override
@@ -87,10 +88,6 @@ public class TemporalCauldronBlock extends Block {
 
     public VoxelShape getShape(BlockState p_196244_1_, IBlockReader p_196244_2_, BlockPos p_196244_3_, ISelectionContext context) {
         return WALLS;
-    }
-
-    public boolean isSolid(BlockState p_200124_1_) {
-        return false;
     }
 
     public VoxelShape getRaytraceShape(BlockState p_199600_1_, IBlockReader p_199600_2_, BlockPos p_199600_3_) {

@@ -116,8 +116,8 @@ public class CreativeTimeMachine extends TimeMachine {
         IChunk chunk = worldIn.getChunk(controllerPos);
         chunk = worldIn.getChunkProvider().getChunk(chunk.getPos().x, chunk.getPos().z, ChunkStatus.FULL, true);
         if (entity != null) {
-            int height = chunk.getTopBlockY(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, (int) entity.posX, (int) entity.posZ);
-            entity.setPosition(entity.posX, height + 1, entity.posZ);
+            int height = chunk.getTopBlockY(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, (int) entity.func_226277_ct_(), (int) entity.func_226281_cx_());
+            entity.setPosition(entity.func_226277_ct_(), height + 1, entity.func_226281_cx_());
         }
     }
 

@@ -10,7 +10,6 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.feature.structure.MineshaftConfig;
 import net.minecraft.world.gen.feature.structure.MineshaftStructure;
-import net.minecraft.world.gen.feature.structure.PillagerOutpostConfig;
 import net.minecraft.world.gen.feature.structure.VillageConfig;
 import net.minecraft.world.gen.placement.ChanceConfig;
 import net.minecraft.world.gen.placement.CountRangeConfig;
@@ -23,10 +22,10 @@ public final class OldWestBiome extends Biome {
     public OldWestBiome() {
         // Vanilla desert start
         super((new Biome.Builder()).surfaceBuilder(SurfaceBuilder.DEFAULT, SurfaceBuilder.SAND_SAND_GRAVEL_CONFIG).precipitation(Biome.RainType.NONE).category(Biome.Category.DESERT).depth(0.125F).scale(0.05F).temperature(2.0F).downfall(0.0F).waterColor(4159204).waterFogColor(329011).parent((String)null));
-        this.addStructure(Feature.VILLAGE, new VillageConfig("minecraft:village/oldwest/town_centers", 6)); // Custom village
-        this.addStructure(Feature.PILLAGER_OUTPOST, new PillagerOutpostConfig(0.004D));
+        this.func_226711_a_(Feature.VILLAGE.func_225566_b_(new VillageConfig("minecraft:village/oldwest/town_centers", 6))); // Custom village
+        this.func_226711_a_(Feature.PILLAGER_OUTPOST.func_225566_b_(NoFeatureConfig.NO_FEATURE_CONFIG));
         //this.addStructure(Feature.DESERT_PYRAMID, IFeatureConfig.NO_FEATURE_CONFIG);
-        this.addStructure(Feature.MINESHAFT, new MineshaftConfig(0.004D, MineshaftStructure.Type.NORMAL)); // TODO: Custom mineshaft
+        this.func_226711_a_(Feature.MINESHAFT.func_225566_b_(new MineshaftConfig(0.004D, MineshaftStructure.Type.NORMAL))); // TODO: Custom mineshaft
         //this.addStructure(Feature.STRONGHOLD, IFeatureConfig.NO_FEATURE_CONFIG);
         DefaultBiomeFeatures.addCarvers(this);
         DefaultBiomeFeatures.addStructures(this);
@@ -56,9 +55,9 @@ public final class OldWestBiome extends Biome {
         this.addSpawn(EntityClassification.MONSTER, new Biome.SpawnListEntry(EntityType.HUSK, 80, 4, 4));
 
         // Time Travel Mod start
-        this.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(Feature.ORE, new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.TIME_CRYSTAL_ORE.getDefaultState(), 4), Placement.COUNT_RANGE, new CountRangeConfig(1, 0, 0, 16)));
-        this.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, Biome.createDecoratedFeature(ModFeatures.GUNPOWDER, NoFeatureConfig.NO_FEATURE_CONFIG, Placement.CHANCE_TOP_SOLID_HEIGHTMAP, new ChanceConfig(100)));
+        this.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.func_225566_b_(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.TIME_CRYSTAL_ORE.getDefaultState(), 4)).func_227228_a_(Placement.COUNT_RANGE.func_227446_a_(new CountRangeConfig(1, 0, 0, 16))));
+        this.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, ModFeatures.GUNPOWDER.func_225566_b_(NoFeatureConfig.NO_FEATURE_CONFIG).func_227228_a_(Placement.CHANCE_TOP_SOLID_HEIGHTMAP.func_227446_a_(new ChanceConfig(100))));
         DefaultBiomeFeatures.addExtraGoldOre(this);
-        this.addStructure(Feature.MINESHAFT, new MineshaftConfig(0.002D, MineshaftStructure.Type.MESA));
+        this.func_226711_a_(Feature.MINESHAFT.func_225566_b_(new MineshaftConfig(0.002D, MineshaftStructure.Type.MESA)));
     }
 }

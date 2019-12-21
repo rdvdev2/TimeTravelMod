@@ -14,11 +14,10 @@ public class VanillaBiomesFeatures {
 
     public static void register() {
         // Time Crystal Ores
-        registerGenerator(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(
-                Feature.ORE,
-                new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.TIME_CRYSTAL_ORE.getDefaultState(), 4),
-                Placement.COUNT_RANGE,
-                new CountRangeConfig(1, 0, 0, 16))
+        registerGenerator(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.func_225566_b_(
+                new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.TIME_CRYSTAL_ORE.getDefaultState(), 4)).func_227228_a_(
+                Placement.COUNT_RANGE.func_227446_a_(
+                new CountRangeConfig(1, 0, 0, 16)))
         );
     }
 
