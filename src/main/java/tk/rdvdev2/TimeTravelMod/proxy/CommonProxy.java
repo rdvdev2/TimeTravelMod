@@ -6,6 +6,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -42,6 +43,8 @@ public class CommonProxy implements IProxy {
     public void modConstructor(TimeTravelMod instance) {
         // Register FMLCommonSetupEvent
         FMLJavaModLoadingContext.get().getModEventBus().addListener(instance::commonSetup);
+        // Register FMLClientSetupEvent
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(TimeTravelMod.PROXY::clientSetup);
         // Register RegisterDimensionsEvent
         MinecraftForge.EVENT_BUS.addListener(ModTimeLines::registerDimension);
         // Register ourselves for server and other game events we are interested in
@@ -51,5 +54,10 @@ public class CommonProxy implements IProxy {
         ModLoadingContext.get().getActiveContainer().addConfig(new net.minecraftforge.fml.config.ModConfig(net.minecraftforge.fml.config.ModConfig.Type.CLIENT, clientSpec, ModLoadingContext.get().getActiveContainer()));
         // Register the common config
         ModLoadingContext.get().getActiveContainer().addConfig(new net.minecraftforge.fml.config.ModConfig(net.minecraftforge.fml.config.ModConfig.Type.COMMON, commonSpec, ModLoadingContext.get().getActiveContainer()));
+    }
+
+    @Override
+    public void clientSetup(FMLClientSetupEvent event) {
+        // We do nothing here
     }
 }

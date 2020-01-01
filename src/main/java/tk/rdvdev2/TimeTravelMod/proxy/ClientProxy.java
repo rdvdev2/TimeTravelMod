@@ -1,10 +1,13 @@
 package tk.rdvdev2.TimeTravelMod.proxy;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkEvent;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
@@ -51,5 +54,10 @@ public class ClientProxy extends CommonProxy {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(ModBlocks::registerBlockColor);
         // Register PlaySoundEvent
         MinecraftForge.EVENT_BUS.addListener(SoundManager::onPlaySound);
+    }
+
+    @Override
+    public void clientSetup(FMLClientSetupEvent event) {
+        RenderTypeLookup.setRenderLayer(ModBlocks.GUNPOWDER_WIRE, RenderType.func_228643_e_());
     }
 }
