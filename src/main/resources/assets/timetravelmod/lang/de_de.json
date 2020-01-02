@@ -1,10 +1,16 @@
 {
     "advancements.timetraveling.root.title": "Time Travel Mod",
+    "advancements.timetraveling.root.description": "Der Kern der Modifikation",
+    "advancements.timetraveling.doesnt_look_good.title": "Das sieht nicht gut aus",
     "chat.ttm.outdated": "Eine neue Version von der Time Travel Mod ist verfügbar! Schaue auf der CurseForge Seite vorbei!",
     "death.attack.temporalerror": "%s spielt zu viel mit der Zeit",
     "gui.tm.error.text": "Sie können nicht zu Ihrer Zeitlinie oder zu der vom Nether oder End reisen!",
     "gui.tm.oldwest.text": "Alter Westen",
     "gui.tm.present.text": "Gegenwart",
+    "gui.tmengineerbook.tms": "Zeitmaschinen",
+    "gui.tmengineerbook.tmstats": "Max. Stufe: %s | Abkühlzeit des Motors: %s Sekunden",
+    "gui.tmengineerbook.howto": "So baut man es",
+    "gui.tmengineerbook.layer": "Ebene: %s",
     "gui.tmengineerbook.upgrades": "Zeitmaschinen-Upgrades",
     "gui.tmengineerbook.compatibletms": "Kompatible Zeitmaschinen",
     "item.timetravelmod.controllercircuit": "Controller-Schaltung",
@@ -31,5 +37,6 @@
     "config.timetravelmod.client.enabletimelinemusic": "Wenn dies aktiviert ist, haben die Zeitachsen ihre eigene Musik",
     "config.timetravelmod.common.enableexperimentalfeatrues": "Wenn dies aktiviert ist, werden experimentelle Features der Mod aktiviert",
     "tm.timetravelmod.tmcreative.name": "Erschaffe Zeitmaschine",
+    "tm.timetravelmod.tmtier1.name": "Stufe 1 Zeitmaschine",
     "config.timetravelmod.common.enableupdatepromos": "Wenn dies deaktiviert ist, wirst du nicht mehr über Mod-Updates beim Weltbeitritt informiert"
 }
