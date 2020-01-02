@@ -4,15 +4,18 @@
     "sounds": [
       {
         "name": "timetravelmod:oldwest/music0",
-        "stream": true
+        "stream": true,
+        "volume":0.5
       },
       {
         "name": "timetravelmod:oldwest/music1",
-        "stream": true
+        "stream": true,
+        "volume": 0.5
       },
       {
         "name": "timetravelmod:oldwest/music2",
-        "stream": true
+        "stream": true,
+        "volume": 0.5
       }
     ]
   }
