@@ -5,7 +5,9 @@
     "gui.tm.error.text": "Sie können nicht zu Ihrer Zeitlinie oder zu der vom Nether oder End reisen!",
     "gui.tm.oldwest.text": "Alter Westen",
     "gui.tm.present.text": "Gegenwart",
+    "gui.tmengineerbook.upgrades": "Zeitmaschinen-Upgrades",
     "gui.tmengineerbook.noupgrades": "Es gibt keine verfügbaren Zeitmaschinen-Upgrades :(",
+    "gui.tmengineerbook.compatibletms": "Kompatible Zeitmaschinen",
     "item.timetravelmod.controllercircuit": "Controller-Schaltung",
     "item.timetravelmod.creativetimemachine": "Erschaffe Zeitmaschine",
     "item.timetravelmod.heavyblock": "Schwerer Block",
@@ -44,9 +46,14 @@
     "timetravelmod.error.overloaded.server": "Die vom Spieler verwendete Zeitmaschine ist überlastet",
     "timetravelmod.error.entitiesescaped": "Jemand hat die Zeitmaschine verlassen, abgebrochen.",
     "timetravelmod.error.unreachable_dim": "Die Ziel-Zeitlinie ist mit der vom Spieler verwendeten Zeitmaschine nicht erreichbar.",
+    "timetravelmod.error.uncompatible_upgrades": "Folgende Zeitmaschinen-Upgrades sind nicht kompatibel: %s",
+    "timetravelmod.cheater_report": "Eine Zeitreiseanfrage wurde auf dem Server empfangen, aber der Spieler, der sie gesendet hat (%s) ist möglicherweise ein Cheater. Grund: %s. Wir empfehlen Ihnen ihn zu %s.",
+    "timetravelmod.ban": "[BAN]",
     "timetravelmod.generic.comma": "%s, %s",
     "timetravelmod.generic.and": "%s und %s",
     "tm.timetravelmod.creative.name": "Erschaffe Zeitmaschine",
     "tmupgrade.timetravelmod.tracker.name": "Zeitmaschinen-Tracker",
-    "config.timetravelmod.common.enableupdatepromos": "Wenn dies deaktiviert ist, wirst du nicht mehr über Mod-Updates beim Weltbeitritt informiert"
+    "tmupgrade.timetravelmod.tracker.description": "Dieses Upgrade konfiguriert die angrenzenden Zeitmaschinen-Rückrufer-Blöcke der Zeitmaschine wenn du die Zeitmaschine benutzt. Wenn ein Zeitmaschinen-Rückrufer-Block konfiguriert ist, wird sein Mittelpunkt grün und wenn mit Redstone betrieben, wird die Zeitmaschine zurückkehren. Wenn du über verschiedene Zeitlinien reist, musst du bei jeder besuchten Zeitlinie einen Zeitmaschinen-Rückruf installieren.",
+    "config.timetravelmod.common.enableupdatepromos": "Wenn dies deaktiviert ist, wirst du nicht mehr über Mod-Updates beim Weltbeitritt informiert",
+    "config.timetravelmod.common.enablecheaterreports": "Wenn dies deaktiviert ist, werden Spieler (ops) werden nicht benachrichtigt, wenn ein möglicher Cheater erkannt wird"
 }
