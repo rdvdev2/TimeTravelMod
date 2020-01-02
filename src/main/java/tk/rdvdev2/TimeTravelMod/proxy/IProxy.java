@@ -12,9 +12,9 @@ import tk.rdvdev2.TimeTravelMod.common.networking.OpenTmGuiPKT;
 import java.util.UUID;
 
 public interface IProxy {
-    void displayTMGuiScreen(PlayerEntity player, TimeMachine tm, BlockPos pos, Direction side, UUID... additionalEntities); // Show the TM GUI to the player
-    void displayEngineerBookGuiScreen(PlayerEntity player); // Show the Engineer's Book GUI to the player
-    void handleOpenTMGUI(OpenTmGuiPKT message, NetworkEvent.Context ctx); // Handle the OpenTmGuiPKT network packet (Client Only)
-    void modConstructor(TimeTravelMod instance); // Tasks done in the constructor
-    void clientSetup(FMLClientSetupEvent event); // Client-side setup
+    default void displayTMGuiScreen(PlayerEntity player, TimeMachine tm, BlockPos pos, Direction side, UUID... additionalEntities) { } // Show the TM GUI to the player
+    default void displayEngineerBookGuiScreen(PlayerEntity player) { } // Show the Engineer's Book GUI to the player
+    default void handleOpenTMGUI(OpenTmGuiPKT message, NetworkEvent.Context ctx) { } // Handle the OpenTmGuiPKT network packet (Client Only)
+    default void modConstructor(TimeTravelMod instance) { } // Tasks done in the constructor
+    default void clientSetup(FMLClientSetupEvent event) { } // Client-side setup
 }
