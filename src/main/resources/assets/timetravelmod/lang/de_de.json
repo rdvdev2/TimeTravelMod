@@ -5,6 +5,8 @@
     "gui.tm.error.text": "Sie können nicht zu Ihrer Zeitlinie oder zu der vom Nether oder End reisen!",
     "gui.tm.oldwest.text": "Alter Westen",
     "gui.tm.present.text": "Gegenwart",
+    "gui.tmengineerbook.upgrades": "Zeitmaschinen-Upgrades",
+    "gui.tmengineerbook.compatibletms": "Kompatible Zeitmaschinen",
     "item.timetravelmod.controllercircuit": "Controller-Schaltung",
     "item.timetravelmod.creativetimemachine": "Erschaffe Zeitmaschine",
     "item.timetravelmod.heavyblock": "Schwerer Block",
