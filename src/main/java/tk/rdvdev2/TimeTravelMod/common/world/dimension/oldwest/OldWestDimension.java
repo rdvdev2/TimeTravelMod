@@ -44,17 +44,6 @@ public class OldWestDimension extends net.minecraft.world.dimension.Dimension {
         return true;
     }
 
-    /**
-     * Creates a new {@link BiomeProvider} for the WorldProvider, and also sets the values of #hasSkylight and
-     * #hasNoSky appropriately.
-     * <p>
-     * Note that subclasses generally override this method without calling the parent version.
-     */
-    /*@Override
-    protected void init() {
-        setAllowedSpawnTypes(true, true);
-    }*/
-
     @Override
     public ChunkGenerator<?> createChunkGenerator() {
         WorldType worldtype = this.world.getWorldInfo().getGenerator();

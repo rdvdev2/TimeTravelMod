@@ -8,22 +8,7 @@ import net.minecraft.world.gen.layer.traits.IC0Transformer;
 import tk.rdvdev2.TimeTravelMod.ModBiomes;
 
 public class OldWestBiomeLayer implements IC0Transformer {
-    private static final int BIRCH_FOREST = Registry.BIOME.getId(Biomes.BIRCH_FOREST);
-    private static final int DESERT = Registry.BIOME.getId(Biomes.DESERT);
-    private static final int MOUNTAINS = Registry.BIOME.getId(Biomes.MOUNTAINS);
-    private static final int FOREST = Registry.BIOME.getId(Biomes.FOREST);
-    private static final int SNOWY_TUNDRA = Registry.BIOME.getId(Biomes.SNOWY_TUNDRA);
-    private static final int JUNGLE = Registry.BIOME.getId(Biomes.JUNGLE);
-    private static final int BADLANDS_PLATEAU = Registry.BIOME.getId(Biomes.BADLANDS_PLATEAU);
-    private static final int WOODED_BADLANDS_PLATEAU = Registry.BIOME.getId(Biomes.WOODED_BADLANDS_PLATEAU);
-    private static final int MUSHROOM_FIELDS = Registry.BIOME.getId(Biomes.MUSHROOM_FIELDS);
-    private static final int PLAINS = Registry.BIOME.getId(Biomes.PLAINS);
-    private static final int GIANT_TREE_TAIGA = Registry.BIOME.getId(Biomes.GIANT_TREE_TAIGA);
-    private static final int DARK_FOREST = Registry.BIOME.getId(Biomes.DARK_FOREST);
-    private static final int SAVANNA = Registry.BIOME.getId(Biomes.SAVANNA);
-    private static final int SWAMP = Registry.BIOME.getId(Biomes.SWAMP);
-    private static final int TAIGA = Registry.BIOME.getId(Biomes.TAIGA);
-    private static final int SNOWY_TAIGA = Registry.BIOME.getId(Biomes.SNOWY_TAIGA);
+
     @SuppressWarnings("unchecked")
     private java.util.List<net.minecraftforge.common.BiomeManager.BiomeEntry>[] biomes = new java.util.ArrayList[net.minecraftforge.common.BiomeManager.BiomeType.values().length];
     private final OverworldGenSettings settings;

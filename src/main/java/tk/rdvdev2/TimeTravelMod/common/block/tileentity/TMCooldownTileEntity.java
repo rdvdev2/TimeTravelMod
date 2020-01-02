@@ -5,7 +5,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 
-import static tk.rdvdev2.TimeTravelMod.common.block.properties.TMReadyProperty.TMReadyProperty;
+import static tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineCoreBlock.TM_READY;
 
 /**
  * This TileEntity is attached to non cooled down Time Machine cores and is used to calculate when they are ready
@@ -55,7 +55,7 @@ public class TMCooldownTileEntity extends TileEntity implements ITickableTileEnt
         if (remainingTicks == null || remainingTicks < 0) return;
         this.remainingTicks -= 1;
         if (this.remainingTicks == 0) {
-            this.world.setBlockState(this.pos, this.world.getBlockState(this.pos).getBlock().getDefaultState().with(TMReadyProperty, true));
+            this.world.setBlockState(this.pos, this.world.getBlockState(this.pos).getBlock().getDefaultState().with(TM_READY, true));
         }
         this.markDirty();
     }

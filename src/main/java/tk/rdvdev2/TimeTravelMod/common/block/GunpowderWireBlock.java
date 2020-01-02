@@ -141,11 +141,6 @@ public class GunpowderWireBlock extends Block {
         return !canConnectTo(blockstate) && (blockstate.isNormalCube(worldIn, blockpos) || !canConnectTo(worldIn.getBlockState(blockpos.down()))) ? RedstoneSide.NONE : RedstoneSide.SIDE;
     }
 
-    /*@Override
-    public boolean isFullCube(BlockState state) {
-        return false;
-    }*/
-
     public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos blockpos) {
         BlockState blockstate = worldIn.getBlockState(blockpos.down());
         return Block.hasSolidSide(blockstate, worldIn, blockpos, Direction.UP) || blockstate.getBlock() == Blocks.HOPPER;

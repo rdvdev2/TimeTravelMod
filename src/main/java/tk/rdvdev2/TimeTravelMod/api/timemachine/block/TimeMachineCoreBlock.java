@@ -3,6 +3,7 @@ package tk.rdvdev2.TimeTravelMod.api.timemachine.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.IProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
@@ -16,17 +17,20 @@ import tk.rdvdev2.TimeTravelMod.common.world.TemporalExplosion;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.Random;
 
-import static tk.rdvdev2.TimeTravelMod.common.block.properties.TMReadyProperty.TMReadyProperty;
-
 /**
  * Blocks that pretend to act as a Time Machine Core must extend from this class.
  * Subclasses of this will have a cooldown and a random explosion chance integrated without needing to overwrite nothing on the class.
  */
 public class TimeMachineCoreBlock extends Block {
 
+    /**
+     * This property represents whether the core is ready (isn't cooling down)
+     */
+    public static final BooleanProperty TM_READY = BooleanProperty.create("ready");
+
     public TimeMachineCoreBlock(Properties properties) {
         super(properties);
-        setDefaultState(getStateContainer().getBaseState().with(TMReadyProperty, true));
+        setDefaultState(getStateContainer().getBaseState().with(TM_READY, true));
     }
 
     /**
@@ -40,17 +44,17 @@ public class TimeMachineCoreBlock extends Block {
     @Override
     @OverridingMethodsMustInvokeSuper
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> stateBuilder) {
-        stateBuilder.add(new IProperty[]{TMReadyProperty});
+        stateBuilder.add(new IProperty[]{TM_READY});
     }
 
     @Override
     public final boolean hasTileEntity(BlockState state) {
-        return !state.get(TMReadyProperty);
+        return !state.get(TM_READY);
     }
 
     @Override
     public final TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        if (!state.get(TMReadyProperty))
+        if (!state.get(TM_READY))
             return new TMCooldownTileEntity();
         else
             throw new RuntimeException("TMCooldownTileEntity can't be created in a ready TM");
@@ -96,7 +100,7 @@ public class TimeMachineCoreBlock extends Block {
     @Override
     @OverridingMethodsMustInvokeSuper
     public void onPlayerDestroy(IWorld worldIn, BlockPos pos, BlockState state) {
-        if (!state.get(TMReadyProperty)) {
+        if (!state.get(TM_READY)) {
             forceExplosion(worldIn.getWorld(), pos);
         }
     }

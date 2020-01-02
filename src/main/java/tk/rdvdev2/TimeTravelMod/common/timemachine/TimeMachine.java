@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static tk.rdvdev2.TimeTravelMod.common.block.properties.TMReadyProperty.TMReadyProperty;
+import static tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineCoreBlock.TM_READY;
 
 public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine> implements tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine {
 
@@ -190,7 +190,7 @@ public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api
             boolean coincidence = false;
             for(BlockState state:getCoreBlocks()) {
                 if (world.getBlockState(controllerPos.add(pos)).getBlock() instanceof TimeMachineCoreBlock) {
-                    if (world.getBlockState(controllerPos.add(pos)) == state.with(TMReadyProperty, true)) {
+                    if (world.getBlockState(controllerPos.add(pos)) == state.with(TM_READY, true)) {
                         coincidence = true;
                         break;
                     }
@@ -274,7 +274,7 @@ public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api
     @Override
     public final void doCooldown(World worldIn, BlockPos controllerPos, Direction side) {
         for (BlockPos relativePos:getCoreBlocksPos(side)) {
-            worldIn.setBlockState(controllerPos.add(relativePos), worldIn.getBlockState(controllerPos.add(relativePos)).with(TMReadyProperty, false));
+            worldIn.setBlockState(controllerPos.add(relativePos), worldIn.getBlockState(controllerPos.add(relativePos)).with(TM_READY, false));
             ((TMCooldownTileEntity)worldIn.getTileEntity(controllerPos.add(relativePos))).setTime(getCooldownTime());
         }
     }
@@ -434,5 +434,9 @@ public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api
     @Override
     public int getCorruptionMultiplier() {
         return template.getCorruptionMultiplier();
+    }
+
+    public enum TimeMachineComponentType {
+        BASIC, CORE, CONTROLPANEL, UPGRADE, AIR
     }
 }
