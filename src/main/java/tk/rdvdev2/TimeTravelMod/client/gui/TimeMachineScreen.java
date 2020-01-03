@@ -11,8 +11,10 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.world.RegisterDimensionsEvent;
 import tk.rdvdev2.TimeTravelMod.ModPacketHandler;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
+import tk.rdvdev2.TimeTravelMod.ModTimeLines;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.common.networking.DimensionTpPKT;
@@ -84,6 +86,7 @@ public class TimeMachineScreen extends Screen {
         TimeLineButton b = (TimeLineButton) button;
         Minecraft.getInstance().displayGuiScreen(null);
         if (b.tl.getDimension() != b.screen.player.dimension && tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLine.isValidTimeLine(b.screen.player.world)) {
+            ModTimeLines.registerDimension(new RegisterDimensionsEvent(Collections.EMPTY_MAP));
             ModPacketHandler.CHANNEL.sendToServer(new DimensionTpPKT(b.tl, b.screen.tm, b.screen.pos, b.screen.side, b.screen.additionalEntities));
         } else {
             b.screen.player.sendMessage(new TranslationTextComponent("gui.tm.error.text"));
