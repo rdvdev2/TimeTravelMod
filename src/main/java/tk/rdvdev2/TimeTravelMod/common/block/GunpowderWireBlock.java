@@ -235,10 +235,6 @@ public class GunpowderWireBlock extends Block {
         return state.getBlock() == this || state.getBlock() == Blocks.TNT;
     }
 
-    /*public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.CUTOUT;
-    }*/
-
     public BlockState rotate(BlockState state, Rotation rot) {
         switch(rot) {
             case CLOCKWISE_180:
@@ -267,10 +263,6 @@ public class GunpowderWireBlock extends Block {
         builder.add(NORTH, EAST, SOUTH, WEST, BURNED);
     }
 
-    /*public BlockFaceShape getBlockFaceShape(IBlockReader worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
-        return BlockFaceShape.UNDEFINED;
-    }*/
-
     @OnlyIn(Dist.CLIENT)
     public static int colorMultiplier(boolean burned) {
         float red, blue, green;
@@ -281,13 +273,6 @@ public class GunpowderWireBlock extends Block {
             return 0x262626;
         }
     }
-
-    /*@Override
-    public int getItemsToDropCount(BlockState state, int fortune, World worldIn, BlockPos pos, Random random) {
-        if (!state.get(BURNED)) return 1;
-        else return 0;
-    }*/
-
 
     public void setBurned(BlockPos pos, World world) {
         BlockState state = world.getBlockState(pos);
