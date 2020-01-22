@@ -55,7 +55,7 @@ public class TemporalExplosionBlock extends Block {
     }
 
     @Override
-    public ActionResultType func_225533_a_(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn, Hand hand, BlockRayTraceResult blockRayTraceResult) {
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn, Hand hand, BlockRayTraceResult blockRayTraceResult) {
         if (ItemStack.areItemStacksEqual(playerIn.inventory.getCurrentItem(), new ItemStack(ModBlocks.REINFORCED_HEAVY_BLOCK, playerIn.inventory.getCurrentItem().getCount()))) {
             if(!playerIn.isCreative()) playerIn.inventory.getCurrentItem().grow(-1);
             worldIn.setBlockState(pos, ModBlocks.REINFORCED_HEAVY_BLOCK.getDefaultState());

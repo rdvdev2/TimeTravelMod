@@ -47,7 +47,7 @@ public class TimeMachineControlPanelBlock extends Block {
 
     @Override
     @OverridingMethodsMustInvokeSuper
-    public ActionResultType func_225533_a_(BlockState state,
+    public ActionResultType onBlockActivated(BlockState state,
                                            World worldIn,
                                            BlockPos pos,
                                            PlayerEntity playerIn,

@@ -47,8 +47,8 @@ public class TemporalCauldronBlock extends Block {
     }
 
     @Override
-    public ActionResultType func_225533_a_(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn, Hand hand, BlockRayTraceResult blockRayTraceResult) {
-        super.func_225533_a_(state, worldIn, pos, playerIn, hand, blockRayTraceResult);
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn, Hand hand, BlockRayTraceResult blockRayTraceResult) {
+        super.onBlockActivated(state, worldIn, pos, playerIn, hand, blockRayTraceResult);
         TemporalCauldronTileEntity te = (TemporalCauldronTileEntity) worldIn.getTileEntity(pos);
         ItemStack playerItemStack = playerIn.getHeldItem(hand);
         if (te == null) {

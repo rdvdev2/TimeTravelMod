@@ -306,7 +306,7 @@ public class GunpowderWireBlock extends Block {
     }
 
     @Override
-    public ActionResultType func_225533_a_(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult blockRayTraceResult) {
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult blockRayTraceResult) {
         if (player.getHeldItem(hand).getItem() == Items.FLINT_AND_STEEL && !state.get(BURNED)) {
             if (player instanceof ServerPlayerEntity)
             player.getHeldItem(hand).attemptDamageItem(1, worldIn.rand, (ServerPlayerEntity) player);

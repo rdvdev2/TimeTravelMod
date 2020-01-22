@@ -27,7 +27,7 @@ public class ModCapabilities {
             @Nullable
             @Override
             public INBT writeNBT(Capability<ICorruption> capability, ICorruption instance, Direction side) {
-                return IntNBT.func_229692_a_(instance.getCorruptionLevel());
+                return IntNBT.valueOf(instance.getCorruptionLevel());
             }
 
             @Override

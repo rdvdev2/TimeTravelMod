@@ -167,7 +167,7 @@ public class OldWestDimension extends net.minecraft.world.dimension.Dimension {
     @Override
     public BlockPos findSpawn(int p_206921_1_, int p_206921_2_, boolean checkValid) {
         BlockPos.Mutable blockpos$mutableblockpos = new BlockPos.Mutable(p_206921_1_, 0, p_206921_2_);
-        Biome biome = this.world.func_226691_t_(blockpos$mutableblockpos);
+        Biome biome = this.world.getBiome(blockpos$mutableblockpos);
         BlockState iblockstate = biome.getSurfaceBuilderConfig().getTop();
         if (checkValid && !iblockstate.getBlock().isIn(BlockTags.VALID_SPAWN)) {
             return null;
