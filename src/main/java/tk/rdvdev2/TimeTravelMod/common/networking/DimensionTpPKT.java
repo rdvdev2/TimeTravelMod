@@ -157,7 +157,7 @@ public class DimensionTpPKT {
             player.dimension = destDim;
             ServerWorld serverworld1 = player.server.getWorld(destDim);
             WorldInfo worldinfo = player.world.getWorldInfo();
-            player.connection.sendPacket(new SRespawnPacket(destDim, WorldInfo.func_227498_c_(worldinfo.getSeed()), worldinfo.getGenerator(), player.interactionManager.getGameType()));
+            player.connection.sendPacket(new SRespawnPacket(destDim, WorldInfo.byHashing(worldinfo.getSeed()), worldinfo.getGenerator(), player.interactionManager.getGameType()));
             player.connection.sendPacket(new SServerDifficultyPacket(worldinfo.getDifficulty(), worldinfo.isDifficultyLocked()));
             PlayerList playerlist = player.server.getPlayerList();
             playerlist.updatePermissionLevel(player);

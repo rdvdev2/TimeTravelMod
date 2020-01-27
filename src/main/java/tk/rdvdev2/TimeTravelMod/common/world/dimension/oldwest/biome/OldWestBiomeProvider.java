@@ -23,7 +23,7 @@ public class OldWestBiomeProvider extends BiomeProvider {
     }
 
     @Override
-    public Biome func_225526_b_(int i, int i1, int i2) {
+    public Biome getNoiseBiome(int i, int i1, int i2) {
         return this.genBiomes.func_215738_a(i, i2);
     }
 }

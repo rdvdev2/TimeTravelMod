@@ -41,7 +41,7 @@ public class TemporalCauldronBlock extends Block {
     protected static final VoxelShape WALLS;
 
     public TemporalCauldronBlock() {
-        super(Properties.create(Material.IRON, MaterialColor.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(2.0F).func_226896_b_());
+        super(Properties.create(Material.IRON, MaterialColor.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(2.0F).notSolid());
         this.setDefaultState(this.getStateContainer().getBaseState().with(LEVEL, Integer.valueOf(0)));
         this.setRegistryName(name);
     }
