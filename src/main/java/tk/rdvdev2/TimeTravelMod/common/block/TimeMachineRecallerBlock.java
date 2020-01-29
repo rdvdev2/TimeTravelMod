@@ -21,6 +21,7 @@ import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineControlPanelBlock;
 import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TimeMachineRecallerTileEntity;
+import tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineTeleporter;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.exception.IncompatibleTimeMachineHooksException;
 
 import javax.annotation.Nullable;
@@ -29,7 +30,6 @@ import java.util.stream.Collectors;
 
 import static tk.rdvdev2.TimeTravelMod.TimeTravelMod.MODID;
 import static tk.rdvdev2.TimeTravelMod.common.networking.DimensionTpPKT.Handler.applyCorruption;
-import static tk.rdvdev2.TimeTravelMod.common.networking.DimensionTpPKT.Handler.changeEntityDim;
 
 public class TimeMachineRecallerBlock extends Block {
 
@@ -56,7 +56,7 @@ public class TimeMachineRecallerBlock extends Block {
 
     @Override
     public boolean hasTileEntity(BlockState state) {
-        return state.get(CONFIGURED).booleanValue();
+        return state.get(CONFIGURED);
     }
 
     @Nullable
@@ -85,9 +85,9 @@ public class TimeMachineRecallerBlock extends Block {
         super.neighborChanged(state, world, pos, neighbourBlock, neighbourPos, bool);
         if (!world.isRemote) {
             if (world.isBlockPowered(pos)) {
-                if (!state.get(TRIGGERED).booleanValue()) {
+                if (!state.get(TRIGGERED)) {
                     world.setBlockState(pos, state.with(TRIGGERED, true));
-                    if (state.get(CONFIGURED).booleanValue()) {
+                    if (state.get(CONFIGURED)) {
                         TileEntity tile = world.getTileEntity(pos);
                         if (world instanceof ServerWorld && tile instanceof TimeMachineRecallerTileEntity) {
                             BlockPos controllerPos = ((TimeMachineRecallerTileEntity) tile).getControllerPos();
@@ -158,7 +158,7 @@ public class TimeMachineRecallerBlock extends Block {
                     applyCorruption(tm, foundDim, recallWorld.getDimension().getType(), foundWorld.getServer());
                     tm.teleporterTasks(null, recallWorld, foundWorld, controllerPos, side, true);
                     final TimeMachine finalTm = tm;
-                    entities.forEach(entity -> changeEntityDim(entity, controllerPos, recallWorld.getDimension().getType(), finalTm, side));
+                    entities.forEach(entity -> entity.changeDimension(recallWorld.getDimension().getType(), new TimeMachineTeleporter(finalTm, controllerPos, side, false)));
                     return true;
                 } else {
                     return false;
