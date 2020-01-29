@@ -117,8 +117,7 @@ public class TemporalCauldronTileEntity extends TileEntity implements ITickableT
 
                 int n = r.nextInt(100);
                 if (n >= 98) damage++;
-                else if (n >= 95) damage = damage=damage;
-                else damage--;
+                else if (n < 95) damage--;
 
                 tool.setDamage(damage);
                 inventory.insertItem(ITEM_SLOT, tool, false);

@@ -17,7 +17,7 @@ import static tk.rdvdev2.TimeTravelMod.common.block.TimeMachineRecallerBlock.CON
 
 public class TrackerHooks {
 
-    public static final TimeMachineHook[] HOOKS = {new TeleporterHook()};
+    public static final TimeMachineHook<?>[] HOOKS = {new TeleporterHook()};
 
     public static class TeleporterHook implements TimeMachineHook.TeleporterTasks {
 

@@ -49,8 +49,8 @@ public class TimeMachineScreen extends Screen {
 
     @Override
     public void init() {
-        ArrayList<TimeLine> tls = new ArrayList(ModRegistries.TIME_LINES.getValues());
-        Collections.sort(tls, Comparator.comparingInt(TimeLine::getMinTier));
+        ArrayList<TimeLine> tls = new ArrayList<>(ModRegistries.TIME_LINES.getValues());
+        tls.sort(Comparator.comparingInt(TimeLine::getMinTier));
         int buttoncount = tls.size();
         for(int id = 0; id < tls.size(); id++) {
             addButton(new TimeLineButton(this.width / 2 -100, (this.height / (buttoncount+1))*(id+1), (tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLine) tls.get(id), this));

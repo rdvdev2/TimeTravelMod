@@ -21,7 +21,7 @@ public class VanillaBiomesFeatures {
         );
     }
 
-    private static void registerGenerator(GenerationStage.Decoration stage, ConfiguredFeature feature) {
+    private static void registerGenerator(GenerationStage.Decoration stage, ConfiguredFeature<?, ?> feature) {
         for (Biome biome : ForgeRegistries.BIOMES.getValues()) {
             if (biome.getCategory() != Biome.Category.NETHER && biome.getCategory() != Biome.Category.THEEND) {
                 biome.addFeature(stage, feature);

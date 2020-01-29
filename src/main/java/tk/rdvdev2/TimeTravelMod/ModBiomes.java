@@ -23,7 +23,7 @@ public class ModBiomes {
     }
 
     public static class ProviderTypes {
-        public static final BiomeProviderType<OldWestBiomeProviderSettings, OldWestBiomeProvider> OLDWEST_LAYERED = (BiomeProviderType<OldWestBiomeProviderSettings, OldWestBiomeProvider>) new BiomeProviderType<OldWestBiomeProviderSettings, OldWestBiomeProvider>(OldWestBiomeProvider::new, OldWestBiomeProviderSettings::new).setRegistryName(MODID, "oldwest_layered");
+        public static final BiomeProviderType<OldWestBiomeProviderSettings, OldWestBiomeProvider> OLDWEST_LAYERED = (BiomeProviderType<OldWestBiomeProviderSettings, OldWestBiomeProvider>) new BiomeProviderType<>(OldWestBiomeProvider::new, OldWestBiomeProviderSettings::new).setRegistryName(MODID, "oldwest_layered");
 
         @SubscribeEvent
         public static void registerProviderTypes(RegistryEvent.Register<BiomeProviderType<?,?>> event) {

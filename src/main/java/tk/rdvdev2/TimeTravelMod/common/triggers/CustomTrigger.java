@@ -85,7 +85,7 @@ public class CustomTrigger implements ICriterionTrigger<CustomTrigger.Instance> 
 
     static class Listeners {
         private final PlayerAdvancements playerAdvancements;
-        private final Set<ICriterionTrigger.Listener> listeners = Sets.newHashSet();
+        private final Set<ICriterionTrigger.Listener<?>> listeners = Sets.newHashSet();
 
         public Listeners(PlayerAdvancements playerAdvancements) {
             this.playerAdvancements = playerAdvancements;
@@ -95,18 +95,18 @@ public class CustomTrigger implements ICriterionTrigger<CustomTrigger.Instance> 
             return listeners.isEmpty();
         }
 
-        public void add(ICriterionTrigger.Listener listener) {
+        public void add(ICriterionTrigger.Listener<?> listener) {
             listeners.add(listener);
         }
 
-        public void remove(ICriterionTrigger.Listener listener) {
+        public void remove(ICriterionTrigger.Listener<?> listener) {
             listeners.remove(listener);
         }
 
         public void trigger(ServerPlayerEntity player) {
-            ArrayList<ICriterionTrigger.Listener> list = null;
+            ArrayList<ICriterionTrigger.Listener<?>> list = null;
 
-            for (ICriterionTrigger.Listener listener : listeners) {
+            for (ICriterionTrigger.Listener<?> listener : listeners) {
                 if (((Instance)listener.getCriterionInstance()).test()) {
                     if (list == null) {
                         list = Lists.newArrayList();
@@ -116,7 +116,7 @@ public class CustomTrigger implements ICriterionTrigger<CustomTrigger.Instance> 
             }
 
             if (list != null) {
-                for (ICriterionTrigger.Listener listener : list) {
+                for (ICriterionTrigger.Listener<?> listener : list) {
                     listener.grantCriterion(playerAdvancements);
                 }
             }

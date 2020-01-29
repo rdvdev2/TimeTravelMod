@@ -18,9 +18,10 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
 import tk.rdvdev2.TimeTravelMod.ModTriggers;
+import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 
 public class TemporalExplosionBlock extends Block {
-    private String name = "temporalexplosion";
+
     public static DamageSource damage = new DamageSource("temporalerror").setDamageIsAbsolute();
 
     public TemporalExplosionBlock() {
@@ -30,7 +31,7 @@ public class TemporalExplosionBlock extends Block {
                 .lightValue(0)
                 .variableOpacity()
         );
-        setRegistryName(name);
+        setRegistryName(TimeTravelMod.MODID, "temporalexplosion");
     }
 
     @Override

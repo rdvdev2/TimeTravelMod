@@ -79,11 +79,9 @@ public class ModRegistries {
 
     public static class TimeMachineUpgradesCallbacks implements IForgeRegistry.CreateCallback<TimeMachineUpgrade> {
 
-        private HashMap<TimeMachineUpgrade, TimeMachineUpgradeBlock[]> upgradetoblockhm;
-
         @Override
         public void onCreate(IForgeRegistryInternal<TimeMachineUpgrade> owner, RegistryManager stage) {
-            upgradetoblockhm = new HashMap<>();
+            HashMap<TimeMachineUpgrade, TimeMachineUpgradeBlock[]> upgradetoblockhm = new HashMap<>();
             owner.setSlaveMap(UPGRADETOBLOCK, upgradetoblockhm);
         }
     }

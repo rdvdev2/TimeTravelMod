@@ -15,7 +15,7 @@ import java.util.Random;
 public class GunpowderFeature extends Feature<NoFeatureConfig> {
 
     public GunpowderFeature() {
-        super(null);
+        super(NoFeatureConfig::deserialize);
     }
 
     @Override

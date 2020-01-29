@@ -13,7 +13,7 @@ import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 
 public class CreativeTimeMachineItem extends Item {
-    private String name = "creativetimemachine";
+
     private TimeMachine timeMachine = ModTimeMachines.CREATIVE;
 
     public CreativeTimeMachineItem() {
@@ -21,7 +21,7 @@ public class CreativeTimeMachineItem extends Item {
                 .maxStackSize(1)
                 .group(TimeTravelMod.TAB_TTM)
         );
-        setRegistryName(name);
+        setRegistryName(TimeTravelMod.MODID, "creativetimemachine");
     }
 
     @Override

@@ -105,9 +105,9 @@ public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api
     @Override
     public BlockState[] getBlocks() {
         if (getUpgradeBlocks().length != 0) {
-            return (BlockState[]) ArrayUtils.addAll(ArrayUtils.addAll((BlockState[]) getControllerBlocks(), (BlockState[]) getCoreBlocks()), ArrayUtils.addAll((BlockState[]) getBasicBlocks(), (BlockState[]) getUpgradeBlocks()));
+            return ArrayUtils.addAll(ArrayUtils.addAll(getControllerBlocks(), getCoreBlocks()), ArrayUtils.addAll(getBasicBlocks(), getUpgradeBlocks()));
         } else {
-            return (BlockState[]) ArrayUtils.addAll(ArrayUtils.addAll((BlockState[]) getControllerBlocks(), (BlockState[]) getCoreBlocks()), (BlockState[]) getBasicBlocks());
+            return ArrayUtils.addAll(ArrayUtils.addAll(getControllerBlocks(), getCoreBlocks()), getBasicBlocks());
         }
     }
 
@@ -296,7 +296,7 @@ public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api
 
     // Private utils methods
 
-    private static final List<BlockPos> applySide(List<BlockPos> posList, Direction side) {
+    private static List<BlockPos> applySide(List<BlockPos> posList, Direction side) {
         posList = new ArrayList<>(posList);
         if (side == Direction.NORTH) return posList;
         for (int i = 0; i < posList.size(); i++) {
@@ -315,7 +315,7 @@ public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api
         return posList;
     }
 
-    private final boolean isComponentTypeBuilt(TimeMachineComponentType type, World world, BlockPos controllerPos, Direction side) {
+    private boolean isComponentTypeBuilt(TimeMachineComponentType type, World world, BlockPos controllerPos, Direction side) {
         List<BlockPos> positions;
         BlockState[] states;
 
@@ -352,8 +352,8 @@ public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api
         return true;
     }
 
-    private final List<BlockPos> getPosData(BlockPos controllerPos, Direction side) {
-        ArrayList<BlockPos> posData = new ArrayList<BlockPos>();
+    private List<BlockPos> getPosData(BlockPos controllerPos, Direction side) {
+        ArrayList<BlockPos> posData = new ArrayList<>();
         posData.add(BlockPos.ZERO);
         posData.addAll(getCoreBlocksPos(side));
         posData.addAll(getBasicBlocksPos(side));
@@ -364,7 +364,7 @@ public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api
         return posData;
     }
 
-    private final Map<BlockPos, BlockState> getBlockData(World world, List<BlockPos> posData) {
+    private Map<BlockPos, BlockState> getBlockData(World world, List<BlockPos> posData) {
         Map<BlockPos, BlockState> blockData = new HashMap<>(posData.size());
         for (BlockPos pos: posData) {
             blockData.put(pos, world.getBlockState(pos));
@@ -372,13 +372,13 @@ public class TimeMachine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api
         return blockData;
     }
 
-    private final void destroyTM(World world, List<BlockPos> posData) {
+    private void destroyTM(World world, List<BlockPos> posData) {
         for (BlockPos pos: posData) {
             world.setBlockState(pos, Blocks.AIR.getDefaultState());
         }
     }
 
-    private final void buildTM(World world, Map<BlockPos, BlockState> blockData) {
+    private void buildTM(World world, Map<BlockPos, BlockState> blockData) {
         for (BlockPos pos: blockData.keySet()) {
             world.setBlockState(pos, blockData.get(pos));
         }

@@ -138,7 +138,7 @@ public class EngineerBookScreen extends Screen {
                             blockTypeMap[y][x][z] = tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachine.TimeMachineComponentType.CORE; continue nextPos;
                         }
                         if (controllerBlockPos.equals(new BlockPos(x, y, z))) {
-                            blockTypeMap[y][x][z] = tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachine.TimeMachineComponentType.CONTROLPANEL; continue nextPos;
+                            blockTypeMap[y][x][z] = tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachine.TimeMachineComponentType.CONTROLPANEL;
                         } else blockTypeMap[y][x][z] = tk.rdvdev2.TimeTravelMod.common.timemachine.TimeMachine.TimeMachineComponentType.AIR;
                     }
         }
@@ -356,11 +356,7 @@ public class EngineerBookScreen extends Screen {
                 this.mode = mode;
                 this.maxY = maxY;
                 yLevels.putIfAbsent(id, 0);
-                if((mode == 0 && yLevels.get(id) == 0) || (mode == 1 && yLevels.get(id) == maxY)) {
-                    this.active = false;
-                } else {
-                    this.active = true;
-                }
+                this.active = (mode != 0 || yLevels.get(id) != 0) && (mode != 1 || yLevels.get(id) != maxY);
             }
 
             @Override

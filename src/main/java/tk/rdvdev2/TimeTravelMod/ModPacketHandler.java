@@ -20,8 +20,8 @@ public class ModPacketHandler {
     public static void init() {
         int disc = 0;
 
-        CHANNEL.registerMessage(disc++, DimensionTpPKT.class, DimensionTpPKT::encode, DimensionTpPKT::decode, DimensionTpPKT.Handler::handle);
-        CHANNEL.registerMessage(disc++, OpenTmGuiPKT.class, OpenTmGuiPKT::encode, OpenTmGuiPKT::decode, OpenTmGuiPKT.Handler::handle);
+        CHANNEL.registerMessage(disc++, DimensionTpPKT.class, DimensionTpPKT::encode, DimensionTpPKT::decode, DimensionTpPKT::handle);
+        CHANNEL.registerMessage(disc++, OpenTmGuiPKT.class, OpenTmGuiPKT::encode, OpenTmGuiPKT::decode, OpenTmGuiPKT::handle);
     }
 
     private static String getProtocolVersion() {

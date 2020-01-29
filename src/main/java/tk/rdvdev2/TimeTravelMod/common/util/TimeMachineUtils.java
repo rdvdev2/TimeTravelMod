@@ -45,7 +45,7 @@ public class TimeMachineUtils {
         Check error = check(tm, world, player, pos, side);
         if (error == null) {
             return true;
-        } else if (ModConfig.COMMON.enableCheaterReports.get().booleanValue()){
+        } else if (ModConfig.COMMON.enableCheaterReports.get()){
             Arrays.stream(server.getPlayerList().getOppedPlayers().getKeys())
                     .map(op -> server.getPlayerList().getPlayerByUsername(op))
                     .forEach(op -> {
@@ -56,7 +56,7 @@ public class TimeMachineUtils {
         } else return false;
     }
 
-    public static enum Check {
+    public enum Check {
         BUILT("timetravelmod.error.built.client", "timetravelmod.error.built.server"),
         COOLED_DOWN("timetravelmod.error.cooled_down.client", "timetravelmod.error.cooled_down.server"),
         PALYER_INSIDE("timetravelmod.error.player_inside.client", "timetravelmod.error.player_inside.server"),
@@ -67,7 +67,7 @@ public class TimeMachineUtils {
         private final String clientError;
         private final String cheatError;
 
-        private Check(String clientError, String cheatError) {
+        Check(String clientError, String cheatError) {
             this.clientError = clientError;
             this.cheatError = cheatError;
         }

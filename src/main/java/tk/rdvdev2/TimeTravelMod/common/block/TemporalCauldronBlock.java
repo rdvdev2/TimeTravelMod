@@ -29,12 +29,12 @@ import net.minecraftforge.common.ToolType;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
 import tk.rdvdev2.TimeTravelMod.ModItems;
 import tk.rdvdev2.TimeTravelMod.ModTriggers;
+import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TemporalCauldronTileEntity;
 
 import javax.annotation.Nullable;
 
 public class TemporalCauldronBlock extends Block {
-    private String name = "temporalcauldron";
 
     public static final IntegerProperty LEVEL = IntegerProperty.create("level", 0, 3);
     protected static final VoxelShape INSIDE;
@@ -43,7 +43,8 @@ public class TemporalCauldronBlock extends Block {
     public TemporalCauldronBlock() {
         super(Properties.create(Material.IRON, MaterialColor.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(2.0F).notSolid());
         this.setDefaultState(this.getStateContainer().getBaseState().with(LEVEL, Integer.valueOf(0)));
-        this.setRegistryName(name);
+        String name = "temporalcauldron";
+        this.setRegistryName(TimeTravelMod.MODID, "temporalcauldron");
     }
 
     @Override

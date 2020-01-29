@@ -53,9 +53,7 @@ public class OpenTmGuiPKT {
         pkt.additionalEntities.forEach(buf::writeUniqueId);
     }
 
-    public static class Handler {
-        public static void handle(OpenTmGuiPKT message, Supplier<NetworkEvent.Context> ctx) {
-            TimeTravelMod.PROXY.handleOpenTMGUI(message, ctx.get());
-        }
+    public static void handle(OpenTmGuiPKT message, Supplier<NetworkEvent.Context> ctx) {
+        TimeTravelMod.PROXY.handleOpenTMGUI(message, ctx.get());
     }
 }

@@ -11,13 +11,11 @@ import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 
 public class ItemEngineerBook extends Item {
 
-    private String name = "engineerbook";
-
     public ItemEngineerBook() {
         super(new Properties()
                 .group(TimeTravelMod.TAB_TTM)
                 .maxStackSize(1));
-        setRegistryName(name);
+        setRegistryName(TimeTravelMod.MODID, "engineerbook");
     }
 
     @Override

@@ -21,7 +21,7 @@ import tk.rdvdev2.TimeTravelMod.ModFeatures;
 public final class OldWestBiome extends Biome {
     public OldWestBiome() {
         // Vanilla desert start
-        super((new Biome.Builder()).surfaceBuilder(SurfaceBuilder.DEFAULT, SurfaceBuilder.SAND_SAND_GRAVEL_CONFIG).precipitation(Biome.RainType.NONE).category(Biome.Category.DESERT).depth(0.125F).scale(0.05F).temperature(2.0F).downfall(0.0F).waterColor(4159204).waterFogColor(329011).parent((String)null));
+        super((new Biome.Builder()).surfaceBuilder(SurfaceBuilder.DEFAULT, SurfaceBuilder.SAND_SAND_GRAVEL_CONFIG).precipitation(Biome.RainType.NONE).category(Biome.Category.DESERT).depth(0.125F).scale(0.05F).temperature(2.0F).downfall(0.0F).waterColor(4159204).waterFogColor(329011).parent(null));
         this.addStructure(Feature.VILLAGE.withConfiguration(new VillageConfig("minecraft:village/oldwest/town_centers", 6))); // Custom village
         this.addStructure(Feature.PILLAGER_OUTPOST.withConfiguration(NoFeatureConfig.NO_FEATURE_CONFIG));
         //this.addStructure(Feature.DESERT_PYRAMID, IFeatureConfig.NO_FEATURE_CONFIG);

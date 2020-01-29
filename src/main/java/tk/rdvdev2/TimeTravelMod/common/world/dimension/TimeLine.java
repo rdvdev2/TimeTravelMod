@@ -9,7 +9,6 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.apache.commons.lang3.Validate;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
 
-import java.util.Iterator;
 import java.util.function.BiFunction;
 
 public class TimeLine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine> implements tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine {
@@ -63,7 +62,7 @@ public class TimeLine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api.di
         this.modDimension.setRegistryName(modDimension.getRegistryName());
     }
 
-    private final BiFunction<World, DimensionType, ? extends Dimension> hook(BiFunction<World, DimensionType, ? extends Dimension> originial) {
+    private BiFunction<World, DimensionType, ? extends Dimension> hook(BiFunction<World, DimensionType, ? extends Dimension> originial) {
         return (world, dimensionType) -> {
             this.dimension = dimensionType;
             return originial.apply(world, dimensionType);
@@ -71,9 +70,8 @@ public class TimeLine extends ForgeRegistryEntry<tk.rdvdev2.TimeTravelMod.api.di
     }
 
     public static boolean isValidTimeLine(World world) {
-        Iterator<tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine> iterator = ModRegistries.TIME_LINES.iterator();
-        while (iterator.hasNext()) {
-            TimeLine tl = (TimeLine) iterator.next();
+        for (tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine timeLine : ModRegistries.TIME_LINES) {
+            TimeLine tl = (TimeLine) timeLine;
             if (tl.getDimension() == world.getDimension().getType()) return true;
         }
         return false;

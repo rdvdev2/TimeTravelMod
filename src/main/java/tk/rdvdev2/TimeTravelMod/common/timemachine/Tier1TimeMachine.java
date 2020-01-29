@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class Tier1TimeMachine implements TimeMachineTemplate {
 
-    public Tier1TimeMachine() {};
+    public Tier1TimeMachine() {}
 
     @Override
     public List<BlockPos> coreBlocksPos() {

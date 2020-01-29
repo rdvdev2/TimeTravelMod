@@ -73,71 +73,67 @@ public class DimensionTpPKT {
         return pkt;
     }
 
-    public static class Handler {
-
-        public static void handle(DimensionTpPKT message, Supplier<NetworkEvent.Context> ctx) {
-            ServerPlayerEntity serverPlayer = ctx.get().getSender();
-            DimensionType dim = message.tl.getDimension();
-            BlockPos pos = message.pos;
-            Direction side = message.side;
-            ServerWorld origin = serverPlayer.getServerWorld();
-            TimeMachine tm = null;
-            try {
-                tm = message.tm.hook(serverPlayer.world, pos, side);
-            } catch (IncompatibleTimeMachineHooksException e) {
-                throw new RuntimeException("Time travel was triggered with invalid upgrade configuration");
-            }
-            TimeMachine finalTm = tm;
-            ctx.get().enqueueWork(() -> {
-                List<Entity> entities = finalTm.getEntitiesInside(origin, pos, side);
-                AtomicBoolean entitiesFlag = new AtomicBoolean(true);
-                message.additionalEntities.forEach( entity -> {
-                    if (!entities.contains(entity)) {
-                        entitiesFlag.set(false);
-                    }
-                });
-                if (entitiesFlag.get() &&
-                    serverPlayer.world.isBlockLoaded(pos) &&
-                    TimeMachineUtils.serverCheck(serverPlayer.server, finalTm, serverPlayer.world, serverPlayer, pos, side)) {
-                        if (finalTm.getTier() >= message.tl.getMinTier()) {
-                            applyCorruption(finalTm, serverPlayer.dimension, dim, serverPlayer.server);
-                            serverPlayer.changeDimension(dim, new TimeMachineTeleporter(finalTm, pos, side, true));
-                            message.additionalEntities.stream()
-                                    .map(origin::getEntityByUuid)
-                                    .filter(Objects::nonNull)
-                                    .forEach(entity -> entity.changeDimension(dim, new TimeMachineTeleporter(finalTm, pos, side, false)));
-                        } else {
-                            Arrays.stream(serverPlayer.server.getPlayerList().getOppedPlayers().getKeys())
-                                    .map(op -> serverPlayer.server.getPlayerList().getPlayerByUsername(op))
-                                    .forEach(op -> {
-                                        if (op != null)
-                                            op.sendStatusMessage(TimeMachineUtils.Check.UNREACHABLE_DIM.getCheaterReport(serverPlayer), false);
-                                    });
-                        }
-                } else {
-                    if (!entitiesFlag.get()) {
-                        serverPlayer.sendStatusMessage(TimeMachineUtils.Check.ENTITIES_ESCAPED.getClientError(), true);
-                    }
-                    TimeTravelMod.LOGGER.error("Time Travel canceled due to incorrect conditions");
+    public static void handle(DimensionTpPKT message, Supplier<NetworkEvent.Context> ctx) {
+        ServerPlayerEntity serverPlayer = ctx.get().getSender();
+        DimensionType dim = message.tl.getDimension();
+        BlockPos pos = message.pos;
+        Direction side = message.side;
+        ServerWorld origin = serverPlayer.getServerWorld();
+        TimeMachine tm = null;
+        try {
+            tm = message.tm.hook(serverPlayer.world, pos, side);
+        } catch (IncompatibleTimeMachineHooksException e) {
+            throw new RuntimeException("Time travel was triggered with invalid upgrade configuration");
+        }
+        TimeMachine finalTm = tm;
+        ctx.get().enqueueWork(() -> {
+            List<Entity> entities = finalTm.getEntitiesInside(origin, pos, side);
+            AtomicBoolean entitiesFlag = new AtomicBoolean(true);
+            message.additionalEntities.forEach( entity -> {
+                if (!entities.contains(entity)) {
+                    entitiesFlag.set(false);
                 }
             });
-        }
-
-        public static void applyCorruption(TimeMachine tm, DimensionType origDim, DimensionType destDim, MinecraftServer server) {
-            int origTier = -1, destTier = -1;
-            for (TimeLine timeLine: ModRegistries.TIME_LINES) {
-                tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLine current = (tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLine) timeLine;
-                if (current.getDimension() == origDim) {
-                    origTier = current.getMinTier();
-                } else if (current.getDimension() == destDim) {
-                    destTier = current.getMinTier();
+            if (entitiesFlag.get() &&
+                serverPlayer.world.isBlockLoaded(pos) &&
+                TimeMachineUtils.serverCheck(serverPlayer.server, finalTm, serverPlayer.world, serverPlayer, pos, side)) {
+                    if (finalTm.getTier() >= message.tl.getMinTier()) {
+                        applyCorruption(finalTm, serverPlayer.dimension, dim, serverPlayer.server);
+                        serverPlayer.changeDimension(dim, new TimeMachineTeleporter(finalTm, pos, side, true));
+                        message.additionalEntities.stream()
+                                .map(origin::getEntityByUuid)
+                                .filter(Objects::nonNull)
+                                .forEach(entity -> entity.changeDimension(dim, new TimeMachineTeleporter(finalTm, pos, side, false)));
+                    } else {
+                        Arrays.stream(serverPlayer.server.getPlayerList().getOppedPlayers().getKeys())
+                                .map(op -> serverPlayer.server.getPlayerList().getPlayerByUsername(op))
+                                .forEach(op -> {
+                                    if (op != null)
+                                        op.sendStatusMessage(TimeMachineUtils.Check.UNREACHABLE_DIM.getCheaterReport(serverPlayer), false);
+                                });
+                    }
+            } else {
+                if (!entitiesFlag.get()) {
+                    serverPlayer.sendStatusMessage(TimeMachineUtils.Check.ENTITIES_ESCAPED.getClientError(), true);
                 }
+                TimeTravelMod.LOGGER.error("Time Travel canceled due to incorrect conditions");
             }
-            if (destTier == -1 || origTier == -1) throw new RuntimeException();
-            int amount = Math.abs(destTier - origTier) * tm.getCorruptionMultiplier();
-            server.getWorld(origDim).getCapability(CORRUPTION_CAPABILITY).orElseThrow(RuntimeException::new).increaseCorruptionLevel(amount);
-            server.getWorld(destDim).getCapability(CORRUPTION_CAPABILITY).orElseThrow(RuntimeException::new).increaseCorruptionLevel(amount);
-        }
+        });
+    }
 
+    public static void applyCorruption(TimeMachine tm, DimensionType origDim, DimensionType destDim, MinecraftServer server) {
+        int origTier = -1, destTier = -1;
+        for (TimeLine timeLine: ModRegistries.TIME_LINES) {
+            tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLine current = (tk.rdvdev2.TimeTravelMod.common.world.dimension.TimeLine) timeLine;
+            if (current.getDimension() == origDim) {
+                origTier = current.getMinTier();
+            } else if (current.getDimension() == destDim) {
+                destTier = current.getMinTier();
+            }
+        }
+        if (destTier == -1 || origTier == -1) throw new RuntimeException();
+        int amount = Math.abs(destTier - origTier) * tm.getCorruptionMultiplier();
+        server.getWorld(origDim).getCapability(CORRUPTION_CAPABILITY).orElseThrow(RuntimeException::new).increaseCorruptionLevel(amount);
+        server.getWorld(destDim).getCapability(CORRUPTION_CAPABILITY).orElseThrow(RuntimeException::new).increaseCorruptionLevel(amount);
     }
 }

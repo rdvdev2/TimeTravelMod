@@ -27,7 +27,6 @@ import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TemporalCauldronTileEnti
 import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TimeMachineRecallerTileEntity;
 
 import java.util.HashSet;
-import java.util.Iterator;
 
 import static tk.rdvdev2.TimeTravelMod.TimeTravelMod.MODID;
 
@@ -80,9 +79,7 @@ public class ModBlocks {
 
     private static Block[] getAllCoreBlocks() {
         HashSet<Block> blocks = new HashSet<Block>();
-        Iterator<Block> blockIterator = ForgeRegistries.BLOCKS.getValues().iterator();
-        while (blockIterator.hasNext()) {
-            Block block = blockIterator.next();
+        for (Block block: ForgeRegistries.BLOCKS.getValues()) {
             if (block instanceof TimeMachineCoreBlock) blocks.add(block);
         }
         return blocks.toArray(new Block[]{});
@@ -116,6 +113,6 @@ public class ModBlocks {
 
     @OnlyIn(Dist.CLIENT)
     public static void registerBlockColor(ColorHandlerEvent.Block event) {
-        event.getBlockColors().register((state, world, pos, num) -> GunpowderWireBlock.colorMultiplier(state.get(GunpowderWireBlock.BURNED).booleanValue()), ModBlocks.GUNPOWDER_WIRE);
+        event.getBlockColors().register((state, world, pos, num) -> GunpowderWireBlock.colorMultiplier(state.get(GunpowderWireBlock.BURNED)), ModBlocks.GUNPOWDER_WIRE);
     }
 }
