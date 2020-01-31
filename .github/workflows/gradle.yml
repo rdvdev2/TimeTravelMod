@@ -1,9 +1,9 @@
-name: Java CI
+name: Gradle Build (GH Actions)
 
 on:
   push:
     branches:
-      - 1.14.4
+      - 1.15.2
 
 jobs:
   build:
