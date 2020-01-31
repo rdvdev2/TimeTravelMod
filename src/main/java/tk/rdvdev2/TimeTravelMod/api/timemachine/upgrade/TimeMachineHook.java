@@ -156,7 +156,7 @@ public abstract interface TimeMachineHook<R> {
     /**
      * An array with all the allowed hook type. This is mainly used in the upgrade logic.
      */
-    static final Class<? extends TimeMachineHook>[] HOOK_TYPES = new Class[]{
+    Class<? extends TimeMachineHook<?>>[] HOOK_TYPES = new Class[]{
             RunHook.class,
             TierHook.class,
             EntityMaxLoadHook.class,

@@ -15,11 +15,9 @@ import tk.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import tk.rdvdev2.TimeTravelMod.common.timemachine.exception.IncompatibleTimeMachineHooksException;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class TimeMachineHookRunner implements TimeMachine {
 
@@ -36,12 +34,13 @@ public class TimeMachineHookRunner implements TimeMachine {
     }
 
     public HashSet<TimeMachineUpgrade> checkIncompatibilities() {
+
         HashSet<TimeMachineUpgrade> incompatibilities = new HashSet<>(0);
-        for(Class<? extends TimeMachineHook> hook: TimeMachineHook.HOOK_TYPES) {
-            HashSet<TimeMachineUpgrade> found = new HashSet<>(0);
-            for (TimeMachineUpgrade upgrade: this.upgrades.keySet()) {
-                if (((tk.rdvdev2.TimeTravelMod.common.timemachine.upgrade.TimeMachineUpgrade) upgrade).isExclusiveHook(hook)) found.add(upgrade);
-            }
+        for (Class<? extends TimeMachineHook<?>> hook : TimeMachineHook.HOOK_TYPES) {
+            Set<TimeMachineUpgrade> found = this.upgrades.keySet().stream()
+                    .map(u -> (tk.rdvdev2.TimeTravelMod.common.timemachine.upgrade.TimeMachineUpgrade) u)
+                    .filter(u -> u.isExclusiveHook(hook))
+                    .collect(Collectors.toSet());
             if (found.size() > 1) incompatibilities.addAll(found);
         }
         return incompatibilities;

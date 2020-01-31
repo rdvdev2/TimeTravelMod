@@ -14,7 +14,7 @@ public interface TimeMachineUpgrade extends IForgeRegistryEntry<TimeMachineUpgra
      * @param hook The hook to add
      * @return The upgrade itself
      */
-    TimeMachineUpgrade addHook(TimeMachineHook hook);
+    TimeMachineUpgrade addHook(TimeMachineHook<?> hook);
 
     /**
      * Adds a hook to the upgrade
@@ -22,14 +22,14 @@ public interface TimeMachineUpgrade extends IForgeRegistryEntry<TimeMachineUpgra
      * @param exclusiveMode If true, the hook will run in exclusive mode
      * @return The upgrade itself
      */
-    TimeMachineUpgrade addHook(TimeMachineHook hook, boolean exclusiveMode);
+    TimeMachineUpgrade addHook(TimeMachineHook<?> hook, boolean exclusiveMode);
 
     /**
      * Adds one or more hooks to the upgrade. They will run in non exclusive mode
      * @param hooks The hooks to add
      * @return The upgrade itself
      */
-    TimeMachineUpgrade addAllHooks(TimeMachineHook... hooks);
+    TimeMachineUpgrade addAllHooks(TimeMachineHook<?>... hooks);
 
     /**
      * Specifies which Time Machines are compatible with this upgrade
