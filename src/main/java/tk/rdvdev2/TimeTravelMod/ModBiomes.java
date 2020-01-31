@@ -1,7 +1,9 @@
 package tk.rdvdev2.TimeTravelMod;
 
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.biome.provider.BiomeProviderType;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -20,6 +22,10 @@ public class ModBiomes {
         event.getRegistry().registerAll(
                 OLDWEST
         );
+    }
+
+    public static void addBiomeTypes() {
+        BiomeDictionary.addTypes(OLDWEST, BiomeDictionary.getTypes(Biomes.DESERT).toArray(new BiomeDictionary.Type[]{}));
     }
 
     public static class ProviderTypes {
