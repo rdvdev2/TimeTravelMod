@@ -13,6 +13,8 @@
     "gui.tm.error.text": "Non puoi viaggiare alla tua linea del tempo o dal nether o end!",
     "gui.tm.oldwest.text": "Vecchio West",
     "gui.tm.present.text": "Presente",
+    "gui.tmengineerbook.introduction": "Benvenuto nel Manuale dell'Ingegnere della Macchina del Tempo! Questo libro sarà la tua guida per tutte le varie Macchine del Tempo e per i suoi Upgrade della Mod del Viaggio nel Tempo e di ogni plugin che hai installato.",
+    "gui.tmengineerbook.tms": "Macchina del Tempo",
     "item.timetravelmod.controllercircuit": "Circuiti di controllo",
     "item.timetravelmod.creativetimemachine": "Macchina del tempo creativa",
     "item.timetravelmod.heavyblock": "Blocco pesante",
