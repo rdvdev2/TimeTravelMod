@@ -63,6 +63,13 @@
     "timetravelmod.error.entitiesescaped": "Qualcuno è uscito dalla Macchina del Tempo, annullato.",
     "timetravelmod.error.unreachable_dim": "La Linea temporale di Destinazione non è raggiungibile con la Macchina del Tempo utilizzata dal giocatore.",
     "timetravelmod.error.uncompatible_upgrades": "I seguenti Upgrades della Macchina del Tempo sono incompatibili tra loro: %s",
+    "timetravelmod.cheater_report": "Una richiesta di Viaggio nel Tempo è stata ricevuta nel server, ma il giocatore che l'ha inviata (%s) sta probabilmente imbrogliando.\nMotivo: %s. Ti suggeriamo di %s.",
+    "timetravelmod.ban": "[BAN]",
+    "timetravelmod.generic.comma": "%s, %s",
+    "timetravelmod.generic.and": "%s e %s",
+    "tm.timetravelmod.creative.description": "Una Macchina del Tempo speciale. Questa Macchina del Tempo è soltanto disponibile in modalità creativa e permette di viaggiare nel tempo senza costruire niente. Invece, devi solo usare l'oggetto e avrai accesso a tutte le Linee Temporali.\nInoltre, la Macchina del Tempo della Creativa non avrà bisogno di alcun tempo di raffreddamento.",
     "tm.timetravelmod.creative.name": "Macchina del tempo creativa",
+    "tm.timetravelmod.tier1.description": "Una semplice Macchina del Tempo. Raggiungerai solo il Vecchio West.",
+    "tm.timetravelmod.tier1.name": "Macchina del Tempo di Livello 1",
     "tmupgrade.timetravelmod.tracker.name": "Localizzatore della Macchina del Tempo"
 }
