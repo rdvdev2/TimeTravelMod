@@ -71,5 +71,8 @@
     "tm.timetravelmod.creative.name": "Macchina del tempo creativa",
     "tm.timetravelmod.tier1.description": "Una semplice Macchina del Tempo. Raggiungerai solo il Vecchio West.",
     "tm.timetravelmod.tier1.name": "Macchina del Tempo di Livello 1",
-    "tmupgrade.timetravelmod.tracker.name": "Localizzatore della Macchina del Tempo"
+    "tmupgrade.timetravelmod.tracker.name": "Localizzatore della Macchina del Tempo",
+    "tmupgrade.timetravelmod.tracker.description": "Questo Upgrade configurerà i suoi blocchi richiamatori della Macchina del Tempo adiacenti quando userai la macchina.\nUna volta che un blocco richiamatore della Macchina del Tempo è configurato, il suo centro diventa verde e, se alimentato dalla redstone, ritornerà la Macchina che l'ha configurato nella tua linea temporale. Se viaggerai attraverso numerose linee temporali, avrai bisogno di installare un richiamatore in ogni linea che visiti.",
+    "config.timetravelmod.common.enableupdatepromos": "Se questa opzione è disabilitata, non riceverai notifiche di aggiornamenti della mod una volta entrato nel mondo",
+    "config.timetravelmod.common.enablecheaterreports": "Se questa opzione è disabilitata, i game master (ops) non saranno avvisati una volta che un possibile cheater viene rilevato"
 }
