@@ -1,5 +1,13 @@
 {
     "advancements.timetraveling.root.title": "Time Travel Mod",
+    "advancements.timetraveling.root.description": "Il cuore della mod",
+    "advancements.timetraveling.not_diamonds.title": "Non sono diamanti!",
+    "advancements.timetraveling.not_diamonds.description": "Trova un Cristallo del Tempo grezzo",
+    "advancements.timetraveling.timemachine.description": "Entra in una Macchina del Tempo",
+    "advancements.timetraveling.doesnt_look_good.title": "Non ha un bell'aspetto",
+    "advancements.timetraveling.doesnt_look_good.description": "Fatti uccidere da un'Esplosione Temporale",
+    "advancements.timetraveling.better_than_mending.title": "Meglio di mending",
+    "advancements.timetraveling.better_than_mending.description": "Riparare completamente qualsiasi oggetto in un calderone temporale",
     "chat.ttm.outdated": "È disponibile una nuova versione di Time Travel! Dai un'occhiata nella sua pagina CurseForge!",
     "death.attack.temporalerror": "%s Sta giocando troppo con il tempo",
     "gui.tm.error.text": "Non puoi viaggiare alla tua linea del tempo o dal nether o end!",
