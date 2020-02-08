@@ -67,7 +67,7 @@
     "timetravelmod.error.unreachable_dim": "La línea temporal de destino es inalcanzable con la máquina del tiempo usada por el jugador.",
     "timetravelmod.error.uncompatible_upgrades": "Las siguientes mejoras para máquinas del tiempo no son compatibles entre ellas: %s",
     "timetravelmod.cheater_report": "Se recibió una solicitud de Viaje en el tiempo en el servidor, pero el jugador que la envió (%s) posiblemente está usando exploits. Motivo: %s. Te sugerimos que le hagas %s.",
-    "timetravelmod.ban": "[BAN]",
+    "timetravelmod.ban": "[EXPULSAR]",
     "timetravelmod.generic.comma": "%s, %s",
     "timetravelmod.generic.and": "%s y %s",
     "tm.timetravelmod.creative.description": "Una Máquina del Tiempo especial. Esta Máquina del Tiempo sólo está disponible en el modo creativo y permite viajar sin construir nada. En lugar de ello, solo tienes que usar el item y tendrás acceso a todas las Líneas Temporales. Esta Máquina del Tiempo tampoco tiene tiempo de enfriamiento.",
