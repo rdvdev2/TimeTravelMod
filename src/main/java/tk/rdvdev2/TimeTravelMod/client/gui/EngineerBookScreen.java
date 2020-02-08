@@ -194,7 +194,7 @@ public class EngineerBookScreen extends Screen {
             right -= 2;
             int relativeYdiff = 0 - relativeY;
             relativeY += padding;
-            relativeY += drawCenteredString(ModItems.ENGINEER_BOOK.getName().getUnformattedComponentText(), width / 2, relativeY, 0xFFD900);
+            relativeY += drawCenteredString(ModItems.ENGINEER_BOOK.get().getName().getUnformattedComponentText(), width / 2, relativeY, 0xFFD900);
             relativeY += 2;
             relativeY += drawSplitString(new TranslationTextComponent("gui.tmengineerbook.introduction").getUnformattedComponentText(),left + padding, relativeY, (right - padding) - left, 0xFFFFFF);
             relativeY += 8;

@@ -40,16 +40,16 @@ public class Tier1TimeMachine implements TimeMachineTemplate {
 
     @Override
     public BlockState[] getControllerBlocks() {
-        return new BlockState[]{ModBlocks.TIME_MACHINE_CONTROL_PANEL.getDefaultState()};
+        return new BlockState[]{ModBlocks.TIME_MACHINE_CONTROL_PANEL.get().getDefaultState()};
     }
 
     @Override
     public BlockState[] getCoreBlocks() {
-        return new BlockState[]{ModBlocks.TIME_MACHINE_CORE.getDefaultState()};
+        return new BlockState[]{ModBlocks.TIME_MACHINE_CORE.get().getDefaultState()};
     }
 
     @Override
     public BlockState[] getBasicBlocks() {
-        return new BlockState[]{ModBlocks.TIME_MACHINE_BASIC_BLOCK.getDefaultState()};
+        return new BlockState[]{ModBlocks.TIME_MACHINE_BASIC_BLOCK.get().getDefaultState()};
     }
 }

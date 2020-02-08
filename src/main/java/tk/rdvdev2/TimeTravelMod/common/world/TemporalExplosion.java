@@ -35,7 +35,7 @@ public class TemporalExplosion {
                 entity.attackEntityFrom(TemporalExplosionBlock.damage, 1000000);
                 if (entity instanceof ServerPlayerEntity) ModTriggers.TEMPORAL_EXPLOSION.trigger((ServerPlayerEntity) entity);
             }
-            world.setBlockState(block, ModBlocks.TEMPORAL_EXPLOSION.getDefaultState());
+            world.setBlockState(block, ModBlocks.TEMPORAL_EXPLOSION.get().getDefaultState());
         }
     }
 }

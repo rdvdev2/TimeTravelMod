@@ -54,15 +54,15 @@ public class OldWestDimension extends net.minecraft.world.dimension.Dimension {
         ChunkGeneratorType<OverworldGenSettings, OverworldChunkGenerator> chunkgeneratortype4 = ChunkGeneratorType.SURFACE;
         BiomeProviderType<SingleBiomeProviderSettings, SingleBiomeProvider> biomeprovidertype = BiomeProviderType.FIXED;
         //BiomeProviderType<OverworldBiomeProviderSettings, OverworldBiomeProvider> biomeprovidertype1 = BiomeProviderType.VANILLA_LAYERED;
-        BiomeProviderType<OldWestBiomeProviderSettings, OldWestBiomeProvider> biomeprovidertype1 = ModBiomes.ProviderTypes.OLDWEST_LAYERED;
+        BiomeProviderType<OldWestBiomeProviderSettings, OldWestBiomeProvider> biomeprovidertype1 = ModBiomes.ProviderTypes.OLDWEST_LAYERED.get();
         BiomeProviderType<CheckerboardBiomeProviderSettings, CheckerboardBiomeProvider> biomeprovidertype2 = BiomeProviderType.CHECKERBOARD;
         if (worldtype == WorldType.FLAT) {
             FlatGenerationSettings flatgenerationsettings = FlatGenerationSettings.getDefaultFlatGenerator();
-            flatgenerationsettings.setBiome(ModBiomes.OLDWEST);
+            flatgenerationsettings.setBiome(ModBiomes.OLDWEST.get());
             SingleBiomeProviderSettings singlebiomeprovidersettings1 = biomeprovidertype.func_226840_a_(this.world.getWorldInfo()).setBiome(flatgenerationsettings.getBiome());
             return chunkgeneratortype.create(this.world, biomeprovidertype.create(singlebiomeprovidersettings1), flatgenerationsettings);
         } else if (worldtype == WorldType.DEBUG_ALL_BLOCK_STATES) {
-            SingleBiomeProviderSettings singlebiomeprovidersettings = biomeprovidertype.func_226840_a_(this.world.getWorldInfo()).setBiome(ModBiomes.OLDWEST);
+            SingleBiomeProviderSettings singlebiomeprovidersettings = biomeprovidertype.func_226840_a_(this.world.getWorldInfo()).setBiome(ModBiomes.OLDWEST.get());
             return chunkgeneratortype1.create(this.world, biomeprovidertype.create(singlebiomeprovidersettings), chunkgeneratortype1.createSettings());
         } else if (worldtype != WorldType.BUFFET) {
             OverworldGenSettings overworldgensettings = chunkgeneratortype4.createSettings();

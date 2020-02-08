@@ -2,21 +2,20 @@ package tk.rdvdev2.TimeTravelMod.common.block.tileentity;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.dimension.DimensionType;
+import tk.rdvdev2.TimeTravelMod.ModBlocks;
 
 public class TimeMachineRecallerTileEntity extends TileEntity {
 
-    public static TileEntityType<TimeMachineRecallerTileEntity> type;
     private BlockPos controllerPos;
     private Direction side;
     private DimensionType dest;
 
     public TimeMachineRecallerTileEntity() {
-        super(type);
+        super(ModBlocks.TileEntities.TM_RECALLER.get());
     }
 
     public BlockPos getControllerPos() {

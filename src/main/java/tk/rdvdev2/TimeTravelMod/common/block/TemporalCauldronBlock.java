@@ -29,7 +29,6 @@ import net.minecraftforge.common.ToolType;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
 import tk.rdvdev2.TimeTravelMod.ModItems;
 import tk.rdvdev2.TimeTravelMod.ModTriggers;
-import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.common.block.tileentity.TemporalCauldronTileEntity;
 
 import javax.annotation.Nullable;
@@ -43,8 +42,6 @@ public class TemporalCauldronBlock extends Block {
     public TemporalCauldronBlock() {
         super(Properties.create(Material.IRON, MaterialColor.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(2.0F).notSolid());
         this.setDefaultState(this.getStateContainer().getBaseState().with(LEVEL, Integer.valueOf(0)));
-        String name = "temporalcauldron";
-        this.setRegistryName(TimeTravelMod.MODID, "temporalcauldron");
     }
 
     @Override
@@ -55,18 +52,18 @@ public class TemporalCauldronBlock extends Block {
         if (te == null) {
             return ActionResultType.FAIL;
         }
-        if (!playerItemStack.isEmpty() && !playerItemStack.isItemEqual(new ItemStack(ModItems.TIME_CRYSTAL)) && playerItemStack.isDamaged() && !te.containsItem()) {
+        if (!playerItemStack.isEmpty() && !playerItemStack.isItemEqual(new ItemStack(ModItems.TIME_CRYSTAL.get())) && playerItemStack.isDamaged() && !te.containsItem()) {
             if (!worldIn.isRemote) {
                 ItemStack copy = playerItemStack.copy();
                 playerItemStack.grow(-1);
                 playerIn.setHeldItem(hand, playerItemStack);
                 te.putItem(copy);
             }
-        } else if (playerItemStack.isItemEqual(new ItemStack(ModItems.TIME_CRYSTAL)) && !te.containsCrystal()) {
+        } else if (playerItemStack.isItemEqual(new ItemStack(ModItems.TIME_CRYSTAL.get())) && !te.containsCrystal()) {
             if(!worldIn.isRemote) {
                 if (!playerIn.isCreative())
                     playerIn.setHeldItem(hand, new ItemStack(playerItemStack.getItem(), playerItemStack.getCount() - 1));
-                te.putCrystal(new ItemStack(ModItems.TIME_CRYSTAL, 1));
+                te.putCrystal(new ItemStack(ModItems.TIME_CRYSTAL.get(), 1));
             }
         } else if (te.containsItem()) {
             if(!worldIn.isRemote) {
@@ -110,7 +107,7 @@ public class TemporalCauldronBlock extends Block {
 
     @Override
     public ItemStack getItem(IBlockReader p_185473_1_, BlockPos p_185473_2_, BlockState p_185473_3_) {
-        return new ItemStack(Item.getItemFromBlock(ModBlocks.TEMPORAL_CAULDRON));
+        return new ItemStack(Item.getItemFromBlock(ModBlocks.TEMPORAL_CAULDRON.get()));
     }
 
     @Override

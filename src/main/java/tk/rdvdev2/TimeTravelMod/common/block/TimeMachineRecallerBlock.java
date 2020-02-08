@@ -17,7 +17,6 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ToolType;
 import tk.rdvdev2.TimeTravelMod.ModRegistries;
-import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 import tk.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineControlPanelBlock;
@@ -46,7 +45,6 @@ public class TimeMachineRecallerBlock extends Block {
                 .harvestLevel(2)
         );
         setDefaultState(getStateContainer().getBaseState().with(CONFIGURED, false).with(TRIGGERED, false));
-        setRegistryName(TimeTravelMod.MODID, "timemachinerecaller");
     }
 
     @Override

@@ -21,7 +21,6 @@ public class CreativeTimeMachineItem extends Item {
                 .maxStackSize(1)
                 .group(TimeTravelMod.TAB_TTM)
         );
-        setRegistryName(TimeTravelMod.MODID, "creativetimemachine");
     }
 
     @Override

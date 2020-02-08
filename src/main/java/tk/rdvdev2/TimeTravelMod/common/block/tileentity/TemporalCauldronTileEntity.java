@@ -4,13 +4,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import tk.rdvdev2.TimeTravelMod.ModBlocks;
 import tk.rdvdev2.TimeTravelMod.ModItems;
 import tk.rdvdev2.TimeTravelMod.common.block.TemporalCauldronBlock;
 
@@ -18,8 +18,6 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class TemporalCauldronTileEntity extends TileEntity implements ITickableTileEntity {
-
-    public static TileEntityType<TemporalCauldronTileEntity> type;
 
     @CapabilityInject(IItemHandler.class)
     static Capability<IItemHandler> ITEM_HANDLER_CAPABILITY = null;
@@ -48,7 +46,7 @@ public class TemporalCauldronTileEntity extends TileEntity implements ITickableT
     private int tick_count = 0;
 
     public TemporalCauldronTileEntity() {
-        super(type);
+        super(ModBlocks.TileEntities.TEMPORAL_CAULDRON.get());
     }
 
     public boolean containsItem() {
@@ -68,7 +66,7 @@ public class TemporalCauldronTileEntity extends TileEntity implements ITickableT
     }
 
     public void putCrystal(ItemStack item) {
-        if (item.getItem() == ModItems.TIME_CRYSTAL) {
+        if (item.getItem() == ModItems.TIME_CRYSTAL.get()) {
             inventory.insertItem(CRYSTAL_SLOT, item, false);
             crystal_usages = 2000;
             this.world.setBlockState(this.pos, this.world.getBlockState(pos).with(TemporalCauldronBlock.LEVEL, 3));

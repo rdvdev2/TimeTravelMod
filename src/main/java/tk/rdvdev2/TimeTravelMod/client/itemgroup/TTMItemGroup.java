@@ -15,6 +15,6 @@ public class TTMItemGroup extends ItemGroup {
     @Override
     @OnlyIn(Dist.CLIENT)
     public ItemStack createIcon(){
-        return new ItemStack(ModItems.TIME_CRYSTAL);
+        return new ItemStack(ModItems.TIME_CRYSTAL.get());
     }
 }

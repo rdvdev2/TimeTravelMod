@@ -30,7 +30,6 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 
 import java.util.List;
 import java.util.Map;
@@ -50,7 +49,6 @@ public class GunpowderWireBlock extends Block {
     public GunpowderWireBlock() {
         super(Properties.create(Material.MISCELLANEOUS).doesNotBlockMovement().hardnessAndResistance(0));
         this.setDefaultState(this.getStateContainer().getBaseState().with(NORTH, RedstoneSide.NONE).with(EAST, RedstoneSide.NONE).with(SOUTH, RedstoneSide.NONE).with(WEST, RedstoneSide.NONE).with(BURNED, false));
-        this.setRegistryName(TimeTravelMod.MODID, "gunpowderwire");
     }
 
     @Override

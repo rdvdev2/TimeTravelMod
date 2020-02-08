@@ -18,7 +18,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import tk.rdvdev2.TimeTravelMod.ModBlocks;
 import tk.rdvdev2.TimeTravelMod.ModTriggers;
-import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
 
 public class TemporalExplosionBlock extends Block {
 
@@ -31,7 +30,6 @@ public class TemporalExplosionBlock extends Block {
                 .lightValue(0)
                 .variableOpacity()
         );
-        setRegistryName(TimeTravelMod.MODID, "temporalexplosion");
     }
 
     @Override
@@ -57,9 +55,9 @@ public class TemporalExplosionBlock extends Block {
 
     @Override
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn, Hand hand, BlockRayTraceResult blockRayTraceResult) {
-        if (ItemStack.areItemStacksEqual(playerIn.inventory.getCurrentItem(), new ItemStack(ModBlocks.REINFORCED_HEAVY_BLOCK, playerIn.inventory.getCurrentItem().getCount()))) {
+        if (ItemStack.areItemStacksEqual(playerIn.inventory.getCurrentItem(), new ItemStack(ModBlocks.REINFORCED_HEAVY_BLOCK.get(), playerIn.inventory.getCurrentItem().getCount()))) {
             if(!playerIn.isCreative()) playerIn.inventory.getCurrentItem().grow(-1);
-            worldIn.setBlockState(pos, ModBlocks.REINFORCED_HEAVY_BLOCK.getDefaultState());
+            worldIn.setBlockState(pos, ModBlocks.REINFORCED_HEAVY_BLOCK.get().getDefaultState());
             worldIn.playSound(null, pos, SoundEvents.BLOCK_METAL_PLACE, SoundCategory.BLOCKS, 3.0F, 1);
             return ActionResultType.SUCCESS;
         }

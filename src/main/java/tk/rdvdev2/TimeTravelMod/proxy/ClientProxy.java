@@ -58,6 +58,6 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void clientSetup(FMLClientSetupEvent event) {
-        RenderTypeLookup.setRenderLayer(ModBlocks.GUNPOWDER_WIRE, RenderType.cutout());
+        RenderTypeLookup.setRenderLayer(ModBlocks.GUNPOWDER_WIRE.get(), RenderType.cutout());
     }
 }

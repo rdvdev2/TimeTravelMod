@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GG" ],
+  "key": {
+    "G": [
+      {
+        "item": "minecraft:gunpowder"
+      }
+    ]
+  },
+  "result": {
+    "item": "timetravelmod:gunpowderwire",
+    "count": 2
+  }
+}

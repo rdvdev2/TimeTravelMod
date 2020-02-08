@@ -15,7 +15,7 @@ public class VanillaBiomesFeatures {
     public static void register() {
         // Time Crystal Ores
         registerGenerator(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(
-                new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.TIME_CRYSTAL_ORE.getDefaultState(), 4)).func_227228_a_(
+                new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.TIME_CRYSTAL_ORE.get().getDefaultState(), 4)).func_227228_a_(
                 Placement.COUNT_RANGE.func_227446_a_(
                 new CountRangeConfig(1, 0, 0, 16)))
         );

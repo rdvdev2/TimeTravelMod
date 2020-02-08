@@ -108,7 +108,7 @@ public class CreativeTimeMachine extends TimeMachine {
 
     @Override
     public boolean isPlayerInside(World world, BlockPos controllerPos, Direction side, PlayerEntity player) {
-        return ItemStack.areItemsEqual(player.inventory.getCurrentItem(), new ItemStack(ModItems.CREATIVE_TIME_MACHINE, 1));
+        return ItemStack.areItemsEqual(player.inventory.getCurrentItem(), new ItemStack(ModItems.CREATIVE_TIME_MACHINE.get(), 1));
     }
 
     @Override
