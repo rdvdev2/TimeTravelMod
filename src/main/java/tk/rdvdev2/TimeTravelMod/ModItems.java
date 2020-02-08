@@ -3,12 +3,7 @@ package tk.rdvdev2.TimeTravelMod;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.Items;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -18,7 +13,6 @@ import tk.rdvdev2.TimeTravelMod.common.item.ItemEngineerBook;
 import static tk.rdvdev2.TimeTravelMod.TimeTravelMod.MODID;
 import static tk.rdvdev2.TimeTravelMod.TimeTravelMod.TAB_TTM;
 
-@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModItems {
 
     private static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, MODID);
@@ -38,16 +32,12 @@ public class ModItems {
     public static final RegistryObject<Item> REINFORCED_HEAVY_BLOCK = registerBlockItem(ModBlocks.REINFORCED_HEAVY_BLOCK);
     public static final RegistryObject<Item> TEMPORAL_EXPLOSION = registerBlockItem(ModBlocks.TEMPORAL_EXPLOSION);
     public static final RegistryObject<Item> TEMPORAL_CAULDRON = registerBlockItem(ModBlocks.TEMPORAL_CAULDRON);
+    public static final RegistryObject<Item> GUNPOWDER_WIRE = registerBlockItem(ModBlocks.GUNPOWDER_WIRE);
     public static final RegistryObject<Item> TIME_MACHINE_TRACKER = registerBlockItem(ModBlocks.TIME_MACHINE_TRACKER);
     public static final RegistryObject<Item> TIME_MACHINE_RECALLER = registerBlockItem(ModBlocks.TIME_MACHINE_RECALLER);
 
     private static RegistryObject<Item> registerBlockItem(RegistryObject<Block> block) {
         return ITEMS.register(block.getId().getPath(), () -> new BlockItem(block.get(), new Item.Properties().group(TAB_TTM)));
-    }
-
-    @SubscribeEvent
-    public static void registerItemBlocks(RegistryEvent.Register<Item> event) {
-        event.getRegistry().register(new BlockItem(ModBlocks.GUNPOWDER_WIRE.get(), new Item.Properties().group(ItemGroup.MATERIALS)).setRegistryName(Items.GUNPOWDER.getRegistryName()));
     }
 
     public static void init() {
