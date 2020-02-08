@@ -54,7 +54,7 @@ public class OldWestDimension extends net.minecraft.world.dimension.Dimension {
         ChunkGeneratorType<OverworldGenSettings, OverworldChunkGenerator> chunkgeneratortype4 = ChunkGeneratorType.SURFACE;
         BiomeProviderType<SingleBiomeProviderSettings, SingleBiomeProvider> biomeprovidertype = BiomeProviderType.FIXED;
         //BiomeProviderType<OverworldBiomeProviderSettings, OverworldBiomeProvider> biomeprovidertype1 = BiomeProviderType.VANILLA_LAYERED;
-        BiomeProviderType<OldWestBiomeProviderSettings, OldWestBiomeProvider> biomeprovidertype1 = ModBiomes.ProviderTypes.OLDWEST_LAYERED;
+        BiomeProviderType<OldWestBiomeProviderSettings, OldWestBiomeProvider> biomeprovidertype1 = ModBiomes.ProviderTypes.OLDWEST_LAYERED.get();
         BiomeProviderType<CheckerboardBiomeProviderSettings, CheckerboardBiomeProvider> biomeprovidertype2 = BiomeProviderType.CHECKERBOARD;
         if (worldtype == WorldType.FLAT) {
             FlatGenerationSettings flatgenerationsettings = FlatGenerationSettings.getDefaultFlatGenerator();

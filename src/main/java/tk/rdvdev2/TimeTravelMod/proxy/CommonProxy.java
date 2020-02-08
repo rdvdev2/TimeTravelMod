@@ -8,6 +8,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkDirection;
+import tk.rdvdev2.TimeTravelMod.ModBiomes;
 import tk.rdvdev2.TimeTravelMod.ModPacketHandler;
 import tk.rdvdev2.TimeTravelMod.ModTimeLines;
 import tk.rdvdev2.TimeTravelMod.TimeTravelMod;
@@ -36,6 +37,9 @@ public class CommonProxy implements IProxy {
         MinecraftForge.EVENT_BUS.addListener(ModTimeLines::registerDimension);
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(instance);
+
+        // Register the DeferredRegisters
+        ModBiomes.ProviderTypes.BIOME_PROVIDER_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         // Register the client config
         ModLoadingContext.get().getActiveContainer().addConfig(new net.minecraftforge.fml.config.ModConfig(net.minecraftforge.fml.config.ModConfig.Type.CLIENT, clientSpec, ModLoadingContext.get().getActiveContainer()));
