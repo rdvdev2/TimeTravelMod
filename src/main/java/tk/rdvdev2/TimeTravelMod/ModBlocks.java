@@ -3,17 +3,14 @@ package tk.rdvdev2.TimeTravelMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.common.ToolType;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineControlPanelBlock;
 import tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineCoreBlock;
@@ -30,89 +27,46 @@ import java.util.HashSet;
 
 import static tk.rdvdev2.TimeTravelMod.TimeTravelMod.MODID;
 
-@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class ModBlocks {
 
-    public static final Block TIME_CRYSTAL_ORE = new Block((Block.Properties.create(Material.ROCK).sound(SoundType.STONE).hardnessAndResistance(5f).lightValue(5/16).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(3))).setRegistryName(MODID, "timecrystalore");
-    public static final Block TIME_MACHINE_BASIC_BLOCK = new Block(Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(3f).lightValue(0 / 16).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(2)).setRegistryName(MODID, "timemachinebasicblock");
-    public static final Block TIME_MACHINE_CORE = new TimeMachineCoreBlock(Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(4f).lightValue(5 / 16).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(3)).setRegistryName(MODID, "timemachinecore");
-    public static final Block TIME_MACHINE_CONTROL_PANEL = new TimeMachineControlPanelBlock(Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(3f).lightValue(0 / 16).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(2)).setRegistryName(MODID, "timemachinecontrolpanel");
-    public static final Block HEAVY_BLOCK = new Block(Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(7f).lightValue(0/16).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(3)).setRegistryName(MODID, "heavyblock");
-    public static final Block REINFORCED_HEAVY_BLOCK = new Block(Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(10f).lightValue(10).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(3)).setRegistryName(MODID, "reinforcedheavyblock");
-    public static final Block TEMPORAL_EXPLOSION = new TemporalExplosionBlock();
-    public static final Block TEMPORAL_CAULDRON = new TemporalCauldronBlock();
-    public static final Block GUNPOWDER_WIRE = new GunpowderWireBlock();
-    public static final Block TIME_MACHINE_TRACKER = new TimeMachineUpgradeBlock(Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(3f).lightValue(0 / 16).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(2)).setUpgrade(ModTimeMachines.Upgrades.TRACKER).setRegistryName(MODID, "timemachinetracker");
-    public static final Block TIME_MACHINE_RECALLER = new TimeMachineRecallerBlock();
+    private static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, MODID);
 
-    @SubscribeEvent
-    public static void registerBlocks(RegistryEvent.Register<Block> event) {
-        event.getRegistry().registerAll(
-                TIME_CRYSTAL_ORE,
-                TIME_MACHINE_BASIC_BLOCK,
-                TIME_MACHINE_CORE,
-                TIME_MACHINE_CONTROL_PANEL,
-                HEAVY_BLOCK,
-                REINFORCED_HEAVY_BLOCK,
-                TEMPORAL_EXPLOSION,
-                TEMPORAL_CAULDRON,
-                GUNPOWDER_WIRE,
-                TIME_MACHINE_TRACKER,
-                TIME_MACHINE_RECALLER
-        );
-    }
-
-    @SubscribeEvent
-    public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event) {
-        TemporalCauldronTileEntity.type = TileEntityType.Builder.create(TemporalCauldronTileEntity::new, ModBlocks.TEMPORAL_CAULDRON).build(null);
-        TemporalCauldronTileEntity.type.setRegistryName(MODID, "temporalcauldron");
-        TMCooldownTileEntity.type = TileEntityType.Builder.create(TMCooldownTileEntity::new, getAllCoreBlocks()).build(null);
-        TMCooldownTileEntity.type.setRegistryName(MODID, "tmcooldown");
-        TimeMachineRecallerTileEntity.type = TileEntityType.Builder.create(TimeMachineRecallerTileEntity::new, ModBlocks.TIME_MACHINE_RECALLER).build(null);
-        TimeMachineRecallerTileEntity.type.setRegistryName("tmrecaller");
-        event.getRegistry().registerAll(
-                TemporalCauldronTileEntity.type,
-                TMCooldownTileEntity.type,
-                TimeMachineRecallerTileEntity.type
-        );
-    }
-
-    private static Block[] getAllCoreBlocks() {
-        HashSet<Block> blocks = new HashSet<Block>();
-        for (Block block: ForgeRegistries.BLOCKS.getValues()) {
-            if (block instanceof TimeMachineCoreBlock) blocks.add(block);
-        }
-        return blocks.toArray(new Block[]{});
-    }
-
-    @SubscribeEvent
-    public static void registerItemBlocks(RegistryEvent.Register<Item> event) {
-        registerItemBlock(event,
-                TIME_CRYSTAL_ORE,
-                TIME_MACHINE_BASIC_BLOCK,
-                TIME_MACHINE_CORE,
-                TIME_MACHINE_CONTROL_PANEL,
-                HEAVY_BLOCK,
-                REINFORCED_HEAVY_BLOCK,
-                TEMPORAL_EXPLOSION,
-                TEMPORAL_CAULDRON,
-                TIME_MACHINE_TRACKER,
-                TIME_MACHINE_RECALLER
-        );
-        final String gunpowderTranslationKey = Items.GUNPOWDER.getTranslationKey();
-        event.getRegistry().register(new BlockItem(GUNPOWDER_WIRE, new Item.Properties().maxStackSize(64).group(Items.GUNPOWDER.getGroup())){
-            @Override public String getTranslationKey() { return gunpowderTranslationKey; }
-        }.setRegistryName(Items.GUNPOWDER.getRegistryName()));
-    }
-
-    private static void registerItemBlock(RegistryEvent.Register<Item> event, Block... blocks) {
-        for (int i = 0; i < blocks.length; i++) {
-            event.getRegistry().register(new BlockItem(blocks[i], new Item.Properties().maxStackSize(64).group(TimeTravelMod.TAB_TTM)).setRegistryName(blocks[i].getRegistryName()));
-        }
-    }
+    public static final RegistryObject<Block> TIME_CRYSTAL_ORE = BLOCKS.register("timecrystalore", () -> new Block((Block.Properties.create(Material.ROCK).sound(SoundType.STONE).hardnessAndResistance(5f).lightValue(5/16).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(3))));
+    public static final RegistryObject<Block> TIME_MACHINE_BASIC_BLOCK = BLOCKS.register("timemachinebasicblock", () -> new Block(Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(3f).lightValue(0 / 16).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(2)));
+    public static final RegistryObject<Block> TIME_MACHINE_CORE = BLOCKS.register("timemachinecore", () -> new TimeMachineCoreBlock(Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(4f).lightValue(5 / 16).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(3)));
+    public static final RegistryObject<Block> TIME_MACHINE_CONTROL_PANEL = BLOCKS.register("timemachinecontrolpanel", () -> new TimeMachineControlPanelBlock(Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(3f).lightValue(0 / 16).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(2)));
+    public static final RegistryObject<Block> HEAVY_BLOCK = BLOCKS.register("heavyblock", () -> new Block(Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(7f).lightValue(0/16).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(3)));
+    public static final RegistryObject<Block> REINFORCED_HEAVY_BLOCK = BLOCKS.register("reinforcedheavyblock", () -> new Block(Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(10f).lightValue(10).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(3)));
+    public static final RegistryObject<Block> TEMPORAL_EXPLOSION = BLOCKS.register("temporalexplosion", TemporalExplosionBlock::new);
+    public static final RegistryObject<Block> TEMPORAL_CAULDRON = BLOCKS.register("temporalcauldron", TemporalCauldronBlock::new);
+    public static final RegistryObject<Block> GUNPOWDER_WIRE = BLOCKS.register("gunpowderwire", GunpowderWireBlock::new);
+    public static final RegistryObject<Block> TIME_MACHINE_TRACKER = BLOCKS.register("timemachinetracker", () -> new TimeMachineUpgradeBlock(Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(3f).lightValue(0 / 16).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(2)).setUpgrade(ModTimeMachines.Upgrades.TRACKER));
+    public static final RegistryObject<Block> TIME_MACHINE_RECALLER = BLOCKS.register("timemachinerecaller", TimeMachineRecallerBlock::new);
 
     @OnlyIn(Dist.CLIENT)
     public static void registerBlockColor(ColorHandlerEvent.Block event) {
-        event.getBlockColors().register((state, world, pos, num) -> GunpowderWireBlock.colorMultiplier(state.get(GunpowderWireBlock.BURNED)), ModBlocks.GUNPOWDER_WIRE);
+        event.getBlockColors().register((state, world, pos, num) -> GunpowderWireBlock.colorMultiplier(state.get(GunpowderWireBlock.BURNED)), ModBlocks.GUNPOWDER_WIRE.get());
+    }
+
+    public static void init() {
+        BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        TileEntities.TILE_ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
+    }
+
+    public static class TileEntities {
+
+        private static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, MODID);
+
+        public static final RegistryObject<TileEntityType<TemporalCauldronTileEntity>> TEMPORAL_CAULDRON = TILE_ENTITIES.register("temporalcauldron", () -> TileEntityType.Builder.create(TemporalCauldronTileEntity::new, ModBlocks.TEMPORAL_CAULDRON.get()).build(null));
+        public static final RegistryObject<TileEntityType<TMCooldownTileEntity>> TM_COOLDOWN = TILE_ENTITIES.register("tmcooldown", () -> TileEntityType.Builder.create(TMCooldownTileEntity::new, getAllCoreBlocks()).build(null));
+        public static final RegistryObject<TileEntityType<TimeMachineRecallerTileEntity>> TM_RECALLER = TILE_ENTITIES.register("tmrecaller", () -> TileEntityType.Builder.create(TimeMachineRecallerTileEntity::new, ModBlocks.TIME_MACHINE_RECALLER.get()).build(null));
+
+        private static Block[] getAllCoreBlocks() {
+            HashSet<Block> blocks = new HashSet<Block>();
+            for (Block block: ForgeRegistries.BLOCKS.getValues()) {
+                if (block instanceof TimeMachineCoreBlock) blocks.add(block);
+            }
+            return blocks.toArray(new Block[]{});
+        }
     }
 }

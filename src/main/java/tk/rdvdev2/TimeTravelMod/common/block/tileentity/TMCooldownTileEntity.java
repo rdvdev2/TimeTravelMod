@@ -3,7 +3,7 @@ package tk.rdvdev2.TimeTravelMod.common.block.tileentity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
+import tk.rdvdev2.TimeTravelMod.ModBlocks;
 
 import static tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineCoreBlock.TM_READY;
 
@@ -12,16 +12,14 @@ import static tk.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineCoreBloc
  */
 public class TMCooldownTileEntity extends TileEntity implements ITickableTileEntity {
 
-    public static TileEntityType<TMCooldownTileEntity> type;
-
     Integer remainingTicks;
 
     /**
      * Constructor of the TileEntity
      * @param ticks How many ticks needs this Time Machine core to cool down
      */
-    public TMCooldownTileEntity(int ticks) {
-        super(type);
+    public TMCooldownTileEntity(Integer ticks) {
+        super(ModBlocks.TileEntities.TM_COOLDOWN.get());
         this.remainingTicks = ticks;
     }
 
@@ -29,8 +27,7 @@ public class TMCooldownTileEntity extends TileEntity implements ITickableTileEnt
      * Default constructor of the TileEntity (Time Machine static HashMap stores time)
      */
     public TMCooldownTileEntity() {
-        super(type);
-        remainingTicks = null;
+        this(null);
     }
 
     public void setTime(int ticks) {

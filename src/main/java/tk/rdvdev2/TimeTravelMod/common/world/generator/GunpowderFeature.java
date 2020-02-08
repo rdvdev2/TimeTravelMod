@@ -25,7 +25,7 @@ public class GunpowderFeature extends Feature<NoFeatureConfig> {
             BlockPos thisPos = pos.add(random.nextInt(5)-2, 0, random.nextInt(5)-2);
             thisPos = world.getHeight(Heightmap.Type.WORLD_SURFACE_WG, thisPos);
             if (random.nextFloat() > 0.2) {
-                setBlockState(world, thisPos, ModBlocks.GUNPOWDER_WIRE.getDefaultState());
+                setBlockState(world, thisPos, ModBlocks.GUNPOWDER_WIRE.get().getDefaultState());
             } else {
                 setBlockState(world, thisPos, Blocks.TNT.getDefaultState());
             }

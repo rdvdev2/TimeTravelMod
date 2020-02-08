@@ -29,7 +29,7 @@ public class TrackerHooks {
                 for (BlockPos pos: upgrades) {
                     for (Direction direction: Direction.values()) {
                         BlockPos recaller = pos.offset(direction);
-                        if (worldOut.getBlockState(recaller).getBlock() == ModBlocks.TIME_MACHINE_RECALLER) {
+                        if (worldOut.getBlockState(recaller).getBlock() == ModBlocks.TIME_MACHINE_RECALLER.get()) {
                             worldOut.setBlockState(recaller, worldOut.getBlockState(recaller).with(CONFIGURED, true));
                             TileEntity tile = worldOut.getTileEntity(recaller);
                             if (tile instanceof TimeMachineRecallerTileEntity) {

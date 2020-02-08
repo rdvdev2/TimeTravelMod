@@ -24,7 +24,7 @@ public class OldWestBiomeLayer implements IC0Transformer {
 
         int desertIdx = net.minecraftforge.common.BiomeManager.BiomeType.DESERT.ordinal();
 
-        biomes[desertIdx].add(new net.minecraftforge.common.BiomeManager.BiomeEntry(ModBiomes.OLDWEST, 80));
+        biomes[desertIdx].add(new net.minecraftforge.common.BiomeManager.BiomeEntry(ModBiomes.OLDWEST.get(), 80));
         biomes[desertIdx].add(new net.minecraftforge.common.BiomeManager.BiomeEntry(Biomes.BADLANDS_PLATEAU, 5));
         biomes[desertIdx].add(new net.minecraftforge.common.BiomeManager.BiomeEntry(Biomes.WOODED_BADLANDS_PLATEAU, 15));
 

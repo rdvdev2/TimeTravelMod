@@ -15,7 +15,6 @@ public class ItemEngineerBook extends Item {
         super(new Properties()
                 .group(TimeTravelMod.TAB_TTM)
                 .maxStackSize(1));
-        setRegistryName(TimeTravelMod.MODID, "engineerbook");
     }
 
     @Override

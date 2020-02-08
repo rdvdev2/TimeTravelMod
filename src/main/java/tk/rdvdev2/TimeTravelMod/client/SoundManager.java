@@ -11,7 +11,7 @@ import tk.rdvdev2.TimeTravelMod.common.world.dimension.oldwest.OldWestDimension;
 
 public class SoundManager {
 
-    private static final ISound OLDWEST_MUSIC = SimpleSound.music(ModSounds.OLDWEST_MUSIC);
+    private static final ISound OLDWEST_MUSIC = SimpleSound.music(ModSounds.OLDWEST_MUSIC.get());
 
     public static void onPlaySound(PlaySoundEvent event) {
         if (ModConfig.CLIENT.enableTimeLineMusic.get()) {

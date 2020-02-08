@@ -14,7 +14,7 @@ import java.util.Set;
 public class OldWestBiomeProvider extends BiomeProvider {
     private final Layer genBiomes;
     //private final Layer biomeFactoryLayer;
-    private static final Set<Biome> biomes = ImmutableSet.of(ModBiomes.OLDWEST, Biomes.BADLANDS, Biomes.BADLANDS_PLATEAU, Biomes.WOODED_BADLANDS_PLATEAU, Biomes.ERODED_BADLANDS, Biomes.MODIFIED_BADLANDS_PLATEAU, Biomes.MODIFIED_WOODED_BADLANDS_PLATEAU, Biomes.OCEAN, Biomes.LUKEWARM_OCEAN, Biomes.WARM_OCEAN, Biomes.DEEP_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN, Biomes.DEEP_WARM_OCEAN, Biomes.RIVER, Biomes.BEACH);
+    private static final Set<Biome> biomes = ImmutableSet.of(ModBiomes.OLDWEST.get(), Biomes.BADLANDS, Biomes.BADLANDS_PLATEAU, Biomes.WOODED_BADLANDS_PLATEAU, Biomes.ERODED_BADLANDS, Biomes.MODIFIED_BADLANDS_PLATEAU, Biomes.MODIFIED_WOODED_BADLANDS_PLATEAU, Biomes.OCEAN, Biomes.LUKEWARM_OCEAN, Biomes.WARM_OCEAN, Biomes.DEEP_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN, Biomes.DEEP_WARM_OCEAN, Biomes.RIVER, Biomes.BEACH);
 
     public OldWestBiomeProvider(OldWestBiomeProviderSettings settingsProvider) {
         super(biomes);
