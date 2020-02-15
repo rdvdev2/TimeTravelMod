@@ -68,6 +68,7 @@
     "timetravelmod.ban": "[EXPULSAR]",
     "timetravelmod.generic.comma": "%s, %s",
     "timetravelmod.generic.and": "%s i %s",
+    "tm.timetravelmod.creative.description": "Aquest item només està disponible al mode Creatiu i et permet viatjar a qualsevol període temporal sense restriccions o refredaments.",
     "tm.timetravelmod.creative.name": "Màquina Del Temps (Creatiu)",
     "tm.timetravelmod.tier1.description": "Una Màquina del Temps molt simple que només arriba al Vell Oest.",
     "tm.timetravelmod.tier1.name": "Màquina del Temps de nivell 1",
