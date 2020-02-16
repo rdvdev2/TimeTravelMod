@@ -13,7 +13,7 @@
     "death.attack.temporalerror": "%s был уничтожен во время временной аномалии",
     "gui.tm.error.text": "Вы не можете отправиться в путешествие во временную линию, в которой вы уже находитесь, или отправиться в путешествие из ада или энда!",
     "gui.tm.oldwest.text": "Старый Запад",
-    "gui.tm.present.text": "Подарок",
+    "gui.tm.present.text": "Настоящие",
     "gui.tmengineerbook.tms": "Машина времени",
     "gui.tmengineerbook.tmstats": "Максимальный уровень: %s | Время перезарядки двигателя: %s секунд",
     "gui.tmengineerbook.howto": "Инструкция по постройке:",
