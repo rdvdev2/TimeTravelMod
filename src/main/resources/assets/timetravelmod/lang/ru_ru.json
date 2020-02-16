@@ -43,6 +43,7 @@
     "timetravelmod.ban": "[БАН!]",
     "timetravelmod.generic.comma": "%s, %s",
     "timetravelmod.generic.and": "%s и %s",
+    "tm.timetravelmod.creative.description": "Данный предмет доступен только в творческом режиме. Он позволят путешествовать во времени без каких-либо ограничений.",
     "config.timetravelmod.common.enableupdatepromos": "Если этот параметр отключен, вы не будете уведомлены об обновлениях модов на world joining",
     "config.timetravelmod.common.enablecheaterreports": "Если этот параметр отключен, game masters (ops) не будет уведомляться о возможном обнаружении мошенника"
 }
