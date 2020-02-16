@@ -31,6 +31,7 @@
     "item.timetravelmod.temporalexplosion": "Временной взрыв",
     "item.timetravelmod.timecrystal": "Кристалл времени",
     "item.timetravelmod.timecrystalore": "Временная руда",
+    "item.timetravelmod.timemachinebasicblock": "Основной блок машины времени",
     "item.timetravelmod.timemachinecontrolpanel": "Панель управления машины времени",
     "item.timetravelmod.timemachinecore": "Ядро машины времени",
     "item.timetravelmod.timemachinetracker": "Трекер машины времени",
@@ -41,6 +42,7 @@
     "block.timetravelmod.reinforcedheavyblock": "Усиленный тяжёлый блок",
     "block.timetravelmod.temporalcauldron": "Временной котёл",
     "block.timetravelmod.timecrystalore": "Временная руда",
+    "block.timetravelmod.timemachinebasicblock": "Основной блок машины времени",
     "block.timetravelmod.timemachinecontrolpanel": "Панель управления машины времени",
     "block.timetravelmod.timemachinecore": "Ядро машины времени",
     "block.timetravelmod.timemachinetracker": "Трекер машины времени",
@@ -63,6 +65,6 @@
     "tm.timetravelmod.tier1.description": "Самая простая машина времени, с помощью неё вы сможете путешествовать только на старый запад.",
     "tm.timetravelmod.tier1.name": "Машина времени первого уровня",
     "tmupgrade.timetravelmod.tracker.name": "Трекер машины времени",
-    "config.timetravelmod.common.enableupdatepromos": "Если этот параметр отключен, вы не будете уведомлены об обновлениях модов на world joining",
+    "config.timetravelmod.common.enableupdatepromos": "Если данный параметр отключен, то вы не будете получать уведомление об обновлениях мода",
     "config.timetravelmod.common.enablecheaterreports": "Если этот параметр отключен, game masters (ops) не будет уведомляться о возможном обнаружении мошенника"
 }
