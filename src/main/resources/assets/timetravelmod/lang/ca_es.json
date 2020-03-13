@@ -16,6 +16,7 @@
     "gui.tm.present.text": "Present",
     "gui.tmengineerbook.introduction": "Benvingut al Llibre del Enginyer de Màquines del Temps! Aquest llibre és la vostra guia sobre les diferents Màquines del Temps i Millores per a Màquines del Temps del Time Travel Mod i qualsevol plugin que hàgiu instal·lat.",
     "gui.tmengineerbook.tms": "Màquines del Temps",
+    "gui.tmengineerbook.tmsintroduction": "Per viatjar a altres Línies Temporals necessitaràs una Màquina del Temps. Una Màquina del Temps es una estructura formada per múltiples blocs de quatre tipus diferents: els blocs bàsics (la estructura), els blocs nucli (el motor), els blocs de millora (aquests modifiquen el comportament), i un panell de control. Els blocs de millora son opcionals, i els pots col·locar a qualsevol lloc on un bloc bàsic és vàlid. Després de construir la teva Màquina del Temps, entra-hi i fes clic dret al panell de control. Un menú et permetrà escollir la teva destinació. Les Línies Temporals disponibles dependran del nivell de la Màquina del Temps. Selecciona'n una i faràs el teu primer viatge. El nucli necessitarà un moment per refredar-se abans de que puguis utilitzar-lo de nou. Si l'intentes minar mentre es refreda, explotarà, deixant un forat temporal. També hi ha una molt petita possibilitat de que la Màquina del Temps pateixi una Explosió Temporal al utilitzar-la.",
     "gui.tmengineerbook.tmstats": "Nivell Màxim: %s | Temps De Refredament Del Motor: %s segons",
     "gui.tmengineerbook.howto": "Guia De Construcció:",
     "gui.tmengineerbook.layer": "Capa: %s",
