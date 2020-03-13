@@ -11,6 +11,7 @@
     "advancements.timetraveling.better_than_mending.description": "Repara completament qualsevol item a un Calderó Del Temps",
     "chat.ttm.outdated": "Una nova versió del Time Travel Mod està disponible! Pots trobar-la a la seva pàgina de CurseForge!",
     "death.attack.temporalerror": "%s ha estat anul·lat per una anomalia temporal",
+    "gui.tm.error.text": "No pots viatjar cap a la línia temporal on ja hi ets, o cap al Nether o l'End!",
     "gui.tm.oldwest.text": "Vell Oest",
     "gui.tm.present.text": "Present",
     "gui.tmengineerbook.introduction": "Benvingut al Llibre del Enginyer de Màquines del Temps! Aquest llibre és la vostra guia sobre les diferents Màquines del Temps i Millores per a Màquines del Temps del Time Travel Mod i qualsevol plugin que hàgiu instal·lat.",
