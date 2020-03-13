@@ -16,7 +16,7 @@ apply plugin: 'maven-publish'
 def apiVersion
 def minecraftVersion
 def loaderVersion
-group = "tk.rdvdev2.TimeTravelMod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = "com.rdvdev2.TimeTravelMod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "TimeTravelMod"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
