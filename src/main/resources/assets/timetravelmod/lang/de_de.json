@@ -14,6 +14,7 @@
     "gui.tm.error.text": "Du kannst nicht aus dem Nether oder Ende in eine Zeitlinie reisen, oder wenn du dich gerade in dieser Zeitlinie befindest!",
     "gui.tm.oldwest.text": "Alter Westen",
     "gui.tm.present.text": "Gegenwart",
+    "gui.tmengineerbook.introduction": "Willkommen in dem Zeitmaschinenhandbuch für Ingenieure! Dieses Buch wird dich durch die verschiedenen Schritte leiten, um eine Zeitmaschine zu bauen und diese zu verbessern. Darüberhinaus enthält es auch Informationen zu erweiternden Inhalten, die installiert sind.",
     "gui.tmengineerbook.tms": "Zeitmaschinen",
     "gui.tmengineerbook.layer": "Ebene: %s",
     "gui.tmengineerbook.upgrades": "Zeitmaschinen-Upgrades",
