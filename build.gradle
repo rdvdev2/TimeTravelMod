@@ -16,7 +16,7 @@ def apiVersion
 def minecraftVersion
 def loaderVersion
 group = "com.rdvdev2.TimeTravelMod"
-archivesBaseName = "TimeTravelMod"
+archivesBaseName = "TimeTravelMod-Forge"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 

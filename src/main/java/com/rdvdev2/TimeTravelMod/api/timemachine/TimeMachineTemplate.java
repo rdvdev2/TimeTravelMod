@@ -1,12 +1,16 @@
 package com.rdvdev2.TimeTravelMod.api.timemachine;
 
+import com.rdvdev2.TimeTravelMod.api.dimension.Corruption;
+import com.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineControlPanelBlock;
+import com.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineCoreBlock;
+import com.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineUpgradeBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
 
 /**
- * Template that defines the behaviour and the aspect of a Time Machine
+ * Template that defines the behaviour and the aspect of a {@link TimeMachine}
  */
 public interface TimeMachineTemplate {
 
@@ -19,60 +23,60 @@ public interface TimeMachineTemplate {
     }
 
     /**
-     * Returns the Time Machine tier
-     * @return The Time Machine tier
+     * Returns the {@link TimeMachine} tier
+     * @return The {@link TimeMachine} tier
      */
     default int getTier() {
         return 1;
     };
 
     /**
-     * Returns the position(s) where must be a TM Core relatively to a compatible Time Machine Controller facing north
-     * @return Array of positions where must be a TM Core
+     * Returns the position(s) where there must be a {@link TimeMachineCoreBlock} relatively to a compatible {@link TimeMachineControlPanelBlock} facing north
+     * @return Array of {@link BlockPos} where must be a {@link TimeMachineCoreBlock}
      */
     List<BlockPos> coreBlocksPos();
 
     /**
-     * Returns the position(s) where must be a TM Basic Block or a TM Upgrade relatively to a compatible Time Machine Controller facing north
-     * @return Array of positions where must be a TM Basic Block or a TM Upgrade
+     * Returns the position(s) where must be a Time Machine Basic Block or a {@link TimeMachineUpgradeBlock} relatively to a compatible {@link TimeMachineControlPanelBlock} facing north
+     * @return Array of {@link BlockPos} where must be a Time Machine Basic Block or a {@link TimeMachineUpgradeBlock}
      */
     List<BlockPos> basicBlocksPos();
 
     /**
-     * Returns the position(s) where must be air relatively to a compatible Time Machine Controller facing north
-     * @return Array of positions where must be air
+     * Returns the position(s) where must be air relatively to a compatible {@link TimeMachineControlPanelBlock} facing north
+     * @return Array of {@link BlockPos} where must be air
      */
     List<BlockPos> airBlocksPos();
 
     /**
-     * Returns the valid IBlockState(s) for TM Controller blocks
-     * @return Array of valid IBlockStates for TM Controller blocks
+     * Returns the valid {@link BlockState}(s) for {@link TimeMachineControlPanelBlock} blocks
+     * @return Array of valid {@link BlockState}s for {@link TimeMachineControlPanelBlock} blocks
      */
     BlockState[] getControllerBlocks();
 
     /**
-     * Returns the valid IBlockState(s) for TM Blocks
-     * @return Array of valid IBlockStates for TM Blocks
+     * Returns the valid {@link BlockState}(s) for Time Machine Blocks
+     * @return Array of valid {@link BlockState}s for Time Machine Blocks
      */
     BlockState[] getCoreBlocks();
 
     /**
-     * Returns the valid IBlockState(s) for TM Basic Blocks
-     * @return Array of valid IBlockStates for TM Basic Blocks
+     * Returns the valid {@link BlockState}(s) for Time Machine Basic Blocks
+     * @return Array of valid {@link BlockState}s for Time Machine Basic Blocks
      */
     BlockState[] getBasicBlocks();
 
     /**
-     * Returns the maximum quantity of entities that the Time Machine can transport
-     * @return The TM maximum entity load
+     * Returns the maximum quantity of {@link net.minecraft.entity.Entity}s that the {@link TimeMachine} can transport
+     * @return The {@link TimeMachine} maximum {@link net.minecraft.entity.Entity} load
      */
     default int getEntityMaxLoad() {
         return 1;
     };
 
     /**
-     * When higher, more corruption will be caused by the time machine
-     * @return The corruption multiplier
+     * When higher, more {@link Corruption} will be caused by the {@link net.minecraft.entity.Entity}
+     * @return The {@link Corruption} multiplier
      */
     default int getCorruptionMultiplier() {
         return 1;

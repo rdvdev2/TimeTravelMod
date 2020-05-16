@@ -6,7 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -18,8 +17,14 @@ public class TimeMachineUpgradeBlock extends Block {
 
     private TimeMachineUpgrade upgrade;
 
-    public TimeMachineUpgradeBlock(Properties properties) {
+    /**
+     * This works exactly as {@link Block#Block(Properties)}, but you also have to provide the {@link TimeMachineUpgrade} associated to this block.
+     * @param properties {@link Block#Block(Properties)}
+     * @param upgrade The {@link TimeMachineUpgrade} associated to this block
+     */
+    public TimeMachineUpgradeBlock(Properties properties, TimeMachineUpgrade upgrade) {
         super(properties);
+        this.upgrade = upgrade;
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setTimeMachine);
     }
 
@@ -37,18 +42,8 @@ public class TimeMachineUpgradeBlock extends Block {
     }
 
     /**
-     * Specifies the Time Machine Upgrade that the block will activate
-     * @param upgrade The upgrade to provide
-     * @return The block itself
-     */
-    public TimeMachineUpgradeBlock setUpgrade(@Nonnull TimeMachineUpgrade upgrade) {
-        this.upgrade = upgrade;
-        return this;
-    }
-
-    /**
-     * Returns the attached upgrade
-     * @return The attached upgrade
+     * Returns the attached {@link TimeMachineUpgrade}
+     * @return The attached {@link TimeMachineUpgrade}
      */
     public TimeMachineUpgrade getUpgrade() {
         if (this.upgrade == null) throw new NullPointerException("Tried to access to the TimeMachineUpgrade of an unconfigured block (" + getRegistryName() + ")");

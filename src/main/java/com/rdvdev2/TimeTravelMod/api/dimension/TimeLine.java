@@ -1,23 +1,26 @@
 package com.rdvdev2.TimeTravelMod.api.dimension;
 
+import net.minecraft.world.dimension.DimensionType;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 /**
- * This interface defines a time line. It's the dimension's world provider.
+ * This interface defines a Time Line. It must be registered in the Time Line registry.
  * To get an instance use the provided method, never implement the interface by yourself.
- * It must be registered in the time line registry instead of the dimension manager.
+ * The constructor takes a ModDimension object that can later be retrived by the {@link #getModDimension()} method to
+ * register a hokked version with the {@link DimensionManager}. This is required to retrive the {@link DimensionType}.
  */
 public interface TimeLine extends IForgeRegistryEntry<TimeLine> {
 
     /**
-     * Gets the minimum Time Machine tier required to travel to this time line
+     * Gets the minimum Time Machine tier required to travel to this Time Line
      * @return The minimum tier
      */
     int getMinTier();
 
     /**
-     * Gets the special ModDimension object that should be registered into the game registry
+     * Gets the hooked ModDimension object that should be registered with the {@link DimensionManager}
      * @return The hooked ModDimension object
      */
     ModDimension getModDimension();
@@ -37,7 +40,7 @@ public interface TimeLine extends IForgeRegistryEntry<TimeLine> {
     /**
      * Creates a new Time Line
      * @param minTier The minimum tier a Time Machine needs to get to the Time Line
-     * @param modDimension The ModDimension object that you would normally register with the DimensionManager
+     * @param modDimension The {@link ModDimension} object that you would normally register with the {@link DimensionManager}
      * @return The new Time Line
      */
     static TimeLine getNew(int minTier, ModDimension modDimension) {

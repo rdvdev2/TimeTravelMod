@@ -4,8 +4,8 @@ import com.rdvdev2.TimeTravelMod.ModPacketHandler;
 import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.ModTimeLines;
 import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
+import com.rdvdev2.TimeTravelMod.api.timemachine.exception.IncompatibleTimeMachineHooksException;
 import com.rdvdev2.TimeTravelMod.common.networking.DimensionTpPKT;
-import com.rdvdev2.TimeTravelMod.common.timemachine.exception.IncompatibleTimeMachineHooksException;
 import com.rdvdev2.TimeTravelMod.common.world.dimension.TimeLine;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
@@ -75,7 +75,7 @@ public class TimeMachineScreen extends Screen {
         TimeMachineScreen screen;
 
         TimeLineButton(int x, int y, TimeLine tl, TimeMachineScreen screen) {
-            super(x, y, 200, 20, I18n.format("gui.tm."+tl.getRegistryName().getPath()+".text"), TimeMachineScreen::clickHandler);
+            super(x, y, 200, 20, I18n.format(String.format("gui.tm.%s.%s", tl.getRegistryName().getNamespace(), tl.getRegistryName().getPath())), TimeMachineScreen::clickHandler);
             this.screen = screen;
             this.tl = tl;
             this.active = tl.getMinTier() <= tm.getTier();
@@ -89,7 +89,7 @@ public class TimeMachineScreen extends Screen {
             ModTimeLines.registerDimension(new RegisterDimensionsEvent(Collections.EMPTY_MAP));
             ModPacketHandler.CHANNEL.sendToServer(new DimensionTpPKT(b.tl, b.screen.tm, b.screen.pos, b.screen.side, b.screen.additionalEntities));
         } else {
-            b.screen.player.sendMessage(new TranslationTextComponent("gui.tm.error.text"));
+            b.screen.player.sendMessage(new TranslationTextComponent("gui.tm.error"));
         }
     }
 }

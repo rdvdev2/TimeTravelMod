@@ -1,7 +1,7 @@
 {
     "advancements.timetraveling.root.title": "时间旅行",
-    "gui.tm.oldwest.text": "旧西部",
-    "gui.tm.present.text": "现代",
+    "gui.tm.timetravelmod.oldwest": "旧西部",
+    "gui.tm.timetravelmod.present": "现代",
     "itemGroup.timetravelmod": "时间旅行",
     "timetravelmod.error.built.client": "时间机器没有被正确的搭建",
     "timetravelmod.error.built.server": "玩家使用的时间机器没有被搭建",

@@ -2,12 +2,12 @@ package com.rdvdev2.TimeTravelMod.common.networking;
 
 import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.TimeTravelMod;
+import com.rdvdev2.TimeTravelMod.api.dimension.Corruption;
 import com.rdvdev2.TimeTravelMod.api.dimension.TimeLine;
 import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
+import com.rdvdev2.TimeTravelMod.api.timemachine.exception.IncompatibleTimeMachineHooksException;
 import com.rdvdev2.TimeTravelMod.common.timemachine.TimeMachineTeleporter;
-import com.rdvdev2.TimeTravelMod.common.timemachine.exception.IncompatibleTimeMachineHooksException;
 import com.rdvdev2.TimeTravelMod.common.util.TimeMachineUtils;
-import com.rdvdev2.TimeTravelMod.common.world.corruption.ICorruption;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
@@ -27,8 +27,8 @@ import java.util.stream.Collectors;
 
 public class DimensionTpPKT {
 
-    @CapabilityInject(ICorruption.class)
-    static Capability<ICorruption> CORRUPTION_CAPABILITY = null;
+    @CapabilityInject(Corruption.class)
+    static Capability<Corruption> CORRUPTION_CAPABILITY = null;
 
     public DimensionTpPKT() {
         additionalEntities = new HashSet<>();

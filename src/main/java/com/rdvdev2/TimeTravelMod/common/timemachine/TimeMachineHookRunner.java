@@ -1,9 +1,9 @@
 package com.rdvdev2.TimeTravelMod.common.timemachine;
 
 import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
+import com.rdvdev2.TimeTravelMod.api.timemachine.exception.IncompatibleTimeMachineHooksException;
 import com.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineHook;
 import com.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
-import com.rdvdev2.TimeTravelMod.common.timemachine.exception.IncompatibleTimeMachineHooksException;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,9 +22,9 @@ import java.util.stream.Collectors;
 public class TimeMachineHookRunner implements com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine {
 
     com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine tm;
-    private final HashMap<TimeMachineUpgrade, HashSet<BlockPos>> upgrades;
+    private final Map<TimeMachineUpgrade, Set<BlockPos>> upgrades;
 
-    public TimeMachineHookRunner(com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine tm, HashMap<TimeMachineUpgrade, HashSet<BlockPos>> upgrades) {
+    public TimeMachineHookRunner(com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine tm, Map<TimeMachineUpgrade, Set<BlockPos>> upgrades) {
         this.tm = tm;
         this.upgrades = upgrades;
     }
@@ -189,7 +189,7 @@ public class TimeMachineHookRunner implements com.rdvdev2.TimeTravelMod.api.time
         if (!done) original.run();
     }
 
-    public HashSet<BlockPos> getUpgradePos(TimeMachineUpgrade upgrade) {
+    public Set<BlockPos> getUpgradePos(TimeMachineUpgrade upgrade) {
         return upgrades.get(upgrade);
     }
 
@@ -219,7 +219,7 @@ public class TimeMachineHookRunner implements com.rdvdev2.TimeTravelMod.api.time
     }
 
     @Override
-    public HashMap<TimeMachineUpgrade, HashSet<BlockPos>> getUpgrades(World world, BlockPos controllerPos, Direction side) {
+    public Map<TimeMachineUpgrade, Set<BlockPos>> getUpgrades(World world, BlockPos controllerPos, Direction side) {
         return this.upgrades;
     }
 

@@ -1,20 +1,20 @@
-package com.rdvdev2.TimeTravelMod.common.world.corruption;
+package com.rdvdev2.TimeTravelMod.common.world.dimension;
 
 import com.rdvdev2.TimeTravelMod.common.event.WorldCorruptionChangedEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 
-public class CorruptionHandler implements ICorruption {
+public class Corruption implements com.rdvdev2.TimeTravelMod.api.dimension.Corruption {
 
     private int corruptionLevel;
     private World world;
 
     @Deprecated
-    public CorruptionHandler() { // Only for registering, NEVER use it
+    public Corruption() { // Only for registering, NEVER use it
         this(null);
     }
 
-    public CorruptionHandler(World world) {
+    public Corruption(World world) {
         this.world = world;
         this.corruptionLevel = 0;
     }
@@ -38,8 +38,6 @@ public class CorruptionHandler implements ICorruption {
         return corruptionLevel;
     }
 
-    @Deprecated
-    @Override
     public void setCorruptionLevel(int level) {
         corruptionLevel = level;
     }

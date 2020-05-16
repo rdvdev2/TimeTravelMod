@@ -38,7 +38,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> TEMPORAL_EXPLOSION = BLOCKS.register("temporalexplosion", TemporalExplosionBlock::new);
     public static final RegistryObject<Block> TEMPORAL_CAULDRON = BLOCKS.register("temporalcauldron", TemporalCauldronBlock::new);
     public static final RegistryObject<Block> GUNPOWDER_WIRE = BLOCKS.register("gunpowderwire", GunpowderWireBlock::new);
-    public static final RegistryObject<Block> TIME_MACHINE_TRACKER = BLOCKS.register("timemachinetracker", () -> new TimeMachineUpgradeBlock(Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(3f).lightValue(0 / 16).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(2)).setUpgrade(ModTimeMachines.Upgrades.TRACKER));
+    public static final RegistryObject<Block> TIME_MACHINE_TRACKER = BLOCKS.register("timemachinetracker", () -> new TimeMachineUpgradeBlock(Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(3f).lightValue(0 / 16).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(2), ModTimeMachines.Upgrades.TRACKER));
     public static final RegistryObject<Block> TIME_MACHINE_RECALLER = BLOCKS.register("timemachinerecaller", TimeMachineRecallerBlock::new);
 
     @OnlyIn(Dist.CLIENT)

@@ -3,7 +3,7 @@ package com.rdvdev2.TimeTravelMod.api.timemachine.block;
 import com.google.common.collect.Lists;
 import com.rdvdev2.TimeTravelMod.ModRegistries;
 import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachine;
-import com.rdvdev2.TimeTravelMod.common.timemachine.exception.IncompatibleTimeMachineHooksException;
+import com.rdvdev2.TimeTravelMod.api.timemachine.exception.IncompatibleTimeMachineHooksException;
 import com.rdvdev2.TimeTravelMod.common.util.TimeMachineUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -22,21 +22,24 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.HashMap;
 
 /**
- * This subclass of block is meant to be used on blocks that will act as a Time Machine Control Panel.
- * This block will provide a GUI to control the Time Machine on right click withot needing to overwrite nothing on the class.
+ * This subclass of {@link Block} is meant to be used on blocks that will act as a Time Machine Control Panel.
+ * This block will provide a GUI to control the Time Machine on right click without needing to overwrite nothing on the class.
  */
 public class TimeMachineControlPanelBlock extends Block {
 
     private TimeMachine timeMachine = null;
 
+    /**
+     * @see Block#Block(Properties)
+     */
     public TimeMachineControlPanelBlock(Properties properties) {
         super(properties);
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     /**
-     * Returns the Time Machine that belongs to this block
-     * @return The compatible Time Machine
+     * Returns the {@link TimeMachine} that belongs to this block
+     * @return The compatible {@link TimeMachine}
      */
     public final TimeMachine getTimeMachine() {
         if (this.timeMachine == null) {

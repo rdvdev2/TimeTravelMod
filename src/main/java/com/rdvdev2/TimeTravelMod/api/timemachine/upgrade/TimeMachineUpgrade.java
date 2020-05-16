@@ -5,54 +5,54 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 /**
- * Contains all the Time Machine hooks needed to apply an upgrade to a Time Machine. You can compose an upgrade using a builder-like scheme. Objects must be registered to work.
+ * Contains all the {@link TimeMachineHook} needed to apply an upgrade to a {@link TimeMachine}. You can compose an upgrade using a builder-like scheme. Objects must be registered to work.
  */
 public interface TimeMachineUpgrade extends IForgeRegistryEntry<TimeMachineUpgrade> {
 
     /**
-     * Adds a hook to the upgrade. It will run in non exclusive mode.
-     * @param hook The hook to add
+     * Adds a {@link TimeMachineHook} to the upgrade. It will run in non exclusive mode.
+     * @param hook The {@link TimeMachineHook} to add
      * @return The upgrade itself
      */
     TimeMachineUpgrade addHook(TimeMachineHook<?> hook);
 
     /**
-     * Adds a hook to the upgrade
-     * @param hook The hook to add
-     * @param exclusiveMode If true, the hook will run in exclusive mode
+     * Adds a {@link TimeMachineHook} to the upgrade
+     * @param hook The {@link TimeMachineHook} to add
+     * @param exclusiveMode If true, the {@link TimeMachineHook} will run in exclusive mode
      * @return The upgrade itself
      */
     TimeMachineUpgrade addHook(TimeMachineHook<?> hook, boolean exclusiveMode);
 
     /**
-     * Adds one or more hooks to the upgrade. They will run in non exclusive mode
-     * @param hooks The hooks to add
+     * Adds one or more {@link TimeMachineHook} to the upgrade. They will run in non exclusive mode
+     * @param hooks The {@link TimeMachineHook} to add
      * @return The upgrade itself
      */
     TimeMachineUpgrade addAllHooks(TimeMachineHook<?>... hooks);
 
     /**
-     * Specifies which Time Machines are compatible with this upgrade
-     * @param compatibleTMs The list of compatible Time Machines
+     * Specifies which {@link TimeMachine} are compatible with this upgrade
+     * @param compatibleTMs The list of compatible {@link TimeMachine}
      * @return The upgrade itself
      */
     TimeMachineUpgrade setCompatibleTMs(TimeMachine... compatibleTMs);
 
     /**
-     * Returns which Time Machines are compatible with this upgrade
-     * @return The list of compatible Time Machines
+     * Returns which {@link TimeMachine} are compatible with this upgrade
+     * @return The list of compatible {@link TimeMachine}
      */
     TimeMachine[] getCompatibleTMs();
 
     /**
      * Returns the name of the upgrade for use in GUIs
-     * @return The name of the upgrade as a TranslationTextComponent
+     * @return The name of the upgrade as a {@link TranslationTextComponent}
      */
     TranslationTextComponent getName();
 
     /**
      * Returns the description of the upgrade for use in GUIs
-     * @return The description of the upgrade as a TranslationTextComponent
+     * @return The description of the upgrade as a {@link TranslationTextComponent}
      */
     TranslationTextComponent getDescription();
 

@@ -6,9 +6,9 @@ import com.rdvdev2.TimeTravelMod.TimeTravelMod;
 import com.rdvdev2.TimeTravelMod.api.timemachine.TimeMachineTemplate;
 import com.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineCoreBlock;
 import com.rdvdev2.TimeTravelMod.api.timemachine.block.TimeMachineUpgradeBlock;
+import com.rdvdev2.TimeTravelMod.api.timemachine.exception.IncompatibleTimeMachineHooksException;
 import com.rdvdev2.TimeTravelMod.api.timemachine.upgrade.TimeMachineUpgrade;
 import com.rdvdev2.TimeTravelMod.common.block.tileentity.TMCooldownTileEntity;
-import com.rdvdev2.TimeTravelMod.common.timemachine.exception.IncompatibleTimeMachineHooksException;
 import com.rdvdev2.TimeTravelMod.common.util.TimeMachineUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -122,8 +122,8 @@ public class TimeMachine extends ForgeRegistryEntry<com.rdvdev2.TimeTravelMod.ap
     }
 
     @Override
-    public final HashMap<TimeMachineUpgrade, HashSet<BlockPos>> getUpgrades(World world, BlockPos controllerPos, Direction side) {
-        HashMap<TimeMachineUpgrade, HashSet<BlockPos>> upgrades = new HashMap<>(0);
+    public final Map<TimeMachineUpgrade, Set<BlockPos>> getUpgrades(World world, BlockPos controllerPos, Direction side) {
+        HashMap<TimeMachineUpgrade, Set<BlockPos>> upgrades = new HashMap<>(0);
         for (BlockPos pos:getBasicBlocksPos(side))
             for (BlockState state:getUpgradeBlocks())
                 if (world.getBlockState(controllerPos.add(pos)) == state) {
@@ -288,8 +288,8 @@ public class TimeMachine extends ForgeRegistryEntry<com.rdvdev2.TimeTravelMod.ap
     }
 
     @Override
-    public HashSet<BlockPos> getUpgradePos(TimeMachineUpgrade upgrade) {
-        return new HashSet<BlockPos>();
+    public Set<BlockPos> getUpgradePos(TimeMachineUpgrade upgrade) {
+        return new HashSet<>();
     }
 
     // Private utils methods

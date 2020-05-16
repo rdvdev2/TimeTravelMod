@@ -1,6 +1,6 @@
 package com.rdvdev2.TimeTravelMod.common.event;
 
-import com.rdvdev2.TimeTravelMod.common.world.corruption.ICorruption;
+import com.rdvdev2.TimeTravelMod.api.dimension.Corruption;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -8,8 +8,8 @@ import net.minecraftforge.eventbus.api.Event;
 
 public class WorldCorruptionChangedEvent extends Event {
 
-    @CapabilityInject(ICorruption.class)
-    static Capability<ICorruption> CORRUPTION_CAPABILITY = null;
+    @CapabilityInject(Corruption.class)
+    static Capability<Corruption> CORRUPTION_CAPABILITY = null;
 
     private World world;
 
