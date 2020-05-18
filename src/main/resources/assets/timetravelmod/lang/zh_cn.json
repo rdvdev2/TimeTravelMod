@@ -1,6 +1,7 @@
 {
     "advancements.timetraveling.root.title": "时间旅行",
-    "advancements.timetraveling.root.description": "模组的核心",
+    "advancements.timetraveling.root.description": "Mod的核心",
+    "advancements.timetraveling.not_diamonds.title": "这不是钻石！",
     "itemGroup.timetravelmod": "时间旅行",
     "timetravelmod.error.built.client": "时间机器没有被正确的搭建",
     "timetravelmod.error.built.server": "玩家使用的时间机器没有被搭建",
