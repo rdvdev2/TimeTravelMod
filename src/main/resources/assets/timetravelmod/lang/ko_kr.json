@@ -1,1 +1,11 @@
-[]
+{
+    "advancements.timetraveling.root.description": "모드의 핵심",
+    "advancements.timetraveling.not_diamonds.title": "다이아몬드가 아닙니다!",
+    "advancements.timetraveling.not_diamonds.description": "시간 수정 원석 발견",
+    "advancements.timetraveling.timemachine.title": "유동 축전기입니다.",
+    "advancements.timetraveling.timemachine.description": "타임 머신 탑승",
+    "advancements.timetraveling.doesnt_look_good.title": "안 좋아 보이는데?",
+    "advancements.timetraveling.doesnt_look_good.description": "시간 폭발로 사망",
+    "advancements.timetraveling.better_than_mending.title": "아무것도 없는 것보다는 낫습니다.",
+    "advancements.timetraveling.better_than_mending.description": "시간 가마솥에 있는 모든 아이템을 완전히 수리합니다."
+}
