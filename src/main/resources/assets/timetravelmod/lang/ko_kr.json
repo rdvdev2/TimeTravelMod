@@ -7,5 +7,12 @@
     "advancements.timetraveling.doesnt_look_good.title": "안 좋아 보이는데?",
     "advancements.timetraveling.doesnt_look_good.description": "시간 폭발로 사망",
     "advancements.timetraveling.better_than_mending.title": "아무것도 없는 것보다는 낫습니다.",
-    "advancements.timetraveling.better_than_mending.description": "시간 가마솥에 있는 모든 아이템을 완전히 수리합니다."
+    "advancements.timetraveling.better_than_mending.description": "시간 가마솥에 있는 모든 아이템을 완전히 수리합니다.",
+    "chat.ttm.outdated": "시간여행 모드의 새로운 버전을 사용할 수 있습니다! CurseForge 페이지에서 확인해 보세요!",
+    "death.attack.temporalerror": "%s이(가) 시간적 이상 징후에 의해 무효화되었습니다.",
+    "gui.tm.error": "이미 들어와 있는 시대로 여행하거나, 네더나 엔드에서 여행할 수 없습니다!",
+    "gui.tm.timetravelmod.oldwest": "과거",
+    "gui.tm.timetravelmod.present": "현재",
+    "gui.tmengineerbook.introduction": "타임머신 기사의 책에 오신 것을 환영합니다! 이 책은 타임 머신을 설계하고 업그레이드하는 방법과 설치한 모든 플러그인에 대한 안내서입니다.",
+    "gui.tmengineerbook.tms": "타임 머신"
 }
