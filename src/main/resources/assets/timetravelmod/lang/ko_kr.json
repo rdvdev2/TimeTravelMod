@@ -1,4 +1,5 @@
 {
+    "advancements.timetraveling.root.title": "시간여행 모드",
     "advancements.timetraveling.root.description": "모드의 핵심",
     "advancements.timetraveling.not_diamonds.title": "다이아몬드가 아닙니다!",
     "advancements.timetraveling.not_diamonds.description": "시간 수정 원석 발견",
@@ -40,6 +41,7 @@
     "item.timetravelmod.timemachinetracker": "타임 머신 추적기",
     "item.timetravelmod.communicationscircuit": "통신 회로",
     "item.timetravelmod.gunpowderwire": "화약 와이어",
+    "itemGroup.timetravelmod": "시간여행 모드",
     "block.timetravelmod.heavyblock": "헤비 블록",
     "block.timetravelmod.reinforcedheavyblock": "강화된 헤비 블록",
     "block.timetravelmod.temporalcauldron": "시간 가마솥",
@@ -61,6 +63,19 @@
     "timetravelmod.error.player_inside.server": "플레이어가 타임 머신 안에 없습니다.",
     "timetravelmod.error.overloaded.client": "타임 머신이 과적되었습니다!",
     "timetravelmod.error.overloaded.server": "플레이어가 사용하는 타임 머신이 과적되었습니다.",
+    "timetravelmod.error.entitiesescaped": "누군가 타임 머신을 종료하고 취소했습니다.",
+    "timetravelmod.error.unreachable_dim": "플레이어가 사용하는 타임 머신에서 목적 시대에 연결할 수 없습니다.",
+    "timetravelmod.error.uncompatible_upgrades": "다음과 같은 타임 머신 업그레이드가 호환되지 않습니다: %s",
+    "timetravelmod.cheater_report": "서버에서 시간여행 요청이 수신되었지만 시간여행 요청을 보낸 플레이어 (%s)가 부정 행위일 수 있습니다. 이유: %s 우리는 당신이 그를 %s하는 것을 추천합니다.",
+    "timetravelmod.ban": "[금지]",
+    "timetravelmod.generic.comma": "%s, %s",
+    "timetravelmod.generic.and": "%s 및 %s",
+    "tm.timetravelmod.creative.description": "이 아이템은 크리에이티브 모드에서만 사용할 수 있습니다. 이 도구를 사용하면 제한이나 냉각 없이 언제든지 이동할 수 있습니다.",
     "tm.timetravelmod.creative.name": "크리에이티브 타임 머신",
-    "tmupgrade.timetravelmod.tracker.name": "타임 머신 추적기"
+    "tm.timetravelmod.tier1.description": "과거에만 도달하는 아주 간단한 타임 머신입니다.",
+    "tm.timetravelmod.tier1.name": "1티어 타임 머신",
+    "tmupgrade.timetravelmod.tracker.name": "타임 머신 추적기",
+    "tmupgrade.timetravelmod.tracker.description": "이 업그레이드는 타임 머신을 사용할 때 인접한 타임 머신 호출기 블록을 구성합니다. 타임 머신 호출기 블록이 구성되면 중앙이 녹색으로 바뀌고, 레드스톤 전원이 켜지면 구성된 타임 머신이 시대로 돌아갑니다. 다양한 시대를 여행하는 경우 방문하는 모든 시대에 타임 머신 호출기를 설치해야 합니다.",
+    "config.timetravelmod.common.enableupdatepromos": "이 옵션을 사용할 수 없는 경우 가입 시 모드 업데이트를 알리지 않습니다.",
+    "config.timetravelmod.common.enablecheaterreports": "이 기능이 비활성화된 경우 부정행위 가능성이 감지될 때 게임 마스터(ops)에 알리지 않습니다."
 }
